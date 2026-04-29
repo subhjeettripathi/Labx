@@ -10,20 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Setup Node
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
+      # 3. Install dependencies
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Build Angular app
-        run: NODE_OPTIONS=--max_old_space_size=4096 npm run build -- --configuration production
+      # 4. Install Angular CLI (IMPORTANT FIX for exit code 127)
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
 
+      # 5. Build Angular app
+      - name: Build Angular app
+        run: npx ng build --configuration production
+
+      # 6. Copy build to EC2
       - name: Copy build to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -34,6 +43,7 @@ jobs:
           target: "/home/ubuntu/deploy"
           strip_components: 1
 
+      # 7. Deploy on EC2
       - name: Deploy on EC2 via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
