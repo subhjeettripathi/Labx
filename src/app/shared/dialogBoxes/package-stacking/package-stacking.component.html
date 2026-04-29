@@ -1,0 +1,57 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="alt-login-content">
+        <div class="alt-login-img">
+            <img src="https://static.artofliving.app/configration/717/717_65d48337ca3f6.png" alt="">
+        </div>
+        <div class="stack-subsc">
+            <div class="row align-items-center mb-2">
+                <div class="col-6 p-0">
+                    <h4 class="stacking-text">{{targetData.offer_title }}</h4>
+                </div>
+                <div class="col-6 p-0">
+                    <a *ngIf="targetData?.popup_logo?.is_allow==1" target="_blank">
+                        <img src={{targetData.popup_logo.ad_url}} alt="altt" class="stack-ads"></a>
+                </div>
+
+            </div>
+            <div class="subscr-stack" *ngIf="targetData.text!=''" [innerHTML]=targetData.text></div>
+            <div class="subscr-btns">
+
+                <button [ngStyle]="targetData.button1_recommend==1? {'background':'red'} : {'background': ''}"
+                    (click)="gotoPaymentPage(targetData.button1_label,targetData.button1_package_id,targetData.button1_discount,targetData.button1_coupon_code,targetData.button1_validity,targetData.button1_currency)"
+                    *ngIf="targetData.button1==1">
+                    {{targetData.button1_currency}} <span
+                        *ngIf="targetData.button1_discount!=''&&  targetData.button1_discount!=null && targetData.button1_discount!=0"
+                        class="line-through totalPrice">{{targetData.button1_label}}</span>
+                    <span
+                        *ngIf="targetData.button1_discount!=''&&  targetData.button1_discount!=null && targetData.button1_discount!=0">
+                        {{targetData.button1_currency}}</span> {{targetData.button1_label-targetData.button1_discount}}
+                    ({{targetData.button1_validity}})
+                </button>
+                <button [ngStyle]="targetData.button2_recommend==1 ? {'background':'red'} : {'background': ''}"
+                    (click)="gotoPaymentPage(targetData.button2_label,targetData.button2_package_id,targetData.button2_discount,targetData.button2_coupon_code,targetData.button2_validity,targetData.button2_currency)"
+                    *ngIf="targetData.button2==1">
+                    {{targetData.button2_currency}} <span
+                        *ngIf="targetData.button2_discount!=''&& targetData.button2_discount!=null && targetData.button2_discount!=0"
+                        class="line-through totalPrice">{{targetData.button2_label}}</span> <span
+                        *ngIf="targetData.button2_discount!=''&& targetData.button2_discount!=null && targetData.button2_discount!=0">
+                        {{targetData.button2_currency}}</span>
+                    {{targetData.button2_label-targetData.button2_discount}} ({{targetData.button2_validity}})
+                </button>
+                <button [ngStyle]="targetData.button3_recommend==1 ? {'background':'red'} : {'background': ''}"
+                    (click)="gotoPaymentPage(targetData.button3_label,targetData.button3_package_id,targetData.button3_discount,targetData.button3_coupon_code,targetData.button3_validity,targetData.button3_currency)"
+                    *ngIf="targetData.button3==1">
+                    {{targetData.button3_currency}} <span
+                        *ngIf="targetData.button3_discount!=''&& targetData.button3_discount!=null && targetData.button3_discount!=0"
+                        class="line-through totalPrice">{{targetData.button3_label}}</span> <span
+                        *ngIf="targetData.button3_discount!=''&& targetData.button3_discount!=null && targetData.button3_discount!=0">
+                        {{targetData.button3_currency}}</span>
+                    {{targetData.button3_label-targetData.button3_discount}} ({{targetData.button3_validity}})
+                </button>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

@@ -1,0 +1,151 @@
+.my-100{
+    margin-top: 120px;
+    margin-bottom: 100px;
+}
+.tab-content{
+    .tab-pane{
+        h3{
+            font-family: 'GothamMedium' !important;
+            font-size: 18px;
+        }
+    }
+}
+#v-pills-tab{
+    border:1px solid #2d2d2d;
+    
+}
+.nav-pills{
+    background: #1E1E1E;
+    .nav-link.active{
+        background: #2d2d2d;
+    }
+    .nav-link{
+        border-radius: 0;
+        color: #fff;
+        font-family: 'GothamMedium';
+        font-size: 14px;
+        margin-top: -1px;
+        padding: 0;
+        text-transform: uppercase;
+        text-decoration: none;
+   
+        
+
+        span{
+            border-bottom: 1px solid #2d2d2d;
+    display: block;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 0.8rem 0;
+        }
+        
+
+    }
+}
+.accordion{
+    .card{
+    
+        background-color: #2d2d2d !important;
+        color:white;
+        .card-header{
+            h4{
+                font-family: 'GothamMedium' !important;
+                cursor:pointer;
+
+            //     &:before{
+            //         content: "";
+            //         position: absolute;
+            //         right: 0;
+            //         top: 50%;
+            //         border-top: 1px solid #fff;
+            //         width: 8px;
+            //     }
+            //     &:after{
+            //         content: "";
+            //         position: absolute;
+            //         right: 0;
+            //         top: 50%;
+            //         border-top: 1px solid #fff;
+            //         width: 8px;
+            //         transform: rotate(90deg);
+                   
+            //     }
+            // }
+            // h4.color-1{
+            //     font-family: 'GothamMedium' !important;
+            //     cursor:pointer;
+            //     &:after{
+            //         content: "";
+            //         position: absolute;
+            //         right: 0;
+            //         top: 50%;
+            //         border-top: 1px solid #fff;
+            //         width: 8px;
+            //         transform: rotate(180deg);
+
+            //     }
+            // }
+            }
+         
+        }
+
+         }
+
+        }
+    
+
+.query-section{
+    .btn-send-query{
+        font-family: 'GothamBold';
+    font-size: 18px;
+    padding: 10px 30px;
+    height: 45px;
+    width: auto;
+    text-transform: uppercase;
+    background: #D8002A;
+    border: 0;
+    box-shadow: none;
+
+
+    }
+    .btn-send-query:hover{
+   
+    background-color: #D8002A !important;
+border: none !important;
+
+
+    }
+}
+.help-support{
+    p{
+        font-weight: 600;
+        font-family: 'GothamMedium';
+    font-size: 14px;
+    a{
+        color: #fff;
+    text-decoration: underline;
+    font-weight: 800;
+    }
+    }
+}
+.card .card-header h4:before, .card .card-header h4:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    border-top: 1px solid #fff;
+    width: 8px;
+}
+
+.card .card-header h4:after {
+    transform: rotate(90deg);
+    
+}
+.card .card-header h4[aria-expanded=true]:after {
+    transform: rotate(0);
+}
+.card .card-header h4 {
+    cursor: pointer;
+    position: relative;
+}
+

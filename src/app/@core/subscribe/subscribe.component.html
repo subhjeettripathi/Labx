@@ -1,0 +1,184 @@
+
+<div class="payment-container pl-5 pr-5 sec-top" >
+    <div class="subscontainer" *ngIf="activeButton==1 && isLoggedIn">
+        <img src="/assets/svgs/subwarning.png">
+        <div class="text-content">
+             <!-- Please subscribe to access the premium content. -->
+            {{'this_is_premium_content_please_subscribe' |translate}}
+            </div>
+    </div>
+
+    <div class="back-pg-1">
+        <div fxHide.xs="false">
+            <div class="row stepper-center">
+                <div class="stepper-line"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                    <div class="badgesec">
+                        <span class="activeStepperBadge">1</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                    <div class="badgesec">
+                        <span [ngClass]="
+                activeButton >= 2 ? 'activeStepperBadge' : 'defaultStepperBadge'
+              ">2</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                    <div class="badgesec">
+                        <span [ngClass]="
+                activeButton >= 3 ? 'activeStepperBadge' : 'defaultStepperBadge'
+              ">3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="alt-m-0 alt-brl-0 alt-brr-0 alt-padding">
+            <div class="btn-container">
+                <div class="row">
+                    <div class="activeStepper alt-blr col-lg-4 col-md-4 col-sm-4 col-4 p-0" (click)="getActiveNess(1)">
+                        <div class="badgesec alt-pt-2" fxShow.xs="true" fxHide>
+                            <!-- <span class=""
+                                [ngClass]="(activeButton>=1)?'activeStepperBadge':'defaultStepperBadge'">1</span> -->
+                        </div>
+                        <span>{{'select_package'|translate}}</span>
+                    </div>
+
+                    <div class="alt-blr col-lg-4 col-md-4 col-sm-4 col-4 p-0"
+                        [ngClass]="activeButton >= 2 ? 'activeStepper' : 'defaultStepper'" (click)="getActiveNess(2)">
+                        <div class="badgesec alt-pt-2" fxShow.xs="true" fxHide>
+                            <!-- <span class=""
+                                [ngClass]="(activeButton>=3)?'activeStepperBadge':'defaultStepperBadge'">2</span> -->
+                        </div>
+                        <span>{{'coupon_referral_code'|translate}}</span>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-4 p-0"
+                        [ngClass]="activeButton > 2 ? 'activeStepper' : 'defaultStepper'" (click)="getActiveNess(3)">
+                        <div class="badgesec alt-pt-2" fxShow.xs="true" fxHide>
+                            <!-- <span class=""
+                                [ngClass]="(activeButton===4)?'activeStepperBadge':'defaultStepperBadge'">3</span> -->
+                        </div>
+                        <span>{{'payment' |translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-container [ngSwitch]="activeButton">
+            <ng-container *ngSwitchCase="1">
+                <!-- <div class="tab-header">
+                    <div class="tab-labels">
+                        <span [class.active]="subscriptionType === 'recurring'"
+                            (click)="subscriptionType = 'recurring'">
+                            Recurring
+                        </span>
+                        <span [class.active]="subscriptionType === 'onetime'" (click)="subscriptionType = 'onetime'">
+                            One-time
+                        </span>
+                    </div>
+                    <div class="tab-underline">
+                        <div class="tab-indicator" [class.move-right]="subscriptionType === 'onetime'">
+                        </div>
+                    </div>
+                </div> -->
+
+
+
+                <!-- <div class="row back-pg m-0" *ngIf="!isRental && subscriptionType === 'onetime'">
+                    <div class="col-lg-4 col-md-12 col-sm-12 pb-5 card-main"
+                        *ngFor="let sub of subscribtionArr; let i = index">
+                        <input type="radio" name="radio-group" id="{{ sub.package_id }}" class="test-demo" />
+                        <label for="{{ sub.package_id }}" class="card-1">
+                            <div class="pack-select">
+                                <h5 class="card-title-1">{{ sub.s_package.p_name }}</h5>
+                            </div>
+                            <h6 class="card-subtitle-1">
+                                {{
+                                sub.s_package.device_restriction == 1
+                                ? "Single Device"
+                                : sub.s_package.device_restriction + " " + "Devices"
+                                }}
+                            </h6>
+                            <div class="card-price">
+                                {{ sub.s_package.p_currency + " " + sub.s_package.p_price }}
+                            </div>
+                            <p class="card-text-1" [innerHTML]="sub.s_package.description"></p>
+                            <button class="payment-btn" (click)="activeIndex = i; addSubcription(sub, i)">
+                                Buy Now
+                            </button>
+                        </label>
+                    </div>
+                </div> -->
+                <div class="row back-pg m-0" *ngIf="!isRental">
+                    <div class="col-lg-4 col-md-12 col-sm-12 pb-5 card-main"
+                        *ngFor="let sub of subscribtionArr; let i=index;">
+                        <input type="radio" name="radio-group" id="{{sub.package_id}}" class="test-demo" />
+                        <label for="{{sub.package_id}}" class="card-1">
+                                    <div class="pack-select">
+                                        <h5 class="card-title-1">{{sub.s_package.p_name}}</h5>
+                                    </div>
+                                    <h6 class="card-subtitle-1">{{sub.s_package.device_restriction==1?'Single Device':sub.s_package.device_restriction + ' '+ 'Devices'}} </h6>
+                                    <div class="card-price"> {{sub.s_package.p_currency+ " " + sub.s_package.p_price}}
+                                    </div>
+                                    <p class="card-text-1" [innerHTML]="sub.s_package.description">
+                                    </p>
+                                    <button class="payment-btn" (click)="activeIndex=i;addSubcription(sub,i)">{{'buy_now' |translate}}</button>
+                        </label>
+                    </div>
+                </div>
+                <!-- rental package -->
+                <div class="row back-pg m-0" *ngIf="isRental">
+                    <div class="col-lg-4 col-md-12 col-sm-12 pb-5 card-main"
+                        *ngFor="let sub of subscribtionArr1; let i = index">
+                        <input type="radio" name="radio-group" id="{{ sub.package_id }}" class="test-demo" />
+                        <label for="{{ sub.package_id }}" class="card-1">
+                            <div>
+                                <div class="card-body">
+                                    <div class="pack-select">
+                                        <h5 class="card-title-1">{{ sub.package_name }}</h5>
+                                    </div>
+                                    <!-- <h6 class="card-subtitle-1">{{sub.package_name}}</h6> -->
+                                    <div class="card-price">{{sub.currency+sub.price}}</div>
+                                    <p class="card-text-1" [innerHTML]="sub.description">
+                                    </p>
+                                    <button class="payment-btn" (click)="activeIndex=i;addSubcriptionRental(sub,i)">{{'buy_now' |translate}}</button>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="2">
+                <div fxLayout="row" class="back-pg alt-p-5" style="
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+          " fxLayout.md="column" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutGap="10px"
+                    fxLayoutAlign.sm="start" fxLayoutAlign.xs="start">
+                    <div fxFlex="100">
+                        <app-paymentpack [showCountry1]="showStateCountry" [stateDefault]="statGeographical"
+                            (openTab1)="couponSwitch($event)" (sendValueToPayment)="successPaymentTab4($event)"
+                            [subscriptionMonth]="monthToPayment" [razorPayKeyGet]="razorPayKey"
+                            [subscriptionPrice]="subscribeInfo1">
+                        </app-paymentpack>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="3">
+                <app-start-watching></app-start-watching>
+                <div style="text-align: center; margin-top: 15px;" *ngIf="!show">
+                    <p style="color: #9B9B9B;font-size: 16px;">
+                        <!-- To Check Your Transaction Details, (key added to translation service)  -->
+                        {{'Check_Transaction_Details' |translate}},
+                        <a
+                            routerLink="/my-subscriptions" style="color: white;text-decoration: underline;">
+                             <!-- Click Here! -->
+                            {{'Click_Here'|translate}}
+                            </a>
+                    </p>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

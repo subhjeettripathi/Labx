@@ -1,0 +1,36 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="basesignin.success_email_verify.logo.is_allow">
+            <img src="{{basesignin.success_email_verify.logo.web}}" alt="AOL">
+        </span>
+        
+        <button (click)="close()" class="close-btn">
+            <mat-icon>Close</mat-icon>
+        </button>
+        <br><br><br>
+        <div class="alt-login-img" *ngIf="basesignin.success_email_verify.success_icon.is_allow">
+            <img src="{{basesignin.success_email_verify.success_icon.web}}" alt="AOL">
+        </div>
+<br>
+   
+            <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
+            <p  class="deleteSuccess" *ngIf="basesignin.success_email_verify.description.is_allow">
+                {{basesignin.success_email_verify.description.text |translate}}
+            </p>
+          
+            <br>
+            
+            <!-- <div class="row">
+                <div class="col-6">
+                    <button type="button"  class="btn-one">Yes</button>
+                </div>
+                <div class="col-6">
+                    <button (click)="close()" type="button" class="btn-one">NO</button>
+                </div>
+            </div> -->
+
+       
+    </div>
+</div>
+
+

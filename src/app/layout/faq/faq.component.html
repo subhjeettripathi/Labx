@@ -1,0 +1,520 @@
+<section class="help-section my-100 ">
+    <div class="container">
+        <div class="help-wrapper">
+            <h1 class="my-5 faq-mar">FAQ</h1>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills">
+                        <ng-container *ngFor="let value of key; let i=index">
+                            <a id="v-pills-common-tab" (click)="open(value.type)" data-toggle="pill" role="tab"
+                                aria-controls="v-pills-common" aria-selected="true" class="nav-link "
+                                href="#value"><span>{{value.type}}</span></a>
+
+                        </ng-container>
+                        <!-- 
+                            <a 
+                                id="v-pills-common-tab" data-toggle="pill" role="tab" aria-controls="v-pills-common"
+                                aria-selected="true" class="nav-link ng-star-inserted" href="#v-pills-9000048536"><span
+                                    >Account &amp; Settings</span></a><a 
+                                id="v-pills-common-tab" data-toggle="pill" role="tab" aria-controls="v-pills-common"
+                                aria-selected="true" class="nav-link ng-star-inserted" href="#v-pills-9000048537"><span
+                                    >Troubleshooting</span></a><a 
+                                id="v-pills-common-tab" data-toggle="pill" role="tab" aria-controls="v-pills-common"
+                                aria-selected="true" class="nav-link ng-star-inserted" href="#v-pills-9000111815"><span
+                                    >Subscription</span>
+                                </a>
+                             -->
+                    </div>
+                </div>
+                <div id="col-right" class="col-lg-9 col-md-8 col-sm-12">
+                    <div id="v-pills-tabContent" class="ml-md-5 ml-sm-0 mt-5 mt-md-0 mt-sm-5 tab-content">
+                        <ng-container *ngIf="!common">
+                            <div role="tabpanel" aria-labelledby="v-pills-common-tab"
+                                class="tab-pane fade show active ng-star-inserted" id="{{tab_id}}">
+                                <h3 class="text-uppercase default"> {{default}}</h3>
+
+                                <div id="accordionExample" class="accordion my-4">
+                                    <ng-container *ngFor="let data of res0; let i=index">
+                                        <ng-container *ngIf="data.status==1">
+                                            <div class="card ng-star-inserted">
+                                                <div class="card-header">
+                                                    <h4 data-toggle="collapse" aria-expanded="false" aria-selected=""
+                                                        class="mb-0" [attr.data-target]="'#collapse-' + i">
+                                                        {{data.question}}
+                                                    </h4>
+                                                </div>
+                                                <div data-parent="#accordionExample" class="collapse"
+                                                    id="collapse-{{i}}" aria-labelledby="collapse-9000138482">
+                                                    <div class="card-body">
+                                                        <p class="m-0"> {{data.answer}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div role="tabpanel" aria-labelledby="v-pills-common-tab"
+                            class="tab-pane fade show active ng-star-inserted" id="{{tab_id}}">
+                            <h3 class="text-uppercase ng-star-inserted"> {{tab_id}}</h3>
+
+                            <div id="accordionExample" class="accordion my-4">
+                                <ng-container *ngFor="let data of res1; let i=index">
+                                    <ng-container *ngIf="data.status==1">
+                                        <div class="card ng-star-inserted">
+                                            <div class="card-header">
+
+                                                <h4 ng-class="toggler? 'color-0' : 'color-1'" data-toggle="collapse"
+                                                    aria-expanded="false" aria-selected="" (click)="toggler_sign()"
+                                                    class="mb-0" [attr.data-target]="'#collapse-' + i">
+                                                    {{data.question}}
+                                                </h4>
+
+                                            </div>
+                                            <div data-parent="#accordionExample" class="collapse" id="collapse-{{i}}"
+                                                aria-labelledby="collapse-9000138482">
+                                                <div class="card-body">
+                                                    <p class="m-0"> {{data.answer}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                                <!-- <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000128954"
+                                                aria-controls="#collapse-9000128954"> How do I enable or disable mobile
+                                                data for downloads from the App?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000128954" aria-labelledby="collapse-9000128954">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Tap the ‘Menu’ option (three
+                                                    horizontal bars) located at the top-left corner and select the
+                                                    ‘Settings’ option. On the ‘App Settings’ page, tap on the
+                                                    ‘Downloads’ section. Select and Unselect the Wifi-only button to
+                                                    enable or disable it. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138483"
+                                                aria-controls="#collapse-9000138483"> How do I contact Support team?
+                                            </h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138483" aria-labelledby="collapse-9000138483">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> To contact the Support team, go to
+                                                    the ‘Contact Us’ section from the Menu or from the footer link on
+                                                    our website and send us a question. You can also write to us
+                                                    directly at support@altbalaji.com. We'll get in touch with you as
+                                                    soon as possible. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138484"
+                                                aria-controls="#collapse-9000138484"> How do I cast content using
+                                                Chromecast from my phone or tablet?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138484" aria-labelledby="collapse-9000138484">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> After setting up your Chromecast
+                                                    and connecting to the same Wi-Fi network as your mobile device, open
+                                                    the ALTBalaji App from your Android/iOS phone or tablet, then select
+                                                    the video you want to cast. Select the Cast icon on the top-right
+                                                    corner of your screen to cast the content. Select the Chromecast
+                                                    device on which you want to cast the video. Your phone/tablet works
+                                                    just like your remote. You can change volume, fast forward, stop and
+                                                    play. Click on the ‘Cast’ icon and then select ‘Disconnect’ to stop
+                                                    casting. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138485"
+                                                aria-controls="#collapse-9000138485"> Is there a limit (number of hours,
+                                                times) to how much I can watch on ALTBalaji?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138485" aria-labelledby="collapse-9000138485">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> You can watch free content without
+                                                    any limitations! But, paid videos are based on the validity of the
+                                                    subscription. Once the validity period is over, subscribe again to
+                                                    resume binging. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138486"
+                                                aria-controls="#collapse-9000138486"> Do I need to Login before I can
+                                                browse through content?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138486" aria-labelledby="collapse-9000138486">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Nope! You can explore our vast and
+                                                    exciting catalogue right away. Watch teasers, trailers and up to 1
+                                                    episode (for select shows) per original show absolutely free without
+                                                    even signing up! However, to continue binging you’ll have to sign
+                                                    up. It’s pretty hassle free and totally worth it. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138487"
+                                                aria-controls="#collapse-9000138487"> Why do I need to verify my Email
+                                                ID?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138487" aria-labelledby="collapse-9000138487">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Email ID verification is important
+                                                    as it ensures that all registrations are done by humans and not
+                                                    robots, or aliens for that matter! Having your correct Email ID will
+                                                    also help us to stay in touch. Verified emails can receive the
+                                                    ongoing promotional offers and details of the upcoming shows. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138488"
+                                                aria-controls="#collapse-9000138488"> How many videos can I add to
+                                                ‘Favourites’?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138488" aria-labelledby="collapse-9000138488">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> As many as you like! It’s all
+                                                    there for you to enjoy. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138489"
+                                                aria-controls="#collapse-9000138489"> How do I add a video to
+                                                ‘Favourites’?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138489" aria-labelledby="collapse-9000138489">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> If you are a registered and
+                                                    subscribed user, you can add videos to the ‘Favourites’ list by
+                                                    clicking on the ‘Heart’ icon on the content details page on the
+                                                    website and App. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138490"
+                                                aria-controls="#collapse-9000138490"> How can I download videos on my
+                                                App?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138490" aria-labelledby="collapse-9000138490">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Download lets you sync your
+                                                    favourite videos to your mobile device and allows you to watch them
+                                                    offline without an internet connection. Both, registered and
+                                                    subscribed users can download videos. Registered users can download
+                                                    only free videos, while subscribed users can download all videos
+                                                    available to them. Tap on any video to go to the content details
+                                                    page. Tap on the ‘Download’ icon from the content details page.
+                                                    Choose the download quality. Once you select the quality, download
+                                                    begins and the video will be saved in ‘Downloads’ under the ‘Menu’
+                                                    section in the App. Also, your selected download quality becomes the
+                                                    default quality for your future downloads. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138491"
+                                                aria-controls="#collapse-9000138491"> How can I clear my downloaded
+                                                content?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138491" aria-labelledby="collapse-9000138491">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Open the ALTBalaji App and login
+                                                    with your registered Email ID. Tap the ‘Menu’ option (three
+                                                    horizontal bars) located at the top-left corner. Tap on the
+                                                    ‘Downloads’ option. Tap on the ‘Delete’ button in the top-right
+                                                    corner. Select the video you want to delete using the check boxes
+                                                    displayed on the right-hand side of the thumbnails. Or tap on the
+                                                    ‘Clear All’ button displayed on the bottom of the page to delete all
+                                                    the downloaded videos. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138492"
+                                                aria-controls="#collapse-9000138492"> Can I watch content on the
+                                                ALTBalaji App in offline mode?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138492" aria-labelledby="collapse-9000138492">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Absolutely! But before you get
+                                                    binging, the video must be downloaded on your phone via Data or
+                                                    Wi-Fi. This video will be available in ‘Downloads’ under the ‘Menu’
+                                                    section. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138493"
+                                                aria-controls="#collapse-9000138493"> Where do my downloaded videos get
+                                                stored?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138493" aria-labelledby="collapse-9000138493">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Downloaded videos get stored on
+                                                    your device memory and can be accessed through the ALTBalaji app
+                                                    only. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138494"
+                                                aria-controls="#collapse-9000138494"> How do I discover
+                                                movie/shows/video on the App and website?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138494" aria-labelledby="collapse-9000138494">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> You can search for any video by
+                                                    tapping on the ‘Search’ icon displayed on the top-right corner of
+                                                    the App and the Website. Or, you can always check out our featured
+                                                    sections to discover new videos. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138495"
+                                                aria-controls="#collapse-9000138495"> Can I leave a video on one device
+                                                and continue watching it on another device?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138495" aria-labelledby="collapse-9000138495">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Yes, you can! Just make sure
+                                                    you're logged in with the same account on all devices for a smooth
+                                                    playback experience. The entertainment should never stop! </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138496"
+                                                aria-controls="#collapse-9000138496"> What are the minimum requirements
+                                                for viewing the content on the App and website?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138496" aria-labelledby="collapse-9000138496">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> To binge on ALTBalaji, please
+                                                    follow the below minimum requirements: For the Website, your
+                                                    browsers should be either of the following - Chrome Browser 47 and
+                                                    above, Mozilla 47 and above, Safari 9 &amp; above, Internet Explorer
+                                                    11 and edge. For the App, your device operation system should be
+                                                    updated to the following versions - Android 4.4.4 and above and IOS
+                                                    10 and above. For Android TV it should be 5.1 and above. For Apple
+                                                    TV it should be 10 and above. For Fire TV stick we support 1st
+                                                    generation and above. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138497"
+                                                aria-controls="#collapse-9000138497"> How many videos can I download
+                                                once I subscribe to ALTBalaji?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138497" aria-labelledby="collapse-9000138497">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> As many as you like! But the
+                                                    videos that get downloaded on the App will utilize your device’s
+                                                    memory for storage. Hence the number of videos that get downloaded
+                                                    on the App will depend on the storage size of your device. Happy
+                                                    binging! </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138498"
+                                                aria-controls="#collapse-9000138498"> On which platforms is ALTBalaji
+                                                available currently?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138498" aria-labelledby="collapse-9000138498">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Please access the
+                                                    URL&nbsp;www.altbalaji.com/devices&nbsp;to know the about latest
+                                                    platforms that ALTBalaji is available on. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138499"
+                                                aria-controls="#collapse-9000138499"> How many devices can a user log in
+                                                from a single account and play content simultaneously?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138499" aria-labelledby="collapse-9000138499">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> User can log in from up to 5
+                                                    devices using a single account and play content simultaneously. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138500"
+                                                aria-controls="#collapse-9000138500"> What happens if the user exceeds
+                                                the device limit to login from a single account?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138500" aria-labelledby="collapse-9000138500">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> When a user exceeds the device
+                                                    limit to login from a single account and tries to login from an
+                                                    additional device, he will be asked to click on “clear all devices”
+                                                    option so that user logs out from all the devices and gets to login
+                                                    on the current device. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000138501"
+                                                aria-controls="#collapse-9000138501"> How do I enable subtitles on
+                                                ALTBalaji the App and website?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000138501" aria-labelledby="collapse-9000138501">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Almost all our shows and movies
+                                                    contain subtitles. Click on the subtitle icon in the player and
+                                                    voila! Subtitles appear. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card ng-star-inserted">
+                                        <div  class="card-header">
+                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                                aria-selected="" class="mb-0" data-target="#collapse-9000168959"
+                                                aria-controls="#collapse-9000168959"> How Can I create an account with
+                                                Mobile number?</h4>
+                                        </div>
+                                        <div  data-parent="#accordionExample" class="collapse"
+                                            id="collapse-9000168959" aria-labelledby="collapse-9000168959">
+                                            <div  class="card-body">
+                                                <p  class="m-0"> Open the ALTBalaji App. Tap the
+                                                    ‘Menu’ option (three horizontal bars) located at the top-left
+                                                    corner. Click on ‘Sign In’ or ‘Subscribe Now’ (select as
+                                                    applicable). Enter your Mobile number and ensure that country code
+                                                    is correct and click ‘continue’. You will receive an SMS with OTP
+                                                    which will be valid for 5 minutes. Post OTP verification you will be
+                                                    logged into the Application. </p>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                            </div>
+                        </div>
+                        <div role="tabpanel" aria-labelledby="v-pills-common-tab" class="tab-pane fade ng-star-inserted"
+                            id="{{tab_id}}">
+
+                            <div id="accordionExample" class="accordion my-4">
+
+                            </div>
+                        </div>
+                        <div role="tabpanel" aria-labelledby="v-pills-common-tab" class="tab-pane fade ng-star-inserted"
+                            id="{{tab_id}}">
+
+                            <div id="accordionExample" class="accordion my-4">
+
+                            </div>
+                        </div>
+                        <div role="tabpanel" aria-labelledby="v-pills-common-tab" class="tab-pane fade ng-star-inserted"
+                            id="v-pills-9000111815">
+
+                            <div id="accordionExample" class="accordion my-4">
+                                #this
+                            </div>
+                        </div>
+
+                        <div class="query-section ng-star-inserted">
+                            <h4 class="d-block">{{'Need_more_help?'|translate}}</h4><a class="btn btn-primary btn-send-query"
+                                (click)="openLoginDialog()">
+                                
+                                <!-- Send us a Question (key added to translation service) -->
+                            {{'Send_us_a_Question'|translate}}
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div class="help-support ml-md-5 ml-sm-0 my-5">
+                        <p class="mb-0">
+                            <!-- For support related queries please write to us at {key added to translation service} -->
+                            {{'support_related_queries'|translate}}
+                            
+                            <a
+                                href="mailto:support@altbalaji.com">support&#64;altbalaji.com</a>.
+                        </p>
+                        <p>
+                            <!-- All claims/complaints in relation to the content shall be addressed
+                            to (key added to transalation service) -->
+                            
+                            {{'claims/complaints_addressed'|translate}}
+                            
+                            <a href="mailto:legal@altbalaji.com">leagal&#64;altbalaji.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,110 @@
+<div class="aol-rental" *ngIf="subscribeInfo1.price != 0">
+  <!-- <span class="img-logo ">
+    <img src="assets/svgs/aol.png" alt="AOL">
+  </span> -->
+  <div class="aol_head">
+    <div class="rental_head">
+      <h3 class="text-center" [innerHTML]="subscribeInfo1.package_name"></h3>
+      <h6 style="color: #333054;">{{'*this_is_a_prime_content' |translate}}. {{'Pay_to_watch' |translate}}</h6>
+    </div>
+
+    <div (click)="close()" class="close-btn">
+      <img src="assets/new_icons/Rental_close.svg" alt="">
+    </div>
+
+  </div>
+
+  <div class="rental">
+    <div class="rental-details row m-0">
+      <!-- <h3>ANNUALLY</h3> -->
+      <div class="single col-3 p-0">
+        <h5>{{'Single_Device' |translate}}</h5>
+        <h2>{{subscribeInfo1.currency}} {{subscribeInfo1.price}}</h2>
+      </div>
+      <div class="rental_para col-9">
+        <p [innerHTML]="subscribeInfo1.description"></p>
+        <div class="terms">
+          <!-- *Terms and Conditions applicable (key added to translation service) -->
+          *{{'T&C'|translate}}
+        </div>
+      </div>
+
+    </div>
+    <div class="coupon_apply">
+      <form [formGroup]="RedeemForm" #FormDir="ngForm" (ngSubmit)="redeemSubmit()">
+        <div class="input-coupon row mx-0">
+          <div class="col-lg-5 col-md-5 p-0">
+            <input type="text" name="" id="" formControlName="redeem" class="input-coupon-aol" *ngIf="!couponHide"
+              (input)="onOtpChange($event)" placeholder="{{'Have_coupon_code?' |translate}}">
+            <div class="discountMsgZError-rental" *ngIf="showMsgError">*{{'invalid_code'}}</div>
+            <div class="discountMsgZError-rental" *ngIf="(RedeemForm.get('redeem')?.invalid && FormDir.submitted)">
+              {{'please_enter_coupon_code' |translate}}!
+            </div>
+            <div class="coupon-validate" *ngIf="couponHide">
+              <div class="validate-text">
+                <div class="tick-icon">
+                  <img src="assets/img/check-contained.svg" alt="" width="25px">
+                </div>
+                <div class="coupon-text">
+                  <div class="coupon">
+                    {{RedeemForm.value.redeem}} {{'Applied' |translate}}
+                  </div>
+                  <div class="discount-aol">
+                    <span class="line-through">{{subscribeInfo1.currency}} {{subscribeInfo1.price}}</span> <span>
+                      {{subscribeInfo1.currency}}
+                      {{subscribeInfo1.price-discountedCouponCode.value}}</span>
+
+                  </div>
+                </div>
+                <div class="remove-aol" (click)="removeCode()">
+                  <a type="button">{{'remove' |translate}}</a>
+                </div>
+              </div>
+            </div>
+            <div class="discountMsgZError-rental" *ngIf="couponHide">{{'coupon_applied' |translate}}</div>
+
+          </div>
+          <div class="col-lg-3 col-md-2 padd-rental">
+            <button class="btn_apply" type="submit" *ngIf="code"
+              [ngClass]="{'orange-btn': isInputNotEmpty, 'grey-btn': !isInputNotEmpty}">{{'check' |translate}}</button>
+            <button class="btn_process-1" (click)="gotoRazorpay(2)" type="button" *ngIf="!code">{{'Pay'
+              |translate}}</button>
+          </div>
+          <div class="col-lg-4 col-md-5 p-0">
+            <button class="btn_process" (click)="gotoRazorpay(1)" type="button" *ngIf="!couponHide"
+              [ngClass]="{'orange-btn': !isInputNotEmpty, 'grey-btn': isInputNotEmpty}">{{'proceed_without_coupon_code'|translate}}</button>
+          </div>
+
+        </div>
+        <div class="btns_coupon">
+
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+<div class="aol-rental" *ngIf="subscribeInfo1.price == 0">
+  <!-- <span class="img-logo ">
+    <img src="assets/svgs/aol.png" alt="AOL">
+  </span> -->
+  <div class="aol_head">
+    <div class="rental_head">
+     
+    </div>
+
+    <div (click)="close()" class="close-btn">
+      <img src="assets/new_icons/Rental_close.svg" alt="">
+    </div>
+
+  </div>
+
+  <div class="rental">
+    <h4 style="color: #fff;">
+   This Package is not available in your region
+    </h4>
+ 
+  </div>
+
+</div>

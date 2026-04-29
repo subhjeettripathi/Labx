@@ -1,0 +1,24 @@
+<div fxLayout="column" fxLayoutGap="10px" class="aol-lang-rel">
+    <div class="aol-control-content">
+        <!-- <span class="img-logo" *ngIf="baseJson.language.logo.is_allow == 1"  >
+            <img src="{{baseJson.language.logo.web}}" alt="">
+        </span> -->
+
+        <button (click)="close()" class="close-btn">
+            <!-- <mat-icon>close</mat-icon> -->
+            <img src="assets/svgs/Vector.svg" alt="">
+        </button>
+  
+
+        <div>
+            <p *ngIf="baseJson.language.description.is_allow == 1" class="aol-lang">{{'Regional_languages' |translate}}</p>
+            <div class="subtitleContent">
+                <p *ngFor="let x of mains" style="cursor: pointer;" (click)="subtitleSet(x.page_title)">
+                    {{x.name}}
+                    <span *ngIf="selected==x.page_title"><img src="assets/svgs/check-contained-CHECK.png" alt="AOL"></span></p>
+                
+            </div>
+        </div>
+
+    </div>
+</div>

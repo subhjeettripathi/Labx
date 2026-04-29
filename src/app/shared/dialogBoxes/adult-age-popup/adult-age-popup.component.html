@@ -1,0 +1,59 @@
+<!-- <div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="baseLine.ageConstent.logo.is_allow == 1">
+            <img src="{{baseLine.ageConstent.logo.web}}" alt="">
+        </span>
+        <button (click)="close()" class="close-btn">
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <br>
+        <div>
+            <p class="adulttHeading"  *ngIf="baseLine.ageConstent.heading.is_allow == 1">{{baseLine.ageConstent.heading.text}}</p>
+            <p class="adultContent" *ngIf="baseLine.ageConstent.description.is_allow == 1">
+                {{baseLine.ageConstent.description.text}}
+            </p>
+            <br>
+            <div class="row">
+                <div class="col-6">
+                    <button (click)="openSigninPopup()" type="button" class="btn-one-1" *ngIf="baseLine.ageConstent.register_btn.is_allow == 1">{{baseLine.ageConstent.register_btn.text}}</button>
+                </div>
+                <div class="col-6">
+                    <button (click)="yesOver18()" type="button" class="btn-two-2" *ngIf="baseLine.ageConstent.age_btn.is_allow == 1">{{baseLine.ageConstent.age_btn.text}}</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> -->
+
+<div class="addtoplaylist">
+    <button (click)="close()" class="close-btn">
+        <img src="assets/svgs/Vector.svg" alt="">
+    </button>
+
+    <div class="addtoplaylisttext">
+        {{'add_to_playlist' |translate}}
+    </div>
+    <div class="create-aol" (click)="openCreatePlaylist()">
+        <div class="icon">
+            <img src="assets/icons/Icon.svg" alt="">
+        </div>
+        {{'createNewPlaylist' |translate}}
+    </div>
+    <div class="liner"></div>
+  <div class="scroller">
+    <div class="playlists-aol row" *ngFor="let list of playlistShow">
+        <div class="col-4">
+            <img [src]="list.thumbs" (error)="onImgError($event, 'circle')" alt="" width="100%">
+        </div>
+
+        <div class="playlist-aol-text col-4">
+            {{list.playlist_name |translate}}
+        </div>
+        <div class="col-4 text-center"><img style="cursor: pointer;" (click)="addPlaylistContent(list.id)" src="assets/icons/plus-02.svg" alt=""></div>
+
+    </div>
+  </div>
+    <div class="liner"></div>
+</div>

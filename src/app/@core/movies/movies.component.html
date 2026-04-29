@@ -1,0 +1,51 @@
+<div class="home-ebook sec-top">
+    <div class="bg-img">
+        <div class="search-header">
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <h1 class="f-size_aol"><span class="mr-3 arrow-right ">
+                        <img src="assets/svgs/Vector (4).png" style="cursor: pointer;" class="arr-icon" (click)="back()"
+                            alt="AOL" aria-hidden="false" class="f-size">
+                    </span>E-book</h1>
+                    <div *ngIf="mainData[0]?.cat_cntn.length>=6" [routerLink]="'/view/all/' + mainData[0]?.cat_name + '/' + mainData[0]?.cat_id"
+                    fxLayout="row" fxLayoutGap="15px"
+                   style="cursor: pointer">
+                   <a class="see">{{'see_all_text' |translate}}</a>
+    
+               </div>
+            </div>
+        </div>
+        <!-- <div class="e-book-search">
+            <img src="assets/svgs/Group 31.svg" alt="" class="ebook-search-icon">
+            <input type="text" class="ebook-input" placeholder="Search E-book" #search name="search">
+        </div> -->
+        <div class="ebook_content">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-6 p-2" *ngFor="let slide of mainData[0].cat_cntn; let i = index" >
+                    <div class="ebook_img">
+                        <img [src]="slide.sliderImg" (error)="onImgError($event,'rectangle_16x9')" alt=""
+                            class="img-width" (click)="openebook(slide.permalink);">
+                            <div class="icons_art" [ngStyle]="{display: slide?.content_type == 'ebook' ? 'flex' : 'none'}">
+                                <img src="assets/svgs/e-book.svg" class="music_art" alt="">
+                              </div>
+                              <div  class="icon-crown" *ngIf="slide.access_type == 'paid'">
+                                <img src="assets/svgs/aol_crown.svg" class="aol_crown">
+                              </div>
+                             
+                          <div class="free-icon" *ngIf="slide.access_type == 'free'">
+                              <img src="assets/svgs/free-v1.svg" class="" alt="AOL" class="free_aol-icon"/>
+                          </div>
+                    </div>
+                    <div class="heading_ebook">
+                        {{slide.title}}
+                    </div>
+                    <div class="disc_ebook">
+                        {{slide.des}}
+                    </div>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+
+</div>

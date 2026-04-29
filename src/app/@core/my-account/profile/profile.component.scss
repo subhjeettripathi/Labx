@@ -1,0 +1,550 @@
+::ng-deep .profile {
+
+    // padding: 25px 24px 16px !important;
+
+    label,
+    p {
+        color: #b4b4b4;
+        font-size: 15px;
+        font-family: 'GothamMedium'
+    }
+
+    .btn {
+        width: 10vw;
+        margin-right: 20px;
+        padding: 10px 10px 10px 10px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    #verify {
+        color: #B4B4B4;
+        background-color: #555555;
+        border-radius: 15px;
+        border: none;
+        padding: 3px 15px;
+        margin-left: 10px;
+    }
+
+    #verify1 {
+        color: #B4B4B4;
+        background-color: #555555;
+        border-radius: 15px;
+        border: none;
+        padding: 3px 15px;
+    }
+
+    .vr-div {
+        display: flex;
+    }
+
+
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    background-color: #323232;
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.profile-update-form {
+    width: 100%;
+
+    .profile-details-section {
+        .btn-update {
+            background: #323232;
+            border: 1px solid #646464;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+            min-width: 150px;
+            line-height: 25px;
+
+
+        }
+
+        .form-control {
+            border: 1px solid #646464;
+            border-radius: 4px;
+            height: calc(1.25rem + 15px);
+            padding: 0 10px;
+            background-color: transparent;
+            color: #fff;
+            font-family: 'GothamBook';
+            font-weight: 400;
+            font-size: 15px;
+        }
+
+        .gender-radio {
+            display: inline-block;
+            font-size: 14px;
+            color: #fffc;
+            margin-right: 10px;
+
+            input {
+                margin-right: 5px;
+            }
+        }
+
+        .profile-close {
+            .btn-close {
+                color: #fff;
+                cursor: pointer;
+                font-family: 'GothamBook';
+                font-size: 13px;
+                border-bottom: 1px solid #fff;
+            }
+
+        }
+    }
+}
+
+.tickIcon {
+    float: right;
+    margin-top: -35px;
+}
+
+.tickIcon1 {
+    float: right;
+    margin-top: -5px;
+}
+
+.form-check-inline label:before {
+    content: '';
+    // -webkit-appearance: none;
+    background-color: transparent;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+
+.emailLink {
+    color: white;
+    cursor: pointer;
+}
+
+
+.form-check-inline input:checked+label:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 26px;
+    width: 6px;
+    height: 14px;
+    border: solid #FFFFFF;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.form-check-inline .form-check-input {
+    position: static;
+    margin-top: 0;
+    margin-right: 0.3125rem;
+    margin-left: 0;
+    position: relative;
+    left: 23px;
+    opacity: 0;
+}
+
+
+.passwordProfile {
+    margin-top: 5px;
+    color: red;
+}
+
+.text-value,
+.form-check-label {
+    color: white;
+}
+
+hr {
+    margin-top: 0rem;
+    border-top: 1pxsolidrgba 0, 0, 0, 0.1;
+    height: 0.1px;
+    box-shadow: 0.3px 0.3px white;
+}
+
+// modal css
+.parental-control-content {
+
+    position: relative;
+    text-align: center;
+
+    .img-logo {
+        position: relative;
+        top: -56px;
+
+
+    }
+
+    .img-logo img {
+        width: 20%;
+    }
+
+}
+
+.close-btn {
+    position: absolute;
+    top: -10px;
+    right: -12px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+
+}
+
+.btn-one {
+    color: #fff !important;
+    font-weight: 600;
+    border: 1px solid #858585;
+    padding: 12px;
+    border-radius: 4px;
+    width: 100%;
+    background-color: transparent;
+    font-size: 19px;
+    letter-spacing: 1px;
+}
+
+.btn-two {
+    color: #fff !important;
+    border: 1px solid #858585;
+    padding: 12px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 19px;
+    width: 100%;
+    letter-spacing: 1px;
+    background-color: transparent;
+}
+
+.keep-content {
+    color: #FFFFFF;
+}
+
+// .btn-one {
+//     color: #fff!important;
+//     font-weight: 600;
+//     border: 1px solid #858585;
+//     padding: 12px;
+//     border-radius: 4px;
+//     width: 100%;
+//     background-color: transparent;
+//     font-size: 19px;
+//     letter-spacing: 1px;
+// }
+
+// .btn-two {
+//     color: #fff!important;
+//     border: 1px solid #9c2929;
+//     padding: 12px;
+//     border-radius: 4px;
+//     font-weight: 600;
+//     font-size: 19px;
+//     width: 100%;
+//     letter-spacing: 1px;
+//     background-color: red;
+// }
+
+@media only screen and (max-width:992px) {
+
+    .form-check-inline label:before {
+        content: "";
+        padding: 8px;
+
+    }
+
+    // .form-check-inline .form-check-input {
+    //     // margin-right: -10px;
+    // }
+
+    .mar-pro {
+        margin: 0 auto;
+        // position: relative;
+        // left: 10px;
+    }
+
+    .form-check-inline input:checked+label:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 4.5px;
+        left: 27px;
+        width: 5px;
+        height: 9px;
+    }
+
+    .tickIcon {
+        float: right;
+        position: relative;
+        bottom: 65%;
+        left: 25%;
+        margin-top: unset !important;
+    }
+
+}
+
+@media only screen and (max-width:572px) {
+    .country-code{
+    padding-left: 46px !important;
+    font-size: 14px;
+    }
+    .inp-width{
+        font-size: 14px;
+    }
+    .inp-width-1{
+        font-size: 14px;
+        padding-left: 55px;
+    }
+
+    .btnn-edit{
+        margin-bottom: 10px !important;
+        gap: 10px !important;
+        flex-wrap: wrap-reverse;
+    }
+    .edit-btn{
+        font-size: 14px !important;
+        padding: 5px 10px !important;
+    }
+
+
+}
+
+
+
+
+
+
+.inp-width {
+    width: 100%;
+    border: 1px solid #dac2c2;
+    outline: 0;
+    padding: 8px;
+    border-radius: 4px;
+    background: transparent;
+    color: #FFFFFF;
+    font-family: "PoppinsRegular";
+    font-size: 16px;
+}
+
+.inp-width-1 {
+    width: 100%;
+    border: 1px solid #dac2c2;
+    outline: 0;
+    padding: 8px;
+    border-radius: 4px;
+    background: transparent;
+    color: #FFFFFF;
+    font-family: "PoppinsRegular";
+    font-size: 16px;
+    padding-left: 58px;
+}
+
+.aol-inputt {
+    margin-bottom: 20px;
+}
+
+.aol-inputt-1 {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.country-code {
+    position: absolute;
+    padding-left: 10px;
+    padding-right: 8px;
+    border-radius: 4px;
+    background: transparent;
+    color: #FFFFFF;
+    font-family: "PoppinsRegular";
+    font-size: 16px;
+}
+
+.aol-select {
+    margin-bottom: 20px;
+}
+
+.aol-select select {
+    width: 100%;
+    border: 1px solid #dac2c2;
+    outline: 0;
+    padding: 8px;
+    border-radius: 4px;
+    background: transparent;
+    color: #FFFFFF;
+    font-family: "PoppinsRegular";
+    font-size: 15px;
+}
+
+.aol-select select {
+    background-image: url(/assets/svgs/Icon-aol.svg);
+    background-repeat: no-repeat;
+    background-position:
+        calc(100% - 15px) calc(1em + -1px),
+        calc(100% - 15px) calc(1em + 2px),
+        calc(100% - 2.5em) 0.5em;
+    background-size: 15px 8px, 15px 15px, 10px 4.5em;
+}
+
+// .aol-select select option:hover {
+//     background-color: yellow !important;
+// }
+
+// .aol-select .option:hover,
+// .aol-select .option:focus {
+//     background-color: rgba(0, 0, 0, 0.05);
+// }
+
+.aol-select select option {
+    background-color: #27253D;
+    font-size: 16px;
+    font-family: 'PoppinsRegular';
+    padding: 12px;
+}
+
+
+
+
+input::placeholder {
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+
+.arrow-aol {
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+
+.edit-btn {
+    background: #FF8731;
+    padding: 5px 15px;
+    outline: 0;
+    border: 0;
+    border-radius: 4px;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px 0px #0000001A;
+    font-family: 'PoppinsRegular';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    height: 1%;
+}
+
+.edit-btn-1 {
+    background: #FF8731;
+    padding: 5px 43px;
+    outline: 0;
+    border: 0;
+    border-radius: 4px;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px 0px #0000001A;
+    font-family: 'PoppinsRegular';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+.edit-btn-2 {
+    background: #766e83;
+    padding: 5px 10px;
+    outline: 0;
+    border: 0;
+    border-radius: 4px;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px 0px #0000001A;
+    font-family: 'PoppinsRegular';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+#DisableError{
+    margin: 0 !important;
+}
+
+.btnn-edit {
+    margin-top: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    gap: 20px;
+}
+
+.line_country{
+    position: absolute;
+    left: 40px;
+    padding: 1px;
+    font-family: 'PoppinsRegular';
+    color: #D9D9D9;
+    margin-bottom: 3px;
+    padding-left: 20px;
+
+}
+
+#google_translate_element{
+    margin: 0% !important;
+}
+
+
+#google_translate_element select{
+    width: 100% !important;
+
+} 
+
+#google_translate_element select{
+    background-color:#f6edfd;
+    color:#383ffa;
+    border: none;
+    border-radius:3px;
+    padding:6px 8px
+  }
+
+  .edit-btn-3{
+    background: #FF8731;
+    padding: 12px 22px;
+    outline: 0;
+    border: 0;
+    border-radius: 4px;
+    color: #FFFFFF;
+    position: relative;
+    // top: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 23px;
+    letter-spacing: 0em;
+    font-family: 'PoppinsRegular' !important;
+  }

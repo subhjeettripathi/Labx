@@ -1,0 +1,629 @@
+.search-box {
+  // background-color: #2D2D2D;
+  background: #27253D;
+  // border: 1px solid #444444;
+  border-radius: 50px;
+}
+
+
+.new_search {
+  background: #27253D;
+  border-radius: 50px;
+  width: 100%;
+  padding: 15px 60px;
+  border: 0;
+  outline: 0;
+  color: #FFFFFF;
+  position: relative;
+  font-family: "PoppinsRegular";
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0em;
+  text-align: left;
+  line-height: 24px;
+
+}
+
+#search {
+  background-color: #2D2D2D;
+}
+
+#search:active {
+  background-color: #2D2D2D;
+}
+
+.arr-icon {
+  width: 40px;
+  height: 25px;
+}
+
+.searchBar {
+  display: flex;
+  gap: 40px;
+}
+
+.form-width {
+  width: 100%;
+}
+
+//   for remove input border-bottom:-
+.searchBar ::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.popularSearch {
+  display: flex;
+  gap: 40px;
+  margin-top: 50px;
+  margin-left: 10px;
+
+
+  a {
+    // color: #9B9B9B;
+    font-size: 18px;
+    font-family: 'PoppinsBold';
+    cursor: pointer;
+
+  }
+
+  a:active {
+    font-weight: 600;
+    // color: #FFFFFF !important;
+  }
+
+}
+
+.title_case {
+  font-size: 15px;
+  font-family: 'PoppinsRegular' !important;
+  font-weight: 600;
+  margin: 0;
+  margin-top: 10px;
+  word-wrap: break-word;
+}
+
+
+.searchField input::placeholder {
+  color: #ADABBE !important;
+  // opacity: 50%;
+  font-size: 20px;
+  line-height: 45px;
+  font-family: 'PoppinsRegular';
+  font-weight: 500;
+}
+
+.searchField {
+  input {
+    padding-left: 4%;
+    padding-bottom: 16px;
+    width: 85%;
+  }
+
+}
+
+
+.example-card {
+  img {
+    // width: 100%;
+    height: auto;
+  }
+}
+
+.section-popular {
+  padding-top: 2%;
+  padding: 3px;
+}
+
+.alt-p-3 {
+  position: relative;
+  cursor: pointer;
+}
+
+.crown {
+  position: absolute;
+  top: 7%;
+  left: 6.4%;
+}
+
+.clear {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 15%;
+  text-align: center;
+}
+
+.searchIcon img {
+  // margin-top: -12px;
+  margin-left: 10px;
+  width: 20px;
+
+}
+
+.searchIcon {
+  position: absolute;
+  z-index: 9;
+  left: 6px;
+}
+
+// #searchDiv {
+//   cursor: pointer;
+//   z-index:1 !important;
+//   opacity: 1 !important;
+//   background:  linear-gradient(
+//     270deg, #1E1E1E 0%, #1E1E1E 78%, #1E1E1E00 100%) 0% 0% no-repeat padding-box !important;
+// }
+
+.noSearchResult {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0px;
+}
+
+.searchText {
+  text-align: center;
+  font-size: 20px;
+  font-family: "PoppinsBold";
+}
+
+.filter-aol {
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+
+.btn-default {
+  height: 55px;
+  width: 55px;
+  // border-radius: 50%;
+  // border: 3px solid red;
+  display: inline-block;
+
+}
+
+.searchField input[text] {
+  height: 20px;
+
+}
+
+//  ::ng-deep #cdk-overlay-1 {
+//   height: 0px !important;
+// }
+// ::ng-deep #cdk-overlay-3 {
+//   height: 0px !important;
+// }
+
+// .btn-change {
+//   height: 55px;
+//   width: 55px;
+
+//   border: 3px solid green;
+//   border-radius: 50%;
+//   display: inline-block;
+
+// }
+
+
+//   ::ng-deep  .cdk-overlay-container{
+//   opacity: 1;
+//   background: transparent linear-gradient( 
+// 270deg, #1E1E1E 0%, #1E1E1E 40%, rgba(30, 30, 30, 0) 100%) 0% 0% no-repeat padding-box !important;
+// z-index:1 !important;
+// }
+// .filterData{
+//     opacity: 1;
+//   background: transparent linear-gradient( 
+// 270deg, #1E1E1E 0%, #1E1E1E 40%, rgba(30, 30, 30, 0) 100%) 0% 0% no-repeat padding-box !important;
+// z-index:1 !important;
+// }
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0px;
+}
+
+// ::ng-deep .mat-dialog-container {
+//   background-color:#1e1e1e !important;
+// }
+
+.example-container>* {
+  width: 100%;
+
+}
+
+label {
+  color: #F2F2F2;
+  font-size: 16px;
+}
+
+mat-icon {
+  color: #B4B4B4;
+  cursor: pointer;
+  font-size: 30px;
+}
+
+select {
+  border-radius: 4px;
+  border: 1px solid #434343;
+  background-color: #272525 !important;
+  color: #F2F2F2 !important;
+}
+
+.form-control {
+  height: auto;
+  padding: 14px;
+}
+
+.form-control:focus {
+  border-color: transparent;
+  outline: 0;
+  box-shadow: none;
+}
+
+.bootstrap-select.btn-group .dropdown-toggle .caret {
+  display: none;
+}
+
+.btnsFilter button {
+  padding: 8px;
+  width: 100%;
+  // border: 1px solid #7F7F7F;
+  color: white;
+  // background-color: #3B3B3B;
+  background: #C5C5C5;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-bottom: 18px;
+  border: 0;
+  font-family: 'PoppinsRegular';
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 27px;
+  letter-spacing: 0em;
+
+
+}
+
+
+
+.submitFilter button {
+  background: #FF8731;
+
+}
+
+::ng-deep .mat-select-panel-wrap {
+  /* transform-origin: 50% 20.875px 0px; */
+  /* font-size: 14px; */
+  /* opacity: 1; */
+  margin-top: 30px !important;
+  /* transform: scaleY(1); */
+  width: 86%;
+  margin-left: 30px;
+  margin-right: 22px;
+  position: absolute;
+
+  .mat-select-panel {
+    background: #27253d 0% 0% no-repeat padding-box;
+  }
+
+  .mat-pseudo-checkbox {
+    color: white;
+  }
+
+  pseudo-checkbox-indeterminate {
+    background: white;
+  }
+
+  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: white;
+  }
+
+  .mat-option.mat-active {
+    // background: rgba(0, 0, 0, 0.04);
+    color: white;
+  }
+
+  .mat-option {
+    // background: rgba(0, 0, 0, 0.04);
+    color: white;
+  }
+
+
+
+}
+ .mat-form-field-appearance-standard .mat-form-field-flex {
+    padding-top: 0.5em !important;
+  }
+.mat-select-value {
+  color: white !important;
+}
+
+.search-box .mat-form-field {
+  // font-size: 20px;
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 1.125;
+  font-family: normal normal medium 20px/27px Gotham HTF !important;
+  letter-spacing: normal;
+  height: 60px !important;
+  justify-content: center;
+  position: relative;
+
+}
+
+.search-box ::ng-deep .mat-form-field-infix {
+  padding: 0.4rem;
+  border-top: 0 !important;
+  bottom: 4px !important;
+}
+
+#searchDiv {
+  margin: 20px 0px;
+}
+
+input {
+  caret-color: white;
+}
+
+
+.search-hide {
+  display: none;
+}
+
+
+// .mat-expansion-panel {
+//   background: rgb(51, 49, 49) !important;
+//   color: rgba(0, 0, 0, 0.87);
+// }
+// .mat-expansion-panel-header-title {
+//   color: #ddd4d48a!important;
+// }
+
+// ::ng-deep mat-expansion-panel-header .mat-expansion-indicator::after {
+//   content: url(../../../assets/svgs/expansionArrow.svg) !important;  
+//   border: 0;
+//   transform: none;
+
+// }
+// // .modal-container input {
+// //    caret-color: #9b9b9b !important;
+// //    background-color: #9b9b9b !important;
+// // }
+// .modal-container label{
+//   color: #9b9b9b !important;
+//   font-size: 14px !important;
+// }
+// .modal-container input[type=checkbox] {
+
+//   background-color: #9b9b9b !important;
+//   font-size: 14px !important;
+//   color:#9b9b9b !important ;
+// }
+// // input[type=checkbox] {
+// //   accent-color: red;
+// // }
+
+@media screen and (max-width:572px) {
+  ::ng-deep .mat-select-panel-wrap {
+    margin-left: 12% !important;
+  }
+
+  .title_case {
+    font-size: 12px;
+  }
+
+  ::ng-deep .mat-select-panel-wrap {
+
+    margin-top: 30px !important;
+
+    width: 82%;
+    margin-left: 30px;
+    margin-right: 22px;
+    position: absolute;
+
+
+  }
+
+  .filterCLoseButton {
+    width: 20%;
+    cursor: pointer;
+  }
+
+  .example-container {
+    margin: 10px 0px;
+  }
+
+
+
+}
+
+// @media screen and (max-width:992px) {
+//   ::ng-deep .mat-select-panel-wrap {
+//     margin-left: 5% !important;
+//   }
+// }
+
+@media screen and (max-width:992px) {
+  .free-icon {
+    position: absolute !important;
+    left: 0px !important;
+    top: 6px !important;
+  }
+}
+
+.font-aol {
+  font-family: 'PoppinsRegular';
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 60px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #FFFFFF;
+  box-shadow: 0px 4px 4px 0px #0000001A;
+}
+
+.col-fil-aol {
+  color: #FFFFFF;
+  background-color: #ADABBE;
+}
+
+::ng-deep .mat-select-placeholder {
+  color: #FFFFFF !important;
+}
+
+
+
+.filterList_btn button {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 8px 0;
+  width: 100%;
+}
+
+.typeContent ul {
+  list-style-type: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.typeContent ul li {
+  padding: 2% 0;
+  padding-left: 10%;
+}
+
+.typeContent ul li:hover {
+  background-color: rgba(81, 76, 129, 1);
+}
+
+.typeContent ul li:hover button {
+  color: #FF8731;
+}
+
+.typeContent ul li:first-child {
+  margin-top: 3%;
+}
+
+.typeContent ul li button {
+  font-family: 'LatoRegular';
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 40px;
+  letter-spacing: -0.022em;
+  text-align: left;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #C5C5C5;
+
+
+}
+
+.typeHeading,
+.typeContent {
+  padding: 0 !important;
+  border: none !important;
+}
+
+.typeSection {
+  background-color: rgba(39, 37, 61, 1) !important;
+  color: white !important;
+  padding: 4% 0%;
+}
+
+.typeHeading button {
+  color: #FFFFFF;
+  font-family: 'LatoRegular';
+  font-size: 18px;
+  font-weight: 500;
+  // line-height: 36px;
+  letter-spacing: -0.022em;
+  text-align: left;
+  padding: 0 0 2% 10% !important;
+
+}
+
+.typeHeading button::after {
+  background-image: url(/assets/icons/chevron-down.png);
+  background-size: 30px 30px;
+  // display: inline-block;
+  width: 50px;
+  height: 25px;
+  content: "";
+  float: right;
+  background-repeat: no-repeat;
+}
+
+.prime-icon {
+  top: 3%;
+  position: absolute;
+  left: 5%;
+}
+
+.typeHeading button:focus,
+.typeHeading button:hover {
+  color: white;
+  box-shadow: none;
+}
+
+.icon-crown {
+  position: absolute;
+  top: 3%;
+  left: 4%;
+}
+
+.icons_art {
+  position: absolute;
+  top: 3%;
+  right: 5%;
+}
+
+
+
+.filterCLoseButton {
+  position: absolute;
+  right: 4%;
+  top: -2px;
+}
+
+::ng-deep.mat-form-field-wrapper {
+  padding-bottom: 10px !important;
+}
+
+// input {
+//   font-size: 16px !important;
+// }
+
+.clear_aol {
+  position: absolute;
+  right: 1%;
+}
+
+.search-box {
+  position: relative;
+}
+
+.mic-clear {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 1.5%;
+  gap: 8px;
+}
+.filter-title{
+  font-family: "PoppinsRegular";
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #FFFFFF;
+}
+

@@ -1,0 +1,572 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="popup">
+        <div class="close-btnns">
+            <div class="close-btn">
+                <img src="assets/img/compress.svg" alt="AOL" (click)="getMiniScreenPlayer()" class="minimise">
+            </div>
+            <div class="close-btn-2" (click)="close()">
+                <img src="assets/img/plus-02.svg" alt="" class="cls-btn">
+            </div>
+        </div>
+        <div class="close-player-mobile">
+            <div class="close-btn-mob">
+                <img src="assets/img/compress.svg" alt="AOL" (click)="getMiniScreenPlayer()" class="minimise">
+            </div>
+            <div class="close-player">
+                <div class="close-btn-2-mob" (click)="close()">
+                    <img src="assets/img/plus-02.svg" alt="" class="cls-btn">
+                </div>
+            </div>
+        </div>
+
+        <section class="audioPlayer">
+            <div fxLayout="column" fxLayoutGap="10px">
+                <div class="popup">
+                    <section class="audioPlayer">
+                        <div class="container list-play-art">
+                            <div class="row single-player" *ngIf="AudioData.is_group == 0">
+                                <div class="col-lg-3 audio-img">
+                                    <img [src]="sliderImage" alt="" (error)="onImgError($event, 'circle')" width="100%">
+                                </div>
+                                <div class="audio-desp col-lg-9">
+                                    <div class="aud-head">
+                                        <div class="mob-width">
+                                            {{AudioData.title}}
+                                        </div>
+                                        <div class="dot-btn" id="playListClick" (click)="playlistButton()"
+                                            *ngIf="AudioData.radio != 'true'">
+                                            <img src="assets/img/more-icon_new.png" alt="" class="dot-img">
+                                            <div *ngIf="playlistbtn" id="playListClick" (click)="playlistButton()"
+                                                class="options">
+                                                <ul>
+                                                    <li *ngIf="AudioData.is_group == 1" (click)="next()">
+                                                        <button><span><i class="fa fa-play-circle"></i></span> {{'Play_next'|translate}}</button>
+                                                    </li>
+
+                                                    <li *ngIf="AudioData.is_group == 1"><button><span><i
+                                                                    class="fa fa-line-chart"></i></span> {{'Add_to_queue'|translate}}</button>
+                                                    </li>
+
+                                                    <li
+                                                        (click)="addRemoveToWatchlist((DialogData.behaviour.favorite==0)?1:0,AudioData)">
+                                                        <button *ngIf="(DialogData.behaviour.favorite==0)"><span><i
+                                                                    class="fa fa-clock-o"></i></span> {{'Add_to_My_list'|translate}}</button>
+
+                                                        <button *ngIf="(DialogData.behaviour.favorite==1)"><span><i
+                                                                    class="fa fa-clock-o"></i></span> {{'remove_from_watchlist'|translate}}</button>
+                                                    </li>
+
+                                                    <li *ngIf="this.playlistCategory1 != 'playlistData'"
+                                                        (click)="addPlaylistContent(AudioData.id,'content')">
+                                                        <button><span><i class="fa fa-plus-square"></i></span> {{'add_to_playlist'|translate}}</button>
+                                                    </li>
+
+                                                    <li *ngIf="AudioData.is_group == 1"><button><span><i
+                                                                    class="fa fa-headphones"></i></span> {{'Remove_from_queue'|translate}}</button></li>
+                                                    <!-- <li (click)="sharePlaylist()"><button><span><i class="fa fa-mail-forward"></i></span> Share</button></li> -->
+
+                                                </ul>
+                                            </div>
+                                            <!-- ... -->
+
+                                        </div>
+                                    </div>
+
+                                    <div class="like_aol" *ngIf="AudioData.radio != 'true'">
+                                        <div class="icon-flex">
+                                            <div class="aol_like_dis" style="cursor: pointer;">
+                                                <div class="head_like">
+                                                    <div class="head-likk_img"
+                                                        (click)="addLikes((DialogData.behaviour.likes==0)?1:0,AudioData)">
+                                                        <div class="heart_img" *ngIf="(DialogData.behaviour.likes==0)">
+                                                            <img src="assets/icons/ph_heart-straight-bold (1).svg"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="heart_unfilled"
+                                                            *ngIf="(DialogData.behaviour.likes==1)">
+                                                            <img src=" assets/icons/ph_heart-straight-bold.svg" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="like_count" *ngIf="totalCountLikes">
+                                                        <div>{{totalLikes}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="eye_head" *ngIf="totalCountLikes">
+                                                    <div class="eye_view">
+                                                        <img src="assets/icons/eye-open_view.png" alt="">
+                                                    </div>
+                                                    <div class="see_count">
+                                                        <div>{{totalViews}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="heart_unfilled" ole="button" aria-label=""
+                                                    id="dropdownMenuLinks" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false" class="social-icon1">
+                                                    <img width="100%" src="assets/new_icons/share.svg" alt=""
+                                                        width="23px">
+                                                    <div class="dropdown-menu dropMenus"
+                                                        aria-labelledby="dropdownMenuLinks">
+
+                                                        <div class="d-flex" style="gap:20px">
+                                                            <a (click)="sharing('fb',AudioData)" class="fb"><img
+                                                                    src="assets/svgs/facebook.svg"></a>
+
+
+                                                            <a (click)="sharing('tweet',AudioData)" class="twitter"><img
+                                                                    src="assets/svgs/twitter.svg"></a>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="playlist-art" *ngIf="AudioData.is_group == 1">
+                            <div class="row play-ui">
+                                <div class="col-lg-3">
+                                    <div class="playlist-aol-img">
+                                        <img class="mySlides" [src]="this.imageSlider"
+                                            (error)="onImgError($event, 'circle')" />
+                                    </div>
+                                    <div class="like_aol">
+                                        <div class="icon-flex">
+                                            <div class="aol_like_dis" style="cursor: pointer;">
+                                                <div class="head_like">
+                                                    <div class="head-likk_img"
+                                                        (click)="addLikes((DialogData.behaviour.likes==0)?1:0,AudioData)">
+                                                        <div class="heart_img" *ngIf="(DialogData.behaviour.likes==0)">
+                                                            <img src="assets/icons/ph_heart-straight-bold (1).svg"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="heart_unfilled"
+                                                            *ngIf="(DialogData.behaviour.likes==1)">
+                                                            <img src=" assets/icons/ph_heart-straight-bold.svg" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="like_count" *ngIf="totalCountLikes">
+                                                        <div>{{totalLikes}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="eye_head" *ngIf="totalCountLikes">
+                                                    <div class="eye_view">
+                                                        <img src="assets/icons/eye-open_view.png" alt="">
+                                                    </div>
+                                                    <div class="see_count">
+                                                        <div>{{totalViews}}</div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="playlists">
+                                        <div class="titles-aol">
+                                            <div class="playlist-heading">
+                                                <div class="des_play">
+                                                    {{AudioData.season_title}}
+                                                </div>
+
+                                                <div style="margin-top: -4px;" class="dots-play"
+                                                    (click)="addPlaylistContent(AudioData.season_id,'album')">. . .
+                                                </div>
+                                            </div>
+                                            <div class="playlist-desc">
+                                                {{AudioData.des}}
+                                            </div>
+                                            <div class="playlist-songs-times">
+
+
+                                                <!-- 35 Songs . 2 Hours 15 Minutes -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="playlist-list" id="playlistEnd">
+                                        <ol *ngFor="let episodes of EpiData,index as i">
+                                            <div class="detail-playlist row">
+                                                <li class="col-lg-6 col-md- col-sm-6" *ngIf="episodes.des.length > 50">
+                                                    <h1 class="maintitleplayer" [id]="'mainTitle' + episodes.id"
+                                                        [title]='episodes.title'
+                                                        (click)="loadSong(episodes.url,episodes.title,episodes.duration, i,episodes.sliderImg,episodes.id,episodes.k_id,episodes.access_type)">
+                                                        {{i+1}}. {{episodes.title}}</h1>
+                                                    <p>{{episodes.des.slice(0,50)}}...</p>
+
+
+                                                </li>
+
+                                                <li class="col-lg-6 col-md-4 col-sm-6"
+                                                    *ngIf="episodes.des.length <= 50">
+                                                    <h1 class="maintitleplayer" [id]="'mainTitle' + episodes.id"
+                                                        [title]='episodes.title'
+                                                        (click)="loadSong(episodes.url,episodes.title,episodes.duration, i,episodes.sliderImg,episodes.id,episodes.k_id,episodes.access_type)">
+                                                        {{i+1}}. {{episodes.title}}</h1>
+                                                    <p>{{episodes.des.slice(0,50)}}</p>
+                                                </li>
+                                                <div class="time col-lg-3 col-md-4 col-sm-3">
+                                                    {{convertTimeToMinutes(episodes.duration)}} min
+                                                </div>
+
+                                                <div class="three_dots col-lg-3 col-md-4 col-sm-3" id="getplayList"
+                                                    style="padding: 0;">
+                                                    <div class="mob-slector" (click)="openAddPlaylist(episodes.id)">...
+                                                    </div>
+                                                    <div [class]="'options' + episodes.id" class="optionsAddPlaylist"
+                                                        [ngClass]="{'show-options': episodes.id === currentValue, 'hide-options': episodes.id !== currentValue}">
+                                                        <div *ngIf="episodes.id ===this.currentValue">
+                                                            <div class="add-hover">
+                                                                <div class="add-flex"
+                                                                    (click)="addPlaylistContent(episodes.id,'content')">
+                                                                    <!-- <img src="assets/svgs/plus-02.png" alt=""  width="20px"> -->
+                                                                    <i class="fa fa-plus"
+                                                                        style="color: #ff8731; font-size: 14px;"
+                                                                        aria-hidden="true"></i>
+
+                                                                    <div>{{'add_to_playlist'|translate}}</div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="add-hover"
+                                                                (click)="addRemoveToWatchlist((DialogData.behaviour.favorite==0)?1:0,AudioData)">
+                                                                <div *ngIf="(DialogData.behaviour.favorite==0)"
+                                                                    class="add-flex"><i class="fa fa-clock-o"
+                                                                        style="font-size: 14px;"></i>
+                                                                    <div>{{'Add_to_My_list'|translate}}</div>
+                                                                </div>
+
+                                                                <div *ngIf="(DialogData.behaviour.favorite==1)"
+                                                                    class="add-flex"><i class="fa fa-clock-o"
+                                                                        style="font-size: 14px;"></i>
+                                                                    <div> {{'remove_from_watchlist'|translate}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="playlist-art" *ngIf="playlistCategory1 == 'playlistData'">
+                            <div class="row play-ui">
+                                <div class="col-lg-3">
+                                    <div class="playlist-aol-img">
+                                        <img class="mySlides" [src]="this.audioSrc[this.itemget].sources[0].img"
+                                            (error)="onImgError($event, 'circle')" width="100%" />
+
+
+                                        <!-- <img src="assets/img/Mask group.png" alt="" width="100%"> -->
+                                    </div>
+                                    <div class="like_aol">
+                                        <div class="icon-flex">
+                                            <div class="aol_like_dis" style="cursor: pointer;">
+                                                <div class="eye_head" *ngIf="totalCountLikes">
+                                                    <div class="eye_view">
+                                                        <img src="assets/icons/eye-open_view.png" alt="">
+                                                    </div>
+                                                    <div class="see_count">
+                                                        <div>{{totalCountLikes.content_veiws}}</div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="playlist-icons">
+                                        <div class="repeat">
+                                            <img src="assets/img/mi_repeat (1).png" alt="">
+                                        </div>
+                                        <div class="shuffle">
+                                            <img src="assets/img/mi_shuffle.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="playlists">
+                                        <div class="titles-aol">
+                                            <div class="playlist-head">
+                                                {{playlistNmae}}
+                                            </div>
+                                        </div>
+                                        <!-- <div class="three_dots">...</div> -->
+                                    </div>
+                                    <div class="playlist-list" id="playlistEnd">
+                                        <ol *ngFor="let episodes of EpiData,index as i">
+                                            <div class="detail-playlist row">
+                                                <li class="col-lg-7" *ngIf="episodes.des.length > 50">
+                                                    <h1 class="maintitleplayer" [id]="'mainTitle' + episodes.id"
+                                                        [title]='episodes.title'
+                                                        (click)="loadSong(episodes.url,episodes.title,episodes.duration, i,episodes.sliderImg,episodes.id,episodes.k_id,episodes.access_type)">
+                                                        {{i+1}}. {{episodes.title}}</h1>
+                                                    <p>{{episodes.des.slice(0,50)}}...</p>
+                                                </li>
+
+                                                <li class="col-lg-7" *ngIf="episodes.des.length <= 50">
+                                                    <h1 class="maintitleplayer" [id]="'mainTitle' + episodes.id"
+                                                        [title]='episodes.title'
+                                                        (click)="loadSong(episodes.url,episodes.title,episodes.duration, i,episodes.sliderImg,episodes.id,episodes.k_id,episodes.access_type)">
+                                                        {{i+1}}. {{episodes.title}}</h1>
+                                                    <p>{{episodes.des.slice(0,50)}}</p>
+                                                </li>
+                                                <div class="time col-lg-3">
+                                                    {{convertTimeToMinutes(episodes.duration)}} min
+                                                </div>
+                                                <div class="three_dots col-lg-2" style="padding: 0;"
+                                                    (click)="openAddPlaylist(episodes.id)">
+                                                    ...
+
+                                                    <div [class]="'options' + episodes.id" class="optionsAddPlaylist"
+                                                        [ngClass]="{'show-options': episodes.id === currentValue, 'hide-options': episodes.id !== currentValue}">
+                                                        <ul *ngIf="episodes.id ===this.currentValue">
+                                                            <li>
+                                                                <div (click)="removePlaylist(episodes.id,i)">
+                                                                    <span><img src="assets/svgs/plus-02.png"
+                                                                            alt="" /></span> {{'remove'|translate}}
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="player-art" *ngIf="AudioData.radio != 'true'">
+                            <div class="mobile-time">
+                                <div class="time_aol-mobile" *ngIf="AudioData.radio != 'true'">
+                                    <span id="currentStart" [innerHTML]="currentTimeGet"></span>
+                                    <span id="currentEnd">{{mainDuartion}}</span>
+                                </div>
+                            </div>
+                            <div class="bar player_progress">
+                                <input type="range" id="seek" step="0.01" [(ngModel)]="seekValue"
+                                    (input)="seekToTime($event)" class="seek_new">
+                                <div class="bar2" id="bar2"></div>
+                                <div class="dot"></div>
+                            </div>
+
+                            <div class="player-icon-time">
+                                <div class="mobile-icons row">
+                                    <div class="mob_screen col-4" *ngIf="AudioData.radio != 'true'">
+                                        <img src="assets/img/mi_repeat_new.svg" alt="" (click)="loop()" id="repeat_mob"
+                                            class="repeatBtn_mob">
+                                        <img src="assets/new_icons/repeat-active.svg" alt="" id="repeatEnd_mob"
+                                            class="repeatBtn_mob" (click)="toggleRepeat()">
+                                    </div>
+                                    <div class=" mob_icons col-4">
+                                        <img *ngIf="AudioData.is_group == 1 || this.playlistCategory1 == 'playlistData'"
+                                            src="assets/img/skip-back-1.svg" (click)="prev()" alt="" id="back"
+                                            class="skipBack">
+                                        <img src="assets/img/play-02.svg" alt="" id="play" class="playBtn"
+                                            (click)="play()">
+                                        <img src="assets/img/pause-02.svg" alt="" id="pause" class="pauseBtn"
+                                            (click)="pause()">
+                                        <img *ngIf="AudioData.is_group == 1 || this.playlistCategory1 == 'playlistData'"
+                                            src="assets/img/skip-back-2.svg" alt="" (click)="next()" id="next"
+                                            class="skipBack">
+                                    </div>
+                                    <div class="mobile-screen col-4">
+                                        <div class="speed-mode" *ngIf="AudioData.radio != 'true'">
+                                            <img src="assets/new_icons/settings.svg" alt="speed" title="speed"
+                                                (click)="speedVisible()" width="25px" style="cursor: pointer;"
+                                                class="speedclick">
+                                            <ul id="speedLevelMobile" class="speedIconMob">
+                                                <li id="speed1" (click)="changePlaybackRate(0.5, $event)">
+                                                    0.50x
+                                                </li>
+
+                                                <li id="speed2" (click)="changePlaybackRate(0.75 ,$event)">
+                                                    0.75x
+                                                </li>
+
+                                                <li id="speed3" class="activeModespeed"
+                                                    (click)="changePlaybackRate(1 ,$event)">
+                                                    1.0x
+                                                </li>
+
+                                                <li id="speed4" (click)="changePlaybackRate(1.25 ,$event)">
+                                                    1.25x
+                                                </li>
+
+                                                <li id="speed5" (click)="changePlaybackRate(1.5 ,$event)">
+                                                    1.50x
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <img *ngIf="AudioData.radio != 'true'" (click)="shuffle()"
+                                            src="assets/img/mi_shuffle_new.svg" alt="" id="shuffle_mob"
+                                            class="shuffleBtn_mob">
+                                        <img *ngIf="AudioData.radio != 'true'" src="assets/new_icons/shuffle-active.svg"
+                                            alt="" id="shuffleEnd_mob" class="shuffleBtn_mob" (click)="toggleShuffle()">
+                                        <img (click)="getMiniScreenPlayer()" src="assets/img/minimize svg.svg" alt=""
+                                            id="fullscreenOpen_mob" class="fullScreen_mob">
+                                        <img (click)="getfullscreenPlayer()" src="assets/img/maximize.svg" alt=""
+                                            id="exitfullscreen_mob" class="fullScreen_mob">
+                                    </div>
+                                </div>
+
+                                <div class="control-aol row">
+                                    <div id="ttileplayer" class="songDis song_title col-lg-5 col-md-0 pr-0 pl-0">
+                                        <div class="head-vol row">
+                                            <div class="main-vol col-4">
+                                                <div class="vol-icons">
+                                                    <img src="../../../assets/new_icons/volume-2.svg" alt=""
+                                                        class="volumeIcon" (click)="mute()">
+                                                    <img src="../../../assets/new_icons/volume-des.svg" alt=""
+                                                        class="unmuteIcon" (click)="unmute()">
+                                                </div>
+
+                                                <input type="range" [(ngModel)]="volumeValue" id="volume-slider"
+                                                    (input)="adjustVolume($event)" class="vol-hide">
+                                            </div>
+                                            <div class="song_title_1 col-8" *ngIf="mainTitle">
+                                                <h5 [title]="mainTitle" class="titlemain">{{mainTitle.length<75?
+                                                        mainTitle: mainTitle.slice(0,75)+"..."}}</h5>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="playImg col-lg-2 col-md-6 col-sm-6 p-0">
+
+                                        <img *ngIf="AudioData.is_group == 1 || this.playlistCategory1 == 'playlistData'"
+                                            src="assets/img/skip-back-1.svg" (click)="prev()" alt="" id="back"
+                                            class="skipBack">
+                                        <img src="assets/img/play-02.svg" alt="" id="play" class="playBtn"
+                                            (click)="play()">
+                                        <img src="assets/img/pause-02.svg" alt="" id="pause" class="pauseBtn"
+                                            (click)="pause()">
+                                        <img *ngIf="AudioData.is_group == 1 || this.playlistCategory1 == 'playlistData'"
+                                            src="assets/img/skip-back-2.svg" alt="" (click)="next()" id="next"
+                                            class="skipBack">
+                                    </div>
+
+
+                                    <div class="endSection col-lg-5 col-md-6 col-sm-6 pl-0">
+                                        <div style="display: flex;" class="time_aol" *ngIf="AudioData.radio != 'true'">
+                                            <span id="currentStart" [innerHTML]="currentTimeGet"></span>
+                                            <div class="time_hi">/</div>
+                                            <span id="currentEnd">{{mainDuartion}}</span>
+                                        </div>
+
+                                        <div class="speed-mode" *ngIf="AudioData.radio != 'true'">
+                                            <img src="assets/new_icons/settings.svg" alt="speed" title="speed"
+                                                (click)="speedVisible()" width="34px" style="cursor: pointer;"
+                                                class="speedclick">
+                                            <ul id="speedLevel" class="speedIcon">
+                                                <li id="speed1" (click)="changePlaybackRate(0.5, $event)">
+                                                    0.50x
+                                                </li>
+
+                                                <li id="speed2" (click)="changePlaybackRate(0.75 ,$event)">
+                                                    0.75x
+                                                </li>
+
+                                                <li id="speed3" class="activeModespeed"
+                                                    (click)="changePlaybackRate(1 ,$event)">
+                                                    1.0x
+                                                </li>
+
+                                                <li id="speed4" (click)="changePlaybackRate(1.25 ,$event)">
+                                                    1.25x
+                                                </li>
+
+                                                <li id="speed5" (click)="changePlaybackRate(1.5 ,$event)">
+                                                    1.50x
+                                                </li>
+                                            </ul>
+                                        </div>
+
+
+                                        <!-- okk -->
+
+                                        <div *ngIf="AudioData.is_group == 0 && AudioData.radio != 'true'">
+                                            <img src="assets/img/mi_repeat_new.svg" alt="" (click)="loop()" id="repeat"
+                                                class="repeatBtn">
+                                            <img src="assets/new_icons/repeat-active.svg" alt="" id="repeatEnd"
+                                                class="repeatBtn" (click)="toggleRepeat()">
+                                        </div>
+
+                                        <img *ngIf="AudioData.is_group == 1" (click)="shuffle()"
+                                            src="assets/img/mi_shuffle_new.svg" alt="" id="shuffle" class="shuffleBtn">
+                                        <img src="assets/new_icons/shuffle-active.svg" alt="" id="shuffleEnd"
+                                            class="shuffleBtn" (click)="toggleShuffle()">
+                                        <img (click)="getMiniScreenPlayer()" src="assets/img/minimize-icon.png" alt=""
+                                            id="fullscreenOpen" class="fullScreen">
+                                        <img (click)="getfullscreenPlayer()" src="assets/img/maximize-icon.png" alt=""
+                                            id="exitfullscreen" class="fullScreen">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="player-art" *ngIf="AudioData.radio == 'true'">
+                            <div class="bar player_progress">
+                                <input type="range" id="seek" step="0.01" [(ngModel)]="seekValue"
+                                    (input)="seekToTime($event)" class="seek_new">
+                                <div class="bar2" id="bar2"></div>
+                                <div class="dot"></div>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; padding: 0px 15px;">
+                                <div id="ttileplayer" class="songDis song_title pr-0 pl-0">
+                                    <div class="head-vol">
+                                        <div class="main-vol">
+                                            <div class="vol-icons">
+                                                <img src="../../../assets/new_icons/volume-2.svg" alt=""
+                                                    class="volumeIcon" (click)="mute()">
+                                                <img src="../../../assets/new_icons/volume-des.svg" alt=""
+                                                    class="unmuteIcon" (click)="unmute()">
+                                            </div>
+                                        </div>
+                                        <div class="song_title_1 col-8" *ngIf="mainTitle">
+                                            <h5 [title]="mainTitle" class="titlemain">{{mainTitle.length<75? mainTitle:
+                                                    mainTitle.slice(0,75)+"..."}}</h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div>
+                                    <img src="assets/img/play-02.svg" alt="" id="play" class="playBtn" (click)="play()">
+                                    <img src="assets/img/pause-02.svg" alt="" id="pause" class="pauseBtn"
+                                        (click)="pause()">
+                                </div>
+
+                                <div>
+                                    <img (click)="getMiniScreenPlayer()" src="assets/img/minimize-icon.png" alt=""
+                                        id="fullscreenOpen" class="fullScreen">
+                                    <img (click)="getfullscreenPlayer()" src="assets/img/maximize-icon.png" alt=""
+                                        id="exitfullscreen" class="fullScreen">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+            <div id="player" style="width: 100%; height: 100vh;display: none;"></div>
+
+            <video id="video-player" style="width: 100%; height: 100vh;display: none;" preload="auto" playsinline
+                #target class="video-js vjs-big-play-centered">
+            </video>
+
+        </section>
+    </div>
+</div>

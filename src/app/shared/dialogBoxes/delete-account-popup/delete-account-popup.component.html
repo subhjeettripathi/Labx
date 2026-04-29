@@ -1,0 +1,74 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="basesignin.profile_submit_alert_2.logo.is_allow">
+            <img src="{{basesignin.profile_submit_alert_2.logo.web}}" alt="AOL">
+        </span>
+
+        <button (click)="close()" class="close-btn">
+            <mat-icon>Close</mat-icon>
+        </button>
+        <br><br><br>
+        <div class="alt-login-img" *ngIf="basesignin.profile_submit_alert_2.warning_icon.is_allow">
+            <img src="{{basesignin.profile_submit_alert_2.warning_icon.web}}" alt="AOL">
+        </div>
+        <br>
+<div *ngIf="basesignin.profile_submit_alert_1.description.is_allow">
+    <p style="font-size:18px;color: #DEDEDE;font-weight: 600;" *ngIf="hideWhenOnlyReason">
+        {{basesignin.profile_submit_alert_1.description.text |translate}}
+    </p>
+</div>
+        <div *ngIf="basesignin.profile_submit_alert_1.description.is_allow">
+        <p style="font-size:18px;color: #DEDEDE;font-weight: 600;" *ngIf="showWhenOnlyReason">
+            {{basesignin.profile_submit_alert_1.description.text2 |translate}}
+        </p>
+    </div>
+    <div *ngIf="basesignin.profile_submit_alert_2.description.is_allow">
+ 
+        <p style="font-size:18px;color: #DEDEDE;font-weight: 600;" *ngIf="linkAccount">
+            {{basesignin.profile_submit_alert_2.description.text2 |translate}}
+        </p>
+       
+    </div>
+        <!-- <div class="row">
+                <div class="col-6">
+                    <button type="button"  class="btn-one">Yes</button>
+                </div>
+                <div class="col-6">
+                    <button (click)="close()" type="button" class="btn-one">NO</button>
+                </div>
+            </div> -->
+
+
+    </div>
+</div>
+
+<!-- 
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="basesignin.profile_submit_alert_2.logo.is_allow">
+            <img src="{{basesignin.profile_submit_alert_2.logo.web}}" alt="ALTBalaji">
+        </span>
+
+        <button (click)="close()" class="close-btn">
+            <mat-icon>close</mat-icon>
+        </button>
+        <br><br><br>
+        <div class="alt-login-img" *ngIf="basesignin.profile_submit_alert_2.warning_icon.is_allow">
+            <img src="{{basesignin.profile_submit_alert_2.warning_icon.web}}" alt="ALTBalaji">
+        </div>
+        <br>
+
+        <p style="font-size:18px;color: #DEDEDE;font-weight: 600;" *ngIf="hideWhenOnlyReason">
+             Please verify your email
+        </p>
+        <p style="font-size:18px;color: #DEDEDE;font-weight: 600;" *ngIf="showWhenOnlyReason">
+            {{basesignin.profile_submit_alert_2.description.text2}}
+        </p>
+        <p style="font-size:18px;color: #DEDEDE;font-weight: 600;" *ngIf="linkAccount">
+            {{basesignin.profile_submit_alert_2.description.text3}}
+        </p>
+
+       
+
+    </div>
+</div> -->

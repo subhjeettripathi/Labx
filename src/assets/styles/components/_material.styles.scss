@@ -1,0 +1,39 @@
+@import '../variables/colors.variables.scss';
+
+mat-toolbar {
+    padding: 48px !important;
+    // justify-content: center !important;
+    background: transparent !important;
+}
+
+// formfield for every input
+
+.formField {
+    .mat-form-field {
+      width: 100% !important;
+    }
+    .mat-form-field-appearance-outline:not(.mat-form-field-disabled) .mat-form-field-flex:hover .mat-form-field-outline {
+      // border: 0.2px solid #666;
+      border: none;
+      opacity: 1;
+      border-radius: 5px;
+    //   box-shadow: 0px 0px 0px 4px $matinputBshadow;
+      .mat-form-field-outline-start,
+      .mat-form-field-outline-gap,
+      .mat-form-field-outline-end {
+        border: none;
+      }
+    }
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+      border: none;
+      background-color: $ott-white;
+      border-radius: 0.275rem;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+      border: none;
+    //   box-shadow: 0px 0px 0px 4px $matinputBshadow;
+      color: $matinputThick;
+    }
+  }
+
+  

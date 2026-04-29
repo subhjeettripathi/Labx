@@ -1,0 +1,28 @@
+.h1-404{
+    color: #fff;
+    font-family: "GothamHTF-Black";
+    font-size: 35px;
+
+}
+
+.img-404{
+width: 30%;
+}
+
+.we-404{
+    font-size: 28px;
+}
+
+.color-red:hover{
+    color: #fff !important;
+    font-weight: 600;
+}
+
+@media screen and (max-width:992px) {
+    .h1-404{
+        display: none;
+    }
+    .img-404{
+        width: 100%;
+    }
+}

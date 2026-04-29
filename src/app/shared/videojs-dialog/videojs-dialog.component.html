@@ -1,0 +1,8 @@
+<div fxLayout="column" fxLayoutGap="10px" >
+    <div class="popup">
+        <div class="close-btn" (click)="close()">
+            <img src="assets/svgs/playercross.svg" alt="AOL">
+        </div>
+        <app-video-player [options]="videoJsOptions" [data]="data.url"></app-video-player>
+    </div>
+</div>

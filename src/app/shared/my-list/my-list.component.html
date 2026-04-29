@@ -1,0 +1,375 @@
+<div class="section-search sec-top-list">
+    <!-- <p style="color: white; font-size: 100px;">my-list works!</p> -->
+    <h1 class="font-aol"><span class="mr-3 arrow-right">
+            <img src="assets/svgs/Vector (4).png" style="cursor: pointer;" class="arr-icon" (click)="back()" alt="AOL"
+                aria-hidden="false" class="f-size">
+        </span>{{'favorites'|translate}}</h1>
+    <div class="container-fliud ply-list">
+        <div class="blog text bg-col">
+            <input class="radio1" id="one1" name="group" type="radio" checked />
+            <input class="radio1" id="two2" name="group" type="radio" />
+            <label class="tab1" id="one-tab-1" for="one1">{{'Favourites'|translate}}</label>
+            <label class="tab1" id="two-tab-2" for="two2">{{'playlists'|translate}}</label>
+            <div class="panels">
+                <div class="panel" id="one-panel-1">
+                    <input class="radio2" id="one-1" name="group2" type="radio" checked />
+                    <input class="radio2" id="one-2" name="group2" type="radio" />
+                    <input class="radio2" id="one-3" name="group2" type="radio" />
+                    <label *ngFor="let x of WatchlistType;let i = index" class="tab2" [id]="'one-tabb-' + (i+1)"
+                        [for]="'one-' + (i+1)" (click)="getWatchlistData(x.title)">{{x.title}}</label>
+                    <div class="panels">
+                        <div class="panel" id="panell-1">
+                            <div *ngIf="!WatchlistData || WatchlistData.length == 0" class="text-center fav-msg mt-4">
+                                <h3 class="text-capitalize fav-msg">{{'No_favorites_yet'|translate}}</h3>
+                            </div>
+                            <div class="aol-inline" *ngIf="WatchlistData && WatchlistData.length != 0">
+                                <div class="selector-aol">
+                                    <span class="select_all">
+                                        {{'select_all'|translate}}
+                                    </span>
+                                    <input type="checkbox" name="selector1" [checked]="checked2"
+                                        (change)="selAllVideo($event)" id="#one-checkBox">
+
+                                </div>
+                                <div class="aol-btns">
+                                    <button class="mylist_delete" (click)="deleteWatchList()">{{'delete'|translate}}</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6" *ngFor="let x of WatchlistData">
+                                    <!-- {{x.id |json}}  -->
+                                    <div class="row mb-4" fxLayout="row">
+                                        <div class="col-lg-3" fxFlex="30" fxFlex.md="100" fxFlex.sm="100"
+                                            fxFlex.xs="100" style="cursor: pointer;" (click)="navigate(x)">
+                                            <img src="assets/svgs/video_icon.svg" alt="" class="audio-icon">
+                                            <div class="icon-crown"
+                                                *ngIf="x.access_type == 'paid'   && x.package_mode !== 'Prime'  && !isSubscribed">
+                                                <img src="assets/svgs/aol_crown.svg" class="aol_crown" alt="AOL">
+                                            </div>
+
+                                            <div class="free-icon"
+                                                *ngIf="x.access_type == 'free'  && x.package_mode !== 'Prime'  && !isSubscribed">
+                                                <img src="assets/svgs/free-v1.svg" class="free_aol-icon" alt="AOL" />
+                                            </div>
+                                            <div class="prime-icon" *ngIf="x.package_mode == 'Prime'  ">
+                                                <img src="assets/svgs/lock-prime-v2.svg" class="free_aol" alt="AOL" />
+                                            </div>
+                                            <img src="/assets/icons/Vector (5).png" alt="" class="play-center">
+                                            <img [src]="x.sliderImg" (error)="onImgError($event,'rectangle_16x9')"
+                                                alt="" srcset="" style="border-radius: 4px;" width="100%">
+                                        </div>
+                                        <div class="col-lg-9 sel-aol" fxFlex="50" fxFlex.md="100" fxFlex.sm="100"
+                                            fxFlex.xs="100">
+                                            <div class="des-videos">
+                                                <div class="videos-title" *ngIf="x.is_group==0">
+                                                    {{x.title}}
+                                                </div>
+                                                <div class="videos-title" *ngIf="x.is_group==1">
+                                                    {{x.season_title}}
+                                                </div>
+                                                <div class="video-des">
+                                                    {{x.des.substring(0,200) + '...'}}
+                                                </div>
+                                                <div class="rastes">
+                                                    <div class="likes">
+                                                        <img src="/assets/icons/ph_heart-straight-bold.png" alt="">
+                                                        {{x.like_count}}
+                                                    </div>
+                                                    <div class="aol-time">
+                                                        <img src="/assets/icons/clock-01.png" alt="">
+                                                        {{convertTimeToMinutes(x.duration)}} min
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <input type="checkbox" [checked]="watchids.includes(x.id)"
+                                                    (change)="checkValue(x.id,$event)" name="selector-1"
+                                                    id="#two-checkBox">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="panel" id="panell-2">
+                            <div *ngIf="!WatchlistData || WatchlistData.length == 0" class="text-center fav-msg mt-4">
+                                <h3 class="text-capitalize fav-msg">{{'No_favorites_yet'|translate}}</h3>
+                            </div>
+                            <div class="aol-inline" *ngIf="WatchlistData && WatchlistData.length != 0">
+                                <div class="selector-aol">
+                                    <span class="select_all">
+                                       {{'select_all'|translate}}
+                                    </span>
+                                    <input type="checkbox" name="selector2" [checked]="checked3"
+                                        (change)="selAllVideo1($event)" id="#two-checkBox">
+
+
+
+                                </div>
+                                <div class="aol-btns">
+                                    <button class="mylist_delete" (click)="deleteWatchList1()">{{'delete'|translate}}</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6" *ngFor="let x of WatchlistData">
+                                    <!-- {{x.id |json}}  -->
+                                    <div class="row mb-4">
+                                        <div class="col-lg-3" fxFlex="30" fxFlex.md="100" fxFlex.sm="100"
+                                            fxFlex.xs="100" style="cursor: pointer;" (click)="openAudioPlayer(x)">
+                                            <img src="/assets/svgs/headphone.svg" alt="" class="audio-icon">
+                                            <div class="icon-crown"
+                                                *ngIf="x.access_type == 'paid'   && x.package_mode !== 'Prime'  && !isSubscribed">
+                                                <img src="assets/svgs/aol_crown.svg" class="aol_crown" alt="AOL">
+                                            </div>
+
+                                            <div class="free-icon"
+                                                *ngIf="x.access_type == 'free'  && x.package_mode !== 'Prime'  && !isSubscribed">
+                                                <img src="assets/svgs/free-v1.svg" class="free_aol-icon" alt="AOL" />
+                                            </div>
+                                            <div class="prime-icon" *ngIf="x.package_mode == 'Prime'  ">
+                                                <img src="assets/svgs/lock-prime-v2.svg" class="free_aol" alt="AOL" />
+                                            </div>
+                                            <img [src]="x.sliderImg" (error)="onImgError($event,'rectangle_16x9')"
+                                                alt="" srcset="" style="border-radius: 4px;" width="100%">
+                                        </div>
+                                        <div class="col-lg-9 sel-aol" fxFlex="50" fxFlex.md="100" fxFlex.sm="100"
+                                            fxFlex.xs="100">
+                                            <div class="des-videos">
+                                                <div class="videos-title" *ngIf="x.is_group==0">
+                                                    {{x.title}}
+                                                </div>
+                                                <div class="videos-title" *ngIf="x.is_group==1">
+                                                    {{x.series_title == ""? x.season_title:x.series_title}}
+                                                </div>
+                                                <div class="video-des">
+                                                    {{x.des.substring(0,200) + '...'}}
+                                                </div>
+                                                <div class="rastes">
+                                                    <div class="likes">
+                                                        <img src="/assets/icons/ph_heart-straight-bold.png" alt="">
+                                                        {{x.like_count}}
+                                                    </div>
+                                                    <div class="aol-time">
+                                                        <img src="/assets/icons/clock-01.png" alt="">
+                                                        {{convertTimeToMinutes(x.duration)}} min
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <input type="checkbox" [checked]="watchidsAudio.includes(x.id)"
+                                                    (change)="checkValue1(x.id,$event)" name="selector-1"
+                                                    id="#two-checkBox">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="panel" id="panell-3">
+                            <div *ngIf="!WatchlistData || WatchlistData.length == 0" class="text-center fav-msg mt-4">
+                                <h3 class="text-capitalize fav-msg">{{'No_favorites_yet'|translate}}</h3>
+                            </div>
+                            <div class="aol-inline" *ngIf="WatchlistData && WatchlistData.length != 0">
+                                <div class="selector-aol">
+                                    <span class="select_all">
+                                        {{'select_all'|translate}}
+                                    </span>
+                                    <input type="checkbox" name="selector3" [checked]="checked4"
+                                        (change)="selAllebook($event)" id="#three-checkBox">
+                                </div>
+                                <div class="aol-btns">
+                                    <button class="mylist_delete" (click)="deleteWatchList2()">{{'delete'|translate}}</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6" *ngFor="let x of WatchlistData">
+                                    <div class="row mb-4">
+                                        <div class="col-lg-2" style="cursor: pointer;" (click)="openebook(x.permalink)">
+                                            <img src="/assets/svgs/e-book.svg" alt="" class="audio-icon">
+                                            <div class="icon-crown"
+                                                *ngIf="x.access_type == 'paid'   && x.package_mode !== 'Prime'  && !isSubscribed">
+                                                <img src="assets/svgs/aol_crown.svg" class="aol_crown" alt="AOL">
+                                            </div>
+
+                                            <div class="free-icon"
+                                                *ngIf="x.access_type == 'free'  && x.package_mode !== 'Prime'  && !isSubscribed">
+                                                <img src="assets/svgs/free-v1.svg" class="free_aol-icon" alt="AOL" />
+                                            </div>
+                                            <div class="prime-icon" *ngIf="x.package_mode == 'Prime'  ">
+                                                <img src="assets/svgs/lock-prime-v2.svg" class="free_aol" alt="AOL" />
+                                            </div>
+                                            <img [src]="x.sliderImg" (error)="onImgError($event,'vertical_9x16')" alt=""
+                                                srcset="" style="border-radius: 4px; cursor: pointer;" width="100%">
+                                        </div>
+                                        <div class="col-lg-8 sel-aol" fxFlex="50" fxFlex.md="100" fxFlex.sm="100"
+                                            fxFlex.xs="100">
+                                            <div class="des-videos">
+                                                <div class="videos-title" *ngIf="x.is_group==0">
+                                                    {{x.title}}
+                                                </div>
+                                                <div class="videos-title" *ngIf="x.is_group==1">
+                                                    {{x.season_title}}
+                                                </div>
+                                                <div class="video-des">
+                                                    {{x.des.substring(0,200) + '...'}}
+                                                </div>
+                                                <div class="rastes">
+                                                    <div class="likes">
+                                                        <img src="/assets/icons/ph_heart-straight-bold.png" alt=""> 520
+                                                    </div>
+                                                    <!-- <div class="aol-time">
+                                                        <img src="/assets/svgs/Icon -share.png" alt=""
+                                                            style="cursor: pointer;">
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <input type="checkbox" [checked]="watchidsEbooks.includes(x.id)"
+                                                    (change)="checkValue3(x.id,$event)" name="selector3"
+                                                    id="#three-checkBox">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel" id="two-panel-2">
+                    <div *ngIf="playlistShow.length == 0" class="text-center fav-msg mt-4">
+                        <h3 class="text-capitalize fav-msg">{{'No_favorites_yet'|translate}}</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-6" *ngFor="let list of playlistShow; index as i">
+                            <div class="paylist-aol row">
+                                <div (click)="getPlaylistContent(list.id,list.playlist_name)"
+                                    class="paylist-img col-lg-2">
+                                    <img [src]="list.thumbs" (error)="onImgError($event, 'circle')" alt="" width="100%"
+                                        style="cursor: pointer;" />
+                                </div>
+                                <div class="paylist-text col-lg-5 col-6">{{list.playlist_name}}</div>
+                                <div class="paylist-dots col-lg-2 col-6 ">
+                                    <div (click)="toggle(list.id)" class="mob-dots">. . .</div>
+                                    <div [class]="'options' + list.id" class="options-1" [ngClass]="{'show-options': list.id === currentValue, 'hide-options': list.id !== currentValue}">
+                                        <ul *ngIf="list.id === this.currentValue">
+                                            <li (click)="otherPlaylistContent(list.id)">
+
+                                                <button type="button" data-toggle="modal" data-target="#exampleModalCenter">
+                                                    <span><img src="assets/svgs/plus-02.png" alt="" /></span>{{'add'|translate}}
+                                                </button>
+                                            </li>
+                                            <li (click)="playlistDelete(list.id,i)">
+                                                <button>
+                                                    <span><img src="assets/svgs/mingcute_delete-2-line.png"
+                                                            alt="" /></span>{{'delete'|translate}}
+                                                </button>
+                                            </li>
+                                            <!-- <li>
+                                                <button role="button" aria-label="" id="dropdownMenuLinks"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span><img src="assets/svgs/share.png" alt="" /></span>Share
+                                                </button>
+                                                <div class="dropdown-menu dropMenus"
+                                                    aria-labelledby="dropdownMenuLinks">
+                                                    <div class="d-flex" style="gap:20px">
+                                                        <a (click)="sharing('fb',playlistShow)" class="fb"><img
+                                                                src="assets/svgs/facebook.svg"></a>
+                                                        <a (click)="sharing('tweet',playlistShow)" class="twitter"><img
+                                                                src="assets/svgs/twitter.svg"></a>
+                                                        <a (click)="sharing('whatsapp',playlistShow)" class="whatsapp"><img
+                                                                src="assets/svgs/whatsap.svg"></a>
+                                                    </div>
+                                                </div>
+                                            </li> -->
+
+                                            <li (click)="rename(list)">
+                                                <button role="button" aria-label="" id="dropdownMenuLinks"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span><img src="assets/svgs/edit-03.png" alt="" /></span>{{'rename'|translate}}
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <!-- Modal content-->
+            <div class="modal-content mdc">
+                <div class="modal-header">
+
+                    <h4 class="modal-title m-0">{{'Music_Playlist'|translate}}</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="search-input">
+
+                    <input type="text" [(ngModel)]="inputValue" class="playlist_search" placeholder="{{'search_here'|translate}}"
+                        (input)="searchPlaylist($event)" (keyup.enter)="searchPlaylist($event)">
+                    <div class="search-logo">
+                        <img src="../../../assets/svgs/search.svg" alt="">
+                    </div>
+                    <div class="mic-mobile-icon-2" *ngIf="btnDisable"><img src="assets/img/microphone_unactive.svg"
+                            alt="artofliving" (click)search_here="startService()" *ngIf="btnStyle" width="25px"
+                            style="cursor: pointer;">
+                        <img src="assets/img/microphone-_active.svg" alt="artofliving" *ngIf="!btnStyle" width="25px"
+                            class="filled-icon" width="25px">
+                    </div>
+
+                </div>
+
+                <div class="model-scroll">
+                    <div class="modal-body parent-body" *ngFor="let list of otherContentpLaylist;let i =index">
+                        <div class="meditation">
+                            <img [src]="list?.sliderImage" (error)="onImgError($event,'circle')" width="100%">
+                        </div>
+                        <div class="meditation-content">
+                            <h3> {{list.title}} </h3>
+                            <p>{{list.short_desc}}</p>
+                            <!-- <img [id]="'add'+i" (click)="addToPlaylist(list.id,list.p_id,i)" src="assets/svgs/add-square-01.png" width="100%">  -->
+                        </div>
+                        <div class="med-img">
+                            <img
+                                src="assets/icons/ph_heart-straight-bold (1).svg">
+                        </div>
+
+                        <div>
+                            {{list.like_count}}
+                        </div>
+                        <div class="med-img">
+                            <img [id]="'add'+i" (click)="addToPlaylist(list.id,list.p_id,i)"
+                                src="assets/svgs/add-square-01.svg" width="100%">
+                        </div>
+
+                      
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-3 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <path class="cls-2" d="m12,19.69c-4.25,0-7.69-3.44-7.69-7.69s3.44-7.69,7.69-7.69,7.69,3.44,7.69,7.69c0,4.25-3.45,7.69-7.69,7.69Zm-1.54-11.15v6.92l4.62-3.46-4.62-3.46Z"/>
+    </clipPath>
+  </defs>
+  <g id="ic_play_circle_filled" data-name="ic play circle filled">
+    <g id="Group_2007" data-name="Group 2007">
+      <path id="Mask-28" class="cls-2" d="m12,19.69c-4.25,0-7.69-3.44-7.69-7.69s3.44-7.69,7.69-7.69,7.69,3.44,7.69,7.69c0,4.25-3.45,7.69-7.69,7.69Zm-1.54-11.15v6.92l4.62-3.46-4.62-3.46Z"/>
+      <g>
+        <path class="cls-1" d="m12,19.69c-4.25,0-7.69-3.44-7.69-7.69s3.44-7.69,7.69-7.69,7.69,3.44,7.69,7.69c0,4.25-3.45,7.69-7.69,7.69Zm-1.54-11.15v6.92l4.62-3.46-4.62-3.46Z"/>
+        <g class="cls-3">
+          <g id="Mask_Group_2007" data-name="Mask Group 2007">
+            <g id="_Color-6" data-name=" Color-6">
+              <g id="Group_1769-6" data-name="Group 1769-6">
+                <rect id="Black-28" class="cls-2" x="-7.23" y="-7.23" width="38.46" height="38.46"/>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

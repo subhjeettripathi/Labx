@@ -1,0 +1,151 @@
+<div>
+    <div style="display: flex; width: 100%; height: 100%;">
+        <div id="f"></div>
+        <video contextmenu="false" id="video-player" disablepictureinpicture preload="auto" playsinline #target
+            class="video-js vjs-big-play-centered">
+        </video>
+    </div>
+</div>
+
+<div class="bit-main">
+    <ul id="bitrateLevels1" class="hd-mode hidden">
+        <li>quality</li>
+    </ul>
+</div>
+
+<div class="episodeSelector" *ngIf="this.data.groupInfo != null">
+    <div class="tabset-screen" style="display: flex;">
+        <div class="tabset" (click)="getEpisode(seasontitle.id, seasontitle.total_episode);getId(seasontitle.id)"
+            *ngFor="let seasontitle of this.data.groupInfo.child">
+
+            <input type="radio" name="tabset" id={{seasontitle.id}} aria-controls="marzen"
+                [checked]="seasontitle.id == checked">
+            <label for={{seasontitle.id}}>{{seasontitle.title}}</label>
+            <!-- {{seasontitle.id}}  -->
+        </div>
+
+    </div>
+
+    <div class="crossepisode">
+        <img (click)="crossEpisode()" src="assets/svgs/playercross.svg" alt="alt">
+    </div>
+
+    <div class="tab-panels">
+        <div class="player-slick-carousel">
+            <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig"
+                (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
+                (beforeChange)="beforeChange($event)">
+                <div ngxSlickItem *ngFor="let episodes of EpiData, index as i" class="slide">
+                    <!-- <div *ngIf="itemget == episodes.indexing - 1 && episodes.id == videosrc[this.itemget].sources[0].id" class="now_playing"
+                 >Now Playing</div> -->
+                  <div *ngIf="episodes.id == selectedId" class="now_playing">Now Playing</div>
+                    <h6 class="season-head-2"> E{{i+1}} : {{episodes.title.slice(0, 10)}}.. </h6>
+                    <h6 class="season-head"> E{{i+1}} : {{episodes.title.slice(0, 15)}}.. </h6>
+                    <div class="image-container">
+                        <img class="mySlidesMain" [src]="episodes.sliderImg" (click)="playEpisode(episodes,i)"
+                            (error)="onImgError($event)" alt="AOL" width="100%">
+                        <!-- <div *ngIf="itemget == episodes.indexing - 1" class="overlay"></div> -->
+                          <div *ngIf="episodes.id == selectedId" class="overlay"></div>
+                    </div>
+
+                    <p class="slide-para"> {{convertTimeToMinutes(episodes.duration)}} min </p>
+                </div>
+            </ngx-slick-carousel>
+        </div>
+    </div>
+</div>
+
+<div class="speed-mode">
+    <ul id="speedLevelV" class="speedIcon hidden">
+        <div class="speed">
+            <img (click)="leftArr()" src="../../assets/icons/left-down.svg" alt="" width="25px">
+            <h3>Speed</h3>
+            <img (click)="rightArr()" src="../../assets/icons/right-down.svg" alt="" width="25px">
+        </div>
+        <div class="speed-list">
+            <li id="speed1" (click)="changePlaybackRate(0.5, $event)" (touchstart)="changePlaybackRate(0.5, $event)">
+                0.50x
+            </li>
+
+            <li id="speed2" (click)="changePlaybackRate(0.75 ,$event)" (touchstart)="changePlaybackRate(0.75, $event)">
+                0.75x
+            </li>
+
+            <li id="speed3" class="activeModespeed" (click)="changePlaybackRate(1 ,$event)"
+                (touchstart)="changePlaybackRate(1, $event)">
+                1.0x
+            </li>
+
+            <li id="speed4" (click)="changePlaybackRate(1.25 ,$event)" (touchstart)="changePlaybackRate(1.25, $event)">
+                1.25x
+            </li>
+
+            <li id="speed5" (click)="changePlaybackRate(1.5 ,$event)" (touchstart)="changePlaybackRate(1.5, $event)">
+                1.50x
+            </li>
+        </div>
+
+    </ul>
+</div>
+
+
+<div class="speed-modeSafari">
+    <ul id="speedLevelVSafari" class="speedIconSafari hidden">
+        <!-- <div class="speed" >
+            <img  src="../../assets/icons/left-down.svg" alt="" width="25px">
+            <h3>Speed</h3>
+            <img  src="../../assets/icons/right-down.svg" alt="" width="25px">
+        </div> -->
+        <div class="speed-list">
+            <li id="speed1" (click)="changePlaybackRate(0.5, $event)" (touchstart)="changePlaybackRate(0.5, $event)">
+                0.50x
+            </li>
+
+            <li id="speed2" (click)="changePlaybackRate(0.75 ,$event)" (touchstart)="changePlaybackRate(0.75, $event)">
+                0.75x
+            </li>
+
+            <li id="speed3" class="activeModespeed" (click)="changePlaybackRate(1 ,$event)"
+                (touchstart)="changePlaybackRate(1, $event)">
+                1.0x
+            </li>
+
+            <li id="speed4" (click)="changePlaybackRate(1.25 ,$event)" (touchstart)="changePlaybackRate(1.25, $event)">
+                1.25x
+            </li>
+
+            <li id="speed5" (click)="changePlaybackRate(1.5 ,$event)" (touchstart)="changePlaybackRate(1.5, $event)">
+                1.50x
+            </li>
+        </div>
+
+    </ul>
+</div>
+<!-- <div class="speed-mode">
+    <ul id="speedLevelV" class="speedIcon">
+        <li id="speed1" (click)="changePlaybackRate(0.5, $event)" (touchstart)="changePlaybackRate(0.5, $event)">
+            0.50x
+        </li>
+
+        <li id="speed2" (click)="changePlaybackRate(0.75 ,$event)" (touchstart)="changePlaybackRate(0.75, $event)">
+            0.75x
+        </li>
+
+        <li id="speed3" class="activeModespeed" (click)="changePlaybackRate(1 ,$event)" (touchstart)="changePlaybackRate(1, $event)">
+            1.0x
+        </li>
+
+        <li id="speed4" (click)="changePlaybackRate(1.25 ,$event)" (touchstart)="changePlaybackRate(1.25, $event)">
+            1.25x
+        </li>
+
+        <li id="speed5" (click)="changePlaybackRate(1.5 ,$event)" (touchstart)="changePlaybackRate(1.5, $event)">
+            1.50x
+        </li>
+    </ul>
+</div> -->
+
+<div id="watermark" class="waterMark" *ngIf="this.userId">
+    <p>{{this.user.id}}</p>
+    <!-- <img src="https://static.altt.studio/configration/717/717_650a9a06603b9.png" alt="artofliving"> -->
+</div>

@@ -1,0 +1,889 @@
+.alt-login-content {
+    position: relative;
+    text-align: center;
+
+    .alt-login-img {
+        position: absolute;
+        bottom: 98%;
+        width: 100%;
+    }
+
+    .alt-login-img img {
+        width: 20%;
+    }
+
+}
+
+p,
+u,
+span {
+    color: white;
+}
+
+.country-code {
+    position: relative;
+    left: -15px;
+    // color: black !important;
+}
+
+.country-code-section .country-code-lists li.country-list {
+    overflow: hidden;
+    width: 100%;
+    height: 220px;
+    position: relative;
+    padding: 0;
+}
+.num{
+    display: flex;
+}
+.country-code-section {
+    padding: 12px;
+    border-radius: 5px 0px 0px 5px;
+    /* border: none; */
+    border: 1px solid white;
+    outline: none;
+    text-decoration: none;
+    // margin-bottom: 25px;
+    // margin-bottom: 40px;
+        margin-bottom: 15px;
+    background: transparent;
+    color: white;
+    // border-right: 1px solid #ccc;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+    position: relative;
+    width: 80px;
+}
+
+// .dropdown-toggle:before {
+//     width: 0;
+//     height: 0;
+//     content: url("../../../../assets/svgs/login_code.svg") !important;
+
+//     position: absolute;
+//     right: 0;
+//     top: 0;
+//     margin-right: 28px;
+//     z-index: 1;
+// }
+
+.dropdown-toggle {
+    white-space: nowrap;
+}
+
+
+
+.dropdown-toggle:after {
+    display: none;
+}
+
+
+
+.country-code-section .country-code-lists {
+    background: #2D2D2D;
+    border-radius: 0;
+    border: 0;
+    box-shadow: 0 0 6px #000;
+    list-style: none;
+    padding: 20px;
+    right: 0;
+    transform: none !important;
+    top: 142px !important;
+    margin-bottom: 20px;
+}
+
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #4A4A4A !important;
+}
+
+.country-code-section .country-code-lists .dropdown-item {
+    color: #fff;
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.country-code-section .country-code-lists li.country-list ul {
+    position: absolute;
+    inset: 0 -30px 0 0;
+    padding: 0 30px 20px 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.country-code-section .country-code-lists .search-country-code {
+    border-bottom: 1px solid #646464;
+    display: table;
+    width: 100%;
+    margin: 0 0 15px;
+    padding: 0;
+}
+
+.country-code-section .country-code-lists .search-country-code input {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    color: #F2F2F2;
+    // font-family: 'GothamMedium !important';
+    font-size: 15px;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    outline: none;
+    font-weight: 700;
+}
+
+.close-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: .1s;
+    color: #B4B4B4;
+    padding: 0;
+
+    &:hover {
+        transform: scale(1.1);
+        transition: .1s;
+
+    }
+}
+
+.mat-error {
+    text-align: left !important;
+    margin-top: 5px !important;
+
+}
+
+.hr {
+    background: #d8d8d83d;
+    height: 1px;
+    position: relative;
+    text-align: center;
+    margin: 30px 0px 40px 0px;
+    // margin: 50px 0px 40px 0px;
+
+    span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* width: 16px; */
+        // z-index: 100000;
+        padding: 10px;
+        width: auto;
+        height: auto;
+        // width: 45px;
+        // height: 45px;
+        border-radius: 50%;
+        /* padding: 4px 5px 4px 4px; */
+        background: #3B3B3B;
+
+
+    }
+}
+
+.alt-btn-red {
+    background-color: #FF8731 !important;
+    color: black;
+    border: none;
+    font-size: 14px;
+    padding: 13px;
+    border-radius: 4px;
+    border: 1px solid #FF8731 !important;
+    font-weight: 600 !important;
+    font-family: 'PoppinsRegular';
+}
+
+.title {
+    font-size: 20px;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.formData {
+    // display: inline-flex;
+    width: 100% !important;
+}
+
+.forgotPass {
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.forget_err{
+    color: #FF8787 !important;
+    margin-top: 2px;
+    font-size: 12px;
+    text-align: center;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    /* margin: auto; */
+    transform: translateX(-50%);
+    line-height: 12px;
+}
+
+#myText {
+    width: 100%;
+    padding: 12px 40px 12px 12px;
+    border: 1px solid #ffff;
+    outline: none;
+    text-decoration: none;
+    // margin-bottom: 25px;
+    background: transparent;
+    color: #FFFFFF;
+}
+
+.new-form {
+    position: relative;
+}
+
+// #myText:-webkit-autofill,
+// #myText:-webkit-autofill:hover,
+// #myText:-webkit-autofill:focus,
+// #myText:-webkit-autofill:active {
+//     transition: background-color 5000s ease-in-out 0s;
+//     // background-color: transparent !important;
+//     // color: #FFFFFF !important;
+// }
+
+.aol-focus:-webkit-autofill,
+.aol-focus:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+.aol-focus[data-autocompleted] {
+    background-color: transparent !important;
+}
+
+.NewClass {
+    width: 70%;
+}
+
+.OldClass {
+    width: 100%;
+    position: relative;
+    // margin-top: 40px;
+}
+
+.main-div-aol {
+    // margin-bottom: 40px;
+    margin-bottom: 15px;
+    // margin-bottom: 25px;
+}
+
+.OldClass input {
+    border-radius: 5px;
+}
+
+.NewClass input {
+    border-radius: 0px 5px 5px 0px;
+}
+
+// ::ng-deep .my-parent-class {
+
+//     // position: absolute;
+//     // top: 61px;
+//     // left: 4px;
+//     // background-color: #2D2D2D !important;
+//     // min-width: 40vh !important;
+//     min-width: 40vh !important;
+//     background-color: #2D2D2D !important;
+//     margin-top: 63px !important;
+//     .mat-option {
+//         color: white;
+//     }
+
+//     .mat-option-text {
+//         display: flex;
+//         justify-content: space-between;
+//     }
+// }
+
+// ::ng-deep .mat-select-panel-wrap {
+//     // transform-origin: 50% 20.875px 0px;
+//     font-size: 14px;
+//     // opacity: 1;
+//     // margin-top: 30px !important;
+//     // // min-width: calc(100% + 20px) !important;
+//     // transform: scaleY(1);
+//     // min-width: 113%;
+//     // margin-left: 10px !important;
+//     // margin-right: 10px !important;
+//     margin-top: 30px !important;
+//     /* transform: scaleY(1); */
+//     width: 100%;
+//     margin-left: 35px;
+//     margin-right: 22px;
+//     position: absolute;
+//     .mat-select-panel {
+//         background: #2D2D2D 0% 0% no-repeat padding-box;
+//     }
+
+//     .mat-option.mat-active {
+
+//         color: #9B9B9B;
+//     }
+
+//     .mat-option {
+
+//         color: #9B9B9B;
+//     }
+
+//     .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+//         color: #DEDEDE;
+//     }
+
+//     .mat-option-text {
+//         display: flex;
+//         justify-content: space-between;
+//     }
+// }
+
+// ::ng-deep ngx-mat-select-search input{
+//     background-color: #2D2D2D !important ;
+//     border: none;
+//     color: white !important;
+//     border-top: 1px solid rgba 0, 0, 0, 0.1 !important;
+//     box-shadow: 0px 0.3px white !important;
+
+
+// }
+// ::ng-deep .mat-select-search-clear{
+//     color: white !important;
+// }
+// ::ng-deep ngx-mat-select-search input::placeholder{
+//     color: white !important;
+// }
+
+// .mat-form-field.mat-focused .mat-form-field-label {
+//     color: #4dff91 !important;
+//     background-color : grey;
+//  }
+.searchInputLogin {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    /* border-bottom: 0.5px solid white; */
+    padding: 10px;
+    color: white;
+    border-top: 1px solid rgba 0, 0, 0, 0.1;
+    /* height: 0px; */
+    box-shadow: 0px 0.3px white;
+}
+
+.loginSearchImg {
+    position: absolute;
+    top: 7%;
+    right: 12%;
+}
+
+.agreePolicy {
+    color: #9B9B9B;
+    font-weight: 600;
+}
+
+.agreePolicy u {
+    cursor: pointer;
+}
+
+.agreePolicy p {
+    white-space: normal;
+}
+
+::ng-deep .agreePolicy p a {
+    color: white !important;
+    text-decoration: underline;
+}
+
+:host ::ng-deep .mat-checkbox-layout {
+    white-space: pre-wrap !important;
+}
+
+:host ::ng-deep .mat-checkbox-inner-container {
+    margin-top: 4px !important;
+}
+
+:host ::ng-deep .mat-checkbox {
+    text-align: left !important;
+}
+
+:host ::ng-deep .mat-checkbox-inner-container {
+    background-color: rgba(179, 171, 171, 0.67) !important;
+    border: none !important;
+    height: 18px !important;
+    width: 18px !important;
+    padding: 4px !important;
+}
+
+:host ::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+    color: white;
+}
+
+.my-parent-class {
+    .mat-select-panel {
+        background: none !important;
+    }
+}
+
+.selector {
+    /* position: relative; */
+    /* width: 60%; */
+    /* background-color: var(--smoke-white); */
+    /* height: 80px; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border-radius: 9999px; */
+    /* box-shadow: 0 0 16px rgb(0 0 0 / 20%); */
+}
+
+.selecotr-item {
+    position: relative;
+    flex-basis: 30.333333%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.error-login-aol{
+    position: absolute;
+  margin-top: 4px;
+
+  font-size: 13px;
+
+  color: #ff8787 !important;
+
+  text-align: left;
+
+  animation: fadeInSlide 0.3s ease;
+
+  transition: all 0.3s ease;
+
+  min-height: 16px;
+
+}
+ 
+  @keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.error-login-1{
+    //   position: absolute;
+  bottom: -16px; /* Adjust depending on space below input */
+  left: 0;
+  color: #FF8787;
+  font-size: 13px;
+  width: 100%;
+  text-align: left;
+  line-height: 1.2;
+  white-space: normal;
+  min-height: 16px;
+}
+.formField p {
+    font-size: 13px;
+    color: #7F7F7F;
+    margin-top: 10px;
+}
+
+.selector-item_radio {
+    appearance: none;
+    display: none;
+}
+
+.selector-item_label {
+    position: relative;
+    width: 100%;
+    background: #676767;
+    text-align: center;
+    color: white;
+    line-height: 295%;
+    font-weight: 900;
+}
+
+.showBtn {
+    // width: 6%;
+    position: absolute;
+    right: 12px;
+    top: 8px;
+}
+
+.showBtn1 {
+    // width: 6%;
+    position: absolute;
+    right: 12px;
+    top: 8px;
+}
+
+.showBtnEmail {
+    position: absolute;
+    right: 6px;
+    top: 8px;
+}
+
+.selector-item_radio:checked+.selector-item_label {
+    background-color: #FB0000;
+    color: var(--white);
+    // transform:translateY(-2px);
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
+    background-color: #9B9B9B;
+}
+
+.formField p {
+    text-align: left;
+}
+
+.aol-in {
+    width: 100%;
+    padding: 12px 20px 12px 12px;
+    border-radius: 5px;
+    outline: 0;
+    border: 0;
+    background: transparent;
+    border: 1px solid #fff;
+    color: white;
+    // margin-bottom: 20px;
+}
+
+.aol-in2 {
+    width: 80%;
+    padding: 12px 20px 12px 12px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    outline: 0;
+    border: 0;
+    background: transparent;
+    border: 1px solid #fff;
+    color: white;
+    // margin-bottom: 20px;
+}
+
+.aol-in3 {
+    width: 100%;
+    padding: 12px 20px 12px 12px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    outline: 0;
+    border: 0;
+    background: transparent;
+    border: 1px solid #fff;
+    color: white;
+    // margin-bottom: 20px;
+}
+
+.aol-mob-num {
+    display: inline-block;
+    width: 20%;
+    background: transparent;
+    // border-right: none !important;
+    border: 1px solid #fff;
+    padding: 12px;
+    color: white;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    // margin-bottom: 20px;
+
+}
+
+.main-div {
+    margin-bottom: 38px;
+}
+
+@media (max-width:480px) {
+    .selector {
+        width: 90%;
+    }
+
+    .loginSearchImg {
+        position: absolute;
+        top: 22%;
+        right: 12%;
+    }
+}
+
+@media screen and (max-width:360px) {
+
+    .country-code {
+        left: -18px !important;
+    }
+
+    .dropdown-toggle {
+        width: 69%;
+    }
+
+}
+
+@media screen and (max-width:572px) {
+
+    .country-code {
+        left: -15px !important;
+    }
+
+    .dropdown-toggle {
+        width: 100%;
+    }
+
+    .dropdown-toggle:before {
+        margin-right: 13px;
+    }
+}
+
+:host ::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+    color: white;
+}
+
+// ::ng-deep  .mat-form-field-flex{
+//     border-bottom: 1px solid #9b9b9b;
+// }
+::ng-deep mat-dialog-container {
+    border-radius: 12px !important;
+
+}
+
+::ng-deep .mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button img {
+    justify-content: end !important;
+    margin-bottom: 15px !important;
+    margin-left: 13px !important;
+}
+
+.otpCode ::ng-deep {
+    .mat-select-arrow {
+        content: url("../../../../assets/svgs/login_code.svg") !important;
+        width: auto !important;
+        height: auto !important;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: cadetblue !important;
+        margin: 0 4px;
+        margin-top: 5px;
+    }
+
+    .mat-select-value {
+        width: auto !important;
+    }
+
+    // .mat-form-field-flex {
+    //     width: 272px!important;
+    // }
+    .mat-select-trigger {
+        padding-left: 15px;
+    }
+}
+
+.drop ::ng-deep ng-select .ng-select-container {
+    background-color: none !important;
+    background: none !important;
+    color: white !important;
+    border: none !important;
+    border-bottom: 1px solid #676767 !important;
+    box-shadow: none !important;
+}
+
+.drop ::ng-deep .ng-select .ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+    border-color: black !important;
+    border: solid 1px #FFFFFF !important;
+    box-shadow: transparent !important;
+}
+
+.drop ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+    background-color: #2D2D2D !important;
+    color: white;
+    text-align: left !important;
+    cursor: pointer !important;
+    // border: 1px solid #282929 !important;
+    // padding: 8px 10px;
+}
+
+.drop ::ng-deep .ng-select-container .ng-value-container .ng-input>input {
+    box-sizing: content-box;
+    background: none transparent;
+    border: 0 none;
+    box-shadow: none;
+    outline: none;
+    padding: 0;
+    color: white !important;
+    width: 100%;
+}
+
+.drop ::ng-deep .ng-dropdown-panel {
+    border: 1px solid #282929 !important;
+}
+
+.drop ::ng-deep .ng-select-container {
+    color: white;
+    border: none !important;
+}
+
+.drop ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
+    color: white;
+}
+
+.drop::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option:hover {
+    background-color: #2d2d2d !important;
+    color: white !important;
+
+}
+
+.drop::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+    color: white !important;
+}
+
+.countryNames {
+    font-size: 13px;
+    text-decoration: none;
+    color: #F2F2F2;
+    /* font-family: "GothamMedium !important"; */
+    font-weight: 700;
+}
+
+.country-code-lists li {
+    margin-bottom: -8px;
+}
+
+//   .country-code-section  .country-code-lists li input::placeholder  {
+//     color: red !important;
+//     opacity: 1; /* Firefox */
+// }
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+
+
+
+
+.needd {
+    color: #7F7F7F;
+    font-size: 16px;
+    font-family: 'PoppinsRegular';
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.aol-btn-p {
+    font-family: "PoppinsRegular";
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 33px;
+    letter-spacing: 0em;
+    text-align: left;
+    background: #FF8731;
+    border: 0;
+    color: #ffffff;
+    padding: 10px 20px;
+    width: 100%;
+    text-align: center;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+
+.web-social-login {
+    display: flex;
+    gap: 10px;
+
+}
+
+.alt-login-content img {
+    margin-bottom: 20px;
+}
+
+.error-code{
+    // color: #FF8787;
+    // font-size: 13px;
+    // position: absolute;
+    // text-align: left;
+    // line-height: 15px;
+
+    // color: #ff8787 !important;
+    // margin-top: 2px;
+    // color: #ff8787;
+    // font-size: 11px;
+    // position: absolute;
+    // text-align: left;
+    // line-height: 11px;
+    margin-top: 4px;
+
+  font-size: 13px;
+
+  color: #ff8787 !important;
+
+  text-align: left;
+
+  animation: fadeInSlide 0.3s ease;
+
+  transition: all 0.3s ease;
+
+  min-height: 16px;
+
+}
+
+// style="color:#FF8787;font-size:13px;position: absolute; text-align: left;"
+@media screen and (max-width:1366px) {
+    .alt-login-content img {
+        margin-bottom: 10px;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+
+    .main-div {
+        margin-bottom: 26px;
+    }
+
+    // .error-code{
+    //     color: #FF8787;
+    //     font-size: 11px;
+    //     position: absolute;
+    //     text-align: left;
+    //     line-height: 10px;
+    // }
+
+}

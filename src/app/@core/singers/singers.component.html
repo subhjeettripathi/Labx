@@ -1,0 +1,73 @@
+<div class="sec-top popular-singer">
+    <h1 class="f-size_aol" (click)="back()"><span class="mr-3 arrow-right"><img src="assets/svgs/Vector (4).png"
+                alt="AOL" aria-hidden="false" class="f-size" style="cursor: pointer;"></span>{{singerData}}</h1>
+
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="main-sing-1 row">
+                <div class="vande-singer col-lg-3 col-md-4 col-sm-5">
+                    <img [src]="singerImage" (error)="onImgError($event, 'circle')" width="100%">
+                </div>
+
+                <div class="content-singer-1 col-lg-9 col-md-8 col-sm-7">
+                    <h1>{{singerData}}</h1>
+                    <p> {{singerDescription}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 scroll-singer">
+            <div class="ablum-head">
+                <h1>{{title}}</h1>
+            </div>
+
+            <div class="main-sing-2 row" *ngFor="let data of similarSinger">
+                <div style="width: 100%; display: flex; gap: 5px; margin-top: 10px;">
+                    <div class="vande-singer-album col-lg-3 col-md-4 col-sm-6">
+                        <img [src]="data.sliderImg" (error)="onImgError($event, 'circle')" width="100%"
+                            style="cursor: pointer; border-radius: 4px;" (click)="navigate(data)">
+                    </div>
+
+                    <div class="content-singer col-lg-9 col-md-8 col-sm-6">
+                        <h2 (click)="navigate(data)">{{data.season_title}}</h2>
+                        <p (click)="navigate(data)">{{data.des}}</p>
+                        <div class="eye_head" *ngIf="type=='singer'">
+                            <div class="head-likk_img">
+                                <div class="heart_img">
+                                    <img src="assets/icons/ph_heart-straight-bold (1).svg" alt="">
+                                </div>
+                                <div class="heart_unfilled">
+                                    <img src=" assets/icons/ph_heart-straight-bold.svg" alt="">
+                                </div>
+                            </div>
+
+                            <div class="like_count" *ngIf="totalCountLikes">
+                                <div>{{data.likes}}</div>
+                            </div>
+                            <div class="eye_head">
+                                <div class="eye_view">
+                                    <img src="assets/icons/eye-open_view.png" alt="">
+                                </div>
+                                <div class="see_count">
+                                    <div>{{data.views}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <hr class="sing-hr">
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>

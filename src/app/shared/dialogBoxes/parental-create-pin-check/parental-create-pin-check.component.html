@@ -1,0 +1,29 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <button (click)="close()" class="close-btn">
+            <mat-icon>Close</mat-icon>
+        </button>
+        <br><br>
+        <div *ngIf="!openOtpModal">
+
+            <span class="regstr-content"> {{'you_don_t_have_registered_mail_id_please_enter_your_new_e_mail_id_and_verify' |translate}} </span>
+                <br>
+                <br>
+            <form [formGroup]="otpForm" #otpFormDir="ngForm" (ngSubmit)="submitOtplogin()">
+               
+                <div style="position:relative">
+                    <input (keydown)="onKeydown($event)" type="text" #input1 placeholder="{{basesignin.parentalEmailVerify.email_field.placeholder |translate}}" class="form-control verify-input" formControlName="email">
+                </div>
+                <br>
+                <p style="color: red;" *ngIf="emailexsist == true">{{'email_exist' |translate}}</p>
+                <p class="verify_forgot" *ngIf="basesignin.parentalEmailVerify.forgot_password.is_allow == 1" (click)="forgotPassword()">{{basesignin.parentalEmailVerify.forgot_password.text |translate}}</p>
+                <button class="verify_submit">{{'Send_OTP' |translate}}</button>
+             
+            </form>
+        </div>
+
+        <ng-container *ngIf="openOtpModal">
+            <app-otp-dialog [email]="email" [type]="'verify'" [typeLogin]="typesLogin"></app-otp-dialog>
+        </ng-container>
+    </div>
+</div>

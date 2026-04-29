@@ -1,0 +1,37 @@
+<div fxLayout="column">
+    <div class="parental-control-content">
+        <span class="img-logo" >
+            <img src="assets/svgs/Group.png" class="Logo" alt="AOL">
+        </span>
+        <button class="close-btn">
+           <img src="assets/svgs/Vector.svg" alt="" (click)="close()">
+        </button>
+        
+        <div class="feedback-form">
+            <form [formGroup]="profileForm" #feedbackFormDir="ngForm" (ngSubmit)="onSubmitfeedback()">
+                <label for="">
+                 {{'please_select_an_option_to_share_a_feedback_or_convey_a_botheration' |translate}}
+                    <!-- Please type your feedback or convey a botheration here -->
+                </label>
+                <input type="text" placeholder="{{'Enter_name' |translate}}" id="myText" formControlName="name">
+                <input type="email" placeholder="{{'enter_email_address' |translate}}" id="myText" formControlName="email">
+                <input type="phone" placeholder="{{'enter_mobile_number' |translate}}" id="myText" formControlName="phone">
+                <textarea name="" id="myText" placeholder="{{'your_msg' |translate}}" formControlName="description"></textarea>
+                <div style="color:#FF8787;font-size:13px;position: relative; text-align: left;"
+                *ngIf="profileForm.controls['description'].invalid && feedbackFormDir.submitted">
+                <!-- Please enter your message -->
+                 {{'your_msg' |translate}}
+            </div>
+                <button class="alt-btn-red">{{'Send' |translate}}</button>
+
+
+            </form>
+    
+        </div>
+       
+     
+        
+
+
+    </div>
+</div>

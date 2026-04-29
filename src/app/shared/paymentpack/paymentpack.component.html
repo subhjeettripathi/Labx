@@ -1,0 +1,55 @@
+<div class="couponSuccess"></div>
+<div fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="center"
+    fxLayoutGap="20px" fxLayoutGap.sm="20px" fxLayoutGap.xs="20px" fxLayoutGap.md="20px">
+    <div fxFlex="30" fxFlex.xs="100" fxFlex.md="100" fxFlex.sm="100">
+        <div class="alt-mt-4" fxLayoutGap="5px" *ngIf="autoRenewHIde">
+            <form  [formGroup]="RedeemForm" #FormDir="ngForm" (ngSubmit)="redeemSubmit()">
+                <div class="coupon-aol">
+                    <div class="coupon-input-art">
+                        <h3 style="text-align: center;">{{subscriptionPrice?.packageName}}</h3>
+                        <div *ngIf="showDiscountMsg" class="iconCode" svgIcon="tick">
+                        </div>
+                        <div *ngIf="showMsgError" class="stopIcon" svgIcon="stop">
+                        </div>
+                        <input type="text" formControlName="redeem" class="input-coupon-aol" *ngIf="!couponHide"
+                            (input)="onOtpChange($event)"  placeholder="{{'enter_a_coupon_referral_code_optional'|translate}}">
+                        <div class="discountMsgZError" *ngIf="showMsgError">{{'invalid_code'|translate}}</div>
+                        <div class="discountMsgZError" *ngIf="(RedeemForm.get('redeem')?.invalid && FormDir.submitted)">
+                            {{'please_enter_coupon_code'|translate}}
+                        </div>
+                        <div class="coupon-validate" *ngIf="couponHide">
+                            <div class="validate-text">
+                                <div class="tick-icon">
+                                    <img src="assets/img/check-contained.svg" alt="">
+                                </div>
+                                <div class="coupon-text">
+                                    <div class="coupon">
+                                        {{RedeemForm.value.redeem}} {{'Applied'|translate}}
+                                    </div>
+                                    <div class="discount-aol" *ngIf="!showCodeLine">
+                                       <span class="line-through">{{subscriptionPrice.currency}} {{subscriptionPrice.total}}</span> {{subscriptionPrice.currency}} {{subscriptionPrice.total - discloseCoupon.value}}
+                                    </div>
+                                    <div class="discount-aol" *ngIf="showCodeLine">
+                                        <span class="line-through">{{subscriptionPrice.currency}} {{dd}}</span> {{subscriptionPrice.currency}} {{tot}}
+                                     </div>
+                                    
+                                </div>
+                                <div class="remove-aol" (click)="removeCode()">
+                                    <a type="button">{{'remove'|translate}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-coupon-aol">
+                        <button *ngIf="code" type="submit" class="btn-coupon-1"   [ngClass]="{'orange-btn': isInputNotEmpty, 'grey-btn': !isInputNotEmpty}">{{'check'|translate}}</button>
+                        <button (click)="gotoRazorpay(2)" *ngIf="!code" type="button" class="btn-coupon">{{'pay_now'|translate}}</button>
+                        <button (click)="gotoRazorpay(1)" type="button" class="btn-coupon" *ngIf="!couponHide" [ngClass]="{'orange-btn': !isInputNotEmpty, 'grey-btn': isInputNotEmpty}">{{'proceed_without_coupon_code'|translate}}</button>
+                            
+                    </div>
+                  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

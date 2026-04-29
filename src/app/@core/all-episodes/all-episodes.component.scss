@@ -1,0 +1,464 @@
+.episodes-wrapper {
+  margin-bottom: 20px;
+
+  .episodes-select {
+    select {
+      margin-right: 2%;
+      padding: 10px 15px;
+      background-color: #0a0a0a;
+      color: #fcfcfc;
+      font-size: 14px;
+      border-radius: 5px;
+    }
+  }
+}
+
+.epis-menu1 {
+  display: flex;
+  float: right;
+  gap: 10px;
+
+  ng-select {
+    position: relative;
+    right: 5%;
+
+  }
+}
+
+.epis-menu1 ::ng-deep ng-select .ng-select-container {
+  background: #27253D !important;
+  font-family: "LatoRegular";
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  color: #FFFFFF;
+  border: none !important;
+  height: 50px !important;
+}
+
+.epis-menu1 .disable-arrow ::ng-deep ng-select .ng-select-container .ng-arrow-wrapper .ng-arrow {
+  display: none !important;
+}
+
+.epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  background: #27253D !important;
+  font-family: "LatoRegular";
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  color: #FFFFFF;
+  border: none !important;
+  height: 50px !important;
+  padding: 0px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.epis-menu1 ::ng-deep .ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+
+  box-shadow: none !important;
+}
+
+.epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option:hover {
+  background-color: #2d2d2d !important;
+  font-family: "LatoRegular";
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  color: #FFFFFF;
+  border: none !important;
+  height: 50px !important;
+  padding: 0px 16px;
+}
+
+
+
+
+.epis-menu1 ::ng-deep ng-select .ng-dropdown-panel.ng-select-bottom {
+  border: none !important;
+  // border: 1px solid #676767;
+}
+
+.epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected .ng-option-label {
+  font-weight: inherit;
+}
+
+
+
+.epis-menu1 ::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow {
+  border-color: none !important;
+  border-style: none !important;
+  border-width: 0 !important;
+}
+
+.epis-menu1 ::ng-deep .ng-select .ng-arrow-wrapper {
+  background-image: url('../../../assets/img/chevron-down-aol.svg');
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 40px;
+  // margin-top: 4px;
+  width: 50px !important;
+}
+
+
+.epis-menu1 ::ng-deep .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  padding: 0 !important;
+}
+
+.epis-menu1 ::ng-deep .ng-select .ng-select-container .ng-value-container {
+  padding: 0px 20px;
+}
+
+/* width */
+::ng-deep .ng-dropdown-panel .scroll-host::-webkit-scrollbar {
+  width: 5px !important;
+  height: 5px !important;
+}
+
+/* Track */
+::ng-deep .ng-dropdown-panel .scroll-host::-webkit-scrollbar-track {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Handle */
+::ng-deep .ng-dropdown-panel .scroll-host::-webkit-scrollbar-thumb {
+  background: #888 !important;
+  // border-radius: 10px;
+}
+
+/* Handle on hover */
+::ng-deep .ng-dropdown-panel .scroll-host::-webkit-scrollbar-thumb:hover {
+  background: #555 !important;
+}
+
+
+.viewAllArrow {
+  width: 6px;
+  color: #b4b4b4;
+}
+
+.free-icon {
+  position: absolute;
+  top: 3%;
+  left: 1.5%;
+}
+
+.details-wrapper,
+.responsive-details {
+  .mobile-img {
+    display: none;
+  }
+
+  .details-title {
+    display: flex;
+    padding: 5px 5px;
+
+    .sub-details {
+      margin-top: 5px;
+      padding-inline-start: 13px !important;
+      color: #dedede;
+
+      li {
+        font-size: 16px;
+        font-family: "GothamMedium" !important;
+        margin-right: 0.5em;
+      }
+
+      li::before {
+        content: "• ";
+        color: red;
+        display: inline-block;
+        width: 1em;
+        margin-right: -0.5em;
+      }
+    }
+
+    .category {
+      p {
+        border: 1px solid #c9c9c9;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 16px;
+        color: #ffffff;
+
+        font-family: "GothamMedium" !important;
+      }
+    }
+  }
+
+  .details-description {
+    color: #b4b4b4;
+  }
+
+  .sub-details {
+    display: flex;
+    list-style-type: none;
+    margin-top: 18px;
+  }
+
+  .details-button {
+    .sub-details {
+      padding-left: 0px;
+
+      li {
+        margin-right: 3%;
+      }
+    }
+  }
+}
+
+.containerContent {
+  padding: 10px 4px 20px;
+
+  p {
+    margin: 0px !important;
+  }
+}
+
+// .content {
+//   display: flex;
+//   justify-content: space-between;
+// }
+
+.social-icon {
+  transform: scale(0.8);
+}
+
+.plus-icon {
+  width: 50%;
+}
+
+.dropMenus {
+  background-color: #2d2d2d;
+  min-width: 15%;
+  position: absolute;
+
+  left: -21px !important;
+}
+
+.fb {
+  padding-left: 10px;
+}
+
+.twitter {
+  padding-right: 13px;
+}
+
+.icon {
+  height: 26px;
+  width: 26px;
+  // text-align: center;
+  border-radius: 50%;
+}
+
+.icon:hover {
+  background: red;
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+
+}
+
+.icon-crown {
+  position: absolute;
+  top: 1%;
+  left: 2%;
+}
+
+@media screen and (max-width:992px) {
+
+  // .aol_epsi_title{
+  //   font-size: 16px !important;
+  // }
+
+
+
+  .free-icon {
+    left: 11px !important;
+    top: 0px !important;
+  }
+
+  .crown {
+    left: 20px !important
+  }
+
+  // .epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  //   padding: 6px !important;
+  // }
+
+  // .epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option:hover {
+  //   padding: 6px !important;
+  // }
+
+  // .epis-menu1 ::ng-deep .ng-select .ng-select-container .ng-value-container {
+  //   padding: 0px 6px !important;
+  // }
+
+  // .epis-menu1 ::ng-deep .ng-select .ng-arrow-wrapper {
+  //   width: 50px !important;
+  // }
+
+  .epis-menu1 ::ng-deep ng-select .ng-select-container {
+    font-size: 15px !important;
+  }
+
+  .epis-menu1  .ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option{
+    font-size: 13px !important;
+  }
+
+
+  .sec-top {
+    margin-top: 10px !important;
+    margin-left: 25px !important;
+    margin-right: 25px !important;
+
+  }
+
+}
+
+@media only screen and (max-width: 572px) {
+
+  .sec-top {
+    margin-top: 0px !important;
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+  }
+  .img-deta {
+    display: flex;
+  }
+
+  // .img-deta img {
+  //   width: 50%;
+  //   height: fit-content;
+  // }
+
+  .min-deta-watch {
+    margin-top: 20px;
+    // padding: 0;
+  }
+
+  .containerContent {
+    padding: 0px 10px;
+    width: 50%;
+  }
+
+  .free-icon {
+    top: 0px !important;
+    left: -4px !important;
+  }
+
+  .crown {
+    left: 3px !important;
+  }
+
+  .font-tt {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .subtitle {
+    font-size: 12px;
+
+  }
+
+  .t-white {
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
+
+  .t-time {
+    font-size: 14px !important;
+  }
+
+  .epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+    padding: 6px !important;
+  }
+
+  .epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option:hover {
+    padding: 6px !important;
+  }
+
+  .epis-menu1 ::ng-deep .ng-select .ng-select-container .ng-value-container {
+    padding: 0px 6px !important;
+  }
+
+  .epis-menu1 ::ng-deep .ng-select .ng-arrow-wrapper {
+    width: 35px !important;
+  }
+
+  .epis-menu1 ::ng-deep ng-select .ng-select-container {
+    font-size: 15px !important;
+  }
+
+  .episodes-wrapper .epis-menu {
+    gap: 6px !important;
+  }
+
+  .aol_epsi_title {
+    font-size: 15px !important;
+  }
+
+  .aol_play_img {
+    width: 35px !important;
+  }
+
+  .all_epsd_img {
+    width: 50% !important;
+
+  }
+
+
+}
+
+.arrow-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  position: relative;
+  left: -4px;
+}
+
+.aol_epsi_title {
+  font-family: "PoppinsRegular";
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 26px;
+  letter-spacing: 0em;
+  color: #ffffff;
+}
+
+.t-white {
+  font-family: "PoppinsRegular" !important;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 25px;
+  letter-spacing: 0em;
+  // text-align: left;
+  color: #C5C5C5;
+}
+
+.t-time {
+  font-family: "PoppinsRegular";
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 27px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #C5C5C5;
+}
+
+.all_epsd_img {
+  position: relative;
+
+}
+
+.aol_play_img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  width: 50px;
+}

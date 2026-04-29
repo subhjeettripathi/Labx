@@ -1,0 +1,49 @@
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+}
+
+.newList h3 {
+    color: white;
+    margin-top: 1.6rem;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 6%;
+}
+.playlist-name{
+    color: red;
+    font-size: 13px;
+}
+.newList button {
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    border: none;
+    background: rgba(255, 123, 49, 1);
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 7px 0px;
+    margin-top: 15%;
+}
+
+.newList input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border-bottom: 2px solid rgba(255, 123, 49, 1);
+    
+}
+
+.newList input:focus {
+    outline: none;
+}

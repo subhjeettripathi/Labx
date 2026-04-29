@@ -1,0 +1,41 @@
+.alt-login-content {
+    position: relative;
+    text-align: center;
+
+    .alt-login-img {
+        position: relative;
+        top: -56px
+    }
+    .alt-login-img img {
+        width: 20%;
+      }
+}
+
+
+.cancel{
+    background-color: transparent !important;
+    color: white !important;
+    border: none !important;
+    border-bottom: 1px solid white !important;
+}
+
+
+mat-form-field {
+    width: 100%;
+  }
+  .content_us{
+    color: white !important;
+  }
+  .bg-payment {
+    background: #8E8E8E !important;
+}
+// .mat-input-element {
+//     caret-color: #4a4a4a !important ;
+//   }
+
+.alt-btn-p {
+    height: 45px !important;
+    padding: 5px !important; 
+    background-color: #b51131 !important;
+    border:  #b51131 !important;
+}

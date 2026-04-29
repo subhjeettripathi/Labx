@@ -1,0 +1,54 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="img-logo"  *ngIf="basesignin.parentalOtpVerify.logo.is_allow == 1">
+            <img width="126%" src="{{basesignin.parentalOtpVerify.logo.web}}" alt="AOL">
+        </span>
+        
+        <button (click)="close()" class="close-btn">
+            <mat-icon>Close</mat-icon>
+        </button>
+        <br><br>
+  
+   
+          <div>
+            <p class="heading" *ngIf="basesignin.parentalOtpVerify.heading.is_allow == 1">{{basesignin.parentalOtpVerify.heading.text}}</p>
+           
+            <p class="email_head" *ngIf="basesignin.parentalOtpVerify.description.is_allow == 1">
+                {{basesignin.parentalOtpVerify.description.text}}
+            </p>
+             <p style="color: #FF8787 !important;" *ngIf="msg">{{'invalid_otp' |translate}}</p>
+            
+              <div class="otpInput">  
+            <ng-otp-input #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event)" [config]="config">
+            </ng-otp-input>
+            </div>
+            <br>
+            <div class="row">
+                <button class="col-6 otpnumber" [disabled]="clicked" *ngIf="basesignin.parentalOtpVerify.timer.is_allow == 1">
+                    {{display}}
+                </button>
+   
+                <button class="col-6 resendOtp" (click)="resendOtp()" [disabled]="clicked" *ngIf="basesignin.parentalOtpVerify.resend_btn.is_allow == 1">
+                    {{basesignin.parentalOtpVerify.resend_btn.text}}
+                </button>
+            </div>
+            <br>
+            <button (click)="submit()"  class="verify_submit" *ngIf="basesignin.parentalOtpVerify.submit_btn.is_allow == 1">{{basesignin.parentalOtpVerify.submit_btn.text}}</button>
+          
+          </div>
+            
+           
+         
+            <!-- <div class="row">
+                <div class="col-6">
+                    <button type="button"  class="btn-one">Yes</button>
+                </div>
+                <div class="col-6">
+                    <button (click)="close()" type="button" class="btn-one">NO</button>
+                </div>
+            </div> -->
+
+       
+    </div>
+</div>
+

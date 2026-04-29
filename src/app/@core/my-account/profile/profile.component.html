@@ -1,0 +1,188 @@
+<div class="profile">
+    <div id="content-1" *ngIf="!checked">
+        <div class="container-fliud">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="aol-inputt">
+                        <input type="text" placeholder="{{'full_name' |translate}}" disabled [value]="accountdata.full_name"
+                            class="inp-width" />
+                    </div>
+                </div>
+                <div class="col-lg-6" *ngIf="phoneCode==91">
+                    <div class="aol-inputt-1">
+                        <div class="country-code">
+                            +{{phoneCode}}
+                        </div>
+                        <div class="line_country">
+                            |
+                        </div>
+                        <input type="text" placeholder="{{'enter_mobile_number' |translate}}" disabled
+                            [value]="accountdata.contact_no" class="inp-width-1" />
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="aol-inputt">
+                        <input type="text" placeholder="{{'email' |translate}}" [value]="accountdata.email" disabled
+                            class="inp-width" />
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="aol-inputt">
+                        <!-- <input type="text" placeholder="Age Range" [value]="accountdata.age_group" disabled
+                            class="inp-width" /> -->
+                        <input type="text" placeholder="{{'select_age_range' |translate}}"
+                            [value]="accountdata.age_group" disabled class="inp-width" />
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="aol-inputt">
+                        <input type="text" placeholder="{{'gender' |translate}}" [value]="accountdata.gender" disabled
+                            class="inp-width" />
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="aol-inputt">
+                        <input type="text" placeholder="{{'content_language' |translate}}" [value]="selected" disabled
+                            class="inp-width" />
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+            <div class="btnn-edit">
+                <button class="edit-btn" (click)="editProfile()">
+                    <img src="/assets/svgs/edit-03.svg" alt="" width="20px" />
+                    {{'editProfile' |translate}}
+                </button>
+
+                <span class="">
+                    <div id="google_translate_element"></div>
+                </span>
+            </div>
+
+        </div>
+    </div>
+    <div id="content-1" *ngIf="checked">
+        <div class="container-fliud">
+            <form [formGroup]="profileForm" #profileFormDir="ngForm" novalidate="" name="form"
+                class="form-account-edit ng-pristine ">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="aol-inputt">
+                            <input type="text" placeholder="{{'Enter_Full_Name' |translate}}" formControlName="name"
+                                class="inp-width" />
+                            <div style="color:#FF8787;font-size:13px;position: absolute; text-align: left;line-height: 15px;"
+                                *ngIf="profileForm.controls['name'].invalid && profileFormDir.submitted">
+                                <!-- Please Enter Full Name -->
+                                {{'Enter_Full_Name' |translate}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" *ngIf="phoneCode==91">
+                        <div class="aol-inputt-1">
+                            <div class="country-code">
+                                +{{phoneCode}}
+                            </div>
+                            <div class="line_country">
+                                |
+                            </div>
+                            <input type="text" placeholder="{{'enter_mobile_number' |translate}}" readonly
+                                formControlName="phone" class="inp-width-1" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="aol-inputt">
+                            <input type="text" placeholder="{{'email' |translate}}" readonly formControlName="email"
+                                class="inp-width" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="aol-select">
+                            <!-- <select name="cars" id="cars" class="arrow-aol" formControlName="age">
+                            <option value="0-0" disabled selected hidden>
+                                {{'select_age_range' |translate}}
+                            </option>
+                            <option value="0-15">Below 15 years</option>
+                            <option value="15-25">15 - 25 years</option>
+                            <option value="25-35">25 - 35 years</option>
+                            <option value="35-45">35 - 45 years</option>
+                            <option value="45-55">45 - 55 years</option>
+                            <option value="55-100">55 years and above</option>
+                        </select> -->
+
+                            <select formControlName="age" class="arrow-aol" name="cars" id="cars">
+                                <option value="0-0" disabled selected hidden>
+                                    {{ 'select_age_range' | translate }}
+                                </option>
+
+                                <option value="0-15">{{ 'age_ranges.0' | translate }}</option>
+                                <option value="15-25">{{ 'age_ranges.1' | translate }}</option>
+                                <option value="25-35">{{ 'age_ranges.2' | translate }}</option>
+                                <option value="35-45">{{ 'age_ranges.3' | translate }}</option>
+                                <option value="45-55">{{ 'age_ranges.4' | translate }}</option>
+                                <option value="55-100">{{ 'age_ranges.5' | translate }}</option>
+                            </select>
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="aol-select">
+                            <!-- <select name="cars" id="cars" class="arrow-aol" formControlName="gender">
+                                    <option value="" disabled selected hidden>
+                                        {{'select_gender' |translate}}
+                                    </option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Others">Others</option>
+                                </select> -->
+                            <select name="cars" id="cars" class="arrow-aol" formControlName="gender">
+                                <option value="" disabled selected hidden>
+                                    {{ 'select_gender' | translate }}
+                                </option>
+
+                                <option value="Male">{{ 'genders.0' | translate }}</option>
+                                <option value="Female">{{ 'genders.1' | translate }}</option>
+                                <option value="Others">{{ 'genders.2' | translate }}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="aol-select">
+                            <select name="cars" id="cars" class="arrow-aol" [(ngModel)]="selected"
+                                [ngModelOptions]="{standalone: true}" (change)="subtitleSet($any($event.target).value)">
+                                <option value="" disabled selected hidden>
+                                    {{'select_content_language' |translate}}
+                                </option>
+                                <option [value]="x.page_title" *ngFor="let x of mains">{{x.page_title}}</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="btnn-edit">
+                    <button class="edit-btn-1" (click)="update_value()">
+                        {{'update' |translate}}
+                    </button>
+                    <!-- <div>
+                        <div class="aol-select" style="cursor:pointer">
+                         <a (click)="changePassword()">Change Password</a>
+                        </div>
+                    </div> -->
+                    <button class="edit-btn-3" (click)="changePassword()">
+                        {{'change_password' |translate}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

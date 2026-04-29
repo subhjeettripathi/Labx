@@ -1,0 +1,81 @@
+<div class="section-content sec-top">
+    <div class="header">
+        <div fxLayout="row" fxLayoutAlign="space-between" style="margin-bottom: 2%; " class="disp-block">
+            <h1 class="font-36 f-size_aol" *ngIf="arrowShow"><span class="mr-3 arrow-right">
+                    <a (click)="backClicked()"><img src="assets/svgs/Vector (4).png" style="cursor: pointer;"
+                            alt="abc"></a>
+                </span>{{title}}</h1>
+            <h1 class="font-36 f-size_aol" *ngIf="!arrowShow"><span class="mr-3 ">
+                    <mat-icon style="cursor: pointer;" (click)="backClickedSearch()" aria-hidden="false"
+                        svgIcon="back-arrow">
+                    </mat-icon>
+                </span>{{title}}</h1>
+        </div>
+        <div *ngIf="!singerShow && !composerShow">
+            <div fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start" *ngIf="searchRes">
+                <div class="alt-brr-10 alt-p-3 cards" fxFlex.xs="33.30%" fxFlex.sm="33.30%" fxFlex.md="33.30%"
+                    *ngFor="let card of contentData | paginate: { itemsPerPage: 12, currentPage: p ,totalItems: totalItems }"
+                    fxFlex="16.66%" style="cursor: pointer;position: relative;text-align: center;"
+                    (click)="navigate(card)">
+                    <img [src]="card.sliderImg" [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}"
+                        (error)="onImgError($event)" [alt]="card.is_group == 0 ? card.title : card.season_title"
+                        [title]="card.is_group == 0 ? card.title : card.season_title">
+
+                    <div *ngIf="card.is_ad != 1">
+                        <div class="icons_art" [ngStyle]="{display: card?.content_type == 'audio' ? 'flex' : 'none'}">
+                            <img src="assets/svgs/headphone.svg" class="music_art" alt="">
+                        </div>
+                        <div class="icons_art" [ngStyle]="{display: card?.content_type == 'ebook' ? 'flex' : 'none'}">
+                            <img src="assets/svgs/e-book.svg" class="music_art" alt="">
+                        </div>
+                        <div class="icon-crown"
+                            *ngIf="card.access_type == 'paid'  && card.package_mode !== 'Prime'  && !isSubscribed">
+                            <img src="assets/svgs/aol_crown.svg" class="aol_crown" alt="AOL">
+                        </div>
+
+                        <div class="free-icon"
+                            *ngIf="card.access_type == 'free'  && card.package_mode !== 'Prime' && !isSubscribed">
+                            <img src="assets/svgs/free-v1.svg" class="free_aol-icon" alt="AOL" />
+                        </div>
+                        <div class="prime-icon" *ngIf="card.package_mode == 'Prime'">
+                            <img src="assets/svgs/lock-prime-v2.svg" class="free_aol" alt="AOL" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start" *ngIf="singerShow">
+            <div class="alt-brr-10 alt-p-3 cards" fxFlex.xs="33.30%" fxFlex.sm="33.30%" fxFlex.md="33.30%"
+                *ngFor="let card of contentData" fxFlex="16.66%"
+                style="cursor: pointer;position: relative;text-align: center; border-radius: 50%;"
+                [routerLink]="'/singer/' + card?.id">
+                <img [src]="card.image" [ngStyle]="{'height':'auto','width':'100%' , 'border-radius':'50%'}"
+                    (error)="onImgErrorSinger($event)" alt="AOL">
+                <div class="icons_art" *ngIf="card.is_ad != 1" [ngStyle]="{display: card?.content_type == 'audio' ? 'flex' : 'none'}">
+                    <img src="assets/svgs/headphone.svg" class="music_art" alt="">
+                </div>
+                <div>
+                    <p class="singer-del">{{card.name}}</p>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start" *ngIf="composerShow">
+            <div class="alt-brr-10 alt-p-3 cards" fxFlex.xs="33.30%" fxFlex.sm="33.30%" fxFlex.md="33.30%"
+                *ngFor="let card of contentData" fxFlex="16.66%"
+                style="cursor: pointer;position: relative;text-align: center;" [routerLink]="'/singer/' + card?.id"
+                [queryParams]="{ type: 'composer' }">
+                <img [src]="card.image" [ngStyle]="{'height':'auto','width':'100%','border-radius':'50%'}"
+                    (error)="onImgErrorSinger($event)" alt="AOL">
+                <div class="icons_art" *ngIf="card.is_ad != 1" [ngStyle]="{display: card?.content_type == 'audio' ? 'flex' : 'none'}">
+                    <img src="assets/svgs/headphone.svg" class="music_art" alt="">
+                </div>
+                <div>
+                    <p class="singer-del">{{card.name}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<pagination-controls *ngIf="totalItems>12 &&searchRes" style="text-align: center;" (pageChange)="getPage($event)"
+    previousLabel="" nextLabel=""></pagination-controls>

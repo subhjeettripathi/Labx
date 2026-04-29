@@ -1,0 +1,24 @@
+<div class="alt-login-content">
+    <div class="alt-login-img">
+        <img src="assets/svgs/altbalaji_logo.svg" alt="AOL">
+    </div>
+    <h3 class="text-white verifyEmail ">
+        <!-- (key added to the translation service) -->
+        {{'Link_sent' |translate}}</h3>
+
+    <button (click)="onNoClick()" class="close-btn">
+        <mat-icon>Close</mat-icon>
+    </button>
+ 
+<div>
+  <p class="text-white">
+    <!-- Verification link has been send to your register email ID
+    link is only valid for 24 Hrs. (key added to the translation service)-->
+
+    {{'Verification_link_has_been_send' |translate}}
+</p>
+    <button class="btn submitEmailLink" (click)="onClickClose()">{{'ok' |translate}}</button>
+  
+</div>
+
+</div>

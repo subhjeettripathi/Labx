@@ -1,0 +1,33 @@
+
+
+<div class="payment-ends">
+    <div class="pay-head">
+        {{'Congratulations_succesfully_subscribed'|translate}} <span>{{mainData[0]?.title}}</span>.
+    </div>
+    <div class="pay_head_1">
+        {{'plan_is_valid_until'|translate}} <span>{{mainData[0]?.subscription_end}}</span>.
+    </div>
+    <table class="table_aol">
+        <tr class="tab_head">
+            <th>{{'Subscription_Pack'|translate}}</th>
+            <th>{{'order_id'|translate}}</th>
+            <th>{{'Paymen_Mode'|translate}}</th>
+            <th>{{'Purchase_Date'|translate}}</th>
+            <th>{{'expiry_date'|translate}}</th>
+            <th>{{'Payment_Status'|translate}}</th>
+            <th>{{'Payment Receipt'|translate}}</th>
+        </tr>
+        <tr class="tab_sub_head">
+            <td>{{mainData[0]?.title}}</td>    
+            <td>{{mainData[0]?.order_id}}</td>
+            <td>{{mainData[0]?.gateway}}</td>
+            <td>{{mainData[0]?.subscription_start}}</td>
+            <td>{{mainData[0]?.subscription_end}}</td>
+            <td><div *ngIf="mainData[0]?.status==7" id="expired">{{'expired'|translate}}</div><div *ngIf="mainData[0]?.status==2" id="active">{{'Active'|translate}}</div></td>
+            <td><button *ngIf="mainData[0]?.package_id != '1' && mainData[0]?.package_id != '12' && mainData[0]?.package_id != '13' && mainData[0]?.package_id != '15'" class="invoice_download"><a [href]="mainData[0]['invoice_url']" download><img src="assets/img/download-02.svg" alt="" style="margin-right: 6px; width: 20px;">{{'download_video_str'|translate}} </a></button></td>
+        </tr>
+    </table>
+
+
+
+</div>

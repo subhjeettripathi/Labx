@@ -1,0 +1,92 @@
+.container-view {
+    border-radius: 5px;
+
+}
+
+.container-view img {
+    width: 100%;
+}
+
+.texts {
+    text-align: left;
+    padding-left: 70px;
+
+}
+
+.pre {
+    font-family: "PoppinsRegular";
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 27px;
+    letter-spacing: 0em;
+    // text-align: left;
+    color: #7F7F7F;
+    white-space: pre-line;
+    word-wrap: break-word;
+    text-align: justify;
+
+}
+
+.img-baba {
+    border-radius: 10px;
+    border: 3px solid white;
+    padding: 1px;
+    display: block;
+}
+
+.img-baba1 {
+    display: none;
+    border-radius: 10px;
+    border: 3px solid white;
+    padding: 1px;
+}
+
+.play-btn-aol {
+    background: #FF8731;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    outline: 0;
+    padding: 10px 12px;
+    color: #FFFFFF;
+    border-radius: 30px;
+    font-family: "PoppinsMedium";
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.radio-main {
+    color: white;
+    font-family: "PoppinsRegular";
+    background: url(/assets/img/AOL_white.svg), linear-gradient(0deg, #100E22, #100E22), linear-gradient(0deg, #100E22, #100E22);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.mab-top {
+    padding: 0 15px;
+}
+
+.data_title_aol {
+    font-size: 23px;
+}
+
+@media screen and (max-width:992px) {
+
+    .data_title_aol {
+        font-size: 21px;
+    }
+}
+
+@media screen and (max-width:576px) {
+
+    .data_title_aol {
+        font-size: 18px;
+    }
+}

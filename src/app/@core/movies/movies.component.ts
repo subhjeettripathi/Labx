@@ -1,0 +1,2144 @@
+import { AfterViewInit, Component, OnInit, HostListener, OnDestroy } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { HomeCategoryUtilsService } from "src/app/services/home-category-utils.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { DecryptService } from "src/app/services/decrypt.service";
+import { HttpClient } from "@angular/common/http";
+import { DataService } from "src/app/services/data.service";
+import { videoJs } from "src/app/video-player/videojs";
+import { CountryLockPopupComponent } from "src/app/shared/dialogBoxes/country-lock-popup/country-lock-popup.component";
+import { AdultAgePopupComponent } from "src/app/shared/dialogBoxes/adult-age-popup/adult-age-popup.component";
+import { VideojsDialogComponent } from "src/app/shared/videojs-dialog/videojs-dialog.component";
+import { ChechPinParentalComponent } from "src/app/shared/dialogBoxes/chech-pin-parental/chech-pin-parental.component";
+import { ExchangeDataService } from "src/app/services/exchange-data.service";
+import { LoginModalDialogComponent } from "src/app/shared/dialogBoxes/login-modal-dialog/login-modal-dialog.component";
+import { FingerPrintService } from "src/app/services/finger-print.service";
+import { AuthService } from "src/app/services/auth.service";
+import { FunctionCallingService } from "src/app/services/function-calling.service";
+import { map } from "rxjs";
+import { StorageService } from "src/app/services/storage.service";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { Location } from "@angular/common";
+import * as firebase from "firebase/app";
+import { AnalyticsService } from "src/app/services/analytics.service";
+declare var $: any
+
+@Component({
+  selector: 'app-movies',
+  templateUrl: './movies.component.html',
+  styleUrls: ['./movies.component.scss']
+})
+
+
+export class MoviesComponent implements OnInit, OnDestroy {
+  busyGettingData = false;
+  category_id: any;
+  new_offset: number = 12
+  isOttLoggedIn = false;
+  taploginInfo: any = localStorage.getItem('taploginInfo') || {};
+  getlive: any;
+  @HostListener("window:scroll", ["$event"])
+  onResize(event: any) {
+    if (window.pageYOffset > 270 && !this.agehide && !this.parentaltest && this.lock1) {
+      this.vid1.pause();
+      this.playing = true;
+    } else if (!this.agehide && !this.parentaltest && this.lock1) {
+      this.vid1.play();
+      this.playing = false;
+    }
+  }
+
+  user: any;
+  newUser: any;
+  isLoggedIn: any
+  mainData: any;
+  windowSize: number = 0;
+  display_offset: number = 0;
+  display_limit: number = 3;
+  successs: any;
+  homeData: any;
+  isLoggedInn: any = localStorage.getItem("ott_isLoggedIn") || {};
+  FavoriteData: any = []
+  cat_id: any;
+  videoJsData: any;
+  agehide = true;
+  playVid: any;
+  video: any;
+  parentaltest: boolean = false
+  idd1: any;
+  vid1: any;
+  isSubscribed: any;
+  lock1: boolean = true;
+  video1: any;
+  getres: any;
+  replay: boolean = true
+  video2: any;
+  contentId: any;
+  gettitle: any
+  idd: any;
+  appsflyer: any
+  playing: boolean = false;
+  getAgeDuration: any
+  muted: boolean = true;
+  timeZoneOffset: any;
+  lock: boolean = true;
+  countryAllowed: any = []
+  agefound: any;
+  vid: any;
+  isSubsInfo: any = localStorage.getItem("is_subscriber") || {};
+  hellData: any = []
+  visitorId: any;
+  defaultImages: any = []
+  DefaultBanner: any
+  constructor(private dialog: MatDialog, private _storage: StorageService, private _FPS: FingerPrintService, private auth: AuthService, private fcs: FunctionCallingService,
+    private analyticsService:AnalyticsService  ,private homeservice: HomeCategoryUtilsService, private DEC_SER: DecryptService, private _dd: DataService, private ed: ExchangeDataService, private _ar: ActivatedRoute, private http: HttpClient, private dep_ser: DecryptService, public router: Router, private ds: DataService, private deviceService: DeviceDetectorService, private location: Location,
+  ) {
+    this.ed.isSubscribe.subscribe((value) => {
+      this.isSubscribed = value;
+    });
+    this.ed.isUserLoggedIn.subscribe((value) => {
+      if (value == true) {
+        this.isOttLoggedIn = value
+      }
+    });
+  }
+
+  back() {
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+     this.router.navigate(['/'])
+    }
+  }
+
+  ngOnInit(): void {
+    this.defaultImages = localStorage.getItem("defaultImages")
+    this.DefaultBanner = JSON.parse(this.defaultImages).rectangle.path
+    $('#ageRestrict').hide()
+    setTimeout(() => {
+      this.ebookData()
+    }, 1000);
+  
+    window.scroll(0, 0);
+    if (Object.keys(this.taploginInfo).length) {
+      this.isOttLoggedIn = true;
+    } else {
+      this.isOttLoggedIn = false;
+    }
+    this.windowSize = window.innerWidth;
+    this.homeservice.castUser.subscribe(user => this.user = user);
+    console.log(this.user)
+    if (this.isSubsInfo == 1) {
+      this.isSubscribed = true;
+    } else {
+      this.isSubscribed = false;
+    }
+    this._FPS.getFingerPrintDeviceId();
+    this._FPS.visitorId.subscribe(r => this.visitorId = r);
+    console.log(this.user,"aaa")
+
+    
+    
+    this.timeZoneOffset = new Date();
+    
+  }
+  ebookData(){
+    
+    this._ar.paramMap.subscribe((params) => {
+      this.cat_id = params.get("id");
+      this.category_id = params.get("id");
+      console.log(this.cat_id)
+      this.ds
+        .getHomeData(this.display_offset, this.display_limit, this.cat_id)
+        .subscribe((res: any) => {
+          this.dep_ser.getDecryptedData(res?.result);
+          let decryptData = JSON.parse(this.dep_ser.decryptData);
+          console.log(decryptData);
+
+          this.homeData = decryptData;
+          console.log(this.homeData);
+          
+          this.homeservice.sendDataToComponent(this.homeData);
+          this.mainData = this.homeData.dashboard.home_category
+          console.log(this.mainData)
+          const taplogininfo: any = localStorage.getItem("taploginInfo");
+          const USER_ACCOUNT: any = JSON.parse(taplogininfo);
+
+
+          console.log(this.mainData);
+          this.hellData = []
+          this.mainData[0].cat_cntn.map((category: any) => {
+            console.log();
+
+            this.hellData.push({ 'content_id': category.id, 'is_favourite': category.is_favourite })
+          });
+          this.getMoviesData();
+        });
+    });
+  }
+  onScroll() {  
+    if (this.busyGettingData) {
+      return
+    }
+    this.busyGettingData = true
+    this._dd
+      .getDescriptionDataList(this.new_offset, this.category_id)
+      .pipe(
+        map((res: any) => {
+          this.DEC_SER.getDecryptedData(res?.result);
+          let decryptData = JSON.parse(this.DEC_SER.decryptData);
+          console.log(decryptData);
+          this.new_offset = decryptData.offset
+          this.display_offset = decryptData.offset;
+          this.busyGettingData = false
+          this.mainData.filter((data: any) => {
+            if (data.category_type == 'list') {
+              decryptData.content.forEach((ele: any) => {
+                data.cat_cntn.push(ele)
+              });
+              // console.log(this.mainData);
+              this.getMoviesData()
+            }
+          });
+          // console.log(this.mainData);
+        })
+      )
+      .subscribe();
+  }
+  navigate(event: any) {
+    const eventParams = {
+      item_id: event.id,
+      item_name: event.title,
+      item_type: event.content_type,
+      item_value: event.access_type,
+      page_name: 'ebook',
+      season_id: event.season_id,
+      series_id: event.series_id
+    };
+    this.analyticsService.logEvent('select_item', eventParams);
+    const ipDetail: any = localStorage.getItem("ipSaveData")
+    const detail = JSON.parse(ipDetail)
+    const subs = localStorage.getItem('ott_subscriptionPlan')
+    const userInfo: any = localStorage.getItem('taploginInfo') || {};
+    if (Object.keys(userInfo).length) {
+      if (subs != null && JSON.parse(subs).packages_list.length) {
+        const formData: any = new FormData();
+        const userInfo: any = localStorage.getItem('taploginInfo') || {};
+        formData.append('customer_id', JSON.parse(userInfo).id);
+        formData.append('device_unique_id', this.visitorId);
+        formData.append('session_status', 1);
+        formData.append('device', 'web');
+        formData.append('country_code', detail.countryCode);
+        formData.append('content_id', event.id);
+        formData.append('device_count', JSON.parse(subs).packages_list[0].device_restriction);
+        formData.append('type', JSON.parse(subs).packages_list[0].restriction_type);
+        this.auth.isAllowed(formData).subscribe(res => {
+          console.log(res);
+          if (res.code == 0 && res.error == 'Device limit exceeded') {
+            this.fcs.logoutProfile.next(true)
+          }
+          else if (res.code == 1) {
+            if (event.content_publish.length) {
+              for (let i in event.content_publish) {
+                this.countryAllowed.push(event.content_publish[i].country_code)
+                console.log(this.countryAllowed);
+
+              }
+              var a = this.countryAllowed.indexOf(detail.countryCode)
+              if (a == -1 && event.content_publish[0].country_code != 'A') {
+                const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+                  backdropClass: 'popupBackdropClass',
+                  panelClass: 'adultAgePopup',
+                  width: "390px",
+
+                });
+              } else {
+                this.router.navigate(["/" + event.permalink]);
+                localStorage.setItem('prevUrl',this.router.url)
+              }
+            } else {
+              this.router.navigate(["/" + event.permalink]);
+              localStorage.setItem('prevUrl',this.router.url)
+            }
+          }
+          else if (res.code == 2) {
+            this.ed.isSubscribe.next(false);
+            this.ed.alreadySubscriber.next(false)
+            localStorage.setItem('is_subscriber', '0')
+            if (event.content_publish.length) {
+              for (let i in event.content_publish) {
+                this.countryAllowed.push(event.content_publish[i].country_code)
+                console.log(this.countryAllowed);
+
+              }
+              var a = this.countryAllowed.indexOf(detail.countryCode)
+              if (a == -1 && event.content_publish[0].country_code != 'A') {
+                const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+                  backdropClass: 'popupBackdropClass',
+                  panelClass: 'adultAgePopup',
+                  width: "390px",
+
+                });
+              } else {
+                this.router.navigate(["/" + event.permalink]);
+                localStorage.setItem('prevUrl',this.router.url)
+              }
+            } else {
+              this.router.navigate(["/" + event.permalink]);
+              localStorage.setItem('prevUrl',this.router.url)
+            }
+          }
+        })
+
+      } else {
+        const formData: any = new FormData();
+        const userInfo: any = localStorage.getItem('taploginInfo') || {};
+        const visitorIds : any = localStorage.getItem('device_id')
+        formData.append('customer_id', JSON.parse(userInfo).id);
+        formData.append('device_unique_id', visitorIds);
+        formData.append('session_status', '');
+        formData.append('device', '');
+        formData.append('device_count', '');
+        formData.append('type', '');
+        formData.append('country_code', detail.countryCode);
+        formData.append('content_id', event.id);
+        this.auth.isAllowed(formData).subscribe(res => {
+          console.log(res);
+          if (res.code == 0 && res.error == 'Device limit exceeded') {
+            this.fcs.logoutProfile.next(true)
+          }
+          else if (res.code == 1) {
+            if (event.content_publish.length) {
+              for (let i in event.content_publish) {
+                this.countryAllowed.push(event.content_publish[i].country_code)
+                console.log(this.countryAllowed);
+
+              }
+              var a = this.countryAllowed.indexOf(detail.countryCode)
+              if (a == -1 && event.content_publish[0].country_code != 'A') {
+                const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+                  backdropClass: 'popupBackdropClass',
+                  panelClass: 'adultAgePopup',
+                  width: "390px",
+
+                });
+              } else {
+                this.router.navigate(["/" + event.permalink]);
+                localStorage.setItem('prevUrl',this.router.url)
+              }
+            } else {
+              this.router.navigate(["/" + event.permalink]);
+              localStorage.setItem('prevUrl',this.router.url)
+            }
+          }
+          else if (res.code == 2) {
+            this.ed.isSubscribe.next(false);
+            this.ed.alreadySubscriber.next(false)
+            localStorage.setItem('is_subscriber', '0')
+            if (event.content_publish.length) {
+              for (let i in event.content_publish) {
+                this.countryAllowed.push(event.content_publish[i].country_code)
+                console.log(this.countryAllowed);
+
+              }
+              var a = this.countryAllowed.indexOf(detail.countryCode)
+              if (a == -1 && event.content_publish[0].country_code != 'A') {
+                const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+                  backdropClass: 'popupBackdropClass',
+                  panelClass: 'adultAgePopup',
+                  width: "390px",
+
+                });
+              } else {
+                this.router.navigate(["/" + event.permalink]);
+                localStorage.setItem('prevUrl',this.router.url)
+              }
+            } else {
+              this.router.navigate(["/" + event.permalink]);
+              localStorage.setItem('prevUrl',this.router.url)
+            }
+          } else if (res.code == 3) {
+            this._dd.getUserSubscriptionDetails(JSON.parse(userInfo).id).subscribe(res => {
+              this.DEC_SER.getDecryptedData(res.result);
+              const data: any = JSON.parse(this.DEC_SER.decryptData);
+              console.log((data));
+              if (data.is_subscriber == 1) {
+                this.ed.isSubscribe.next(true);
+                this.ed.alreadySubscriber.next(true)
+                localStorage.setItem('is_subscriber', '1')
+                this.ed.parentalLock.next(false)
+              } else if (data.is_subscriber == 0) {
+                localStorage.setItem('is_subscriber', '0')
+                this.ed.parentalLock.next(true)
+              }
+              this._storage.setData('ott_subscriptionPlan', data);
+              if (event.content_publish.length) {
+                for (let i in event.content_publish) {
+                  this.countryAllowed.push(event.content_publish[i].country_code)
+                  console.log(this.countryAllowed);
+
+                }
+                var a = this.countryAllowed.indexOf(detail.countryCode)
+                if (a == -1 && event.content_publish[0].country_code != 'A') {
+                  const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+                    backdropClass: 'popupBackdropClass',
+                    panelClass: 'adultAgePopup',
+                    width: "390px",
+
+                  });
+                } else {
+                  this.router.navigate(["/" + event.permalink]);
+                  localStorage.setItem('prevUrl',this.router.url)
+                }
+              } else {
+                this.router.navigate(["/" + event.permalink]);
+                localStorage.setItem('prevUrl',this.router.url)
+              }
+            })
+          }
+        })
+      }
+    }
+    else {
+      if (event.content_publish.length) {
+        for (let i in event.content_publish) {
+          this.countryAllowed.push(event.content_publish[i].country_code)
+          console.log(this.countryAllowed);
+
+        }
+        var a = this.countryAllowed.indexOf(detail.countryCode)
+        if (a == -1 && event.content_publish[0].country_code != 'A') {
+          const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+            backdropClass: 'popupBackdropClass',
+            panelClass: 'adultAgePopup',
+            width: "390px",
+
+          });
+        } else {
+          this.router.navigate(["/" + event.permalink]);
+          localStorage.setItem('prevUrl',this.router.url)
+        }
+      } else {
+        this.router.navigate(["/" + event.permalink]);
+        localStorage.setItem('prevUrl',this.router.url)
+      }
+    }
+
+  }
+  addEpisodeToWatchlist(watcher: any, cat_id: any, content_id: any) {
+
+    const userIsLoggedIn: any = localStorage.getItem('ott_isLoggedIn')
+    if (userIsLoggedIn == "1") {
+      this.hellData.map((category: any) => {
+        if (category.content_id == content_id) {
+          category.is_favourite = watcher
+        }
+
+      })
+      // console.log(this.hellData);
+      const userInfo: any = localStorage.getItem('taploginInfo') || {};
+      if (Object.keys(userInfo).length) {
+        const formData = new FormData();
+        formData.append('user_id', JSON.parse(userInfo).id);
+        formData.append('content_id', content_id)
+        formData.append('favourite', watcher)
+        // formData.append('content_type', 'video');
+        // formData.append('cat_id', cat_id);
+        this._dd.addRemoveToWatchList(formData).subscribe(res => {
+          // this.getWatchlistData();
+        });
+      }
+    }
+    else if (!userIsLoggedIn) {
+      const dialogRef = this.dialog.open(LoginModalDialogComponent, {
+        backdropClass: 'popupBackdropClass',
+        panelClass: 'logindialog',
+        width: "390px",
+        data: { name: "login" },
+      });
+    }
+  }
+  add(add: any, id: any, cat_id: any) {
+    if (id.is_favourite == 1 && this.isOttLoggedIn) {
+      id.is_favourite = 0;
+    } else if (this.isOttLoggedIn) {
+      id.is_favourite = 1;
+    }
+
+    const userIsLoggedIn: any = localStorage.getItem("ott_isLoggedIn");
+    if (userIsLoggedIn == "1") {
+      // console.log(this.hellData);
+      const userInfo: any = localStorage.getItem("taploginInfo") || {};
+      if (Object.keys(userInfo).length) {
+        const formData = new FormData();
+        formData.append("user_id", JSON.parse(userInfo).id);
+        formData.append("content_id", id.id);
+        formData.append("favourite", id.is_favourite);
+        // formData.append("content_type", "video");
+        // formData.append("cat_id", cat_id);
+        this._dd.addRemoveToWatchList(formData).subscribe((res) => { });
+      }
+    } else if (!userIsLoggedIn) {
+      const dialogRef = this.dialog.open(LoginModalDialogComponent, {
+        backdropClass: "popupBackdropClass",
+        panelClass: "logindialog",
+        width: "390px",
+        data: { name: "login" },
+      });
+    }
+  }
+  agepopup() {
+    if(this.dialog.openDialogs.length==0){
+      const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+        panelClass: "adultAgePopup",
+        width: "500px",
+        data: { dat: event },
+      });
+  
+      const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+        this.agehide = false
+        $(`#${this.idd}`).find(".iconlayout").show();
+        $(`#${this.idd1}`).find(".iconlayout").show();
+        $(".iconage").hide();
+        this.vid1.play();
+      })
+    }
+ 
+
+    // var btnn = document.getElementsByClassName("btn-two")[0];
+    // btnn.addEventListener("click", () => {
+
+    // });
+  }
+
+  changeVideoAndBanner(v111: any, v222: any) {
+    this.vid = videoJs(v111);
+    // for (let key in videoJs.getPlayers()) {
+    //   console.log(key);
+    //   delete videoJs.getPlayers()[key];
+    // }
+    // console.log("destroy called");
+    this.vid.load();
+
+    this.vid.src({
+      src: this.vid.cache_.source.src,
+      type: this.vid.cache_.source.type,
+    });
+
+
+    this.vid1 = videoJs(v222);
+    // var options = {
+    //   seekLeft: {
+    //     handleClick: () => {
+    //       const time = Number(this.vid1.currentTime()) - 10;
+
+    //       this.vid1.currentTime(time);
+    //     },
+    //     doubleTap: true,
+    //   },
+    //   // play: {
+    //   //   handleClick: () => {
+    //   //     if (this.player.paused()) {
+    //   //       this.player.play();
+    //   //     } else {
+    //   //       this.player.pause();
+    //   //     }
+    //   //   },
+    //   // },
+    //   seekRight: {
+    //     handleClick: () => {
+    //       const time = Number(this.vid1.currentTime()) + 10;
+
+    //       this.vid1.currentTime(time);
+    //     },
+    //     doubleTap: true,
+    //   },
+    //   lockButton: false
+    // }
+    //  this.vid1.touchOverlay(options)
+
+
+    this.vid1.seekButtons({
+      forward: 10,
+      back: 10
+    });
+
+    this.vid1.overlay({
+      overlays: [
+        {
+          start: "playing",
+          content: this.gettitle.split('/').join(' ') + ' ' + 'Trailer',
+          align: "center",
+        },
+      ],
+    });
+
+    $(".vjs-overlay-center").hide();
+
+    this.vid1.on("pause", () => {
+      this.playing = true;
+    });
+
+    this.vid1.on("play", () => {
+      this.playing = false;
+    });
+    $(".vjs-mute-control").on("click", () => {
+      if (this.muted == true) {
+        this.muted = false;
+      } else {
+        this.muted = true;
+      }
+    });
+
+    this.vid1.on("volumechange", () => {
+      var vol = this.vid1.volume();
+      if (vol == 0) {
+        this.muted = true;
+      } else {
+        this.muted = false;
+      }
+    });
+    // console.log(this.vid1);
+    // if(this.isSubscribed){
+    //   this.vid1.attr('loop');
+    // }
+    // if (this.isSubscribed) {
+    //   var replay = $("video");
+    //   for (let reloop of replay) $(reloop).attr("loop", "true");
+    // }
+
+    let isLoggedIn = localStorage.getItem("ott_isLoggedIn");
+    // this.mainData
+    if (this.mainData[0]['auto_play'] == 1) {
+      if (this.isSubscribed && isLoggedIn) {
+        $('.iconage').hide()
+        this.agehide = false;
+        this.parentalset(this.agefound, this.idd)
+        // var replay = $("video");
+        // for (let reloop of replay) $(reloop).attr("loop", "true");
+
+      } else if (!this.isSubscribed && isLoggedIn) {
+        $('.iconage').hide()
+        this.agehide = false;
+        setTimeout(() => {
+          this.vid1.play();
+        }, 1000);
+
+        this.vid1.volume(0)
+
+      } else {
+        if (this.agefound.slice(3) >= 18 && this.agefound.slice(3) != 999) {
+          this.agehide = true;
+          $(`#${this.idd}`).find(".iconlayout").hide();
+          this.vid1.pause();
+          const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+            panelClass: "adultAgePopup",
+            width: "500px",
+            data: { dat: event },
+          });
+
+          const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+            $(`#${this.idd}`).find(".iconlayout").show();
+            $(`#${this.idd}`).find('.iconage').hide()
+            this.agehide = false;
+            this.vid1.play();
+            this.vid1.volume(0)
+          })
+          // var btnn = document.getElementsByClassName("btn-two")[0];
+          // btnn.addEventListener("click", () => {
+
+          // });
+        } else if (this.agefound.slice(3) == -1) {
+          this.agehide = true;
+          $(`#${this.idd}`).find(".iconlayout").hide();
+          this.vid1.pause();
+          const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+            panelClass: "adultAgePopup",
+            width: "500px",
+            data: { dat: event },
+          });
+
+          const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+            $(`#${this.idd}`).find(".iconlayout").show();
+            $(`#${this.idd}`).find('.iconage').hide()
+            this.agehide = false;
+            this.vid1.play();
+            this.vid1.volume(0)
+          })
+          // var btnn = document.getElementsByClassName("btn-two")[0];
+          // btnn.addEventListener("click", () => {
+
+          // });
+        } else {
+          let xc = window.innerWidth
+          if (xc < 576) {
+            $(`#${this.idd1}`).find(".iconlayout").show();
+            setTimeout(() => {
+              this.vid1.play();
+            }, 1000);
+            this.vid1.volume(0);
+          } else {
+            $(`#${this.idd1}`).find(".iconlayout").show();
+
+            setTimeout(() => {
+              this.vid1.play();
+            }, 100);
+
+            this.vid1.volume(0);
+          }
+        }
+
+      }
+    } else {
+      if (this.isSubsInfo == 1) {
+        this.parentaltest = true
+        this.agehide = false
+        $(".iconage").hide();
+        $(".iconlayout").hide();
+        $(".parent-layout").hide();
+        $('.agecon').hide()
+
+      } else {
+        this.agehide = true;
+        // setTimeout(() => {
+        //   $(".iconage").hide();
+        // }, 3000);
+
+        $(".iconlayout").hide();
+        $(".parent-layout").hide();
+        $(".iconn").show()
+
+
+      }
+
+    }
+    // this.vid1.play();
+    this.vid1.muted(true);
+    this.muted = true;
+    this.vid1.on("play", () => {
+      // this.vid1.hlsQualitySelector();
+
+      this.lock = true;
+      this.lock1 = true;
+      $(this.vid1.posterImage.contentEl()).hide();
+      this.playing = false;
+    });
+
+    this.vid1.on("ended", () => {
+
+      if (this.isSubscribed) {
+        this.replay = false
+      }
+      $(this.vid1.posterImage.contentEl()).css("filter", "brightness(20%)");
+      this.vid1.exitFullscreen();
+      $(this.vid1.posterImage.contentEl()).show();
+      $(`#${this.idd}`).find(".iconlayout").hide();
+      $('.iconage').hide()
+      this.lock1 = false;
+    });
+  }
+
+
+  sharing(type: string, url: any) {
+
+    const newLocal = "width=600,height=300";
+    const share_url = url;
+    if (type === "fb") {
+
+      let link = `https://www.facebook.com/sharer/sharer.php?app_id=2407604909394715&sdk=joey&u=${share_url}`;
+      window.open(link, "Facebook", newLocal);
+    } else if (type === "tweet") {
+      let urls = `https://twitter.com/intent/tweet?original_referer=${window.location.host}tw_p=tweetbutton&text=ALTBalaji%0Aaltp.faste.tv/${url}`;
+
+      window.open(urls, "TwitterWindow", newLocal);
+    } else if (type === "copy") {
+      navigator.clipboard.writeText(`${share_url}`);
+    }
+  }
+
+  getWatchlistData() {
+    this._dd.getWatchList(0, 10).subscribe((res: any) => { });
+  }
+
+  addRemoveToWatchlist(watcher: any, cat_id: any, content_id: any) {
+    this.contentId = content_id;
+    const userIsLoggedIn: any = localStorage.getItem("ott_isLoggedIn");
+    if (userIsLoggedIn == "1") {
+      const userInfo: any = localStorage.getItem("taploginInfo") || {};
+      if (Object.keys(userInfo).length) {
+        const formData = new FormData();
+        formData.append("user_id", JSON.parse(userInfo).id);
+        formData.append("content_id", content_id);
+        formData.append("favourite", watcher);
+        // formData.append("content_type", "video");
+        // formData.append("cat_id", cat_id);
+        this._dd.addRemoveToWatchList(formData).subscribe((res) => {
+
+        });
+      }
+    } else if (!userIsLoggedIn) {
+      const dialogRef = this.dialog.open(LoginModalDialogComponent, {
+        backdropClass: "popupBackdropClass",
+        panelClass: "logindialog",
+        width: "390px",
+        data: { name: "login" },
+      });
+    }
+  }
+
+  pausebtn() {
+    this.vid1.pause();
+    this.vid1.on("pause", () => {
+      this.playing = true;
+    });
+  }
+
+  playbtn() {
+    this.vid1.play();
+    this.vid1.on("play", () => {
+      this.playing = false;
+    });
+  }
+
+  mutebtn() {
+    this.vid1.muted(true);
+    if (this.vid1.muted()) {
+      this.muted = true;
+      this.vid1.volume(0);
+    }
+  }
+
+  unmutebtn() {
+    this.vid1.muted(false);
+    if (!this.vid1.muted()) {
+      this.muted = false;
+      this.vid1.volume(1);
+    }
+  }
+
+  fullscreenbtn() {
+    if (this.getlive.slice(4) == 1) {
+      $('.vjs-progress-control').addClass('hideprogress');
+      $('.vjs-seek-button').addClass('hideprogress');
+      $('.vjs-play-control').addClass('hideprogress');
+      $('.vjs-time-control').addClass('hideprogress');
+      $('.vjs-notes-btn').addClass('hideprogress');
+      $('.vjs-icon-previous-item').addClass('hideprogress');
+      $('.vjs-icon-next-item').addClass('hideprogress');
+    }
+    setTimeout(() => {
+      $('.vjs-notes-btn').attr('title', 'Season-Selector');
+      $('.vjs-icon-hd').attr('title', 'Settings');
+    }, 1000);
+    $('#ageRestrict').show()
+    $('.getre').show()
+    this.vid1.requestFullscreen();
+    this.vid1.landscapeFullscreen();
+
+    this.vid1.on("fullscreenchange", (e: any) => {
+
+
+      if (this.vid1.isFullscreen()) {
+        var gettime: any = localStorage.getItem('jsonPlayer')
+        this.getAgeDuration = JSON.parse(gettime).Player[0].UA_setting
+        setTimeout(() => {
+          $('.getre').hide()
+        }, this.getAgeDuration.duration_in_sec * 1000);
+        this.vid1.on('timeupdate', () => {
+          if (this.vid1.userActive() == false) {
+            $(".vjs-overlay").hide();
+          } else {
+            $(".vjs-overlay").show();
+          }
+        })
+
+
+
+        this.vid1.addClass("video-js");
+        this.vid1.addClass("vjs-hls-quality-selector");
+        this.vid1.controls(true);
+
+      } else {
+        $('.getre').hide()
+        $(".vjs-overlay").hide();
+        this.vid1.on('timeupdate', () => {
+          if (this.vid1.userActive() == true) {
+            $(".vjs-overlay").hide();
+          }
+        })
+
+        this.vid1.controls(false);
+        this.vid1.removeClass("video-js");
+        this.vid1.removeClass("vjs-hls-quality-selector");
+      }
+    });
+  }
+  videoJsPopup() {
+    const alertRef = this.dialog.open(VideojsDialogComponent, {
+      maxWidth: "100vw",
+      panelClass: 'videojsplayer',
+      maxHeight: "100vh",
+      height: "calc(100% - 100px)",
+      width: "100%",
+      data: { url: this.videoJsData },
+    });
+    alertRef.afterClosed().subscribe((result: any) => {
+      console.log("The dialog was closed", result);
+    });
+  }
+
+  playCarousel(data: any) {
+    this.vid1.pause()
+    // this.appsflyer = data;
+    // this.appsflyerData();
+    const event = data;
+    const aged = data.age_group;
+    this.videoJsData = data;
+    this.ed.pauseDetailVideo.next(true);
+    let vb = localStorage.getItem("isOverAge");
+    const ipDetail: any = localStorage.getItem("ipSaveData")
+    const detail = JSON.parse(ipDetail)
+    const subs = localStorage.getItem('ott_subscriptionPlan')
+    const userInfo: any = localStorage.getItem('taploginInfo') || {};
+    if (Object.keys(userInfo).length) {
+      if (subs != null && JSON.parse(subs).packages_list.length) {
+        const formData: any = new FormData();
+        const userInfo: any = localStorage.getItem('taploginInfo') || {};
+        const visitorIds : any = localStorage.getItem('device_id')
+        formData.append('customer_id', JSON.parse(userInfo).id);
+        formData.append('device_unique_id', visitorIds);
+        formData.append('session_status', 1);
+        formData.append('device', 'web');
+        formData.append('country_code', detail.countryCode);
+        formData.append('content_id', data.id);
+        formData.append('device_count', JSON.parse(subs).packages_list[0].device_restriction);
+        formData.append('type', JSON.parse(subs).packages_list[0].restriction_type);
+        this.auth.isAllowed(formData).subscribe(res => {
+          console.log(res);
+          if (res.code == 0 && res.error == 'Device limit exceeded') {
+            this.fcs.logoutProfile.next(true)
+          }
+          else if (res.code == 1) {
+            if (event.content_publish.length) {
+              for (let i in event.content_publish) {
+                this.countryAllowed.push(event.content_publish[i].country_code)
+              }
+
+              var a = this.countryAllowed.indexOf(detail.countryCode)
+              if (a == -1 && event.content_publish[0].country_code != 'A') {
+                const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+                  backdropClass: 'popupBackdropClass',
+                  panelClass: 'adultAgePopup',
+                  width: "390px",
+                });
+              } else {
+                this.verifyStatus(data, aged, event)
+              }
+            } else {
+              this.verifyStatus(data, aged, event)
+            }
+          }
+          else if (res.code == 2) {
+            this.ed.isSubscribe.next(false);
+            this.ed.alreadySubscriber.next(false)
+            localStorage.setItem('is_subscriber', '0')
+            if (event.content_publish.length) {
+              for (let i in event.content_publish) {
+                this.countryAllowed.push(event.content_publish[i].country_code)
+              }
+              var a = this.countryAllowed.indexOf(detail.countryCode)
+              if (a == -1 && event.content_publish[0].country_code != 'A') {
+                const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+                  backdropClass: 'popupBackdropClass',
+                  panelClass: 'adultAgePopup',
+                  width: "390px",
+                });
+              } else {
+                this.verifyStatus(data, aged, event)
+              }
+            } else {
+              this.verifyStatus(data, aged, event)
+            }
+          }
+        })
+
+      } else {
+        const formData: any = new FormData();
+        const userInfo: any = localStorage.getItem('taploginInfo') || {};
+        const visitorIds : any = localStorage.getItem('device_id')
+        formData.append('customer_id', JSON.parse(userInfo).id);
+        formData.append('device_unique_id', visitorIds);
+        formData.append('session_status', '');
+        formData.append('device', '');
+        formData.append('device_count', '');
+        formData.append('type', '');
+        formData.append('country_code', detail.countryCode);
+        formData.append('content_id', data.id);
+        this.auth.isAllowed(formData).subscribe(res => {
+          console.log(res);
+          if (res.code == 0 && res.error == 'Device limit exceeded') {
+            this.fcs.logoutProfile.next(true)
+          }
+          else if (res.code == 1) {
+            if (event.content_publish.length) {
+              for (let i in event.content_publish) {
+                this.countryAllowed.push(event.content_publish[i].country_code)
+              }
+              var a = this.countryAllowed.indexOf(detail.countryCode)
+              if (a == -1 && event.content_publish[0].country_code != 'A') {
+                const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+                  backdropClass: 'popupBackdropClass',
+                  panelClass: 'adultAgePopup',
+                  width: "390px",
+                });
+              } else {
+                this.verifyStatus(data, aged, event)
+              }
+            } else {
+              this.verifyStatus(data, aged, event)
+            }
+          }
+          else if (res.code == 2) {
+            this.ed.isSubscribe.next(false);
+            this.ed.alreadySubscriber.next(false)
+            localStorage.setItem('is_subscriber', '0')
+            if (event.content_publish.length) {
+              for (let i in event.content_publish) {
+                this.countryAllowed.push(event.content_publish[i].country_code)
+              }
+              var a = this.countryAllowed.indexOf(detail.countryCode)
+              if (a == -1 && event.content_publish[0].country_code != 'A') {
+                const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+                  backdropClass: 'popupBackdropClass',
+                  panelClass: 'adultAgePopup',
+                  width: "390px",
+                });
+              } else {
+                this.verifyStatus(data, aged, event)
+              }
+            } else {
+              this.verifyStatus(data, aged, event)
+            }
+          } else if (res.code == 3) {
+            this._dd.getUserSubscriptionDetails(JSON.parse(userInfo).id).subscribe(res => {
+              this.DEC_SER.getDecryptedData(res.result);
+              const data: any = JSON.parse(this.DEC_SER.decryptData);
+              console.log((data));
+              if (data.is_subscriber == 1) {
+                this.ed.isSubscribe.next(true);
+                this.ed.alreadySubscriber.next(true)
+                localStorage.setItem('is_subscriber', '1')
+                this.ed.parentalLock.next(false)
+              } else if (data.is_subscriber == 0) {
+                localStorage.setItem('is_subscriber', '0')
+                this.ed.parentalLock.next(true)
+              }
+              this._storage.setData('ott_subscriptionPlan', data);
+              if (event.content_publish.length) {
+                for (let i in event.content_publish) {
+                  this.countryAllowed.push(event.content_publish[i].country_code)
+                }
+                var a = this.countryAllowed.indexOf(detail.countryCode)
+                if (a == -1 && event.content_publish[0].country_code != 'A') {
+                  const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+                    backdropClass: 'popupBackdropClass',
+                    panelClass: 'adultAgePopup',
+                    width: "390px",
+                  });
+                } else {
+                  this.verifyStatus(data, aged, event)
+                }
+              } else {
+                this.verifyStatus(data, aged, event)
+              }
+            })
+          }
+        })
+      }
+    }
+    else {
+      if (event.content_publish.length) {
+        for (let i in event.content_publish) {
+          this.countryAllowed.push(event.content_publish[i].country_code)
+        }
+        var a = this.countryAllowed.indexOf(detail.countryCode)
+        if (a == -1 && event.content_publish[0].country_code != 'A') {
+          const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+            backdropClass: 'popupBackdropClass',
+            panelClass: 'adultAgePopup',
+            width: "390px",
+          });
+        } else {
+          this.verifyStatus(data, aged, event)
+        }
+      } else {
+        this.verifyStatus(data, aged, event)
+      }
+    }
+
+
+  }
+  verifyStatus(data: any, aged: any, event: any) {
+    if (data.access_type == "free") {
+      if (localStorage.getItem("taploginInfo") === null) {
+        if (data.age_group == 18) {
+          const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+            panelClass: "adultAgePopup",
+            width: "500px",
+            data: { dat: event },
+          });
+          const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+            this.playVid = data;
+            if (this.playVid) {
+              this.videoJsPopup()
+            }
+          });
+        } else if (data.age_group == -1) {
+          const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+            panelClass: "adultAgePopup",
+            width: "500px",
+            data: { dat: event },
+          });
+          const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+            this.playVid = data;
+            if (this.playVid) {
+              this.videoJsPopup()
+            }
+          });
+        } else {
+          this.videoJsPopup()
+        }
+      } else {
+        var isSubscriberUser: any = localStorage.getItem("is_subscriber");
+        var parental: any = localStorage.getItem("taploginInfo");
+        var parental_read = JSON.parse(parental);
+        var ottLogged: any = localStorage.getItem("ott_isLoggedIn");
+        if (ottLogged == "1") {
+          if (parental_read.is_parental == 0) {
+            this.videoJsPopup();
+          } else {
+            if (parental_read.is_parental == 1 && isSubscriberUser == "1") {
+              if (Number(parental_read.restriction_level) == -1) {
+                this.showPin()
+              } else if (Number(parental_read.restriction_level) == 999) {
+                this.videoJsPopup();
+              } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999 || Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 16) {
+                this.videoJsPopup();
+              } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999) {
+                this.showPin()
+              } else if (Number(parental_read.restriction_level) >= 16 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999) {
+                this.videoJsPopup();
+              } else {
+                this.showPin()
+              }
+
+            } else {
+              this.videoJsPopup();
+            }
+          }
+        } else {
+          this.videoJsPopup();
+        }
+      }
+    }
+    else if (data.access_type == "paid") {
+
+      if (this.isSubscribed == true) {
+        var isSubscriberUser: any = localStorage.getItem("is_subscriber");
+        var parental: any = localStorage.getItem("taploginInfo");
+        var parental_read = JSON.parse(parental);
+        var group_age: any = localStorage.getItem("isParentalRestriction");
+        if (parental_read.is_parental == 0) {
+          this.videoJsPopup();
+        } else {
+          if (parental_read.is_parental == 1 && isSubscriberUser == "1") {
+            if (Number(parental_read.restriction_level) == -1) {
+              this.showPin()
+            } else if (Number(parental_read.restriction_level) == 999) {
+              this.videoJsPopup();
+            } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999 || Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 16) {
+              this.videoJsPopup();
+            } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999) {
+              this.showPin()
+            } else if (Number(parental_read.restriction_level) >= 16 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999) {
+              this.videoJsPopup();
+            } else {
+              this.showPin()
+            }
+
+          } else {
+            this.videoJsPopup();
+          }
+        }
+      } else if (this.isSubscribed == false) {
+        this.router.navigate(["/subscribe"]);
+      }
+    }
+  }
+  showPin() {
+    const dialogRef = this.dialog.open(ChechPinParentalComponent, {
+      panelClass: "contactfooter",
+      width: "390px",
+    });
+
+    dialogRef.afterClosed().subscribe((result) => { });
+    const sub = dialogRef.componentInstance.isSuccess.subscribe(
+      (e: any) => {
+        this.successs = e;
+
+        if (this.successs) {
+          this.videoJsPopup();
+        }
+      }
+    );
+  }
+  newUsers(user: any) {
+    this.homeservice.sendDataToComponent(this.newUser);
+  }
+  getMoviesData() {
+    this.mainData.map((category: any) => {
+      if (category.multiple_layout != null) {
+        if (category.multiple_layout.platform==="web") {
+          category.totalSlides = category.multiple_layout.slider;
+          category.type = category.multiple_layout.layout;
+          category.cat_cntn.forEach((cat: any) => {
+            var hms = cat.duration; // your input string
+            var a = hms.split(":"); // split it at the colons
+            var seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+            cat.result = Math.round((cat.play_duration / seconds) * 100);
+            cat.sliderImg = "";
+            cat.sliderIdentifier = "";
+            if (cat.is_group == 1 && cat.groupInfo != null) {
+              if (category.category_type == "feature_banner") {
+                if (cat.groupInfo.global_thumb != null) {
+                  cat.groupInfo.global_thumb.forEach((thumb: any) => {
+                    if (thumb != null) {
+                      if (thumb.layout == "square") {
+                        thumb.layout = "circle";
+                      }
+                      if (thumb.layout == category.multiple_layout.layout) {
+                        thumb?.image_size.filter((img: any) => {
+                          if (
+                            Number(img.width) == 360 ||
+                            Number(img.width) == 854
+                          ) {
+                            cat.sliderImg = img.url;
+                            cat.sliderIdentifier = img.identifier;
+                          } else if (cat.sliderImg == "") {
+                            cat.sliderImg = thumb?.image_size[0].url;
+                            cat.sliderIdentifier =
+                              thumb?.image_size[0].identifier;
+                          }
+                        });
+                      }
+                    }
+                  });
+                } else if (cat.groupInfo.season_banner != null) {
+                  cat.groupInfo.season_banner.forEach((thumb: any) => {
+                    if (thumb != null) {
+                      if (thumb.layout == category.multiple_layout.layout) {
+                        thumb?.image_size.filter((img: any) => {
+                          if (Number(img.width) == 854) {
+                            cat.sliderImg = img.url;
+                            cat.sliderIdentifier = img.identifier;
+                          } else if (cat.sliderImg == "") {
+                            cat.sliderImg = thumb?.image_size[0].url;
+                            cat.sliderIdentifier =
+                              thumb?.image_size[0].identifier;
+                          }
+                        });
+                      }
+                    }
+                  });
+                }
+              } else if (
+                category.category_type == "default" ||
+                category.category_type == "language" ||
+                category.category_type == "Binge_it_all" ||
+                category.category_type == "ebook"
+              ) {
+                if (cat.groupInfo.global_thumb != null) {
+                  cat.groupInfo.global_thumb.forEach((thumb: any) => {
+                    if (thumb != null) {
+                      if (thumb.layout == "square") {
+                        thumb.layout = "circle";
+                      }
+                      if (thumb.layout == category.multiple_layout.layout) {
+                        thumb?.image_size.filter((img: any) => {
+                          if (
+                            Number(img.width) == 360 ||
+                            Number(img.width) == 854
+                          ) {
+                            cat.sliderImg = img.url;
+                            cat.sliderIdentifier = img.identifier;
+                          } else if (cat.sliderImg == "") {
+                            cat.sliderImg = thumb?.image_size[0].url;
+                            cat.sliderIdentifier =
+                              thumb?.image_size[0].identifier;
+                          }
+                        });
+                      }
+                    }
+                  });
+                } else if (cat.groupInfo.thumbs != null) {
+                  cat.groupInfo.thumbs.forEach((thumb: any) => {
+                    if (thumb != null) {
+                      if (thumb.layout == "square") {
+                        thumb.layout = "circle";
+                      }
+                      if (thumb.layout == category.multiple_layout.layout) {
+                        thumb?.image_size.filter((img: any) => {
+                          if (
+                            Number(img.width) == 360 ||
+                            Number(img.width) == 854
+                          ) {
+                            cat.sliderImg = img.url;
+                            cat.sliderIdentifier = img.identifier;
+                          } else if (cat.sliderImg == "") {
+                            cat.sliderImg = thumb?.image_size[0].url;
+                            cat.sliderIdentifier =
+                              thumb?.image_size[0].identifier;
+                          }
+                        });
+                      }
+                    }
+                  });
+                }
+              } else if (category.category_type == "continue_watching") {
+                cat.layout_thumbs.forEach((thumb: any) => {
+                  if (thumb.layout == "square") {
+                    thumb.layout = "circle";
+                  }
+                  if (thumb.layout == category.multiple_layout.layout) {
+                    thumb?.image_size.filter((img: any) => {
+                      if (
+                        Number(img.width) == 360 ||
+                        Number(img.width) == 854
+                      ) {
+                        cat.sliderImg = img.url;
+                        cat.sliderIdentifier = img.identifier;
+                      } else if (cat.sliderImg == "") {
+                        cat.sliderImg = thumb?.image_size[0].url;
+                        cat.sliderIdentifier = thumb?.image_size[0].identifier;
+                      }
+                    });
+                  }
+                });
+              }
+            } else if (cat.is_group == 0) {
+              
+              if (cat.layout_thumbs != null) {
+                cat.layout_thumbs.forEach((thumb: any) => {
+                  if (thumb.layout == "vertical_9x16") {
+                    thumb.layout = "vertical_9x16";
+                  }
+                  if (thumb.layout == category.multiple_layout.layout) {
+                   
+                    thumb?.image_size.filter((img: any) => {
+                      if (category.category_type == "ebook") {
+                        if (Number(img.width) == 854) {
+                          cat.sliderImg = img.url;
+                          cat.sliderIdentifier = img.identifier;
+                        } else if (cat.sliderImg == "") {
+                          cat.sliderImg = thumb?.image_size[0].url;
+                          cat.sliderIdentifier =
+                            thumb?.image_size[0].identifier;
+                        }
+                      } else if (
+                        category.category_type == "default" ||
+                        category.category_type == "continue_watching" ||
+                        category.category_type == "language" ||
+                        category.category_type == "Binge_it_all" ||
+                        category.category_type == "ebook"
+                      ) {
+                        if (
+                          Number(img.width) == 360 ||
+                          Number(img.width) == 854
+                        ) {
+                          cat.sliderImg = img.url;
+                          cat.sliderIdentifier = img.identifier;
+                        } else if (cat.sliderImg == "") {
+                          cat.sliderImg = thumb?.image_size[0].url;
+                          cat.sliderIdentifier =
+                            thumb?.image_size[0].identifier;
+                        }
+                      }
+                    });
+                  }
+                });
+              }
+            }
+            if (category.category_type == "genre") {
+              if (cat.layout_thumbs != null) {
+                cat.layout_thumbs.forEach((thumb: any) => {
+                  if (thumb.layout == category.multiple_layout.layout) {
+                    thumb?.image_size.filter((img: any) => {
+                      if (
+                        Number(img.width) == 360 ||
+                        Number(img.width) == 854
+                      ) {
+                        cat.sliderImg = img.url;
+                        cat.sliderIdentifier = img.identifier;
+                      } else if (cat.sliderImg == "") {
+                        cat.sliderImg = thumb?.image_size[0].url;
+                        cat.sliderIdentifier = thumb?.image_size[0].identifier;
+                      }
+                    });
+                  }
+                });
+              }
+            }
+          });
+        }
+      }
+    });
+  }
+  slideConfig = {
+    "slidesToShow": 1,
+    "dots": true,
+    "arrows": true,
+    "slidesToScroll": 1,
+    "autoplay": false,
+    autoplaySpeed: 2000,
+    // adaptiveHeight: !0,
+    swipe: false,
+    swipeToSlide: false,
+    touchMove: false,
+    draggable: false,
+    accessibility: false,
+    "responsive": [
+      {
+        breakpoint: 1024,
+        settings: {
+          "slidesToShow": 1,
+          swipe: true,
+          "dots": true,
+          "arrows": true,
+          "slidesToScroll": 1,
+          "autoplay": false,
+          autoplaySpeed: 2000,
+        }
+      },
+
+    ]
+  };
+
+  setpin(getid: any) {
+    this.parentaltest = true;
+    $(`#${getid}`).find(".iconlayout").hide();
+    if (this.mainData[0]['auto_play'] == 1) {
+      $(`#${getid}`).find(".iconage").show();
+      this.vid1.pause();
+    }
+
+    const dialogRef = this.dialog.open(ChechPinParentalComponent, {
+      panelClass: "contactfooter",
+      width: "390px",
+    });
+
+    dialogRef.afterClosed().subscribe((result) => { });
+    const sub = dialogRef.componentInstance.isSuccess.subscribe((e: any) => {
+      this.successs = e;
+
+      if (this.successs) {
+        if (this.mainData[0]['auto_play'] == 0) {
+          $(`#${this.idd1}`).find(".iconlayout").show();
+
+          $(`#${this.idd}`).find(".iconlayout").show();
+          $('.iconage').hide()
+        }
+        this.parentaltest = false;
+        $(".iconage").hide();
+        $(`#${getid}`).find(".iconlayout").show();
+        $(`#${getid}`).find(".iconage").hide();
+        this.vid1.play();
+        this.vid1.volume(0);
+      }
+    });
+  }
+
+  IsAutoplay() {
+    this.vid1.play()
+    $(`#${this.idd1}`).find(".iconlayout").show();
+
+    $(`#${this.idd}`).find(".iconlayout").show();
+    this.parentaltest = false;
+    $(".iconage").hide();
+    this.agehide = false;
+    this.vid1.play();
+    this.vid1.volume(0);
+  }
+
+  parentalset(ageget: any, idset: any) {
+    var pinsetid = idset;
+    var isSubscriberUser: any = localStorage.getItem("is_subscriber");
+    var parental: any = localStorage.getItem("taploginInfo");
+    var parental_read = JSON.parse(parental);
+    this.parentaltest = parental_read.is_parental
+    if (parental_read.is_parental == 1 && isSubscriberUser == "1") {
+      if (Number(parental_read.restriction_level) == -1) {
+        this.setpin(pinsetid)
+      } else if (Number(parental_read.restriction_level) == 999) {
+        var xc = window.innerWidth
+        if (xc < 576) {
+          setTimeout(() => {
+            this.vid1.play()
+          }, 100);
+        } else {
+          this.vid1.play()
+        }
+
+        this.vid1.volume(0);
+        this.agehide = false;
+        this.parentaltest = false
+        if (this.mainData[0]['auto_play'] == 0) {
+          $(`#${this.idd1}`).find(".iconlayout").show();
+
+          $(`#${this.idd}`).find(".iconlayout").show();
+          $('.iconage').hide()
+        }
+      } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(ageget.slice(3)) == 999 || Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(ageget.slice(3)) == 16) {
+        var xc = window.innerWidth
+        if (xc < 576) {
+          setTimeout(() => {
+            this.vid1.play()
+          }, 100);
+        } else {
+          this.vid1.play()
+        }
+        this.vid1.volume(0);
+        this.agehide = false;
+        this.parentaltest = false
+        if (this.mainData[0]['auto_play'] == 0) {
+          $(`#${this.idd1}`).find(".iconlayout").show();
+
+          $(`#${this.idd}`).find(".iconlayout").show();
+          $('.iconage').hide()
+        }
+      } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999) {
+        this.setpin(pinsetid)
+      } else if (Number(parental_read.restriction_level) >= 16 && Number(parental_read.restriction_level) < 999 && Number(ageget.slice(3)) == 999) {
+        var xc = window.innerWidth
+        if (xc < 576) {
+          setTimeout(() => {
+            this.vid1.play()
+          }, 100);
+        } else {
+          this.vid1.play()
+        }
+        this.vid1.volume(0);
+        this.agehide = false;
+        this.parentaltest = false
+        if (this.mainData[0]['auto_play'] == 0) {
+          $(`#${this.idd1}`).find(".iconlayout").show();
+
+          $(`#${this.idd}`).find(".iconlayout").show();
+          $('.iconage').hide()
+        }
+      } else {
+        this.setpin(pinsetid)
+      }
+    } else {
+      var xc = window.innerWidth
+      if (xc < 576) {
+        setTimeout(() => {
+          this.vid1.play()
+        }, 100);
+      } else {
+        setTimeout(() => {
+          this.vid1.play()
+        }, 100);
+
+      }
+      this.agehide = false;
+      this.parentaltest = false
+      this.vid1.volume(0);
+
+      setTimeout(() => {
+        $('.parentalicon').hide()
+
+        $('.iconage').hide()
+      }, 100);
+    }
+  }
+
+  get deviceDetection(): any {
+    return this.deviceService.getDeviceInfo();
+  }
+
+  slickInit(_e: any, id: any) {
+
+    
+
+    let xc = window.innerWidth
+    if (xc < 576) {
+      setTimeout(() => {
+        $('.getre').hide()
+        if (id == 0) {
+
+        
+          setTimeout(() => {
+            this.vid1.seekButtons({
+              forward: 10,
+              back: 10
+            });
+
+            var title = $(`#${this.idd1}`).find("#titleget")[0].className;
+            var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
+            this.getlive = $(`#${this.idd1}`).find("#liveget")[0].className;
+            this.getres = ageget.slice(3)
+            setTimeout(() => {
+              $("#ageRestrict")
+                .appendTo($(`#shows${this.idd1.slice(9)}`));
+            }, 1000);
+
+            this.vid1.overlay({
+              overlays: [
+                {
+                  start: "playing",
+                  content: title.split('/').join(' ') + ' ' + 'Trailer',
+                  align: "center",
+                },
+              ],
+            });
+
+            $(".vjs-overlay-center").hide();
+
+            this.vid1.on("pause", () => {
+              this.playing = true;
+            });
+
+            this.vid1.on("play", () => {
+              this.playing = false;
+            });
+          }, 500);
+
+
+
+          let isLoggedInfound = localStorage.getItem("ott_isLoggedIn");
+          if (!this.isSubscribed && !isLoggedInfound) {
+            setTimeout(() => {
+              var nPlayer = _e.slick.currentSlide + 1
+              var videoParentId = $(".carousel").find(".cardvideo")[nPlayer].id;
+              var icc = $(`#${videoParentId}`).parent().attr("id");
+
+              if (icc) {
+                $(`#${icc}`).find(".iconage").show();
+              }
+
+            }, 500);
+
+          }
+
+          $('.iconage').hide()
+          this.video = $(".carousel .slick-active").find("video")[0].id;
+          // console.log(this.video);
+          // console.log($(`#${this.video}`).parent().attr("id"));
+          this.idd1 = $(`#${this.video}`).parent().attr("id");
+          // console.log(this.idd1);
+          $(`#${this.idd1}`).find(".iconlayout").show();
+          this.vid1 = videoJs(this.video);
+          // if(this.isSubscribed){
+          //   this.vid1.attr('loop');
+          // }
+          // $('video').attr(attribute)
+
+
+          $(".vjs-mute-control").on("click", () => {
+            if (this.muted == true) {
+              this.muted = false;
+            } else {
+              this.muted = true;
+            }
+          });
+
+          this.vid1.on("volumechange", () => {
+            var vol = this.vid1.volume();
+            if (vol == 0) {
+              this.muted = true;
+            } else {
+              this.muted = false;
+            }
+          });
+
+
+          let isLoggedIn = localStorage.getItem("ott_isLoggedIn");
+          if (this.isSubscribed && isLoggedIn) {
+
+            this.agehide = false;
+            var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
+            $('.iconage').hide()
+            this.agehide = false;
+            this.parentalset(ageget, this.idd1)
+            // var replay = $("video");
+            // for (let reloop of replay) $(reloop).attr("loop", "true");
+
+          } else if (!this.isSubscribed && isLoggedIn) {
+
+            $('.iconage').hide()
+            this.agehide = false;
+            setTimeout(() => {
+              this.vid1.play()
+            }, 2000);
+            this.vid1.volume(0)
+          } else {
+            var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
+            if (ageget.slice(3) >= 18 && ageget.slice(3) != 999) {
+              this.agehide = true;
+              $(`#${this.idd1}`).find(".iconlayout").hide();
+              this.vid1.pause();
+              const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+                panelClass: "adultAgePopup",
+                width: "500px",
+                data: { dat: event },
+              });
+
+              const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+                $(`#${this.idd1}`).find(".iconlayout").show();
+                $('.iconage').hide()
+                this.agehide = false;
+                this.vid1.play();
+                this.vid1.volume(0)
+              })
+              // var btnn = document.getElementsByClassName("btn-two")[0];
+              // btnn.addEventListener("click", () => {
+
+              // });
+            } else if (ageget.slice(3) == -1) {
+              this.agehide = true;
+              $(`#${this.idd1}`).find(".iconlayout").hide();
+              this.vid1.pause();
+              const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+                panelClass: "adultAgePopup",
+                width: "500px",
+                data: { dat: event },
+              });
+
+              const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+                $(`#${this.idd1}`).find(".iconlayout").show();
+                $('.iconage').hide()
+                this.agehide = false;
+                this.vid1.play();
+                this.vid1.volume(0)
+              })
+              // var btnn = document.getElementsByClassName("btn-two")[0];
+              // btnn.addEventListener("click", () => {
+
+              // });
+            } else {
+              $(`#${this.idd1}`).find(".iconlayout").show();
+              $('.iconage').hide()
+              setTimeout(() => {
+                this.vid1.play()
+              }, 2000);
+              this.vid1.volume(0)
+            }
+          }
+
+          // this.vid1.play();
+
+          this.vid1.on("ended", () => {
+            if (this.isSubscribed) {
+              this.replay = false
+            }
+            // this.replay  = false
+            $(this.vid1.posterImage.contentEl()).css("filter", "brightness(20%)");
+            this.vid1.exitFullscreen();
+            this.lock1 = false;
+            $(this.vid1.posterImage.contentEl()).show();
+            $(`#${this.idd1}`).find(".iconlayout").hide();
+            $('.iconage').hide()
+          });
+        }
+      }, 2000);
+    } else {
+      $('.getre').hide()
+      if (id == 0) {
+
+        // setTimeout(() => {
+        //   var options1 = {
+        //     seekLeft: {
+        //       handleClick: () => {
+        //         const time = Number(this.vid1.currentTime()) - 10;
+
+        //         this.vid1.currentTime(time);
+        //       },
+        //       doubleTap: true,
+        //     },
+        //     // play: {
+        //     //   handleClick: () => {
+        //     //     if (this.player.paused()) {
+        //     //       this.player.play();
+        //     //     } else {
+        //     //       this.player.pause();
+        //     //     }
+        //     //   },
+        //     // },
+        //     seekRight: {
+        //       handleClick: () => {
+        //         const time = Number(this.vid1.currentTime()) + 10;
+
+        //         this.vid1.currentTime(time);
+        //       },
+        //       doubleTap: true,
+        //     },
+        //     lockButton: false
+        //   }
+
+        //    this.vid1.touchOverlay(options1)
+
+        // }, 100);
+
+        // setTimeout(() => {
+        //   $('.vjs-overlay').hide() 
+        // }, 130);
+        setTimeout(() => {
+          this.vid1.seekButtons({
+            forward: 10,
+            back: 10
+          });
+
+          var title = $(`#${this.idd1}`).find("#titleget")[0].className;
+          var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
+          this.getlive = $(`#${this.idd1}`).find("#liveget")[0].className;
+          this.getres = ageget.slice(3)
+          setTimeout(() => {
+            $("#ageRestrict")
+              .appendTo($(`#shows${this.idd1.slice(9)}`));
+          }, 1000);
+
+          this.vid1.overlay({
+            overlays: [
+              {
+                start: "playing",
+                content: title.split('/').join(' ') + ' ' + 'Trailer',
+                align: "center",
+              },
+            ],
+          });
+
+          $(".vjs-overlay-center").hide();
+
+          this.vid1.on("pause", () => {
+            this.playing = true;
+          });
+
+          this.vid1.on("play", () => {
+            this.playing = false;
+          });
+        }, 500);
+
+
+
+        let isLoggedInfound = localStorage.getItem("ott_isLoggedIn");
+        if (!this.isSubscribed && !isLoggedInfound) {
+          setTimeout(() => {
+            var nPlayer = _e.slick.currentSlide + 1
+            var videoParentId = $(".carousel").find(".cardvideo")[nPlayer].id;
+            var icc = $(`#${videoParentId}`).parent().attr("id");
+
+            if (icc) {
+              $(`#${icc}`).find(".iconage").show();
+            }
+
+          }, 500);
+
+        }
+
+        $('.iconage').hide()
+        this.video = $(".carousel .slick-active").find("video")[0].id;
+        // console.log(this.video);
+        // console.log($(`#${this.video}`).parent().attr("id"));
+        this.idd1 = $(`#${this.video}`).parent().attr("id");
+        // console.log(this.idd1);
+        $(`#${this.idd1}`).find(".iconlayout").show();
+        this.vid1 = videoJs(this.video);
+        // if(this.isSubscribed){
+        //   this.vid1.attr('loop');
+        // }
+        // $('video').attr(attribute)
+
+
+        $(".vjs-mute-control").on("click", () => {
+          if (this.muted == true) {
+            this.muted = false;
+          } else {
+            this.muted = true;
+          }
+        });
+
+        this.vid1.on("volumechange", () => {
+          var vol = this.vid1.volume();
+          if (vol == 0) {
+            this.muted = true;
+          } else {
+            this.muted = false;
+          }
+        });
+
+        if (this.mainData[0]['auto_play'] == 1) {
+          let isLoggedIn = localStorage.getItem("ott_isLoggedIn");
+          if (this.isSubscribed && isLoggedIn) {
+            this.agehide = false;
+            var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
+            $('.iconage').hide()
+            this.agehide = false;
+            this.parentalset(ageget, this.idd1)
+            // var replay = $("video");
+            // for (let reloop of replay) $(reloop).attr("loop", "true");
+
+          } else if (!this.isSubscribed && isLoggedIn) {
+
+            $('.iconage').hide()
+            this.agehide = false;
+            setTimeout(() => {
+              this.vid1.play()
+            }, 2000);
+            this.vid1.volume(0)
+          } else {
+            var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
+            if (ageget.slice(3) >= 18 && ageget.slice(3) != 999) {
+              this.agehide = true;
+              $(`#${this.idd1}`).find(".iconlayout").hide();
+              this.vid1.pause();
+              const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+                panelClass: "adultAgePopup",
+                width: "500px",
+                data: { dat: event },
+              });
+
+              const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+                $(`#${this.idd1}`).find(".iconlayout").show();
+                $('.iconage').hide()
+                this.agehide = false;
+                this.vid1.play();
+                this.vid1.volume(0)
+              })
+              // var btnn = document.getElementsByClassName("btn-two")[0];
+              // btnn.addEventListener("click", () => {
+
+              // });
+            } else if (ageget.slice(3) == -1) {
+              this.agehide = true;
+              $(`#${this.idd1}`).find(".iconlayout").hide();
+              this.vid1.pause();
+              const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+                panelClass: "adultAgePopup",
+                width: "500px",
+                data: { dat: event },
+              });
+
+              const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+                $(`#${this.idd1}`).find(".iconlayout").show();
+                $('.iconage').hide()
+                this.agehide = false;
+                this.vid1.play();
+                this.vid1.volume(0)
+              })
+              // var btnn = document.getElementsByClassName("btn-two")[0];
+              // btnn.addEventListener("click", () => {
+
+              // });
+            } else {
+              $(`#${this.idd1}`).find(".iconlayout").show();
+              $('.iconage').hide()
+              setTimeout(() => {
+                this.vid1.play()
+              }, 2000);
+              this.vid1.volume(0)
+            }
+          }
+        } else {
+          if (this.isSubsInfo == 1) {
+            this.parentaltest = true
+            this.agehide = false
+            $(`#${this.idd1}`).find(".iconage").show();
+            // $(".iconage").hide();
+            $(".iconlayout").hide();
+            // $(".parent-layout").hide();
+            $('.agecon').hide()
+
+          } else {
+            this.agehide = true;
+            // setTimeout(() => {
+            //   $(".iconage").hide();
+            // }, 3000);
+
+            $(".iconlayout").hide();
+            $(".parent-layout").hide();
+            $(".iconn").show()
+            $(`#${this.idd1}`).find(".iconage").show();
+          }
+        }
+
+
+        // this.vid1.play();
+
+        this.vid1.on("ended", () => {
+          if (this.isSubscribed) {
+            this.replay = false
+          }
+          // this.replay  = false
+          $(this.vid1.posterImage.contentEl()).css("filter", "brightness(20%)");
+          this.vid1.exitFullscreen();
+          this.lock1 = false;
+          $(this.vid1.posterImage.contentEl()).show();
+          $(`#${this.idd1}`).find(".iconlayout").hide();
+          $('.iconage').hide()
+        });
+      }
+    }
+
+
+  }
+
+  replaybtn(getid: any) {
+    $(this.vid1.posterImage.contentEl()).hide();
+    $(`#${getid}`).find(".iconlayout").show();
+    this.replay = true;
+    this.vid1.play()
+  }
+
+  breakpoint(_e: any) {
+  }
+
+  afterChange(_e: any, id: any) { }
+
+
+  beforeChange(_e: any, id: any) {
+    $(this.vid1.posterImage.contentEl()).css("filter", "brightness(100%)");
+    this.replay = true
+    setTimeout(() => {
+      var title = $(`#${this.idd1}`).find("#titleget")[0].className;
+      let ip: any = localStorage.getItem("ipSaveData");
+
+    }, 1000);
+
+
+    $('#ageRestrict').hide()
+    $('.getre').hide()
+    $('.iconage').hide()
+    // setTimeout(() => {
+    //   $('.vjs-overlay').hide() 
+    // }, 100);
+    if (id == 0) {
+      this.lock1 = true
+      var cPlayer = _e.currentSlide + 1;
+      var nPlayer = _e.nextSlide + 1;
+
+      // console.log(cPlayer);
+      // console.log(nPlayer);
+      // var video1 = document.getElementById("home"+cPlayer);
+      // var video2 = document.getElementById("home"+nPlayer);
+      var videoID = $(".carousel").find("video");
+      // console.log(videoID);
+      this.video1 = $(".carousel").find("video")[cPlayer].id;
+      this.video2 = $(".carousel").find("video")[nPlayer].id;
+
+      // var videoParentId = $('.carousel').find('.cardvideo')[cPlayer].id;
+      var videoParentId = $(".carousel").find(".cardvideo")[nPlayer].id;
+
+      // console.log(videoParentId);
+      // console.log(this.video2);
+
+      // console.log($(`#${videoParentId}`).parent().attr("id"));
+      this.idd = $(`#${videoParentId}`).parent().attr("id");
+      this.agefound = $(`#${this.idd}`).find("#agegroup")[0].className;
+      this.gettitle = $(`#${this.idd}`).find("#titleget")[0].className;
+      this.getlive = $(`#${this.idd}`).find("#liveget")[0].className;
+      $(".iconlayout").hide();
+      $('.iconage').hide()
+      if (this.idd) {
+        $(`#${this.idd}`).find(".iconlayout").show();
+        if (this.agefound.slice(3) != 999 && this.agefound.slice(3) != 16) {
+          $(`#${this.idd}`).find('.iconage').show()
+        }
+        setTimeout(() => {
+          if (this.mainData[0]['auto_play'] == 0) {
+            $(`#${this.idd}`).find(".iconage").show();
+          }
+        }, 100);
+
+      }
+
+      setTimeout(() => {
+        $("#ageRestrict")
+          .appendTo($(`#movie${this.idd.slice(9)}`));
+      }, 1000);
+
+      this.getres = this.agefound.slice(3)
+      // console.log($(this.video2).parent().attr("id"));
+
+      // console.log(this.video2);
+
+      this.changeVideoAndBanner(this.video1, this.video2);
+    }
+  }
+
+  onImgError(event: any, type: any) {
+    console.log(type);
+    if (type == 'circle') {
+      event.target.src = JSON.parse(this.defaultImages).square.path
+    }
+    else if (type == 'rectangle_16x9') {
+      event.target.src = JSON.parse(this.defaultImages).rectangle.path
+    }
+    else if (type == 'vertical_9x16') {
+      event.target.src = JSON.parse(this.defaultImages).vertical.path
+    }
+  }
+
+  ngOnDestroy(): void {
+    // delete videoJs.getPlayers()[`video-ls`];
+    console.log(videoJs.getPlayers());
+    for (let key in videoJs.getPlayers()) {
+      console.log(key);
+      delete videoJs.getPlayers()[key];
+    }
+  }
+
+  hoverWatchMain() {
+    // $('.addwatchMain').hide()
+    // $('.addwatchMainremove').show()
+    $('.hide-carremove').hide()
+  }
+
+  hoverWatchRemoveMain() {
+    // $('.addwatchMain').show()
+    // $('.addwatchMainremove').hide()
+  }
+  hoverRemoveMain() {
+    $('.removeMain').hide()
+    $('.removeMainR').show()
+    $('.hide-carremove').show()
+  }
+  hoverRemoveIconMain() {
+    $('.removeMain').show()
+    $('.removeMainR').hide()
+    $('.hide-carremove').hide()
+  }
+
+  hoverShareMain() {
+    $('.shareaddMain').hide()
+    $('.shareremoveMain').show()
+  }
+
+  hoverShareRemoveMain() {
+    $('.shareaddMain').show()
+    $('.shareremoveMain').hide()
+  }
+  openebook(permalink:any){
+    if(this.isOttLoggedIn){
+      this.router.navigate(["/aol/ebook/"+permalink]);
+    } else{
+      const dialogRef = this.dialog.open(LoginModalDialogComponent, {
+        backdropClass: 'popupBackdropClass',
+        panelClass: 'logindialog',
+        width: "390px",
+        data: { name: "login" },
+      });
+    }
+   
+  }
+}
+

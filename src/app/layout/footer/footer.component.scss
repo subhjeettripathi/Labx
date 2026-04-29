@@ -1,0 +1,529 @@
+mat-card {
+    width: 100%;
+    min-height: 280px;
+    background-color: transparent;
+    color: white;
+}
+
+li {
+    list-style: none;
+}
+
+
+.footerHeading {
+    font-family: 'GothamBold';
+    font-size: 14px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+p a {
+    font-family: 'GothamBook';
+    color: #9d9b9b;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+p a:hover {
+    border-bottom: 2px solid red;
+    text-decoration: none !important;
+    color: #ebeaea;
+}
+
+
+
+.alt {
+    background: #100E22;
+    cursor: pointer;
+}
+
+.alt div a {
+    font-size: 14px;
+    font-family: 'PoppinsRegular';
+    font-weight: 500;
+    color: #ffffff !important;
+    cursor: pointer;
+}
+
+.alt div {
+    margin-right: 0 !important;
+    padding: 12px;
+}
+
+
+h3 {
+    font-size: 16px !important;
+    cursor: default;
+    font-family: "GothamBold" !important;
+}
+
+.footer-policy a {
+    // color: #FFFFFF;
+    // font-size: 12px;
+    // font-family: 'GothamBold';
+    // border-bottom: 1px solid white;
+    color: #ffffff;
+}
+
+.footer-policy a:hover {
+    text-decoration: none;
+    //    border-bottom: 2px solid red !important;
+}
+
+.footer-version {
+    color: #F2F2F2;
+    font-size: 12px;
+    font-family: "GothamLight";
+    width: 100%;
+    margin: auto;
+    text-align: left;
+    min-height: 10px;
+}
+
+.footer-share {
+    color: #FFFFFF;
+    font-size: 14px;
+}
+
+
+.fix-footer {
+    display: none;
+}
+
+// for mobile view css-------------
+
+.mobile-view {
+    width: 100%;
+    display: none !important;
+
+}
+
+.mat-expansion-panel {
+    background: transparent;
+}
+
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+    color: white;
+}
+
+:host ::ng-deep .mat-expansion-panel-header:hover {
+    background: none !important;
+}
+
+:host::ng-deep .footer-panel>.mat-expansion-indicator:after {
+    color: white;
+}
+
+.mat-expansion-panel {
+    display: inline;
+    border-radius: 0px;
+
+}
+
+.social-icons2 {
+    gap: 18px;
+}
+
+.social-icons2 ul {
+    padding: 0px;
+    // text-align: center;
+    margin: 0;
+
+}
+
+.social-icons2 ul li {
+    padding: 0px;
+}
+
+.social-icons2 ul:last-child {
+    margin: 0;
+}
+
+
+
+.mat-expansion-panel-header {
+    border-bottom: 1px solid #707070;
+}
+
+// .alt-share{background-color: #424242;}
+
+:host ::ng-deep .mat-expansion-panel-content {
+    background-color: #00273a !important;
+    padding: 0 24px !important;
+}
+
+.arrow-bottom {
+    text-align: right;
+    position: relative;
+    left: -40px;
+    top: 20px;
+}
+
+
+@media only screen and (max-width:992px) {
+
+    .footer_1 {
+        text-align: center !important;
+        margin-bottom: 10px !important;
+        min-height: 10vh;
+    }
+
+    // .about {
+    //     gap: 0px !important;
+    // }
+
+    // .about li a {
+    //     padding: 1px !important;
+    //     font-size: 14px !important;
+    // }
+
+    .desktop-view {
+        padding: 0px 60px !important;
+    }
+
+
+    :host ::ng-deep .mat-expansion-panel-content {
+        padding: 0 !important;
+    }
+
+    :host ::ng-deep .mat-expansion-panel-body {
+        padding: 15px 24px 16px !important;
+    }
+
+    .mobile-view {
+
+        display: block !important;
+
+    }
+
+    .mat-expansion-panel:not([class*=mat-elevation-z]) {
+        box-shadow: unset !important;
+    }
+
+    .footer-pad {
+        padding: 10px 0px !important;
+    }
+
+    .footer-version {
+        color: #F2F2F2;
+        font-size: 10px;
+        font-family: "GothamLight";
+    }
+
+
+    .social-icons {
+        text-align: center !important;
+        justify-content: center;
+    }
+
+    .fix-footer {
+        border-radius: 30px 30px 0px 0px;
+        display: block;
+        text-align: center;
+        background-color: #4D4D4D;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        z-index: 999;
+        margin: auto;
+        text-align: center;
+    }
+
+    .fix-footer ul {
+        display: flex;
+        margin-bottom: 0;
+        text-align: center;
+        margin: auto;
+        padding: 0;
+    }
+
+    .fix-footer ul li {
+        color: #F2F2F2;
+        width: 8vh;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+
+
+    .premium img {
+        width: 30.5px;
+    }
+
+
+    .fix-footer ul a:focus {
+        color: #ffffff !important;
+        text-decoration: underline !important;
+        text-underline-position: under !important;
+    }
+
+
+
+    .footer-share {
+        text-align: center;
+    }
+
+
+    .mat-expansion-panel {
+        color: white !important;
+    }
+
+    p {
+        margin: 0 0 4px !important;
+    }
+
+    // .alt{
+    //     padding: 20px 20px 80px 20px;
+    // }
+    // .footer-panel .mat-expansion-panel-content .mat-expansion-panel-body {
+    //     padding: 15px 24px 16px !important;
+    // }
+
+    .social-icons2 {
+        margin-left: unset !important;
+        left: unset !important;
+    }
+}
+
+@media only screen and (max-width:572px) {
+
+    .alt div a {
+        font-size: 11px;
+        font-weight: 400;
+    }
+
+    .alt div {
+        padding: 6px;
+    }
+
+
+
+
+    .footer_1 {
+        text-align: center !important;
+        gap: 0;
+    }
+
+    .social-icons-aol {
+        margin-bottom: 10px !important;
+    }
+
+    .fix-footer ul li {
+        position: relative;
+        font-size: 11px;
+        top: 3px;
+        width: 8.5vh;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .socialicons_aol {
+        align-items: center !important;
+    }
+
+    // .alt-share {
+    //     padding-bottom: 90px;
+    // }
+    li {
+        list-style: none;
+        overflow-wrap: anywhere;
+    }
+
+    .about li a {
+        font-size: 12px !important;
+    }
+
+    .desktop-view {
+        padding: 0 !important;
+    }
+
+
+    .footer-version {
+
+        text-align: center;
+
+    }
+
+}
+
+
+@media screen and (max-device-width: 992px) and (orientation: landscape) {
+    .fix-footer ul li {
+        position: relative;
+        font-size: 11px;
+        top: 3px;
+        width: 25vh;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+.footer-wid {
+    width: 14%;
+}
+
+
+
+
+.connect {
+    font-size: 16px;
+    font-weight: bold;
+    color: #FF8731;
+}
+
+.connect-num {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.num-con {
+    color: gray;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.link-flw {
+    margin-top: 30px;
+    background: #008def;
+    color: #fff;
+    border: none;
+    outline: 0;
+    border-radius: 50px;
+    padding: 3px 15px;
+}
+
+.findacourse_aol {
+    display: flex;
+    gap: 10px;
+}
+
+.aolfind {
+    background: #ffae00;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    float: left;
+    line-height: 20px;
+    margin-right: 10px;
+    border: solid 1px #ffae00;
+    font-weight: bold;
+    // font-family: "Gotham Narrow Medium";
+}
+
+.meetupaol {
+    background: #ffffff;
+    border: solid 1px #888;
+    color: #888;
+    padding: 10px 11px;
+    font-size: 13px;
+    border-radius: 5px;
+    text-decoration: none;
+    float: left;
+    line-height: 20px;
+    margin-right: 10px;
+    font-weight: bold;
+    transition: all ease-in;
+}
+
+.meetupaol:hover {
+    background: #eaa000;
+    border: solid 1px #eaa000;
+    color: white;
+    text-decoration: none;
+}
+
+.aolfind:hover {
+    background: #eaa000;
+    color: white;
+    text-decoration: none;
+}
+
+.findacourse_aol {
+    margin: 32px 0px;
+}
+
+.footer_search {
+    float: right;
+    height: 44px !important;
+    border-radius: 44px;
+    box-shadow: none;
+    padding-left: 25px;
+    line-height: 1.42857;
+    width: 100% !important;
+    max-width: 400px !important;
+    outline: 0;
+    border: 0;
+}
+
+.location_aol {
+    width: 44px;
+    height: 44px;
+    background-color: #ffae00;
+    border-radius: 50%;
+    outline: 0;
+    border: 0;
+    position: absolute;
+}
+
+.loct_aol {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.desktop-view {
+    padding: 0 35px;
+}
+
+.Google_Login {
+    position: relative;
+    cursor: pointer;
+    right: 10px;
+}
+
+.share-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.share_ul {
+    margin: 0;
+    padding: 0;
+}
+
+.social-icons-aol {
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.footer_1 {
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.about {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 6px;
+}
+
+.about li a {
+    color: white;
+    padding-right: 0px;
+}
+
+@media screen and (max-width:570px) {
+    .about {
+        margin: 5%;
+        flex-wrap: wrap !important;
+    }
+}

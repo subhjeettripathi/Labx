@@ -1,0 +1,59 @@
+<div class="sec-top">
+    <h1 class="f-size_aol">
+        <span class="mr-3 arrow-right">
+            <img src="assets/svgs/Vector (4).png" style="cursor: pointer" class="arr-icon" (click)="back()" alt="AOL"
+                aria-hidden="false" class="f-size" /> </span>{{'Upcoming_Events'|translate}}
+    </h1>
+
+    <div class="container zoom_container">
+        <div class="zoom-main" *ngFor="let zoom of zoomData">
+            <div class="head_zoom">
+                {{zoom.title}}
+            </div>
+            <div class="time_zoom row">
+                <div class="zoom_img col-lg-4 col-md-4">
+                    <img class="zoomImage" [src]="zoom?.layout_thumbs[0]?.image_size[0]?.url" alt="" width="100%">
+                </div>
+                <div class="zoom_date col-lg-5 col-md-5">
+                    <div class="zoom_heading">{{'Event_will_start_on'|translate}} </div>
+                    <div class="val_zoom">
+                        {{zoom.publish_date | date:"d-MMM-y , HH:mm"}} IST
+                    </div>
+                </div>
+                <div class="btn_zoom col-lg-3 col-md-3">
+                    <button type="submit" (click)="joinMeeting(zoom)">{{'join'|translate}}</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="noEvents" *ngIf="ifEVents"><div>{{'No_Upcoming_Zoom_Events'|translate}}</div></div>
+</div>
+
+<div class="slick-card-carousel  slick-card-padding" style="margin-top: 50px;margin-bottom: 30px" *ngIf="recordingData.length">
+    <div style="display: flex;justify-content: space-between;">
+        <h1>{{recordingData[0]?.cat_name}}</h1>
+        <div [routerLink]="'/view/all/' + recordingData[0]?.cat_name + '/' + recordingData[0]?.cat_id"
+            style="cursor: pointer">
+            <a class="see">{{'see_all_text'|translate}}l</a>
+
+        </div>
+    </div>
+
+    <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="config">
+        <mat-card style="cursor: pointer;" ngxSlickItem class="card-slide"
+            *ngFor="let data of recordingData[0]?.cat_cntn" (click)="PlayVideo(data)">
+            <img class="mySlides" [ngStyle]="{'border-radius':data.type=='circle'?'50%':'4px'}" [src]="data.sliderImg"
+                alt="AOL" width="100%">
+                <div class="icon-crown"
+                *ngIf="data.access_type == 'paid'  && data.package_mode !== 'Prime'  && !isSubscribed">
+                <img src="assets/svgs/aol_crown.svg" class="aol_crown" alt="AOL">
+            </div>
+
+            <div class="free-icon"
+                *ngIf="data.access_type == 'free'  && data.package_mode !== 'Prime' && !isSubscribed">
+                <img src="assets/svgs/free-v1.svg" class="free_aol-icon" alt="AOL" />
+            </div>
+        </mat-card>
+    </ngx-slick-carousel>
+</div>

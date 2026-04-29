@@ -1,0 +1,54 @@
+
+
+
+.alt-login-content {
+    position: relative;
+    text-align: center;
+
+    .alt-login-img {
+        position: relative;
+        top: -56px
+    }
+    .alt-login-img img {
+        width: 20%;
+      }
+}
+
+
+.close-btn {
+    position: absolute;
+    top: -10px;
+    right: -12px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: .1s;
+    color: white;
+
+    &:hover {
+        transform: scale(1.1);
+        transition: .1s;
+
+    }
+}
+
+
+.otpResend {
+    button {
+        color: #B4B4B4;
+        font-size: 16px;
+    }
+}
+.insideBtn {
+    color: #FFFFFF !important;
+    font-weight: 600;
+    border: none;
+    border-bottom: 1px solid white;
+    background-color: transparent;
+}
+
+button:disabled{
+    cursor: not-allowed;
+  pointer-events: all !important;
+}

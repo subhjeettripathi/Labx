@@ -1,0 +1,152 @@
+<div fxLayout="column" fxLayoutGap="5px">
+    <div class="alt-login-content">
+        <div class="alt-login-img" *ngIf="queryForm?.logo?.is_allow==1">
+            <img [src]="queryForm.logo.web" alt="AOL">
+        </div>
+        <div class="alt-login-img-1" *ngIf="queryForm?.logo?.is_allow==1">
+            <img [src]="queryForm.logo.web" alt="AOL">
+        </div>
+        <button (click)="onNoClick()" class="close-btn">
+            <mat-icon class="close_btn">Close</mat-icon>
+        </button>
+        <h4 class="content_us title" *ngIf="queryForm.heading1?.is_allow">{{'contactUs' |translate}}</h4>
+        <h6 class="content" *ngIf="queryForm.other?.is_allow">{{queryForm?.other.text |translate}}</h6>
+        <div class="alt-login-content">
+
+            <form [formGroup]="otherQueryForm" #emailLoginFormDir="ngForm" class="form-class" (ngSubmit)="onSubmit()">
+                <div class="alt-m-2 formField" >
+                    <div class="mt-3 mb-3">
+                        <ng-select  formControlName="query_type" type="select" (change)="selectCodeChange($event)" [searchable]="false" [clearable]="false" *ngIf="queryForm?.other?.query_dropdown?.is_allow==1" class="custom" [placeholder]="queryForm.other.query_dropdown.placeholder |translate">
+                            <ng-option *ngFor="let item of queryForm.other.query_dropdown.dropdown.values" [value]="item.text">{{item.text |translate}}</ng-option>
+                         </ng-select>
+                           
+                         <mat-error style="text-align:left; font-size:11px;margin-left:2.8%; font-family: 'GothamBook !important'; "
+                         *ngIf="(otherQueryForm.get('query_type')?.invalid && emailLoginFormDir.submitted)">
+                           {{'messageFAQSelectQueryType' |translate}}
+ 
+                         </mat-error>
+                    </div>
+                    <!-- <mat-form-field appearance="outline" *ngIf="queryForm?.other?.query_dropdown?.is_allow==1" class=" attchment ">
+                        <mat-select formControlName="query_type" (selectionChange)="selectCodeChange()" class="custom"
+                            [placeholder]="queryForm.other.query_dropdown.placeholder" autocomplete="off" required>
+                            <mat-option *ngFor="let query of queryForm.other.query_dropdown.dropdown.values"
+                                [value]="query">
+                                <span *ngIf="query?.is_allow==1">{{query?.text}}</span>
+                            </mat-option>
+                        </mat-select>
+                  
+                        <span class="reqSelect" *ngIf="!otherQueryForm.value.query_type">*</span>
+                       
+                        <mat-error
+                        *ngIf="(otherQueryForm.get('query_type')?.invalid && emailLoginFormDir.submitted)||otherQueryForm.controls['query_type'] && (otherQueryForm.controls['query_type'].dirty || otherQueryForm.controls['query_type'].touched)">
+                          {{errorMsg?.messageFAQSelectQueryType}}
+
+                        </mat-error>
+
+                    </mat-form-field> -->
+
+                    <mat-form-field appearance="outline" *ngIf="queryForm?.other?.email?.is_allow==1" class="emailInput attchment " >
+
+                        <input matInput [placeholder]="queryForm.other.email.placeholder " *ngIf="!queryEmail"
+                            formControlName="email" autocomplete="off" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required >
+                        <input matInput [(ngModel)]="queryEmail" *ngIf="queryEmail" readonly formControlName="email">
+                        <!-- <span class="req" *ngIf="!queryEmail && !otherQueryForm.value.email">*</span> -->
+                        <mat-error  style="text-align:left; font-size:11px; font-family: 'GothamBook !important';"  *ngIf="(otherQueryForm.get('email')?.invalid && emailLoginFormDir.submitted)">
+                            {{'enter_email_address' |translate}} 
+                      
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field  class="attchmentFile attchment " appearance="outline"  (click)="fileInput.click()" style="cursor: pointer;"
+                        *ngIf="attachmentButton && queryForm.other?.attach_screenshot?.is_allow==1; ">
+                        <button mat-icon-button  style="color:#DEDEDE ;" type="button">
+                            <mat-icon>attach_file</mat-icon> {{queryForm.other.attach_screenshot.placeholder |translate}}
+                        </button>
+                        <input matInput readonly autocomplete="off" required >
+                        <input hidden (change)="selectFile($event)" #fileInput type="file" id="file" accept="image/*"   >
+                        <!-- <mat-error
+                        *ngIf="(otherQueryForm.get('attachment_file')?.invalid && emailLoginFormDir.submitted)||otherQueryForm.controls['attachment_file'] && (otherQueryForm.controls['attachment_file'].dirty || otherQueryForm.controls['attachment_file'].touched)">
+                        Attachment file is required
+                    </mat-error> -->
+                    </mat-form-field>
+                   
+                    <span class="chooseHelpTOpic" *ngIf="fileData.length==0 && queryForm.other?.attach_screenshot?.is_allow==1;">{{'Attachment' |translate}} {{queryForm.other.attach_screenshot.file_size}}MB </span>
+                    <mat-form-field appearance="outline"  *ngFor="let b of fileData;let i=index" class="fileDataInput attchment mt-1">
+                        <input matInput  readonly autocomplete="off"
+                            accept="image/*" required  [placeholder]="b.name.length>=15?b.name.substr(0,15)+'...'+b.name.substr(-7):(b.name)">
+                        <button type="button" (click)="deleteFile(i)" class="close-btn" >
+                            <mat-icon style="color:#ffffff; justify-content: center; margin-top: 10px;">Close</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" *ngIf="queryForm?.other?.question?.is_allow==1">
+
+                        <textarea matInput [placeholder]="'Message' |translate" rows="3" [maxlength]="queryForm?.other?.question?.word_limit"   [(ngModel)]="value" (ngModelChange)="valueChange(value)"
+                            formControlName="write_a_question" autocomplete="off" ></textarea>
+                            <span class="remaning">{{remainingText}}/{{queryForm?.other?.question?.word_limit}}</span>
+                        <!-- <input matInput placeholder="Write a question "  formControlName="write_a_question" autocomplete="off" required> -->
+                        <!-- <mat-error  *ngIf="(otherQueryForm.get('write_a_question')?.invalid && emailLoginFormDir.submitted)">
+                            {{errorMsg?.messageFAQWriteAQuestion}} 
+                           
+                        </mat-error> -->
+                        
+                        
+                    </mat-form-field>
+                    <div *ngIf="fileData.length!=0 &&queryForm.other.disclaimer.is_allow==1" style="margin-top:8px;">
+                        <p class="disclaimer">
+                            {{'Disclaimer' |translate}}-
+                        </p>
+                        <p class="detailsDisclaimer" >
+                            {{queryForm?.other?.disclaimer?.text |translate}}
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="alt-m-2">
+                    <button type="submit" class="alt-btn-p alt-w-50">{{'submit' |translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #imageSizeALert>
+    <div class="modal-container">
+   
+     <div  fxLayout="column" fxLayoutGap="50px">
+         <div class="parental-control-content">
+             <span class="img-logo">
+                 <img src="assets/svgs/altbalaji_logo.svg" alt="">
+             </span>
+             <button (click)="imageSizeConfirmationclose()" class="close-btn">
+                 <mat-icon>Close</mat-icon>
+             </button><br>
+             <div class="alt-login-img">
+                <img src="assets/svgs/info.svg" alt="">
+            </div>
+     
+           <br>
+             <div class="logout-mdll">
+                 <p style="color:white;font-size:16px;font-weight: 600;">{{'max_file' |translate}} </p>
+                
+                 <br>
+                 <!-- <div class="row">
+                     <div class="col-6">
+     
+                         <button type="button" class="btn-two" (click)=" removeWatchlistContent(-1)">Yes</button>
+                     </div>
+                     <div class="col-6">
+                         <button type="button" class="btn-one" (click)="watchListConfirmationclose()">No</button>
+                     </div>
+                  
+                 </div> -->
+     
+             </div>
+         </div>
+        
+        
+       </div>
+    </div>
+   </ng-template>

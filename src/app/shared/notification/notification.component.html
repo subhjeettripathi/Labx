@@ -1,0 +1,12 @@
+<div class="sec-top" >
+    <h1 class="mb-0 pb-4 accountHeading font-36"><span class="mr-3 arrow-right">
+            <!-- <mat-icon (click)="back()" class="arrow not-arrow" aria-hidden="false" svgIcon="back-arrow"></mat-icon> -->
+            <img src="assets/svgs/Vector (4).png" style="cursor: pointer;" class="arr-icon" (click)="back()" alt="AOL" aria-hidden="false" class="f-size">
+        </span>{{'notification'|translate }}</h1>
+    <div class="noti-header" *ngIf="notifyData.is_allow==1">
+        <div class="noti">
+          {{notifyData.empty_notification_text}}
+        </div>
+
+    </div>
+</div>

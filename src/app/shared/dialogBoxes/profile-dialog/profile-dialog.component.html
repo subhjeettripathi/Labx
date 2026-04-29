@@ -1,0 +1,34 @@
+<div class="profile">
+    <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-between" class="alt-p-20">
+        <div class="alt-profildialog-content">
+            <div class="alt-main-content">
+               
+                <div class="alt-profile-details">
+                    <button (click)="close()" class="close-btn" style="float: right;">
+                        <!-- <mat-icon>close</mat-icon> -->
+                        <img src="/assets/svgs/Vector.svg" alt="">
+                    </button>
+
+                    <div class="profile-img-disp">
+                        <p><img [src]="datas[0].data.banner" (error)="onImgError($event)"
+                                style="width:220px;height:260px;" alt="AOL" class="profile-img"> 
+                            <span class="a-heading">{{datas[0].data.name}}</span><br>
+
+                        </p>
+                        <div class="deta-scrol"> {{datas[0].data.description}} </div>
+                    </div>
+                    <div class="disp">                         
+                       <div class="disp-image">
+                         <img [src]="datas[0].data.banner" (error)="onImgError($event)" alt="AOL" width="100%"> 
+                       </div>
+                        
+                        <div class="disp-content"> 
+                            <h2>{{datas[0].data.name}}</h2>
+                            <p>{{datas[0].data.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

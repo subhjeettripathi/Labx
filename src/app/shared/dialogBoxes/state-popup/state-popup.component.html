@@ -1,0 +1,25 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <!-- <div class="parental-control-content">
+        <span class="img-logo" >
+            <img src="{{ baseSignin.logo.web }}" alt="ALTBalaji">
+        </span>
+
+        <button (click)="close()" class="close-btn">
+            <mat-icon>close</mat-icon>
+        </button> -->
+   
+    <div onclick="(event||window.event).stopPropagation()" class="search-country-code">
+        <input id="search-country" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" type="search"
+            aria-label="Search" autocomplete="off" name="country-code" placeholder="Search states" /><span
+            class="search-iconn text-right"><img class="loginSearchImg" src="assets/svgs/searchLogin.svg"
+                alt="AOL"></span>
+    </div>
+    <ul class="country-code-lists">
+        
+        <li *ngFor="let a of states| filter: searchText" (click)="stateSelected(a.name)">
+            {{a.name}}
+        </li>
+
+    </ul>
+    <!-- </div> -->
+</div>

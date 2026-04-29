@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-3 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <polygon class="cls-2" points="18.81 11.24 8.09 11.24 10.8 8.53 9.73 7.46 5.19 12 9.73 16.54 10.8 15.47 8.09 12.76 18.81 12.76 18.81 11.24"/>
+    </clipPath>
+  </defs>
+  <g id="ic_keyboard_backspace" data-name="ic keyboard backspace">
+    <g id="Group_2304" data-name="Group 2304">
+      <path id="Mask-36" class="cls-2" d="m18.81,11.24h-10.73l2.71-2.72-1.07-1.07-4.54,4.54,4.54,4.54,1.07-1.07-2.71-2.72h10.73v-1.51Z"/>
+      <g>
+        <polygon class="cls-1" points="18.81 11.24 8.09 11.24 10.8 8.53 9.73 7.46 5.19 12 9.73 16.54 10.8 15.47 8.09 12.76 18.81 12.76 18.81 11.24"/>
+        <g class="cls-3">
+          <g id="Mask_Group_2304" data-name="Mask Group 2304">
+            <g id="_Color-14" data-name=" Color-14">
+              <g id="Group_1769-14" data-name="Group 1769-14">
+                <rect id="Black-36" class="cls-2" x="-6.92" y="-6.92" width="37.85" height="37.85"/>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

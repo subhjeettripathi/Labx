@@ -1,0 +1,81 @@
+.example-card {
+  img {
+    // width: 100%;
+    height: auto;
+  }
+}
+
+.section-popular {
+  padding-top: 2%;
+  padding: 3px;
+}
+
+.alt-p-3 {
+  position: relative;
+}
+
+.crown {
+  position: absolute;
+  top: 7%;
+  left: 6.4%;
+}
+.prime-icon {
+  top: 3%;
+  position: absolute;
+  left: 5%;
+}
+#searchDiv {
+  cursor: pointer;
+}
+
+.noSearchResult {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  font-family: "PoppinsBold";
+  align-items: center;
+  margin-top: 10%;
+}
+
+.icon-crown {
+  position: absolute;
+  top: 3%;
+  left: 5%;
+}
+
+.icons_art{
+  position: absolute;
+  top: 3%;
+  right: 5%;
+}
+
+
+.free-icon {
+  position: absolute;
+  top: 6%;
+  left: 1.5%;
+}
+
+.title_case {
+  font-size: 15px;
+  font-family: 'PoppinsRegular' !important;
+  font-weight: 600;
+  margin: 0;
+  margin-top: 10px;
+  word-wrap: break-word;
+}
+
+@media screen and (max-width:992px) {
+
+  .title_case {
+    font-size: 12px;
+  }
+
+  .free-icon {
+    position: absolute !important;
+    top: 6px !important;
+    left: 0px !important;
+}
+
+}

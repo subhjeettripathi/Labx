@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="233.172" height="27.652" viewBox="0 0 233.172 27.652">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.009" y1="1" x2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff9600"/>
+      <stop offset="0.075" stop-color="#ff9600"/>
+      <stop offset="0.5" stop-color="#ff0032"/>
+      <stop offset="1" stop-color="#ff009b"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" y1="1" x2="1.278" y2="0.405" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff9600"/>
+      <stop offset="0.627" stop-color="#ff0032"/>
+      <stop offset="1" stop-color="#ff009b"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="-0.102" y1="0.07" x2="1.269" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff9600"/>
+      <stop offset="0.285" stop-color="#ff9600"/>
+      <stop offset="0.718" stop-color="#ff0032"/>
+      <stop offset="1" stop-color="#ff009b"/>
+    </linearGradient>
+  </defs>
+  <g id="recomend" transform="translate(-915.414 -227)">
+    <path id="Subtraction_126" data-name="Subtraction 126" d="M192,15H14a13.908,13.908,0,0,1-9.9-4.1A13.908,13.908,0,0,1,0,1V-12.651H206V1a13.907,13.907,0,0,1-4.1,9.9A13.909,13.909,0,0,1,192,15Z" transform="translate(929 239.651)" fill="url(#linear-gradient)"/>
+    <text id="Recommanded" transform="translate(980 244)" fill="#fff" font-size="13" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">Recommanded</tspan></text>
+    <path id="Path_3007" data-name="Path 3007" d="M12874-12202v15.075h-13.586Z" transform="translate(-11945 12429)" fill="url(#linear-gradient-2)"/>
+    <path id="Path_3008" data-name="Path 3008" d="M12860.414-12202v15.075H12874Z" transform="translate(-11725.414 12429)" fill="url(#linear-gradient-3)"/>
+  </g>
+</svg>

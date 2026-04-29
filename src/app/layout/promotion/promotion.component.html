@@ -1,0 +1,193 @@
+<div class="player-aol-plan" *ngIf="upgradePlan?.promo_url!= ''">
+  <video autoplay muted loop playsinline class="video-bg" id="playerss" (timeupdate)="updateTime()"
+    (loadedmetadata)="setDuration()">
+    <source type="application/x-mpegURL" />
+  </video>
+        <div class="icon_players" *ngIf="hideicon">
+        <div class="play">
+          <img [src]="isPlaying ? 'assets/new_icons/pause.svg' : 'assets/new_icons/play.svg'" width="35"
+            alt="toggle play pause" style="cursor: pointer" (click)="togglePlayPause()" />
+          <span>{{ formatTime(currentTime) }} / {{ formatTime(duration) }}</span>
+        </div>
+        <div class="muteddd">
+          <img style="cursor: pointer" *ngIf="muted" (click)="unmute()" width="45px" height="45px"
+            src="assets/new_icons/volume-x.svg" alt="AOL" class="mute-unmute" loading="lazy" />
+          <img style="cursor: pointer" *ngIf="!muted" (click)="mute()" width="45px" height="45px"
+            src="assets/new_icons/volume-2.svg" alt="AOL" class="mute-unmute" loading="lazy" />
+        </div>
+      </div>
+</div>
+
+<!-- <header class="hero d-flex align-items-center">
+  <div class="container text-center hero-inner">
+    <img src="assets/img/aol-logo.webp" alt="logo" class="hero-logo mb-4">
+    <h1 class="hero-title">Unlock Divine<br />Spiritual Wisdom</h1>
+
+  </div>
+</header> -->
+
+<section class="section-dark" *ngIf="upgradePlan?.highlight_plan?.is_allow==1">
+  <div class="container">
+    <h2 class="section-title text-center mb-4">
+      {{ upgradePlan?.highlight_plan?.title }}
+    </h2>
+    <p class="lead text-center text-muted mb-5">
+      {{ upgradePlan?.highlight_plan?.subtitle }}
+    </p>
+
+    <div class="row align-items-center g-4" style="margin-bottom: 6rem">
+      <div class="col-lg-4 text-center px-0">
+        <img [src]="upgradePlan?.highlight_plan?.highlight_banner" alt="Patanjali"
+          class="patanjali-img img-fluid rounded shadow-sm" />
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card card-dark p-4 border-0">
+          <!-- <h3 class="h5 mb-3">About {{upgradePlan?.highlight_plan?.title}}</h3> -->
+          <!-- <hr> -->
+          <p class="text-muted m-0" [innerHTML]="highlightDes"></p>
+
+          <!-- <h4 class="h6 mt-3">Why Should You Watch It?</h4>
+          <hr>
+          <ul class="feature-list pl-3">
+            <li>PYS 2025 is a new series in its entirety.</li>
+            <li>Gurudev made us experience each Meditation.</li>
+            <li>New take on the classic Yoga Sutras with modern day examples.</li>
+            <li>Multiple talks were given to introspect.</li>
+          </ul> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4" style="background-color: white">
+    <div class="col-12 text-center">
+      <button class="btn btn-buy-primary" (click)="goToPayment(upgradePlan?.highlight_plan)">
+        {{ upgradePlan?.highlight_plan?.button_text }}
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 section-dark" *ngIf="upgradePlan?.basic_plan?.is_allow==1">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12" *ngFor="let x of upgradePlan?.basic_plan.plans">
+        <div class="media-card p-3">
+          <div class="row align-items-top">
+            <div class="col-md-4 text-center">
+              <img [src]="x.plan_banner" class="media-thumb img-fluid" alt="Mobile 1" />
+            </div>
+            <div class="col-md-8">
+              <h2 class="mb-1">{{ x.title }}</h2>
+              <p class="text-muted small" [innerHTML]="x.safeDescription"></p>
+              <button class="btn btn-buy-small" (click)="goToPayment(x)">
+                {{ x.button_text }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sale-band text-center py-5">
+  <div class="container">
+    <h3 class="mb-3">Sale Ends In</h3>
+    <div class="timer-container">
+      <div class="timer-boxes">
+        <div class="time-box">
+          <span class="time-value">{{ days }}</span>
+          <span class="time-label">Days</span>
+        </div>
+        <div class="time-box">
+          <span class="time-value">{{ hours }}</span>
+          <span class="time-label">Hours</span>
+        </div>
+        <div class="time-box">
+          <span class="time-value">{{ minutes }}</span>
+          <span class="time-label">Minutes</span>
+        </div>
+        <div class="time-box">
+          <span class="time-value">{{ seconds }}</span>
+          <span class="time-label">Seconds</span>
+        </div>
+      </div>
+    </div>
+    <hr class="mx-auto my-3" style="max-width: 400px" />
+  </div>
+</section>
+
+<section class="testimonial-section py-5" *ngIf="upgradePlan?.testimonial?.is_allow == 1">
+  <div class="container text-center">
+    <h3>{{ upgradePlan?.testimonial?.heading }}</h3>
+    <p class="small mb-4" [innerHTML]="testimonialDes"></p>
+
+    <div class="testimonial d-flex flex-column align-items-center">
+      <img [src]="upgradePlan?.testimonial?.profile_image" class="rounded-circle testimonial-img mb-3"
+        alt="testimonial" />
+      <strong>{{ upgradePlan?.testimonial?.name }}</strong>
+      <div class="small">{{ upgradePlan?.testimonial?.designation }}</div>
+    </div>
+  </div>
+</section>
+
+<section class="section-dark py-5" *ngIf="upgradePlan?.faq?.is_allow == 1">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="faq-image p-3 bg-white rounded shadow-sm">
+          <img [src]="upgradePlan?.faq?.faq_image" alt="faq" class="img-fluid" />
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <h3>{{ upgradePlan?.faq?.heading }}</h3>
+        <p class="text-muted mb-3">
+          {{ upgradePlan?.faq?.description }}
+        </p>
+
+        <div class="accordion" id="faqAccordion">
+          <div class="accordion-item" *ngFor="let x of upgradePlan?.faq?.faqs; let i = index">
+            <h2 class="accordion-header">
+              <button data-toggle="collapse" class="accordion-button collapsed" type="button" data-toggle="collapse"
+                [attr.data-target]="'#collapse' + i">
+                {{ x.question }}
+              </button>
+            </h2>
+            <div data-parent="#faqAccordion" class="collapse" [attr.id]="'collapse' + i" aria-labelledby="collapse0">
+              <div class="card-body">
+                {{ x.answer }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 section-dark bg-white connect" *ngIf="upgradePlan?.support_team?.is_allow == 1">
+  <div class="container text-center">
+    <h3>{{ upgradePlan?.support_team?.heading }}</h3>
+    <p class="text-muted mb-4 connect-text">
+      {{ upgradePlan?.support_team?.description }}
+    </p>
+
+    <div class="row text-center">
+      <div class="col-md-4 mb-3" *ngFor="let x of upgradePlan?.support_team?.supportteams">
+        <img [src]="x.icon" alt="" srcset="" />
+        <h5>{{ x.title }}</h5>
+        <p class="small text-muted connect-text">{{ x.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer-dark py-5" *ngIf="upgradePlan?.footer?.is_allow == 1">
+  <div class="container text-center">
+    <img [src]="upgradePlan?.footer?.logo" alt="aol" class="footer-logo mb-3" />
+    <p class="text-muted small mb-1" [innerHTML]="footerDes"></p>
+    <p class="text-muted small">{{ upgradePlan?.footer?.footer_copyright }}</p>
+  </div>
+</footer>

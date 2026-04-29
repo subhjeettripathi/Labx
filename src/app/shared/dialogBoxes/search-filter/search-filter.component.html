@@ -1,0 +1,67 @@
+<div fxLayout="column" fxLayoutGap="10px">
+  <div fxLayoutAlign="flex-end">
+
+    <mat-icon (click)="close()">Close</mat-icon>
+
+  </div>
+  <form [formGroup]="searchForm" #searchFormDir="ngForm" (ngSubmit)="onSubmit()">
+
+    <!-- <div class="form-group">
+      <label>Type</label>
+      <select class="form-control" formControlName="year">
+        <option value="" selected disabled>Choose Year</option>
+        <option *ngFor="let x of year">{{x}}</option>
+
+      </select>
+
+    </div> -->
+
+    <!-- <div class="form-group">
+      <label>Genre</label>
+      <select class="form-control" formControlName="genre">
+        <option value="" selected disabled>Choose Genre</option>
+        <option *ngFor="let x of genre">{{x}}</option>
+      </select>
+
+    </div> -->
+
+    <div class="form-group">
+      <label>{{'language' |translate}}</label>
+      <select class="form-control" formControlName="language">
+        <option value="" selected disabled>{{'Choose_Language' |translate}}</option>
+        <option *ngFor="let l of languageData">{{l}}</option>
+
+
+      </select>
+
+    </div>
+
+    <div class="form-group">
+      <label>{{'Category' |translate}}</label>
+      <select class="form-control" formControlName="category">
+        <option value="" selected disabled >{{'Choose_Category' |translate}}</option>
+        <option *ngFor="let c of returncategory">{{c}}</option>
+
+      </select>
+      <!-- <ng-select [items]="returncategory" appendTo="body" [hideSelected]="true" [multiple]="true"
+        bindLabel="name" formControlName="category" placeholder="Select Rights">
+      </ng-select> -->
+
+    </div>
+    <br>
+    <div class="row btnsFilter">
+      <div class="col-md-6 clearFilter">
+        <button (click)="clearFIlters()">
+          {{'Clear_Filters' |translate}}
+        </button>
+      </div>
+      <div class="col-md-6 submitFilter">
+        <button type="submit">
+          {{'submit' |translate}}
+        </button>
+      </div>
+    </div>
+
+
+  </form>
+</div>

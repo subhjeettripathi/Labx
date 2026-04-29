@@ -1,0 +1,33 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="alt-login-content">
+        <div class="alt-login-img">
+            <img src="assets/svgs/altt_logo.svg" alt="AOL">
+        </div>
+        <button (click)="onNoClick()" class="close-btn">
+            <!-- <mat-icon>close</mat-icon> -->
+            <img src="/assets/svgs/Vector.svg" alt="">
+        </button>
+
+        <ng-container>
+            <mat-card class="bg-payment alt-br-12">
+                <form action="" [formGroup]="paytmForm" (ngSubmit)="paytmFormSubmit()">
+                    <!-- <span class=""> +91</span> -->
+                    <mat-form-field appearance="fill" class="drop">
+
+                        <input matInput placeholder="Paytm registered mobile number" type="text" maxlength="10"
+                            formControlName="paytmInput" autocomplete="off" required oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');">
+
+
+                    </mat-form-field>
+                    <!-- <mat-divider></mat-divider> -->
+                    <div class="alt-m-4">
+                        <button type="submit" class="alt-btn-p alt-w-100">Send Otp</button>
+                    </div>
+               </form>
+
+            </mat-card>
+        </ng-container>
+
+
+    </div>
+</div>

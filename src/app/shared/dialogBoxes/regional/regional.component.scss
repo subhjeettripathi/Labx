@@ -1,0 +1,89 @@
+.parental-control-content {
+    position: relative;
+    text-align: center;
+
+
+    .img-logo {
+        position: absolute;
+        top: -61px;
+        right: 37%;
+        margin-bottom: 5px;
+
+    }
+
+    // .img-logo img{
+    //     width: 25%;
+    // }
+}
+
+.adulttHeading {
+    color: white;
+    font-size: 18px;
+    font-family: "GothamBold" !important;
+}
+
+.close-btn {
+    position: absolute;
+    top: -10px;
+    right: -12px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+}
+
+.subtitleContent p {
+    // background-color: grey;
+    background: #100E22;
+    padding: 9px;
+    font-size: 17px;
+    text-align: start;
+    color: white;
+    width: 100%;
+    margin-bottom: 8px;
+    position: relative;
+    img {
+        position: absolute;
+        right: 8px;
+    }
+
+
+}
+
+.btn-done-aol {
+    border: 0;
+    outline: 0;
+    background: #FF8731;
+    padding: 10px 20px;
+    border-radius: 4px;
+    width: 100%;
+    font-family: 'PoppinsRegular';
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #FFFFFF;
+    margin-top: 15px;
+}
+
+.aol-lang {
+    //styleName: Poppins -medium-16;
+    font-family: 'PoppinsMedium';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.radio {
+    display: none;
+}
+
+.aol-lang-rel{
+    position: relative;
+    padding: 10px 30px;
+}

@@ -1,0 +1,46 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <div class="alt-login-img" *ngIf="basesignin.delete_account_alert.logo.is_allow == 1">
+            <!-- <img src="{{basesignin.clearContinueWatching.logo.web}}" alt="AOL"> -->
+            <img src="assets/svgs/aol.png" alt="">
+        </div>
+        <button (click)="close()" class="close-btn">
+            <!-- <mat-icon>close</mat-icon> -->
+            <img src="assets/svgs/Vector.svg" alt="">
+        </button>
+
+
+        <div>
+            <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
+            <p style="color:white;font-size:16px;font-weight: 600;">
+                <!-- Are you sure you want request to (key added to translattion service) -->
+                 
+               {{'Are_you_sure_you_want_request_to' |translate}} {{data.data |translate}} 
+                 <!-- the account? key added to the translation service -->
+                  {{'the_account' |translate}}
+            </p>
+            <p  style="color:#ffff;font-size:16px;font-weight: 600;">
+                <!-- OTP verification required in the next step. key added to the transalation service -->
+                 {{"OTP_verification_required_in_the_next_step" |translate}}
+            </p>
+            <div class="row">
+                <div class="col-6">
+                    <button type="button" (click)="yes()" class="btn-one"
+                        *ngIf="basesignin.delete_account_alert.cancel_btn.is_allow == 1">
+                        <!-- {{basesignin.delete_account_alert.cancel_btn.text |translate}} -->
+                         {{'yes'|translate}}
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button (click)="close()" type="button" class="btn-two"
+                        *ngIf="basesignin.delete_account_alert.continue_btn.is_allow == 1">
+                        <!-- {{basesignin.delete_account_alert.continue_btn.text |translate}} -->
+                         {{'no' |translate}}
+                    
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,146 @@
+.search-icon {
+    //  margin-right: 1%;
+    opacity: 1 !important;
+    cursor: pointer;
+}
+
+
+// .cards{
+//     padding: 15px;
+// }
+.prime-icon {
+    top: 4%;
+    position: absolute;
+    left: 5%;
+}
+.search-Input {
+    width: 470px;
+    height: 50px;
+    background: #DEDEDE 0% 0% no-repeat padding-box;
+    border: 1px solid #707070;
+    border-radius: 4px;
+    opacity: 1;
+    font-size:18px;
+    font-weight:bold;
+    letter-spacing: 0px;
+    color: #1E1E1E;
+    text-transform: capitalize;
+    padding: 20px;
+    
+}
+
+#search {
+    background-color: #2D2D2D;
+}
+
+#search:active {
+    background-color: #2D2D2D;
+}
+
+
+//   for remove input border-bottom:-
+::ng-deep .mat-form-field-underline {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.popularSearch {
+    a {
+        // color: #9B9B9B;
+        font-size: 20px;
+        font-family: 'GothamBold';
+        cursor: pointer;
+
+    }
+
+    a:active {
+        font-weight: 600;
+        // color: #FFFFFF !important;
+    }
+
+}
+
+.searchField input::placeholder {
+    color: #F2F2F2 !important;
+    opacity: 50%;
+    font-size: 17px;
+    font-family: GothamMedium;
+
+}
+
+
+.mat-form-field {
+    width: 470px !important;
+    font-size: inherit;
+    font-weight: 400;
+    line-height: 1.125;
+    font-family: normal normal medium 18px/13px Gotham HTF !important;
+    letter-spacing: normal;
+    // height: 50px !important;
+    justify-content: center;
+    margin: -6px 0px -6px 0px !important;
+    padding: -20px !important;
+    // margin-bottom: 10px !important;
+}
+
+
+.alt-p-3 {
+    position: relative;
+}
+
+
+
+
+
+#searchDiv {
+    cursor: pointer;
+}
+
+.noSearchResult {
+    text-align: center;
+    font-size: 20px;
+    font-family: "PoppinsBold";
+    margin-top: 10%;
+}
+
+
+.icon-crown{
+    position: absolute;
+    top: 4%;
+    left: 6%;
+  }
+  
+  .icons_art{
+    position: absolute;
+    top: 4%;
+    right: 6%;
+  }
+
+@media screen and (max-width:992px) {
+    .free-icon{
+        top: 6px !important;
+        left: -2px !important;
+    }
+
+    .singer-del{
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        line-height: 16px !important;
+        margin-top: 5px !important;
+    }
+    
+}
+
+.singer-del{
+    font-family: "PoppinsRegular" !important;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 25px;
+    letter-spacing: 0em;
+    // text-align: left;
+    margin-top: 10px;
+}

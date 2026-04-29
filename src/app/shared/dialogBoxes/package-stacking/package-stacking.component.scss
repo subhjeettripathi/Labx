@@ -1,0 +1,109 @@
+.alt-login-content {
+    position: relative;
+    text-align: center;
+  
+  
+    .alt-login-img {
+        margin-bottom: 10px;
+    }
+    // .alt-login-img img {
+    //   width: 20%;
+    // }
+  }
+  
+  .stacking-text {
+    color: #ffffff;
+    text-align: left;
+    text-align: center;
+    font-size: 21px !important;
+    // margin-left: 34px;
+    // margin-left: 20px;
+  }
+  .totalPrice {
+    text-decoration-line: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: white;
+  }
+  .subscr-stack {
+    color: #e6d7d7;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+  
+  .subscr-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .subscr-btns button {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 4px;
+    background: grey;
+  }
+  .subscr-btns button:hover {
+    background: #FF8731;
+  }
+  
+  .subscr-stack {
+    margin-bottom: 20px;
+    height: 150px;
+    overflow-y: scroll;
+  }
+  
+  /* width */
+  .subscr-stack::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  /* Track */
+  .subscr-stack::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+  
+  /* Handle on hover */
+  .subscr-stack::-webkit-scrollbar-thumb:hover {
+    background: #555 !important;
+  }
+  
+  .subscr-stack::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px !important;
+    border-radius: 10px !important;
+    background: grey !important;
+  }
+  
+  .stack-subsc {
+    padding: 0 20px;
+  }
+  
+  .stack-ads{
+    width: 70%;
+  }
+  
+  
+  @media screen and (max-width:992px) {
+    .stack-ads{
+      width: 70%;
+    }
+  
+    .stacking-text {
+      font-size: 20px !important;
+      // margin-left: 20px;
+    }
+  }
+  
+  
+  @media screen and (max-width:576px) {
+    .stacking-text {
+      font-size: 15px !important;
+      // margin-left: 20px;
+    }
+    .stack-ads{
+      width: 60%;
+    }
+  }
+  

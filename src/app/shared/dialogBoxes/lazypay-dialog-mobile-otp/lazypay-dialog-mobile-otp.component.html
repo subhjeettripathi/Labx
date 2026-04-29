@@ -1,0 +1,44 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="alt-login-content">
+        <div class="alt-login-img">
+            <img src="assets/svgs/altt_logo.svg" alt="AOL">
+        </div>
+        <h4 class="content_us title mb-3">LazyPay</h4>
+        <ng-container >
+            <form action="" [formGroup]="upiForm" #loginFormDir="ngForm" (ngSubmit)="upiFormSubmit()">
+                <mat-form-field appearance="fill">
+                    <input matInput placeholder="link mobile number" (keyup)="inputLength($event)" formControlName="upiInput" maxlength="10" pattern="[789][0-9]{9}"
+                        autocomplete="off" required >
+
+                        <mat-error style="font-size: 12p !important;"
+                        *ngIf="(upiForm.get('upiInput')?.invalid && loginFormDir.submitted)">
+                        Please Enter 10 Digit Number*
+                    </mat-error>
+                   
+
+                </mat-form-field>
+                <div style="color: #FF8787 !important; font-size:15px;"
+                *ngIf="errorMSg">
+                Number not Eligible
+            </div>
+                <!-- <mat-divider></mat-divider> -->
+                <div class="alt-m-4">
+                    <button type="submit" class="alt-btn-p alt-w-25">PAY</button>
+                </div>
+                
+                
+                
+            </form>
+               
+                <span class="alt">
+                    <button (click)="onNoClick()" class="cancel">
+                        <!-- CANCEL -->
+                         {{'cancel' |translate}}
+                    </button>
+                </span>
+           
+        </ng-container>
+        
+        
+    </div>
+</div>

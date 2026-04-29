@@ -1,0 +1,22 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="basesignin.parental_success.logo.is_allow ==1">
+            <!-- <img src="{{basesignin.parental_success.logo.web}}" alt="AOL"> -->
+            <img src="assets/svgs/aol.png" alt="">
+        </span>
+        <div class="success">
+            <div class="msg">
+                <!-- You have successfully completed the purchase of a pack  {key added to translatiion service}-->
+  {{'purchase_of_a_pack' |translate}}
+  
+            </div>
+        </div>
+        <div class="sucess-btn">
+            <button (click)="close()">{{'ok' |translate}}</button>
+        </div>
+
+       
+    </div>
+</div>
+
+

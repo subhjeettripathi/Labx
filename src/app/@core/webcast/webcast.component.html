@@ -1,0 +1,93 @@
+<section class="sec-top" style="min-height: 70vh;position: relative;">
+    <h1 class="f-size_aol">
+        <span class="mr-3 arrow-right">
+            <img src="assets/svgs/Vector (4).png" style="cursor: pointer" class="arr-icon" (click)="back()" alt="AOL"
+                aria-hidden="false" class="f-size" /> </span>Webcast
+    </h1>
+    <div class="row m-0">
+        <div  [ngClass]="data?.is_livechat==1?'col-lg-8':'col-lg-12'">
+            <div class="slide-view">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video controls playsinline class="video-js webcastPlayer" id="player"
+                        data-setup='{"liveui": true}' [poster]="poster"></video>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 pr-0 chat-ord" *ngIf="noEvent && data?.is_livechat==1">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <img class="rob-img" src="assets/svgs/aolChat.png" alt=""> -->
+                    <div class="details-chat status">
+                        <h4>{{'Live_Chat'|translate}}</h4>
+                        <!-- <div class="status">
+                            Live
+                        </div> -->
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal"> </button>
+                </div>
+                <div class="modal-body" id="chatContainer">
+                    <div *ngFor="let mess of chatMessage">
+
+                        <div class="chat">
+                            <div class="roundchat">
+                                {{mess.user_name.substring(0, 1)}}
+                            </div>
+                            <div class="chatting">
+                                <div class="chattt">
+                                    <div class="username">{{ mess.user_name ? mess.user_name : 'user' }}</div>
+                                    <div class="chat_date">{{mess.created}}</div>
+                                </div>
+                                <div class="chat_2"> {{mess.chat_data}} </div>
+                               
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <span style="color: red;">{{blockedMsg}}
+                    </span>
+                </div>
+                <div class="modal-footer">
+                    <form action="" [formGroup]="loginForm" #loginFormDir="ngForm" (ngSubmit)="submitChat()">
+
+                        <input type="text" formControlName="chatInput" placeholder="{{'your_msg'|translate}}"
+                            class="text-msg">
+                        <button type="submit" class="send">
+                            <img src="assets/new_icons/send.svg" alt="">
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12" *ngIf="data != undefined">
+            <div class="content">
+                <h1 class="webcast-tilte" style=" margin-top: 20px; text-transform: uppercase;">{{data.title}} <span *ngIf="started">:</span>
+                    <span *ngIf="started" class="started"> {{ remainingTime }}</span>
+                </h1>
+                <h3 style=" margin-top: 10px; text-transform: uppercase;color: #7F7F7F;">{{data.des}}</h3>
+                <h3 style=" margin-top: 10px;" class="texts"><i class="fa fa-calendar" aria-hidden="true"></i>
+                    {{data.publish_date | date:'MMMM d'}} - {{data.publish_end_date | date:'MMMM d'}}</h3>
+                <h3 style=" margin-top: 10px;" class="texts"><i class="fa fa-clock-o" aria-hidden="true"></i>
+                    {{data.publish_date | date:'HH:mm'}} IST - {{data.publish_end_date | date:'HH:mm'}} IST</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="timer">
+        <div>{{remainingTime}}</div>
+    </div>
+</section>
+
+<div id="watermarkDiv" *ngIf="this.userId">
+    <p> {{this.user.id}}</p>
+</div>
+
+<!-- <div id="watermark" class="waterMark" *ngIf="this.userId">
+    <p>{{this.user.id}}</p>
+</div> -->
+<!-- 
+<div id="watermarkDiv" class="waterMarkDiv" *ngIf="this.userId">
+    <p>{{this.user.id}}</p>
+</div> -->

@@ -1,0 +1,56 @@
+@import "../variables/colors.variables.scss";
+
+.ott-10mr {
+    margin-right: 30px;
+}
+
+.t-white {
+    color: #fff;
+}
+
+.bg-p {
+    background: $bg-p  !important;
+}
+.bg-s {
+    background: $bg-s  !important;
+}
+.bg-payment{
+    background: $bg-payment-card !important;
+}
+.bg-
+.alt-blr {
+    border-right: 1px solid $bg-p  !important;
+}
+
+.alt-bll {
+    border-left: 1px solid $bg-p  !important;
+}
+
+.alt-bg-sec {
+    background-color: $t-s  !important;
+}
+
+.t-p {
+    color: $t-p  !important;
+}
+.t-p-500{
+    font-weight: 500;
+    color: $t-p  !important;
+}
+.t-p-600{
+    font-weight: 600;
+    color: $t-p  !important;
+}
+
+.alt-bg-sec{
+    background-color: $t-s !important;
+}
+.t-y{
+    color: #FF9401 !important;
+}
+.t-s {
+    color: $t-s  !important;
+}
+.text-center{
+    text-align: center !important;
+}

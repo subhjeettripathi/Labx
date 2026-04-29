@@ -1,0 +1,31 @@
+<!-- <div infinite-scroll [infiniteScrollDistance]="5" [infiniteScrollThrottle]="800"
+[infiniteScrollDisabled]="busyGettingData" (scrolled)="onScrollingFinished()">
+    <app-carousel [sdasd]="cat_id " [homeCategory]="home_category "></app-carousel>
+</div> -->
+<ng-container *ngIf="!showSkeletonForHome; else HomeSkeleton">
+    <div infinite-scroll [infiniteScrollDistance]="5" [infiniteScrollThrottle]="800"
+        [infiniteScrollDisabled]="busyGettingData" (scrolled)="onScrollingFinished()">
+        <app-carousel [sdasd]="cat_id" [homeCategory]="home_category"></app-carousel>
+    </div>
+</ng-container>
+
+<ng-template #HomeSkeleton>
+    <div class="skeleton-hero shimmer">
+      
+    </div>
+    <div class="skeleton-title shimmer"></div>
+    <div class="skeleton-slider">
+        <div class="skeleton-card shimmer" *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+
+        </div>
+    </div>
+</ng-template>
+
+<div *ngIf="showSkeletonForCarousel">
+    <div class="skeleton-title shimmer"></div>
+    <div class="skeleton-slider">
+        <div class="skeleton-card shimmer" *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+           
+        </div>
+    </div>
+</div>

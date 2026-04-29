@@ -1,0 +1,35 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <div class="alt-login-img">
+            <img src="assets/svgs/altbalaji_logo.svg" alt="AOL">
+        </div>
+        <button class="close-btn">
+            <!-- <mat-icon (click)="close()" >close</mat-icon> -->
+            <img src="../../../../assets/svgs/Vector.svg" alt="" (click)="close()">
+        </button>
+     
+
+        <div class="parental-heading-1" >
+            <p>
+                Enter your parental lock PIN
+             </p>
+              <p style="color: #FF8787 !important;" *ngIf="showInvalid">Please Enter a valid Pin</p>
+            <div>
+              
+                <form>
+
+                    <ng-otp-input #ngOtpInput [formCtrl]="otpInputCurrent" (onInputChange)="onOtpChange($event)"
+                        [config]="config"></ng-otp-input>
+                     <br>
+                        <button mat-button (click)="submit()" class="submitBtn">SUBMIT</button>
+                </form>
+
+            </div>
+
+        </div>
+      
+
+    </div>
+
+ 
+</div>

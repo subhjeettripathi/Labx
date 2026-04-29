@@ -1,0 +1,650 @@
+.radio1 {
+    display: none;
+}
+
+.tab1 {
+    cursor: pointer;
+    margin: 0 25px 25px 0;
+    font-family: 'LatoRegular';
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 33px;
+    letter-spacing: -0.022em;
+    text-align: left;
+    color: #7F7F7F;
+
+}
+
+.show-options {
+    display: block;
+  }
+  
+  .hide-options {
+    display: none;
+  }
+
+.search-input input {
+    width: 100%;
+    background: #27253D;
+    border: none;
+    border-radius: 50px;
+    height: 50px;
+    padding: 20px 40px;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'PoppinsMedium' !important;
+}
+
+.search-input {
+    padding: 10px 12px;
+    position: relative;
+}
+
+.search-logo {
+    position: absolute;
+    top: 22px;
+    left: 20px;
+}
+
+.mic-mobile-icon-2 {
+    position: absolute;
+    top: 22px;
+    right: 30px;
+}
+
+
+
+
+.ply-list {
+    width: 80%;
+    margin: auto;
+}
+
+#one1:checked~.panels #one-panel-1,
+#two2:checked~.panels #two-panel-2 {
+    display: block;
+}
+
+#one-1:checked~.panels #panell-1,
+#one-2:checked~.panels #panell-2,
+#one-3:checked~.panels #panell-3 {
+    display: block;
+
+}
+
+#one1:checked~#one-tab-1,
+#two2:checked~#two-tab-2 {
+    color: #FFFFFF;
+    border-bottom: 2px solid #FF8731;
+    // color: #FF8731;
+}
+
+#one-1:checked~#one-tabb-1,
+#one-2:checked~#one-tabb-2,
+#one-3:checked~#one-tabb-3 {
+    color: #FF8731;
+    border-bottom: 2px solid #FF8731;
+
+}
+
+.panel {
+    display: none;
+}
+
+body {
+
+    overflow: scroll !important;
+}
+
+
+.radio2 {
+    display: none;
+}
+
+.tab2 {
+    cursor: pointer;
+    margin: 0 25px 25px 0;
+    font-family: 'LatoRegular';
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 33px;
+    letter-spacing: -0.022em;
+    text-align: left;
+    color: #7F7F7F;
+    // color: #FF8731;
+}
+
+
+.selector-aol {
+    margin-bottom: 16px;
+}
+
+.aol-inline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.mylist_delete {
+    background: #FF8731;
+    border: 0;
+    outline: 0;
+    padding: 6px 20px;
+    color: #FFFFFF;
+    border-radius: 10px;
+    font-family: "PoppinsMedium";
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.mylist_clrall {
+    background: #FF8731;
+    border: 0;
+    outline: 0;
+    padding: 10px 15px;
+    color: #FFFFFF;
+    border-radius: 10px;
+    font-family: "PoppinsMedium";
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.select_all {
+    font-family: 'LatoRegular';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 33px;
+    letter-spacing: -0.022em;
+    text-align: left;
+    margin-right: 12px;
+    color: #7F7F7F;
+
+}
+
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    cursor: pointer;
+}
+
+/* Style the checkbox when checked */
+input[type="checkbox"]:checked {
+    background-color: #FF8731;
+    border-color: #FF8731;
+}
+
+/* Add a black checkmark when checked */
+input[type="checkbox"]:checked::after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 10px;
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    margin-left: 4px;
+    margin-top: 0px;
+}
+
+
+.videos {
+    display: flex;
+    gap: 30px;
+}
+
+.des-videos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rastes {
+    display: flex;
+    gap: 12px;
+}
+
+.videos-title {
+    font-family: 'PoppinsRegular';
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #E6E6E6;
+}
+
+.video-des {
+    font-family: 'PoppinsRegular';
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #E6E6E6;
+}
+
+
+.videos-img {
+    position: relative;
+}
+
+.play-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.audio-icon {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+
+.icon-crown {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.free-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.prime-icon {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.aol_crown {
+    width: 30px;
+
+}
+
+// .free_aol{
+//     width: 30px;
+// }
+
+.paylist-aol {
+    display: flex;
+    // gap: 160px;
+    align-items: center;
+    padding-bottom: 15px;
+    // justify-content: space-around;
+}
+
+.paylist-text {
+    font-family: 'LatoRegular';
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 34px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;
+
+}
+
+.paylist-dots div {
+    font-weight: bold;
+    font-size: 22px;
+    color: #ffffff;
+    font-family: "LatoRegular";
+    line-height: 30px;
+    letter-spacing: 0em;
+    // margin-top: 10px;
+    cursor: pointer;
+}
+
+.options-1 {
+    // width: 200px;
+    display: block;
+    position: absolute;
+    padding-bottom: 10px;
+    background: #232042;
+    z-index: 1;
+}
+.options-1 button{
+    display: flex;
+    flex-wrap: nowrap;
+}
+.options-1 ul {
+    list-style-type: none;
+    // margin-bottom: 0;
+    margin: 0;
+    padding: 0;
+     border: 2px solid rgba(81, 76, 129, 1);
+}
+
+.options-1 ul li button {
+    border: none;
+    color: darkgray;
+    background-color: transparent;
+    padding: 0 15px;
+    font-family: 'PoppinsRegular';
+    font-size: 14px;
+    font-weight: 400;
+    // line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.options-1 ul li button span {
+    margin-right: 6px;
+}
+
+.options-1 ul li:hover button {
+    color: white;
+}
+
+.options-1 ul li:hover {
+    background-color: rgba(81, 76, 129, 1);
+}
+
+.options-1 ul li:hover .fa {
+    color: rgba(255, 123, 49, 1);
+}
+
+.bg-col {
+    background: #27253D;
+    padding: 50px;
+    border-radius: 12PX;
+    min-height: 50vh;
+}
+
+.sel-aol {
+    display: flex;
+    justify-content: space-between;
+}
+
+.audio-icon {
+    width: 30px;
+}
+
+
+
+@media screen and (max-width:992px) and (max-width:1024px) {
+
+    .sec-top-list {
+        margin-top: 60px !important;
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+        margin-bottom: 100px !important;
+    }
+
+    .main-list {
+        overflow: unset !important;
+    }
+
+    .audio-icon {
+        top: 6px;
+        width: 25px;
+    }
+
+
+    .options-1 {
+        right: 10px;
+        margin-top: 10px;
+    }
+
+    .mob-dots {
+        text-align: end;
+    }
+
+    // .paylist-aol{
+    //     margin: 0;
+    // }
+
+    .font-aol {
+        font-size: 17px !important;
+    }
+
+    .bg-col {
+        padding: 20px !important;
+        min-height: 80vh;
+    }
+
+    .des-videos {
+        margin-top: 10px;
+        gap: 8px !important;
+    }
+
+    .sel-aol {
+        align-items: center;
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .aol-inline {
+        align-items: unset !important;
+    }
+
+    .mylist_delete {
+        padding: 7px 15px !important;
+        font-size: 15px !important;
+    }
+
+    main {
+        overflow: unset !important;
+    }
+
+    .ply-list {
+        width: 100% !important;
+    }
+
+    .tab1 {
+        font-size: 17px !important;
+        line-height: 24px !important;
+    }
+
+    .tab2 {
+        font-size: 16px !important;
+        line-height: 24px !important;
+    }
+
+    .videos-title {
+        font-size: 16px !important;
+        line-height: 20px !important;
+    }
+
+    .video-des {
+        font-size: 15px !important;
+        line-height: 20px !important;
+    }
+
+
+}
+
+@media screen and (max-width:576px) {
+
+    // .mdc {
+    //     margin-top: 15vh !important;
+    // }
+
+    .model-scroll {
+        height: 350px !important;
+    }
+
+    // .bg-col{
+    //     padding: 10px !important;
+    // }
+    // .ply-list{
+    //     width: 100% !important;
+    // }
+
+
+    .options-1 {
+
+        margin-top: 5px;
+    }
+
+    .paylist-aol {
+        margin: unset;
+    }
+
+    .tab1 {
+        font-size: 16px !important;
+        line-height: 24px !important;
+    }
+
+    .tab2 {
+        font-size: 15px !important;
+        line-height: 24px !important;
+    }
+
+    .videos-title {
+        font-size: 15px !important;
+        line-height: 20px !important;
+    }
+
+    .video-des {
+        font-size: 14px !important;
+        line-height: 20px !important;
+    }
+
+
+}
+
+
+
+.fav-msg {
+    font-size: 18px !important;
+}
+
+.twitter1 {
+    width: 25px;
+}
+
+.dropMenus {
+    background-color: #2d2d2d;
+}
+
+.dropdown-menu {
+    min-width: 0;
+    padding: 12px;
+}
+
+
+.mdc {
+    background-color: #100e21;
+    border: 1px solid #ccc;
+    // height: 500px;
+    // overflow: scroll;
+    // overflow-x: hidden;
+}
+
+.modal-header {
+    color: #ccc;
+}
+
+.remove {
+    display: none;
+}
+
+.parent-body {
+    display: flex;
+    align-items: center;
+    color: #ccc;
+    gap: 12px;
+}
+
+.model-scroll {
+    height: 500px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.meditation {
+    width: 50%;
+}
+
+.meditation-content h3 {
+    margin: 0;
+}
+
+.meditation-content {
+    // margin-left: 15px;
+    width: 100%;
+}
+
+.remove {
+    background-color: white;
+}
+
+.meditation-content img {
+    // width: 25px;
+    float: right;
+    margin-top: -60px;
+}
+
+
+.modal-header .close {
+    padding: 1rem 1rem;
+    margin: -1rem -1rem -1rem auto;
+    color: #fff;
+
+}
+
+
+.sec-top-list {
+    margin-top: 120px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 50px;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.med-img {
+    cursor: pointer;
+}
+
+.playlist_search {
+    position: relative;
+}
+
+
+@media screen and (max-width:1366px) {
+    .model-scroll {
+        height: 430px !important;
+    }
+
+    // .mdc{
+    //     margin-top: 9vh !important;
+    // }
+
+}

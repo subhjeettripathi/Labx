@@ -1,0 +1,64 @@
+<div class="section-watchlist sec-top">
+    <div class="watchlist-header" *ngIf="cat_type">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <div *ngIf="cat_type == 'video'" class="font-36 f-size_aol"><span class="mr-3 arrow-right" (click)="backToLocation()">
+                    <img src="assets/svgs/Vector (4).png" style="cursor: pointer;" alt="AOL">
+                </span>{{'Continue_Watching' |translate}}</div>
+
+            <div *ngIf="cat_type == 'audio'" class="font-36 f-size_aol"><span class="mr-3 arrow-right" (click)="backToLocation()">
+                    <img src="assets/svgs/Vector (4).png" style="cursor: pointer;" alt="AOL">
+                </span>{{'Continue Listening' |translate}}</div>
+            <button class="clear_btn" *ngIf="dataList.length" (click)="clearContinueWatching()">{{'clear_all' |translate}}</button>
+        </div>
+
+    </div>
+    <br>
+    <div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <!-- <h2 class="font-36"><span class="mr-3">
+                </span>{{x.title}}</h2> -->
+        </div>
+        <div fxLayout="row wrap" fxLayout.xs="column" flexLayoutAlign="flex-start">
+            <div fxFlex="20%" class=" alt-p-3" fxFlex.xs="100%" fxFlex.sm="50" *ngFor="let card of dataList | paginate: { itemsPerPage: 10, currentPage: p ,totalItems: totalItems }"
+                style="cursor: pointer;position: relative;">
+
+                <mat-icon *ngIf="card.access_type=='paid' && !isSubscribed" class="crown" aria-hidden="false"
+                    svgIcon="crown" [ngStyle]="{'display':card.type=='circle'?'none':'block'}"></mat-icon>
+                <div class="free-icon" *ngIf="card.access_type=='free' && !isSubscribed"
+                    [ngStyle]="{'display':card.type=='circle'?'none':'block'}"> <img src="assets/svgs/free-v1.svg"
+                        alt="abc" class="free_aol-icon">
+                </div>
+                <div class="img-doc">
+                    <img [src]="card.sliderImg" class="alt-w-100 border-img" (error)="onImgError($event)" [alt]="card.is_group == 0 ? card.title : card.season_title" [title]="card.is_group == 0 ? card.title : card.season_title"
+                        (click)="navigate(card)">
+                    <div class="cont-play" (click)="navigate(card)">
+                        <img src="assets/svgs/Icon.png" alt="" class="play_cont">
+                    </div>
+                </div>
+
+                <mat-progress-bar mode="determinate" [value]="card.result"
+                    class="continue-watch-progress"></mat-progress-bar>
+                <div class="containerContent" alt="AOL">
+
+
+                    <div class="content">
+                        <p *ngIf="card.title.length > 26" class="font-14 t-white">{{card.title.slice(0,25)}}...</p>
+                        <p *ngIf="card.title.length <= 25" class="font-14 t-white">{{card.title}}</p>
+                    </div>
+                    <p class="t-y font-12" *ngIf="card.age_group == 999">{{card.duration.slice(3,5)}}m <span
+                            *ngIf="card.year!=''">| {{card.year}}</span> |
+                        U</p>
+                    <p class="t-y font-12" *ngIf="card.age_group == -1">{{card.duration.slice(3,5)}}m <span
+                            *ngIf="card.year!=''">| {{card.year}}</span> |
+                        A </p>
+                    <p class="font-14 subtitle" *ngIf="card.short_desc!=''">
+                        {{card.short_desc.substring(0,30) + '...'}}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<pagination-controls *ngIf="totalItems>10 && dataList.length>0" style="text-align: center;" (pageChange)="getPage($event)"
+    previousLabel="" nextLabel=""></pagination-controls>

@@ -1,0 +1,31 @@
+
+
+<div class="sec-top radio-main">
+    <h1 class="f-size_aol">
+        <span class="mr-3 arrow-right">
+            <img src="assets/svgs/Vector (4).png" style="cursor: pointer" class="arr-icon f-size" (click)="back()" alt="AOL"
+                aria-hidden="false"/> </span>{{'radio' |translate}}
+    </h1>
+
+    <div class="container">
+        <div class="row" style="justify-content: center;">
+            <div class="col-lg-3" *ngIf="data?.sliderImg">
+                <img class="img-baba" [src]="data.sliderImg" alt="AOL" width="100%">
+                <img class="img-baba1" [src]="data.sliderImg" alt="AOL" width="100%">
+            </div>
+            <div class="col-lg-9" class="mab-top" >
+                <div>
+                    <h1 class="data_title_aol">{{data.title}}</h1>
+                    <pre [innerHTML]="data.des" class="pre">{{data.des}}</pre>
+                </div>
+                <div>
+                    <button class="play-btn-aol" (click)="openAudioPlayer(data.url)">
+                        <img  src="assets/svgs/Icon.svg" alt="Play button" style="cursor: pointer"/>
+                        {{'Play_Radio' |translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,160 @@
+{
+  "cli": {
+    "cache": {
+      "enabled": false
+    },
+    "analytics": "32db2d48-76e9-4886-9bda-0d821d626d23"
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "altbalaji_web": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/aol_web",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "aot":true,
+            "vendorChunk": true,
+            "sourceMap": false,
+            "optimization": true,
+            "buildOptimizer": true,
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/slick-carousel/slick/slick.scss",
+              "node_modules/slick-carousel/slick/slick-theme.scss",
+              "node_modules/videojs-contrib-ads/dist/videojs-contrib-ads.css",
+              "node_modules/videojs-ima/dist/videojs.ima.css",
+              "node_modules/videojs-seek-buttons/dist/videojs-seek-buttons.css",
+              "node_modules/videojs-playlist/dist/videojs-quality-menu.css",
+              "src/styles.scss"
+            ],
+            "scripts": [
+              
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/slick-carousel/slick/slick.min.js",
+              "node_modules/videojs-seek-buttons/dist/videojs-seek-buttons.min.js",
+              "node_modules/videojs-landscape-fullscreen/dist/videojs-landscape-fullscreen.min.js",
+              "node_modules/videojs-overlay-buttons/dist/videojs-overlay-buttons.min.js",
+              "node_modules/videojs-playlist/dist/videojs-playlist.min.js",
+              "node_modules/videojs-contrib-eme/dist/videojs-contrib-eme.min.js",
+              "node_modules/videojs-sprite-thumbnails/dist/videojs-sprite-thumbnails.min.js",
+              "node_modules/videojs-overlay/dist/videojs-overlay.min.js",
+              "node_modules/videojs-ima/dist/videojs.ima.js",
+              "node_modules/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js",
+              "node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js",
+              "node_modules/videojs-playlist/dist/videojs-quality-menu.min.js",
+              "node_modules/videojs-playlist/dist/dash.all.debug.js",
+              "node_modules/videojs-playlist/dist/videojs-dash.js"
+
+              
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "6mb",
+                  "maximumError": "8mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot":true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true
+            },
+            
+          
+            "development": {
+              "buildOptimizer":false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "altbalaji_web:build:production"
+            },
+            "development": {
+              "browserTarget": "altbalaji_web:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "altbalaji_web:build"
+         
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "altbalaji_web"
+ 
+}

@@ -1,0 +1,7 @@
+<svg id="mic" xmlns="http://www.w3.org/2000/svg" width="62" height="62" viewBox="0 0 62 62">
+  <circle id="Ellipse_891" data-name="Ellipse 891" cx="31" cy="31" r="31" fill="#434343"/>
+  <g id="microphone" transform="translate(17.492 13.631)">
+    <path id="Path_2614" data-name="Path 2614" d="M18.618,25a7.366,7.366,0,0,0,7.368-7.347V8.472a7.368,7.368,0,0,0-14.736,0v9.185A7.366,7.366,0,0,0,18.618,25ZM13.706,8.472a4.912,4.912,0,0,1,9.824,0v9.185a4.912,4.912,0,0,1-9.824,0Z" transform="translate(-5.11 -1.125)" fill="#f2f2f2"/>
+    <path id="Path_2615" data-name="Path 2615" d="M30.184,12.375v4.287a11.052,11.052,0,0,1-22.1,0V12.375H5.625v4.287A13.5,13.5,0,0,0,17.9,30.075v6.791h2.456V30.075A13.5,13.5,0,0,0,32.64,16.662V12.375Z" transform="translate(-5.625 -0.129)" fill="#f2f2f2"/>
+  </g>
+</svg>

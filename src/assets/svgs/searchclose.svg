@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
+  <g id="search-close" transform="translate(-31.867 17.133)">
+    <g id="Ellipse_819" data-name="Ellipse 819" transform="translate(31.867 -17.133)" fill="none" stroke="#707070" stroke-width="1.5">
+      <circle cx="19" cy="19" r="19" stroke="none"/>
+      <circle cx="19" cy="19" r="18.25" fill="none"/>
+    </g>
+    <g id="Group_5056" data-name="Group 5056" transform="translate(42.389 -6.609)">
+      <path id="Union_158" data-name="Union 158" d="M1.086,17.369a1.086,1.086,0,0,1-.768-1.853l15.2-15.2a1.086,1.086,0,0,1,1.535,1.535l-15.2,15.2A1.082,1.082,0,0,1,1.086,17.369Z" transform="translate(0 0)" fill="#fff"/>
+    </g>
+    <g id="Group_5245" data-name="Group 5245" transform="translate(42.389 -6.609)">
+      <path id="Union_158-2" data-name="Union 158" d="M1.086,0A1.086,1.086,0,0,0,.318,1.853l15.2,15.2a1.086,1.086,0,1,0,1.535-1.535L1.853.318A1.082,1.082,0,0,0,1.086,0Z" transform="translate(17.371 17.372) rotate(180)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

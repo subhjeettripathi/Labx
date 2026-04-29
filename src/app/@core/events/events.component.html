@@ -1,0 +1,29 @@
+<div class="section-watchlist sec-top">
+    <div class="watchlist-header">
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <h1 class="font-36"><span class="mr-3 arrow-right" >
+                </span>{{'Live'}}</h1>
+        </div>
+    </div>
+    <div style="margin-top: 20px;">
+        <div fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start">
+
+            <div class="alt-p-3 cards" fxFlex.xs="50%" fxFlex.sm="33.30%" fxFlex.md="33.30%"
+                *ngFor="let x of watchingList" fxFlex="20%"
+                style="cursor: pointer;position: relative;text-align: center;" >
+                <img [src]="x.banner" [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}"
+                 alt="dd">
+                <div class="containerContent" alt="altt">
+
+                    <div class="content">
+                        <h3 class="font-14 t-white" style="margin: 0 0 4px;">{{x.title}}</h3>
+                        <p class="font-14 subtitle" *ngIf="x.des!='' ">{{x.des.substring(0,50) + '...'}}
+                        </p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

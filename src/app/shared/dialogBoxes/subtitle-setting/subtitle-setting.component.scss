@@ -1,0 +1,52 @@
+
+
+.parental-control-content {
+    position: relative;
+    text-align: center;
+  
+ 
+    .img-logo{
+        position: absolute;
+        top: -61px;
+        right: 36%;
+        margin-bottom: 5px;
+        }
+        // .img-logo img{
+        // width: 23%;
+        // }
+}
+.adulttHeading{color: white;font-size: 18px;font-family: "GothamBold" !important;}
+.close-btn {
+    position: absolute;
+    top: -10px;
+    right: -12px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+}
+
+.subtitleContent p{
+    background-color: grey;
+    padding: 9px;
+    font-size: 17px;
+    text-align: start;
+    color: white;
+    cursor: pointer;
+    img{
+        position:absolute;
+        right: 8px;
+    }
+}
+.subtitleContent{
+    text-decoration: none;
+    list-style: none;
+}
+.subtitleContent li{
+text-decoration: none;
+list-style: none;
+background-color: white;
+float: right;
+width: 50%;
+}

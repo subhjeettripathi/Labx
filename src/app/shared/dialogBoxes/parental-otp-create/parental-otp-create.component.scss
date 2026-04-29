@@ -1,0 +1,482 @@
+.buttons {
+    color: white;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.close-btn img {
+    width: 25px;
+}
+.line-through {
+    text-decoration-line: line-through;
+    text-decoration-thickness: 1px;
+    text-decoration-color: white;
+}
+.close-btn {
+    cursor: pointer;
+}
+
+.btns {
+    color: #fff !important;
+    font-weight: 600;
+    border: 1px solid #858585;
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+    background-color: transparent;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-family: "PoppinsRegular";
+    margin-right: 20px;
+}
+
+// .btns:hover {
+//     background: #FF8731;
+// }
+
+.input-coupon input {
+    width: 100%;
+    background: transparent;
+    border: 1px solid #FFFFFF;
+    padding: 10px;
+    border-radius: 6px;
+    color: #ffff;
+    font-size: 14px;
+
+}
+
+.input-coupon {
+    margin: 30px 0px 20px 0px;
+}
+
+
+.btn-upper {
+    width: 100%;
+    margin-right: 20px;
+}
+
+.btn-upper-1 {
+    width: 100%;
+
+}
+
+.rental {
+    text-align: center;
+    padding: 45px 55px;
+}
+
+.btn_apply {
+    font-family: "PoppinsRegular";
+    font-size: 14px;
+    font-weight: 600;
+    // line-height: 23px;
+    letter-spacing: 0em;
+    text-align: center;
+    background: #7F7F7F;
+    border: 0;
+    outline: 0;
+    color: #C5C5C5;
+    width: 100%;
+    border-radius: 6px;
+    padding: 11px;
+    // margin-bottom: 20px;
+}
+
+.btn_process-1 {
+    font-family: "PoppinsRegular";
+    font-size: 14px;
+    font-weight: 600;
+    // line-height: 23px;
+    letter-spacing: 0em;
+    text-align: center;
+    border: 0;
+    outline: 0;
+    color: #FFFFFF;
+    width: 100%;
+    border-radius: 6px;
+    padding: 11px;
+    // margin-bottom: 20px;
+    // background: #333054;
+    background: #FF8731;
+}
+
+.btn_process {
+    font-family: "PoppinsRegular";
+    font-size: 14px;
+    font-weight: 600;
+    // line-height: 23px;
+    letter-spacing: 0em;
+    text-align: center;
+    border: 0;
+    outline: 0;
+    color: #FFFFFF;
+    width: 100%;
+    border-radius: 6px;
+    padding: 11px;
+    // margin-bottom: 20px;
+    background: #333054;
+}
+
+.input-coupon::placeholder {
+    font-family: "PoppinsRegular";
+    font-size: 14px;
+    font-weight: 400;
+    // line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+    // background: #7F7F7F;
+    color: #7F7F7F;
+
+}
+
+// .btn_process:hover {
+//     background: #FF8731;
+//     color: #FFFFFF;
+// }
+
+// .btn_apply:hover{
+//     background: #FF8731;
+//     color: #FFFFFF;
+// }
+
+
+
+// .rental-details h3 {
+//     color: #7F7F7F;
+//     font-family: "PoppinsRegular";
+//     font-size: 16px;
+//     font-weight: 500;
+//     line-height: 29px;
+//     letter-spacing: 0em;
+//     text-align: left;
+
+// }
+
+
+.rental-details h5 {
+    font-family: "PoppinsRegular" !important;
+    font-size: 14px;
+    font-weight: 500;
+    // line-height: 29px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #BDBDBD;
+
+}
+
+
+.rental-details h2 {
+    font-family: "PoppinsRegular" !important;
+    font-size: 25px;
+    font-weight: 700;
+    // line-height: 50px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.rental_para p {
+    font-family: "PoppinsRegular";
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #E9E9E9;
+
+}
+
+.rental_head h3 {
+    font-family: "Lato";
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: -0.022em;
+    text-align: left;
+    color: #FFFFFF;
+    margin: 0;
+
+}
+
+
+
+
+.rental_head{
+    margin: auto;
+}
+
+.aol_head {
+    background: #FF8731;
+    padding: 18px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-radius:12px 12px 0px 0px;
+}
+
+.terms {
+    font-family: "PoppinsRegular";
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 32px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #7F7F7F;
+
+}
+
+.rental-details{
+    // padding: 0px 60px;
+    border-radius: 6px;
+    border: 2px solid #7E7E7E
+}
+
+.single{
+    background: #333054;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 15px !important;
+}
+
+// .aol-rental{
+//     padding: 0px 40px;
+// }
+
+
+.discountMsg-rental {
+    color: #A2FF9B;
+    font-size: 14px;
+    font-weight: 600;
+    position: absolute;
+}
+
+.discountMsgZError-rental {
+    color: #FF8787;
+    font-size: 14px;
+    font-weight: 600;
+    position: absolute;
+    margin-top: 10px;
+    // margin-top: -25px;
+}
+
+.coupon_apply{
+    padding-top: 2%;
+}
+
+
+.validate-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+}
+
+.coupon-validate {
+    padding: 3px;
+    outline: 0;
+    font-size: 18px;
+    // border: 1px solid #997e7e9c;
+    background: #164739;
+    border-radius: 6px;
+    width: 100%;
+    // margin-bottom: 30px;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF
+}
+
+.coupon {
+    font-family: "PoppinsRegular";
+    font-size: 12px;
+    font-weight: 600;
+    // line-height: 36px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.discount-aol {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    // line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.remove-aol{
+    margin: auto;
+}
+
+
+.remove-aol a {
+    font-family: "PoppinsRegular";
+    font-size: 14px;
+    font-weight: 400;
+    // line-height: 30px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #FF0000;
+    text-decoration: none;
+    cursor: pointer;
+
+}
+
+@media screen and (max-width:1366px) {
+
+    .rental{
+        padding: 40px 40px;
+    }
+
+    
+}
+
+@media screen and (max-width:992px) {
+   
+    .rental{
+        padding: 15px 20px;
+    }
+
+    .rental_para{
+    max-height: 25vh;
+    overflow: scroll;
+    }
+    .btn_apply {
+        font-size: 12px;
+        padding: 10px;
+    }
+    
+    .btn_process-1 {
+        font-size: 12px;
+        padding: 10px;
+ 
+    }
+    
+    .btn_process {
+        font-size: 12px;
+        padding: 10px;
+  
+    }
+
+    .input-coupon input {
+        padding: 6px;
+    }
+    
+    .input-coupon{
+        margin: 15px 0px 15px 0px;
+    }
+
+    .coupon-validate {
+        padding: 0 3px;
+    }
+
+    .rental-details h2{
+        font-size: 15px;
+    }
+
+    // .aol-rental{
+    //     padding: 0px 10px;
+    // }
+
+
+    
+}
+
+@media screen and (max-width:767px) {
+
+    .padd-rental{
+        padding: 0;
+    }
+
+    .input-coupon{
+        gap: 20px;
+    }
+
+
+
+
+    
+}
+
+@media screen and (max-width:576px) {
+    // .aol-rental{
+    //     padding: 0px;
+    // }
+
+    .single {
+        padding: 8px !important;
+    }
+    .rental-details h5{
+        font-size: 12px;
+    }
+
+    .rental-details h2 {
+        font-size: 14px;
+    }
+    .rental-details h2{
+        font-size: 12px;
+    }
+
+    .terms{
+        font-size: 12px;
+        line-height: unset;
+    }
+
+    .rental_para p {
+        font-size: 12px;
+        line-height: unset;
+    }
+    
+    .rental_head h3{
+        font-size: 16px ;
+        line-height: unset;
+    }
+
+    .aol_head {
+        padding: 10px;
+    }
+
+    .close-btn{
+        top: 10px;
+        right: 15px;
+    }
+
+    .close-btn img{
+        width: 20px;
+    }
+
+    .coupon_apply{
+        padding: 0;
+    }
+
+    .discountMsgZError-rental{
+        margin-top: 4px;
+        font-size: 12px;
+    }
+
+    .discountMsg-rental{
+        margin-top: 4px;
+        font-size: 12px;
+    }
+
+    .padd-rental{
+        padding: 0;
+    }
+
+    .input-coupon{
+        gap: 20px;
+    }
+}
+
+.orange-btn {
+    background-color: #FF8731;
+    color: white;
+}
+
+/* Grey button class */
+.grey-btn {
+    background-color: #7F7F7F;
+    color: white;
+}

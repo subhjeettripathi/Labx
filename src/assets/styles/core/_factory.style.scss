@@ -1,0 +1,113 @@
+@import "../variables/factory.variables.scss";
+
+// margin, padding ex: alt-m-1 or alt-p-1 ,  ex: ml,pl,mr,pr,pt,mt,mb,pb ------- left right top bottom
+
+@mixin margin-padding-map($padding-map, $mapping) {
+
+    @each $key,
+    $value in $padding-map {
+        .alt-p-#{$key} {
+            padding: map-get($padding-map, $key);
+        }
+
+        .alt-m-#{$key} {
+            margin: map-get($padding-map, $key) !important;
+        }
+
+        .alt-pl-#{$key} {
+            padding-left: map-get($padding-map, $key);
+        }
+
+        .alt-ml-#{$key} {
+            margin-left: map-get($padding-map, $key);
+        }
+        
+        .alt-pt-#{$key} {
+            padding-top: map-get($padding-map, $key) !important;
+        }
+
+        .alt-mt-#{$key} {
+            margin-top: map-get($padding-map, $key);
+        }
+
+        .alt-pr-#{$key} {
+            padding-right: map-get($padding-map, $key);
+        }
+
+        .alt-mr-#{$key} {
+            margin-right: map-get($padding-map, $key);
+        }
+
+        .alt-pb-#{$key} {
+            padding-bottom: map-get($padding-map, $key);
+        }
+
+        .alt-mb-#{$key} {
+            margin-bottom: map-get($padding-map, $key);
+        }
+    }
+}
+
+@include margin-padding-map($margins, margins);
+@include margin-padding-map($paddings, paddings);
+
+// width ex: alt-w-100  is 100% width
+@mixin width-map() {
+
+    // @for $i from 1 through 100 {
+    //     .alt-width-#{$i}{
+    //         width : round(percentage($i/100));
+    //     }
+    // }
+    @for $i from 0 through 100 {
+        .alt-w-#{$i} {
+            width: #{$i}#{"%"} !important;
+        }
+
+    }
+}
+
+@mixin border-radius-map() {
+    @for $i from 0 through 10 {
+        .alt-br-#{$i} {
+            border-radius: #{$i}#{'px'} !important;
+        }
+
+        .alt-brl-#{$i} {
+            border-bottom-left-radius: #{$i}#{'px'} !important;
+        }
+
+        .alt-brr-#{$i} {
+            border-bottom-right-radius: #{$i}#{'px'} !important;
+        }
+    }
+}
+
+@include width-map();
+@include border-radius-map();
+
+// fontsizes
+@mixin fontSizes-map($font-map, $mapping) {
+
+    @each $key,
+    $value in $font-map {
+        .font-#{$key} {
+            font-size: map-get($font-map, $key);
+        }
+    }
+}
+
+@include fontSizes-map($fontSizes, size);
+
+
+// fontweights
+@mixin fontWeights-map($fw-map, $map) {
+    @each $key,
+    $value in $fw-map {
+        .alt-fw-#{$key} {
+            font-weight: map-get($fw-map, $key) !important;
+        }
+    }
+}
+
+@include fontWeights-map($fontWeights, size)

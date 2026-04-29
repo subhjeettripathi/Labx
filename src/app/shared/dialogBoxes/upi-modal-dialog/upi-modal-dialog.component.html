@@ -1,0 +1,32 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="alt-login-content">
+        <div class="alt-login-img">
+            <img src="assets/svgs/altt_logo.svg" alt="AOL">
+        </div>
+        <h4 class="content_us title mb-3">UPI</h4>
+        <ng-container >
+            <form action="" [formGroup]="upiForm" (ngSubmit)="upiFormSubmit()">
+                <mat-form-field appearance="fill">
+                    <input matInput placeholder="example@upi" formControlName="upiInput" 
+                        autocomplete="off" required >
+
+                  
+                </mat-form-field>
+                <!-- <mat-divider></mat-divider> -->
+                <div class="alt-m-4">
+                    <button type="submit" class="alt-btn-p alt-w-25">{{'pay_now' |translate}}</button>
+                </div>
+
+            </form>
+               
+                <span class="alt">
+                    <button (click)="onNoClick()" class="cancel">
+                       {{'cancel' |translate}}
+                    </button>
+                </span>
+           
+        </ng-container>
+        
+        
+    </div>
+</div>

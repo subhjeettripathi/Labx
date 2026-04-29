@@ -1,0 +1,54 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="basesignin.parentalEmailVerify.logo.is_allow == 1">
+            <img src="{{basesignin.parentalEmailVerify.logo.web}}" alt="AOL">
+        </span>
+        <button class="close-btn">
+            <mat-icon (click)="close()" >close</mat-icon>
+        </button>
+     
+
+        <!-- <div class="parental-heading-1" >
+            <p>
+                Enter your parental lock PIN
+             </p>
+             <p style="color: red;" *ngIf="InvalidPin">Invalid Pin</p>
+            <div>
+              
+                <form>
+
+                    <ng-otp-input #ngOtpInput [formCtrl]="otpInputCurrent" 
+                        [config]="config"></ng-otp-input>
+                     <br>
+                        <button mat-button (click)="submit()" class="submitBtn">SUBMIT</button>
+                </form>
+
+            </div>
+
+        </div> -->
+      <br>
+        <div>
+            <p  class="heading" *ngIf="basesignin.parentalEmailVerify.heading.is_allow == 1"> {{basesignin.parentalEmailVerify.heading.text}}</p>
+           
+            <p class="email_head" *ngIf="basesignin.parentalEmailVerify.description.is_allow == 1">
+                {{basesignin.parentalEmailVerify.description.text}}  {{loginId.email}}
+            </p>
+            <p style="color: red;" *ngIf="msg">Invalid Password</p>
+            <form [formGroup]="otpForm" #otpFormDir="ngForm" (ngSubmit)="submitOtplogin()">
+                
+                <div style="position:relative" *ngIf="basesignin.parentalEmailVerify.email_field.is_allow == 1">
+                    <span (click)="showPassword1(input1)" class="showBtn"><img [hidden]="showpassword1" width="20px"
+                        height="20px" src="{{basesignin.parentalEmailVerify.field_icon.invisible_web}}">
+                    <img width="20px" height="20px" [hidden]="!showpassword1" src="{{basesignin.parentalEmailVerify.field_icon.visible_web}}">
+                </span>
+                    <input type="password" #input1 class="form-control verify-input" placeholder="{{basesignin.parentalEmailVerify.email_field.placeholder}}" formControlName="email">
+                </div>
+            <br>
+            <p class="verify_forgot" (click)="forgotPassword()" *ngIf="basesignin.parentalEmailVerify.forgot_password.is_allow == 1">{{basesignin.parentalEmailVerify.forgot_password.text}}</p>
+            <button class="verify_submit"  *ngIf="basesignin.parentalEmailVerify.submit_btn.is_allow == 1">{{basesignin.parentalEmailVerify.submit_btn.text}}</button>
+            </form>
+          </div>
+    </div>
+
+ 
+</div>

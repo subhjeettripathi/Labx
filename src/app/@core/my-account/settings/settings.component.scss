@@ -1,0 +1,33 @@
+.text-value{
+    color: #F2F2F2;
+    font-size: 15px;
+    cursor:pointer
+}
+.section-setting{
+    padding: 25px 24px 16px !important; 
+}
+
+
+a {
+    font-family: 'GothamMedium' !important;
+    text-decoration: underline !important;
+}
+
+.text-title,.text-restrict {
+   
+    color: #B4B4B4;
+    font-size: 15px;
+    font-weight: 600;
+}
+.slide-toggle {
+    margin-left: 20px;
+}
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background-color: #3C7139 !important;
+}
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: #0DC700 !important;
+}
+.setting-content p a{
+    cursor: pointer;
+}

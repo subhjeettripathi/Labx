@@ -1,0 +1,55 @@
+<div fxLayout="column" fxLayoutGap="10px">
+
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="baseJson.deviceRestriction.logo.is_allow == 1">
+            <img src="assets/svgs/aol.png" alt="">
+        </span>
+
+        <br><br>
+    
+
+
+
+        <p style="font-size:15px;color: #DEDEDE;font-weight: 600;"
+            *ngIf="baseJson.deviceRestriction.description.is_allow == 1">
+            {{'deviceRestrictiontext'|translate}}
+            <br>
+           <span style="color: #6c6c6c;">
+            <!-- Your current plan supports (key added to translation service) -->
+             {{'plan_supports' |translate}}
+            {{limit}}
+             <!-- Devices only {key added to translation service} -->
+  {{'Devices_only'|translate}}
+            </span> 
+        </p>
+
+        <div class="devices">
+           <div style="color: #fff;"> {{'log_out_1_device_to_continue'|translate}}</div>
+            <div class="devices-loop" *ngFor="let x of devices">
+                <div class="devices-list">
+                    <div class="device-details">
+                        <div class="devices-name">
+                            {{x.make_model}} {{x.device_type}}
+                         </div>
+                         <div class="device-time">
+                             {{'Last_used'|translate}} : {{x.created | date:"d-MMM-y , h:mm a"}}
+                         </div>
+                    </div>
+                    
+                    <button class="log-btn" (click)="clearDevices(x)">{{'logout' |translate}}</button>
+                </div>
+          
+            </div>
+         
+        </div>
+        <div class="clear-btn">
+            <button (click)="clearDevices('all')">{{'clear_all' |translate}}</button>
+        </div>
+        <div class="cancel-btn">
+            <button (click)="close()">{{'cancel' |translate}}</button>
+        </div>
+       
+
+
+    </div>
+</div>

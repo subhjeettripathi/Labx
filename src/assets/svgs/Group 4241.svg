@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="112" height="42" viewBox="0 0 112 42">
+  <g id="Group_4241" data-name="Group 4241" transform="translate(-61 -532.912)">
+    <g id="Group_3419" data-name="Group 3419" transform="translate(61 531.912)">
+      <rect id="Rectangle_227" data-name="Rectangle 227" width="112" height="42" rx="8" transform="translate(0 1)" fill="#fb0000"/>
+      <g id="Group_3418" data-name="Group 3418" transform="translate(29.05 12.896)">
+        <text id="PLAY" transform="translate(26.1 14.69)" fill="#fff" font-size="14" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">PLAY</tspan></text>
+      </g>
+      <g id="Component_73_9" data-name="Component 73 – 9" transform="translate(18.849 8.728)">
+        <g id="Group_5353" data-name="Group 5353" transform="translate(24064.309 5243.224)">
+          <path id="Union_199" data-name="Union 199" d="M-10245.057,12487.316a13.272,13.272,0,0,1,13.271-13.271,13.271,13.271,0,0,1,13.271,13.271,13.272,13.272,0,0,1-13.271,13.274A13.273,13.273,0,0,1-10245.057,12487.316Zm4.948-8.322a11.688,11.688,0,0,0-3.448,8.322,11.69,11.69,0,0,0,3.448,8.326,11.7,11.7,0,0,0,8.322,3.448,11.7,11.7,0,0,0,8.323-3.448,11.69,11.69,0,0,0,3.448-8.326,11.688,11.688,0,0,0-3.448-8.322,11.7,11.7,0,0,0-8.323-3.445A11.7,11.7,0,0,0-10240.108,12478.994Zm5.232,11.688v-5.948a1,1,0,0,1,1.484-.872l5.352,2.972a1,1,0,0,1,0,1.75l-5.352,2.972a1,1,0,0,1-.485.127A1,1,0,0,1-10234.876,12490.683Z" transform="translate(-13819.252 -17717.27)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

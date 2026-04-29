@@ -1,0 +1,43 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <div class="alt-login-img" *ngIf="basesignin.profileMobileVerify.logo.is_allow == 1">
+            <!-- <img src="{{basesignin.profileMobileVerify.logo.web}}" alt=""> -->
+            <img src="assets/svgs/aol.png" alt="">
+        </div>
+        <button class="close-btn">
+            <!-- <mat-icon (click)="close()">close</mat-icon> -->
+            <img (click)="close()" src="assets/svgs/Vector.svg" alt="">
+        </button>
+        <div class="verify" *ngIf="basesignin.profileMobileVerify.description.is_allow == 1">
+            <!-- Please enter 4 digit OTP sent to email  (key added to translatION SERVICE)-->
+            {{'Please_enter_4_digit_OTP' |translate}}
+        </div>
+        <br>
+        <div class="incorrectMsg">{{incorrectMsg |translate}}</div>
+        <br>
+        <!-- <div style="color: white;">Please enter the 4 digit verification code send <br></div><br> -->
+        <ng-otp-input #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event)" [config]="config"
+            class="otp-flex">
+        </ng-otp-input>
+        <!-- <mat-error *ngIf="otpInputInvalid" class="mt-2" style="margin-left: 54px;text-align: start;">Otp is required
+        </mat-error> -->
+        <br>
+
+        <!-- <mat-error *ngIf="otpInput.invalid" class="mt-2" style="margin-left: 54px;text-align: start;">hhgkj</mat-error> -->
+        <div *ngIf="timerHide" style="color: #FFFFFF;font-size: 12px;font-weight:600">{{'otp_will_expire_in_phone'
+            |translate}} {{display}} {{'minutes' |translate}}</div><br>
+        <div class="otpResend"> <button *ngIf="basesignin.profileMobileVerify.resent_text.is_allow == 1" style="border: none;
+        background-color: transparent; color : #FFFFFF"> {{'didn_t_receive_the_otp' |translate}}</button> <button [disabled]="clicked"
+                *ngIf="basesignin.profileMobileVerify.resent_btn.is_allow == 1" (click)="resendOtp()"
+                class="insideBtn">{{'resend' |translate}}</button></div>
+        <mat-error *ngIf="otpExceeded"
+            style="text-align:center !important; margin-top: 20px !important; font-size: 14px !important; ">
+            {{'maximum_OTP_limit' |translate}}
+        </mat-error>
+        <div class="alt-m-4">
+            <button type="submit" class="aol-btn-p alt-w-100"
+                *ngIf="basesignin.profileMobileVerify.submit_btn.is_allow == 1"
+                (click)="onVerifyOtp()">{{'submit' |translate}}</button>
+        </div>
+    </div>
+</div>

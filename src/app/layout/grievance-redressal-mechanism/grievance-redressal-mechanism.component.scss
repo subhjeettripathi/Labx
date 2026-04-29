@@ -1,0 +1,20 @@
+.container-box{
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 120px;
+}
+
+.grievance ::ng-deep  p a {
+    color: white !important;
+    text-decoration: underline !important;
+    background-color: transparent;
+   
+}
+
+b, strong {
+    color: white !important;
+}
+.grievance ::ng-deep  li a {
+    color: white !important;
+    text-decoration: underline !important;
+}

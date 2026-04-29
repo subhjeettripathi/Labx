@@ -1,0 +1,30 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <div class="alt-login-img" >
+            <img src="assets/svgs/Group.png" alt="AOL">
+        </div>
+        <button (click)="close()" class="close-btn">
+            <!-- <mat-icon>close</mat-icon> -->
+            <img src="/assets/svgs/Vector.svg" alt="">
+        </button>
+
+
+        <div>
+            <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
+            <p style="color:white;font-size:16px;font-weight: 600;" >
+                {{'Discount_valid'|translate  }} {{couponValue}} {{'Pack' |translate}} .{{'Do_you_want_to_proceed' |translate}}
+            </p>
+           
+            <br>
+            <div class="row">
+                <div class="col-6 pl-0">
+                    <button type="button" (click)="switchPack()" class="btn-one" >{{'Switch_Pack' |translate}}</button>
+                </div>
+                <div class="col-6 p-0">
+                    <button (click)="close()" (click)="removeCoupon()" type="button" class="btn-two" >{{'remove_coupon' |translate}}</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

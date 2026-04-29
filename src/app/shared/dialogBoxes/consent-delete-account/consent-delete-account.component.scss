@@ -1,0 +1,49 @@
+
+
+.parental-control-content {
+    position: relative;
+    text-align: center;
+  
+ 
+    .alt-login-img {
+        position: relative;
+        margin-bottom: 10px;
+
+    }
+ 
+}
+.adulttHeading{color: white;font-size: 18px;font-family: "GothamBold" !important;}
+.close-btn {
+    position: absolute;
+    top: -10px;
+    right: -12px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+}
+.btn-one {
+    color: #fff !important; 
+    background-color: none !important;
+    /* border-color: #858585 !important; */
+    border: 1px solid #858585;
+    padding: 10px;
+    border-radius: 4px;
+    color: white;
+    background-color: transparent;
+    font-size:16px;
+    width: 100%;
+}
+.btn-two {
+    color: #fff !important; 
+    background-color: none !important;
+    /* border-color: #858585 !important; */
+    border: 1px solid #858585;
+    padding: 10px;
+    border-radius: 4px;
+    color: white;
+    background-color: transparent;
+    font-size: 16px;
+    width: 100%;
+}

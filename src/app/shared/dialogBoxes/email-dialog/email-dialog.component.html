@@ -1,0 +1,134 @@
+<div class="alt-login-content">
+    <form *ngIf="userExist==1" [formGroup]="emailLoginForm" #emailLoginFormDir="ngForm"
+        (ngSubmit)="onSubmitEmailLogin()">
+        <p class="title">{{'sign_in' |translate}}</p>
+        <div class="formField">
+            <div class="main-div">
+
+                <input class="input-font-alt aol-in" id="myText" placeholder="En |translate" formControlName="email"
+                    autocomplete="off" required [readonly]="inputEnable"
+                    oninput="this.value = this.value.toLowerCase()">
+                <span class="showBtnEmail" (click)="back2()"><img [src]="baseSignin?.email_login?.web"
+                        alt="altt"></span>
+                <div class="error-login-1"
+                    *ngIf="emailLoginForm.controls['email'].hasError('pattern') && (emailLoginForm.controls['email'].dirty || emailLoginForm.controls['email'].touched)">
+                    {{'please_enter_valid_email_address' | translate}}</div>
+            </div>
+
+            <div style="position: relative;" class="main-div">
+                <span (click)="showPassword(input)" class="showBtn"><img [hidden]="showpass"
+                        [src]="baseSignin.email_login.invisible_web" alt="AOL">
+                    <img [hidden]="!showpass" [src]="baseSignup.password.visible_web" alt="AOL">
+                </span>
+                <!-- <input (input)="getInputKey($event)" autofocus class="input-font-alt aol-in" id="myText" #input  
+                    [placeholder]="baseSignin.email_login.password_placeholder" type="password"
+                    formControlName="password" autocomplete="off" required minlength="8" maxlength="16"
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d@$#!%*?&]{8,}$"> -->
+                <input (input)="getInputKey($event)" type="password" autofocus class="input-font-alt aol-in" id="myText"
+                    #input [placeholder]="'Enter_password' |translate" formControlName="password"
+                    autocomplete="off" required minlength="3" maxlength="16">
+                <div class="error-login-aol" *ngIf="showError">
+                    {{'invalidCredentials' |translate}}</div>
+            </div>
+        </div>
+        <div class="">
+            <button type="submit" class="alt-btn-red alt-w-100">{{'submit'|translate}}</button>
+        </div>
+        <div class="mt-4 text-center" *ngIf="baseSignin.forgot_password==1">
+            <a href="javascript:void(0)" (click)="gotoForgotPassword()" class="forgotPass">{{'forgot_password' |translate}}</a>
+        </div>
+    </form>
+
+    <form *ngIf="userExist==0 && !openOtpModal" [formGroup]="emailSignupForm" #emailSignupFormDir="ngForm"
+        (ngSubmit)="submitfirstemailStep()">
+        <p class="title">{{'sign_up' |translate}}</p>
+        <div *ngIf="msgErrorADD" style="color:red; position: relative;">
+            <p>{{msgError |translate}}</p>
+        </div>
+        <div class=" formField">
+            <div *ngIf="baseSignup.email.is_allow==1" class="main-div">
+                <input class="input-font-alt aol-in" id="myText" [placeholder]="'please_enter_mobile_or_email_address'|translate"
+                    formControlName="email" autocomplete="off" required [readonly]="inputEnable"
+                    (input)="getInputKey($event)" oninput="this.value = this.value.toLowerCase()">
+                <span class="showBtnEmail" (click)="back2()"><img [src]="baseSignin?.email_login?.web"
+                        alt="altt"></span>
+                <div class="error-login-1"
+                    *ngIf="emailSignupForm.controls['email'].hasError('pattern') && (emailSignupForm.controls['email'].dirty || emailSignupForm.controls['email'].touched)">
+                    {{'Please_mention_correct_mobile/Email_address' |translate}}</div>
+            </div>
+
+            <div class="main-div" style="position: relative;" *ngIf="detail.phoneCode == 91">
+                <div class="blb">
+                    <div class="aol-mob-num"> +{{detail.phoneCode}} </div>
+                    <input type="tel" #myInput autofocus id="myText" class="input-font-alt aol-in2"
+                        placeholder="{{'enter_mobile_number' |translate}}" [maxlength]="mobLength" formControlName="mobile"
+                        (input)="getInputKey($event)" autocomplete="off" required
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        autofocus />
+                    <div class="error-login-1" style="color:#FF8787;font-size:13px; text-align: left;"
+                        *ngIf="emailSignupForm.controls['mobile'].hasError('pattern') && (emailSignupForm.controls['mobile'].dirty || emailSignupForm.controls['mobile'].touched)">
+                       {{'please_enter_valid_mobile_number' |translate}}</div>
+                </div>
+            </div>
+
+            <div *ngIf="baseSignup.password.is_allow==1" style="position: relative;" class="main-div">
+                <span (click)="showPassword(input)" class="showBtn"><img [hidden]="showpass"
+                        [src]="baseSignup.password.invisible_web" alt="AOL">
+                    <img [hidden]="!showpass" [src]="baseSignup.password.visible_web" alt="AOL">
+                </span>
+                <input autofocus class="input-font-alt aol-in" id="myText" #input placeholder="{{'password' |translate}}" type="password"
+                    (input)="getInputKey($event)" formControlName="password" autocomplete="off" required minlength="8"
+                    maxlength="16" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d@$#!%*?&]{8,}$">
+
+                <div class="error-login-3"
+                    *ngIf="emailSignupForm.controls['password'].invalid && (emailSignupForm.controls['password'].touched || emailSignupForm.controls['password'].dirty)">
+                    <div *ngIf="emailSignupForm.controls['password']?.errors?.['minlength']; else patternElem;">
+                        {{'passwordLengthError' |translate}}
+                    </div>
+                    <ng-template #patternElem>
+                        <div *ngIf="emailSignupForm.controls['password'].hasError('pattern')">
+                            {{'passwordPolicyError' |translate}}
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+
+            <div *ngIf="baseSignup.password.is_allow==1" style="position: relative;" class="main-div">
+                <span (click)="showPassword1(input)" class="showBtn1"><img [hidden]="showpass1"
+                        [src]="baseSignup.password.invisible_web" alt="AOL">
+                    <img [hidden]="!showpass1" [src]="baseSignup.password.visible_web" alt="AOL">
+                </span>
+                <input autofocus (keydown)="onKeydown($event)" class="input-font-alt aol-in" id="myText" #input
+                    placeholder="{{'confirm_password' |translate}}" type="password" formControlName="confirm_password" autocomplete="off"
+                    required minlength="8" maxlength="16"
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d@$#!%*?&]{8,}$">
+                <div class="error-login-3"
+                    *ngIf="emailSignupForm.controls['confirm_password'].invalid && (emailSignupForm.controls['confirm_password'].touched || emailSignupForm.controls['confirm_password'].dirty)">
+                    <div *ngIf="emailSignupForm.controls['confirm_password']?.errors?.['minlength']; else patternElem;">
+                        {{'passwordLengthError' |translate}}
+                    </div>
+                    <ng-template #patternElem>
+                        <div *ngIf="emailSignupForm.controls['confirm_password'].hasError('pattern')">
+                            {{'passwordPolicyError' |translate}}
+                        </div>
+                    </ng-template>
+                </div>
+                <div class="passwordProfile" *ngIf="alertMsg">
+                    {{'passwords_do_not_match' |translate}}</div>
+            </div>
+
+
+        </div>
+        <div class="">
+            <button type="submit" class="alt-btn-red alt-w-100">{{'verify' |translate}}</button>
+        </div>
+
+        <div class=" formField" *ngIf="baseSignup.term_condition.is_allow==1">
+            <p> {{'by_signing_in_you_agree_to' |translate}} <u><a href="/termsofUse" style="color:white;">{{'terms_of_use' |translate}}</a> </u> {{'and_the'|translate}}
+             <u><a href="/privacy-policy" style="color:white;">{{'privacy_policy' |translate}}</a></u></p>
+        </div>
+    </form>
+    <ng-container *ngIf="openOtpModal">
+        <app-otp-dialog [email]="email" [mobile]="mobile" [type]="'email'" [typeLogin]="typesLogin"></app-otp-dialog>
+    </ng-container>
+</div>

@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutGap="5px">
+   
+    <div class="alt-login-content" >
+        <div class="alt-login-img">
+            <img src="assets/svgs/Group.png" alt="AOL">
+        </div>
+       
+        <div (click)="onNoClick()" class="close-btn">
+           <img src="assets/svgs/Vector.svg" alt="">
+        </div>
+  
+         <div class="heading" >
+            <p class="chopic">
+                <!-- This Feature is Only for Premium Members   (key added to the translation service) -->
+{{'This_feature_is_only_for_premium_members'|translate}}
+            </p>
+         </div>
+
+         <div class="btns-pre">
+            <div class="ok-btn col-6 p-0">
+                <button (click)="subscribe()">{{'subscribe_now' |translate}}</button>
+            </div>
+            <div class="ok-btn col-6 pr-0">
+                <button (click)="close()">{{'cancel' |translate}}</button>
+            </div>
+         </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="vrfy-logo" *ngIf="basesignin.profileEmailVerify.logo.is_allow == 1">
+            <img src="{{basesignin.profileEmailVerify.logo.web}}" alt="AOL">
+        </span>
+        <span class="close-btn">
+            <!-- <mat-icon >close</mat-icon> -->
+            <img src="/assets/svgs/Vector.svg" alt="" (click)="close()">
+        </span>
+        <br>
+        <div class="verify" *ngIf="basesignin.profileEmailVerify.heading.is_allow == 1">
+            <!-- {{basesignin.profileEmailVerify.heading.text}} -->
+        {{'verify_your_emailID'|translate}}
+        
+        </div>
+        <br>
+     
+      
+        <div style="color: white;" *ngIf="basesignin.profileEmailVerify.description.is_allow == 1">
+            <!-- {{basesignin.profileEmailVerify.description.text}}  -->
+            {{'Please_enter_4_digit_OTP'|translate}}
+            <br></div><br>
+        <ng-otp-input #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event)" [config]="config">
+        </ng-otp-input>
+        <mat-error *ngIf="otpInputInvalid" class="mt-2" style="text-align:center !important;">{{'OTP_is_required'|translate}}
+        </mat-error>
+      
+        <div class="incorrectMsg mt-2" *ngIf="!verifyOtp">{{'invalid_otp' |translate}}</div>
+        <br>
+
+       
+        <div *ngIf="timerHide" style="color: #FFFFFF;font-size: 12px;font-weight:600">OTP will expire in {{display}} minutes</div><br>
+        <div class="otpResend"> <button  *ngIf="basesignin.profileEmailVerify.resent_text.is_allow == 1" style="border: none; 
+        background-color: transparent;">
+         <!-- {{basesignin.profileEmailVerify.resent_text.text}} -->
+          {{'didn_t_receive_the_otp'|translate}}
+        
+        </button><button [disabled]="clicked" *ngIf="basesignin.profileEmailVerify.resent_btn.is_allow == 1" (click)="resendOtp()"
+                    class="insideBtn">
+                    <!-- {{basesignin.profileEmailVerify.resent_btn.text}} -->
+                {{'resend'|translate}}
+                </button></div>
+                    <mat-error *ngIf="otpExceeded"
+                    style="text-align:center !important; margin-top: 20px !important; font-size: 14px !important; color: #FF8484 !important;">
+                    <!-- {{errorMsg.messageOtpResendLimitReached}} -->
+            {{'maximum_OTP_limit' |translate}}
+
+                  </mat-error>
+        <div class="alt-m-4">
+            <button type="submit" class="alt-btn-p alt-w-100" (click)="onVerifyOtp()" *ngIf="basesignin.profileEmailVerify.submit_btn.is_allow == 1">
+                <!-- {{basesignin.profileEmailVerify.submit_btn.text}} -->
+            {{'Submit'|translate}}
+            </button>
+        </div>
+    </div>
+</div>

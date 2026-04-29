@@ -1,0 +1,567 @@
+<div class='featuretopabc'>
+    <ng-container *ngFor="let home of homeCategoryData; let indexOfHomeelement = index" id="abc" class="featuretopabc">
+        <ng-container [ngSwitch]="home?.category_type">
+            <ng-container *ngIf="home?.category_type=='feature_banner' && home?.description==''" style="padding: 0">
+                <div class="ott-slick-carousel" *ngIf="home.totalSlides">
+                    <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" (init)="slickInit($event)"
+                        (afterChange)="onSlideChange($event)" [config]="slideConfig" [id]="'demo' + indexOfHomeelement">
+                        <div ngxSlickItem *ngFor="let slide of home?.cat_cntn;let i = index;" class="slide">
+                            <div class="padd-1 row" fxLayout="row">
+                                <div class="none-disp grad-demo" fxFlex="20" fxFlex.md="15">
+                                    <!-- <div class="parents-layouts">
+    
+                                    </div> -->
+                                </div>
+                                <div fxFlex="80" fxFlex.md="85" fxFlex.sm="100" fxFlex.xs="100"
+                                    style="position: relative;" class="mobile-pos">
+
+                                    <div class="grad-demo2">
+
+                                    </div>
+                                    <div class="grad-bttm">
+
+                                    </div>
+
+                                    <div *ngIf="slide.is_ad == 1">
+                                        <img width="100%" height="100%"
+                                            [src]="slide.sliderImg?slide.sliderImg:DefaultBanner" alt="artofliving">
+                                    </div>
+
+                                    <div [id]="'homeMain' + slide?.id" class="player">
+                                        <div *ngIf="slide.is_ad != 1">
+                                            <video [id]="'carouselPlayerC' + i" loop autoplay playsinline
+                                                class="video-js vjs-default-skin" preload="auto" muted
+                                                [poster]='slide.sliderImg?slide.sliderImg:DefaultBanner'>
+                                            </video>
+
+                                        </div>
+
+                                        <div class="parent-layout iconlayout">
+                                            <div class="content-list" *ngIf="slide.is_ad != 1">
+                                                <h3 *ngIf="slide.is_group==0">{{ slide.title }}</h3>
+                                                <h3 *ngIf="slide.is_group==1">{{slide.series_title == ""?
+                                                    slide.season_title:slide.series_title}} </h3>
+                                                <ul>
+                                                    <li *ngIf="slide.meta_year.length != 0 && slide.meta_year != 0">
+                                                        {{ slide.meta_year }}
+                                                    </li>
+                                                    <li *ngIf="slide.meta_language.length != 0">
+                                                        {{ slide.meta_language }}
+                                                    </li>
+                                                    <li *ngIf="slide.meta_genre.length != 0">
+                                                        {{ slide.meta_genre }}
+                                                    </li>
+                                                    <li
+                                                        *ngIf="slide.meta_genre.length != 0 && slide.meta_genre.split(',')[1] != null">
+                                                        {{ slide.meta_genre.split(',')[1] }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="thril">
+                                                <p *ngIf="slide.is_group==0 && slide.des!='' && slide.is_ad != 1"
+                                                    id="p1">{{
+                                                    slide.des.substring(0,130)
+                                                    +'
+                                                    ...'}}</p>
+                                                <p *ngIf="slide.is_group==1 && slide.season_des!='' && slide.is_ad != 1"
+                                                    id="p2">{{
+                                                    slide.season_des.substring(0,180) +' ...'}}</p>
+                                                <ul class="sub-details row">
+
+                                                    <li (click)="playCarousel(slide)"
+                                                        *ngIf="slide.content_type !='ebook' && slide.is_ad != 1">
+                                                        <button class="play-btn-aol">
+                                                            <img src="assets/svgs/Icon.svg" alt="play"
+                                                                style="cursor: pointer" />
+                                                            <div>
+                                                                {{'Play'|translate}}
+                                                            </div>
+
+                                                        </button>
+                                                    </li>
+
+                                                    <!-- <li (click)="playCarousel(slide)"
+                                                        *ngIf="slide.content_type !='ebook' && slide.is_ad != 1 && slide?.content_type != 'video'">
+                                                        <button class="play-btn-aol">
+                                                            <img src="assets/svgs/Icon.svg" alt="play"
+                                                                style="cursor: pointer" />
+                                                            <div>
+                                                                {{'Play'|translate}}
+                                                            </div>
+
+                                                        </button>
+                                                    </li> -->
+                                                    <li (click)="playCarousel(slide)"
+                                                        *ngIf="slide.content_type =='ebook' && slide.is_ad != 1">
+                                                        <button class="play-btn-aol">
+                                                            <img src="assets/new_icons/Vector.svg" alt="play"
+                                                                style="cursor: pointer;width: 24px;" />
+                                                            <div>
+                                                                {{'Read'|translate}}
+                                                            </div>
+
+                                                        </button>
+                                                    </li>
+                                                    <li
+                                                        *ngIf="slide?.content_type === 'video' && slide?.is_event==0 && slide.is_ad != 1">
+                                                        <div (click)="navigate(slide,home?.category_type)" width
+                                                            class="addToWatchlist-1">
+                                                            <button class="wat-btnn-1">
+                                                                <img src="assets/icons/MORE_INFO.svg" alt="more_info">
+                                                                <div>
+                                                                    {{'more_info'|translate}}
+                                                                </div>
+                                                            </button>
+
+                                                        </div>
+                                                    </li>
+
+                                                    <li
+                                                        *ngIf="slide?.is_event==0 && slide.is_ad == 1">
+                                                        <div (click)="navigate(slide,home?.category_type)" width
+                                                            class="addToWatchlist-1">
+                                                            <button class="wat-btnn-1">
+                                                                <img src="assets/icons/MORE_INFO.svg" alt="more_info">
+                                                                <div>
+                                                                    {{'more_info'|translate}}
+                                                                </div>
+                                                            </button>
+
+                                                        </div>
+                                                    </li>
+                                                    <li *ngIf="slide?.is_event==0 && slide.is_ad != 1">
+                                                        <div (click)="add(slide?.id + home.cat_id, slide,home.cat_id)"
+                                                            *ngIf="slide.is_favourite == 0" class="addToWatchlist">
+                                                            <button class="wat-btnn">
+                                                                <img src="assets/svgs/add-square-01.svg" alt="my_list">
+                                                                <div>
+                                                                    {{'Add_to_My_list'|translate}}
+                                                                </div>
+                                                            </button>
+
+                                                        </div>
+                                                        <div (click)="add(slide?.id + home.cat_id, slide,home.cat_id)"
+                                                            *ngIf="slide.is_favourite == 1" class="removeFromWatchlist">
+                                                            <button class="added-btnn">
+                                                                <img src="assets/svgs/check-contained.svg"
+                                                                    alt="my_list">
+                                                                <div>
+                                                                    {{'added_to_watchlist'|translate}}
+                                                                </div>
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="icon_player" *ngIf="hideicon && slide.is_ad != 1">
+                                        <img style="cursor: pointer" *ngIf="muted" (click)="unmute()" width="60px"
+                                            height="60px" src="assets/new_icons/volume-x.svg" alt="AOL"
+                                            class="mute-unmute" loading="lazy" />
+
+                                        <img style="cursor: pointer" *ngIf="!muted" (click)="mute()" width="60px"
+                                            height="60px" src="assets/new_icons/volume-2.svg" alt="AOL"
+                                            class="mute-unmute" loading="lazy" />
+
+                                    </div>
+                                    <div class="icons-mobile">
+                                        <div class="play-mobile"
+                                            *ngIf="slide?.content_type === 'video' && slide.is_ad != 1">
+                                            <img src="assets/svgs/play-phome.svg" alt="play"
+                                                (click)="playCarousel(slide)">
+                                        </div>
+                                        <div class="play-mobile"
+                                            *ngIf="slide?.content_type === 'audio' && slide.is_ad != 1"
+                                            (click)="playCarousel(slide)">
+                                            <img src="assets/svgs/headphone-mobile.svg" alt="play">
+                                        </div>
+                                        <div class="more-mobile"
+                                            *ngIf="slide?.content_type === 'video' && slide.is_ad != 1">
+                                            <img src="assets/svgs/more-info-mobile.svg" alt="more_info" width="25px"
+                                                (click)="navigate(slide,home?.category_type)">
+                                        </div>
+
+                                        <div class="more-mobile" *ngIf="slide.is_ad == 1">
+                                            <img src="assets/svgs/more-info-mobile.svg" alt="more_info" width="25px"
+                                                (click)="navigate(slide,home?.category_type)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ngx-slick-carousel>
+                </div>
+            </ng-container>
+
+
+
+            <ng-container *ngIf="home?.category_type=='feature_banner' && home?.description!=''" style="padding: 0">
+                <div fxLayout="row" fxLayoutAlign="center center" class="card-slider-header">
+                    <h1 style="text-align: center;">{{ home?.cat_name | titlecase }}</h1>
+                </div>
+                <div class="ott-slick-carousel-2">
+                    <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+                        <div ngxSlickItem *ngFor="let slide of home?.cat_cntn;let i = index;" class="slide">
+                            <div [id]="'homeMain' + slide?.id" class="player">
+                                <img class="mySlides" style="cursor: pointer;" loading="lazy" [src]="slide.sliderImg"
+                                    (error)="onImgError($event, home?.type)"
+                                    (click)="navigate(slide,home?.category_type)"
+                                    [title]="slide.is_group == 0 ? slide.title : slide.season_title"
+                                    [alt]="slide.is_group == 0 ? slide.title : slide.season_title" width="100%"
+                                    height="100%" />
+                            </div>
+                        </div>
+                    </ngx-slick-carousel>
+                </div>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'custom_ad_banner'">
+                <div class="custom_banner" style="cursor: pointer" style="text-align: center; cursor: pointer">
+                    <a [href]="home.ad_url">
+                        <img class="me" [src]="home.thumb" alt="AOL" />
+                    </a>
+                </div>
+            </ng-container>
+
+            <ng-container
+                *ngIf="home?.category_type=='default' || home?.category_type=='ebook' || home?.category_type=='language' || home?.category_type=='continue_watching' || home?.category_type=='continue_listening' || home?.category_type=='Binge_it_all' || home?.category_type=='audio'">
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="card-slider-header"
+                    [ngClass]="{'ebook-mar':isebook}"
+                    *ngIf="home.cat_cntn.length && home.totalSlides && home.totalSlides!=0 && home.category_type != 'continue_watching' && home.category_type != 'continue_listening'">
+                    <h1 *ngIf="home.category_type != 'continue_watching' && home.category_type != 'continue_listening'">
+                        {{ home?.cat_name | titlecase }}</h1>
+                    <div *ngIf="home.category_type != 'continue_watching' && home.category_type != 'continue_listening' && home.cat_cntn.length>home.config['slidesToShow']"
+                        [routerLink]="'/view/all/' + home?.cat_name + '/' + home?.cat_id" fxLayout="row"
+                        fxLayoutGap="15px" style="cursor: pointer">
+                        <a class="see">{{'see_all_text'|translate}}</a>
+
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="card-slider-header"
+                    *ngIf="home.cat_cntn.length && home.category_type == 'continue_watching' && hideContinue">
+                    <h1 *ngIf="home.category_type == 'continue_watching' ">{{ home?.cat_name | titlecase }}</h1>
+                    <div *ngIf="home.category_type == 'continue_watching' && home.cat_cntn.length>home.config['slidesToShow']"
+                        [routerLink]="'/continue'" fxLayout="row" [queryParams]="{ type: 'video' }" fxLayoutGap="15px"
+                        style="cursor: pointer">
+                        <a class="see">{{'see_all_text'|translate}}</a>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="card-slider-header"
+                    *ngIf="home.cat_cntn.length && home.category_type == 'continue_listening' && hideListen">
+                    <h1 *ngIf="home.category_type == 'continue_listening' ">{{ home?.cat_name | titlecase }}</h1>
+                    <div *ngIf="home.category_type == 'continue_listening' && home.cat_cntn.length>home.config['slidesToShow']"
+                        [routerLink]="'/continue'" [queryParams]="{ type: 'audio' }" fxLayout="row" fxLayoutGap="15px"
+                        style="cursor: pointer">
+                        <a class="see">{{'see_all_text'|translate}}</a>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="home.totalSlides && home.totalSlides!=0">
+                    <div [ngClass]="'home' + home.cat_id + ' ' + 'slick-card-carousel'"
+                        *ngIf="home.is_bingeit != '1' && home.category_type != 'continue_watching' && home.category_type != 'continue_listening'"
+                        [id]="'check'+home.cat_id">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="home?.config">
+                            <mat-card style="cursor: pointer" ngxSlickItem
+                                *ngFor="let slide of home?.cat_cntn; let i = index" class="card-slide"
+                                [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px','background-color': '#1e1e1e'}">
+                                <div class="hovergif" (click)="navigate(slide,home?.category_type)">
+                                    <img [src]="slide?.sliderImg" class="mySlides" loading="lazy"
+                                        [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px'}"
+                                        (error)="onImgError($event, home?.type)"
+                                        [title]="slide.is_group == 0 ? slide.title : slide.season_title"
+                                        [alt]="slide.is_group == 0 ? slide.title : slide.season_title" width="100%" />
+
+                                    <div *ngIf="slide.is_ad != 1">
+                                        <div class="icons_art"
+                                            [ngStyle]="{display: slide?.content_type == 'audio' && home?.type != 'circle' ? 'flex' : 'none'}">
+                                            <img src="assets/svgs/headphone.svg" class="music_art" alt="AOL">
+                                        </div>
+                                        <div class="icons_art"
+                                            [ngStyle]="{display: slide?.content_type == 'ebook' && home?.type != 'circle' ? 'flex' : 'none'}">
+                                            <img src="assets/svgs/e-book.svg" class="music_art" alt="AOL">
+                                        </div>
+                                        <div class="icons_art"
+                                            [ngStyle]="{display: slide?.content_type == 'video' && home?.type != 'circle' ? 'flex' : 'none'}">
+                                            <img src="assets/svgs/video_icon.svg" class="music_art" alt="AOL">
+                                        </div>
+                                        <div class="icon-crown"
+                                            *ngIf="slide.access_type == 'paid' && home?.type != 'circle'  && slide.package_mode !== 'Prime'  && !isSubscribed">
+                                            <img src="assets/svgs/aol_crown.svg" class="aol_crown" alt="AOL">
+                                        </div>
+
+                                        <div class="free-icon"
+                                            *ngIf="slide.access_type == 'free' && home?.type != 'circle' && slide.package_mode !== 'Prime' && !isSubscribed">
+                                            <img src="assets/svgs/free-v1.svg" class="free_aol-icon" alt="AOL" />
+                                        </div>
+                                        <div class="prime-icon"
+                                            *ngIf="slide.package_mode == 'Prime' && home?.type != 'circle' ">
+                                            <img src="assets/svgs/lock-prime-v2.svg" class="free_aol" alt="AOL" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </ngx-slick-carousel>
+                    </div>
+                    <div class="one-card-carousel" *ngIf="home.is_bingeit == '1'" [id]="'check'+home.cat_id">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="home?.config">
+                            <mat-card style="cursor: pointer; box-shadow: none !important;" ngxSlickItem
+                                *ngFor="let slide of home?.cat_cntn; let i = index" class="card-slide"
+                                [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px','background-color': '#100E22'}"
+                                (click)="navigate(slide,home?.category_type)">
+
+                                <mat-icon *ngIf="slide.access_type == 'paid' && !isSubscribed" class="crown"
+                                    aria-hidden="false" svgIcon="crown"
+                                    [ngStyle]="{display: home?.type == 'circle' ? 'none' : 'block'}">
+                                </mat-icon>
+                                <img class="mySlides" loading="lazy"
+                                    [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px'}"
+                                    [src]="slide.sliderImg" (error)="onImgError($event, home?.type)"
+                                    [title]="slide.is_group == 0 ? slide.title : slide.season_title"
+                                    [alt]="slide.is_group == 0 ? slide.title : slide.season_title" width="100%" />
+                                <div class="texts">
+                                    <img [src]="home.bingeit_image[i]" alt="AOL" />
+                                </div>
+
+                                <div *ngIf="slide.is_ad != 1">
+                                    <div class="icons_art_bing"
+                                        [ngStyle]="{display: slide?.content_type == 'audio' ? 'flex' : 'none'}">
+                                        <img src="assets/svgs/headphone.svg" class="music_art" alt="AOL">
+                                    </div>
+                                    <div class="icons_art_bing"
+                                        [ngStyle]="{display: slide?.content_type == 'ebook' ? 'flex' : 'none'}">
+                                        <img src="assets/svgs/e-book.svg" class="music_art" alt="AOL">
+                                    </div>
+                                    <div class="icons_art_bing"
+                                        [ngStyle]="{display: slide?.content_type == 'video' ? 'flex' : 'none'}">
+                                        <img src="assets/svgs/video_icon.svg" class="music_art" alt="AOL">
+
+
+                                    </div>
+                                    <div class="icon-crown_bing" *ngIf="slide.access_type == 'paid'  && !isSubscribed">
+                                        <img src="assets/svgs/aol_crown.svg" class="aol_crown">
+                                    </div>
+
+                                    <div class="free-icon" *ngIf="slide.access_type == 'free' && !isSubscribed ">
+                                        <img src="assets/svgs/free-v1.svg" class="free_aol-icon" alt="AOL" />
+                                    </div>
+                                </div>
+
+                            </mat-card>
+                        </ngx-slick-carousel>
+                    </div>
+                    <div class="slick-card-carousel "
+                        *ngIf="home.category_type == 'continue_watching' && home.cat_cntn.length!=0">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="home?.config">
+                            <mat-card style="cursor: pointer; box-shadow: none !important;" ngxSlickItem
+                                *ngFor="let slide of home?.cat_cntn; let i = index" class="card-slide"
+                                [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px','background-color': '#1e1e1e'}"
+                                [id]="slide.id">
+                                <div class="hovergif">
+                                    <div *ngIf="slide.is_ad != 1">
+                                        <mat-icon *ngIf="slide.access_type == 'paid' && !isSubscribed" class="crown"
+                                            aria-hidden="false" svgIcon="crown"
+                                            [ngStyle]="{display: home?.type == 'circle' ? 'none' : 'block'}"></mat-icon>
+                                        <div class="icons_art1"
+                                            [ngStyle]="{display: slide?.content_type == 'audio' && home?.type != 'circle' ? 'flex' : 'none'}">
+                                            <img src="assets/svgs/headphone.svg" class="music_art" alt="AOL">
+                                        </div>
+                                        <div class="icons_art1"
+                                            [ngStyle]="{display: slide?.content_type == 'ebook' && home?.type != 'circle' ? 'flex' : 'none'}">
+                                            <img src="assets/svgs/e-book.svg" class="music_art" alt="AOL">
+                                        </div>
+                                        <div class="icons_art1"
+                                            [ngStyle]="{display: slide?.content_type == 'video' && home?.type != 'circle' ? 'flex' : 'none'}">
+                                            <img src="assets/svgs/video_icon.svg" class="music_art" alt="AOL">
+
+
+                                        </div>
+                                    </div>
+
+                                    <img class="mySlides"
+                                        [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px 10px'}"
+                                        [src]="slide.sliderImg" loading="lazy" (error)="onImgError($event, home?.type)"
+                                        (click)="navigate(slide,home?.category_type)"
+                                        [title]="slide.is_group == 0 ? slide.title : slide.season_title"
+                                        [alt]="slide.is_group == 0 ? slide.title : slide.season_title" width="100%" />
+
+
+                                    <mat-progress-bar *ngIf="home.category_type == 'continue_watching'"
+                                        mode="determinate" [value]="slide.result" class="cont-prog"></mat-progress-bar>
+                                    <img *ngIf="home.category_type == 'continue_watching'" class="btn-close"
+                                        (click)="deleteWatchList(slide.id,i, slide.category_type)"
+                                        src="assets/svgs/new-unin.svg" alt="AOL">
+                                    <div class="cont-play" (click)="navigate(slide,home?.category_type)">
+                                        <img src="assets/svgs/Icon.png" alt="AOL" class="play_cont">
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </ngx-slick-carousel>
+                    </div>
+
+                    <div class="slick-card-carousel "
+                        *ngIf="home.category_type == 'continue_listening' && home.cat_cntn.length!=0">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="home?.config">
+                            <mat-card style="cursor: pointer; box-shadow: none !important;" ngxSlickItem
+                                *ngFor="let slide of home?.cat_cntn; let i = index" class="card-slide"
+                                [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px','background-color': '#1e1e1e'}"
+                                [id]="slide.id">
+                                <div class="hovergif">
+                                    <div *ngIf="slide.is_ad != 1">
+                                        <mat-icon *ngIf="slide.access_type == 'paid' && !isSubscribed" class="crown"
+                                            aria-hidden="false" svgIcon="crown"
+                                            [ngStyle]="{display: home?.type == 'circle' ? 'none' : 'block'}"></mat-icon>
+                                        <div class="icons_art1"
+                                            [ngStyle]="{display: slide?.content_type == 'audio' && home?.type != 'circle' ? 'flex' : 'none'}">
+                                            <img src="assets/svgs/headphone.svg" class="music_art" alt="AOL">
+                                        </div>
+                                        <div class="icons_art1"
+                                            [ngStyle]="{display: slide?.content_type == 'ebook' && home?.type != 'circle' ? 'flex' : 'none'}">
+                                            <img src="assets/svgs/e-book.svg" class="music_art" alt="AOL">
+                                        </div>
+                                        <div class="icons_art1"
+                                            [ngStyle]="{display: slide?.content_type == 'video' && home?.type != 'circle' ? 'flex' : 'none'}">
+                                            <img src="assets/svgs/video_icon.svg" class="music_art" alt="AOL">
+
+
+                                        </div>
+                                    </div>
+
+                                    <img class="mySlides"
+                                        [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px 10px'}"
+                                        [src]="slide.sliderImg" loading="lazy" (error)="onImgError($event, home?.type)"
+                                        (click)="navigate(slide,home?.category_type)"
+                                        [title]="slide.is_group == 0 ? slide.title : slide.season_title"
+                                        [alt]="slide.is_group == 0 ? slide.title : slide.season_title" width="100%" />
+
+
+                                    <mat-progress-bar *ngIf="home.category_type == 'continue_listening'"
+                                        mode="determinate" [value]="slide.result" class="cont-prog"></mat-progress-bar>
+                                    <img *ngIf="home.category_type == 'continue_listening'" class="btn-close"
+                                        (click)="deleteWatchList(slide.id,i, slide.category_type)"
+                                        src="assets/svgs/new-unin.svg" alt="AOL">
+                                    <div class="cont-play" (click)="navigate(slide,home?.category_type)">
+                                        <img src="assets/svgs/Icon.png" alt="AOL" class="play_cont">
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </ngx-slick-carousel>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="'genre'">
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="card-slider-header"
+                    *ngIf="home.totalSlides">
+                    <h1>{{home?.cat_name}}</h1>
+                </div>
+                <ng-container *ngIf="home.totalSlides">
+                    <div class="slick-card-carousel">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="home?.config">
+                            <mat-card style="cursor: pointer; box-shadow: none !important;" ngxSlickItem
+                                *ngFor="let slide of home?.cat_cntn; let i = index" class="card-slide"
+                                [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px', 'background-color': '#1e1e1e'}">
+
+                                <mat-icon *ngIf="slide.access_type == 'paid' && !isSubscribed && slide.is_ad != 1"
+                                    class="crown" aria-hidden="false" svgIcon="crown"
+                                    [ngStyle]="{display: home?.type == 'circle' ? 'none' : 'block'}"></mat-icon>
+                                <div class="free-icon"
+                                    *ngIf="slide.access_type == 'free' && !isSubscribed && slide.is_ad != 1"
+                                    [ngStyle]="{display: home?.type == 'circle' ? 'none' : 'block'}">
+                                    <img src="assets/svgs/free-v1.svg" alt="AOL" class="free_aol-icon" />
+                                </div>
+
+                                <img class="mySlides"
+                                    [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px', opacity: '0.4'}"
+                                    [src]="slide.image" (error)="onImgError($event, home?.type)"
+                                    [routerLink]="'/view/all/' + slide?.title + '/' + slide?.id"
+                                    [queryParams]="{ cat: home?.cat_name }"
+                                    [title]="slide.is_group == 0 ? slide.title : slide.season_title"
+                                    [alt]="slide.is_group == 0 ? slide.title : slide.season_title" width="100%" />
+
+                                <p id="genre-title" [routerLink]="'/view/all/' + slide?.title + '/' + slide?.id"
+                                    [queryParams]="{ cat: home?.cat_name }">{{ slide.name }}</p>
+                            </mat-card>
+                        </ngx-slick-carousel>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="'singer'">
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="card-slider-header"
+                    *ngIf="home.totalSlides">
+                    <h1>{{home?.cat_name}}</h1>
+                    <div [routerLink]="'/view/all/' + home?.cat_name + '/' + home?.cat_id" fxLayout="row"
+                        fxLayoutGap="15px" style="cursor: pointer">
+                        <a class="see">{{'see_all_text'|translate}}</a>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="home.totalSlides">
+                    <div class="slick-card-carousel-singer">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="home?.config">
+                            <mat-card style="cursor: pointer; box-shadow: none !important;" ngxSlickItem
+                                *ngFor="let slide of home?.cat_cntn; let i = index" class="card-slide"
+                                [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px'}">
+
+                                <mat-icon *ngIf="slide.access_type == 'paid' && !isSubscribed && slide.is_ad != 1"
+                                    class="crown" aria-hidden="false" svgIcon="crown"
+                                    [ngStyle]="{display: home?.type == 'circle' ? 'none' : 'block'}"></mat-icon>
+                                <div class="free-icon"
+                                    *ngIf="slide.access_type == 'free' && !isSubscribed && slide.is_ad != 1"
+                                    [ngStyle]="{display: home?.type == 'circle' ? 'none' : 'block'}">
+                                    <img src="assets/svgs/free-v1.svg" alt="AOL" class="free_aol-icon" />
+                                </div>
+
+                                <img class="mySlides"
+                                    [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px'}"
+                                    [src]="slide.image" (error)="onImgError($event, home?.type)"
+                                    [routerLink]="'/singer/' + slide?.id" [title]="slide.name" [alt]="slide.name"
+                                    width="100%" />
+                                <p id="genre-title" [routerLink]="'/singer/' + slide?.id">{{ slide.name }}</p>
+                            </mat-card>
+                        </ngx-slick-carousel>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="'podcast'">
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="card-slider-header"
+                    *ngIf="home.totalSlides">
+                    <h1>{{home?.cat_name}}</h1>
+                    <div [routerLink]="'/view/all/' + home?.category_type + '/' + home?.cat_id" fxLayout="row"
+                        fxLayoutGap="15px" style="cursor: pointer">
+                        <a class="see">{{'see_all_text'|translate}}</a>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="home.totalSlides">
+                    <div class="slick-card-carousel-singer">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="home?.config">
+                            <mat-card style="cursor: pointer; box-shadow: none !important;" ngxSlickItem
+                                *ngFor="let slide of home?.cat_cntn; let i = index" class="card-slide"
+                                [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px'}">
+
+                                <mat-icon *ngIf="slide.access_type == 'paid' && !isSubscribed && slide.is_ad != 1"
+                                    class="crown" aria-hidden="false" svgIcon="crown"
+                                    [ngStyle]="{display: home?.type == 'circle' ? 'none' : 'block'}"></mat-icon>
+                                <div class="free-icon"
+                                    *ngIf="slide.access_type == 'free' && !isSubscribed && slide.is_ad != 1"
+                                    [ngStyle]="{display: home?.type == 'circle' ? 'none' : 'block'}">
+                                    <img src="assets/svgs/free-v1.svg" alt="AOL" class="free_aol-icon" />
+                                </div>
+
+                                <img class="mySlides"
+                                    [ngStyle]="{'border-radius': home?.type == 'circle' ? '50%' : '10px'}"
+                                    [src]="slide.image" (error)="onImgError($event, home?.type)"
+                                    [routerLink]="'/singer/' + slide?.id" [queryParams]="{ type: 'composer' }"
+                                    [title]="slide.name" [alt]="slide.name" width="100%" />
+                                <p id="genre-title" [routerLink]="'/singer/' + slide?.id"
+                                    [queryParams]="{ type: 'composer' }">{{ slide.name }}</p>
+                            </mat-card>
+                        </ngx-slick-carousel>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</div>

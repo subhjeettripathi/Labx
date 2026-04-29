@@ -1,0 +1,19 @@
+<div class="newList" *ngIf="data.getType != 'audio'">
+    <form  [formGroup]="playlistForm" #playlistFormDir="ngForm" (ngSubmit)="createPlaylist()">
+    <div class="close-btn" (click)="close()"><img src="assets/svgs/Vector.svg" alt="closeButton"></div>
+    <h3>{{'createNewPlaylist' |translate}}</h3>
+    <input type="text" (keydown)="handleInput($event)" formControlName="playlist" >
+    <span class="playlist-name" *ngIf="showMessage">{{'playlist_already_exists' |translate}}</span>
+    <button>{{'add' |translate}}</button>
+    </form>
+</div>
+
+<div class="newList" *ngIf="data.getType == 'audio'">
+    <form  [formGroup]="playlistForm" #playlistFormDir="ngForm" (ngSubmit)="editNamePlaylist()">
+    <div class="close-btn" (click)="close()"><img src="assets/svgs/Vector.svg" alt="closeButton"></div>
+    <h3>{{'renameplaylist' |translate}}</h3>
+    <input type="text" maxlength="25" [(ngModel)]="inputData" (keydown)="handleInput($event)" formControlName="playlist" >
+
+    <button>{{'update' |translate}}</button>
+    </form>
+</div>

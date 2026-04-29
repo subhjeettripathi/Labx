@@ -1,0 +1,21 @@
+
+.video-js .vjs-custom-seek-button {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top: -11rem;
+    font-family: 'Material Icons';
+    font-size: 1.4em;
+    width: 40px;
+    cursor: pointer;
+}
+
+.video-js .vjs-custom-seek-button.seek-backward::before {
+    content: none;
+}
+.video-js .vjs-custom-seek-button.seek-forward::before {
+    content: none;
+}
+.video-js .vjs-custom-seek-button.no-content::before {
+    content: none !important;
+}

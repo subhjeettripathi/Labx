@@ -1,0 +1,29 @@
+.privacy-container{
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 100px;
+    font-weight: 700;
+    text-align: justify;
+  }
+
+  .arrow-back img{
+    width: 35px;
+    cursor: pointer;
+  }
+
+  .arrow-back {
+    position: absolute;
+    top: 8%;
+    left: 2.2%;
+}
+
+@media screen and (max-width:992px) {
+  // .arrow-back{
+  //   display: none !important;
+  // }
+
+  .arrow-back{
+    position: unset !important;
+    width: 30px !important;
+  }
+}

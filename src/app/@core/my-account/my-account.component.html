@@ -1,0 +1,129 @@
+<div fxLayout="column" fxLayoutGap="15px" fxFlex="100%" fxLayoutAlign="center" class="sec-top">
+    <h1 class="mb-0 pb-4 f-size_aol">
+        <span class="mr-3 arrow-right">
+            <img src="assets/svgs/Vector (4).png" style="cursor: pointer" class="arr-icon" (click)="back()" alt="AOL"
+                aria-hidden="false" class="f-size" /> </span>
+                <!-- My Account  (key added to the translation service)-->
+                 {{'My_Account' |translate}}
+    </h1>
+
+    <div class="container-fluid">
+        <div class="content row">
+            <input type="radio" name="slider" checked id="home" class="disp-none" />
+            <input type="radio" name="slider" id="blog" class="disp-none" />
+            <input type="radio" name="slider" id="help" class="disp-none" />
+            <input type="radio" name="slider" id="code" class="disp-none" />
+            <input type="radio" name="slider" id="about" class="disp-none" />
+
+            <div class="list">
+                <label tabindex="1" for="home" class="home">
+                    <span>{{'profile' |translate}}</span>
+                    <div class="asst-aol"></div>
+                </label>
+                <label tabindex="2" for="blog" class="blog">
+                    <span>{{'account_management' |translate}}</span>
+                    <div class="asst-aol"></div>
+                </label>
+
+                <div class="slider"></div>
+            </div>
+
+            <div class="text-content">
+                <div class="home text profile">
+                    <div class="profile-section-aol">
+                        <app-profile [updationMail]="update_Mail" [isTrue]="val"></app-profile>
+                    </div>
+                </div>
+                <div class="blog text account">
+                    <input class="radio" id="one" name="group1" type="radio" checked />
+                    <input class="radio" id="two" name="group1" type="radio" />
+                    <label class="tab tab-deact" id="one-tab" for="one">{{'deactivate_account' |translate}}</label>
+                    <label class="tab tab-deact" id="two-tab" for="two">{{'delete_account' |translate}}</label>
+                    <div class="panels">
+                        <div class="panel" id="one-panel">
+                            <div class="panel-1">
+                                <div class="panel-title">
+                                    {{'by_deactivate' |translate}}
+                                </div>
+                                <ul class="deactivate-aol">
+                                    <li class="noti-flex">
+                                        <img src="/assets/svgs/x-circle-contained.png" alt="" width="20px" />
+                                        {{'no_notification' |translate}}
+                                    </li>
+                                    <li class="noti-flex">
+                                        <img src="/assets/svgs/x-circle-contained.png" alt="" width="20px" />
+                                        {{'no_alerts' |translate}}
+                                    </li>
+                                    <li class="noti-flex">
+                                        <img src="/assets/icons/check-contained-1.png" alt="" width="20px" />
+                                        {{'rare_event_updates' |translate}}
+                                    </li>
+                                    <li class="noti-flex">
+                                        <img src="/assets/icons/check-contained-1.png" alt="" width="20px" />
+                                        {{'occasional_offers' |translate}}
+                                    </li>
+                                </ul>
+                                <div class="deactive-btn">
+                                    <button class="btn-nactive" (click)="delete('deactivate')">{{'deactivate_account' |translate}}</button>
+                                </div>
+                            </div>
+                            <!-- <div class="active-logo">
+                                <img src="assets/img/deleted-acc.png" alt="" />
+                            </div> -->
+                        </div>
+                        <div class="panel" id="two-panel">
+                            <div class="panel-1">
+                                <div class="panel-title">
+                                    {{'using_this_feature_delete' |translate}}
+                                </div>
+                                <ul class="deactivate-aol">
+                                    <li class="noti-flex">
+                                        <img src="/assets/svgs/x-circle-contained.png" alt="" width="20px" />
+                                        {{'Downloaded_content' |translate}}
+                                    </li>
+                                    <li class="noti-flex">
+                                        <img src="/assets/svgs/x-circle-contained.png" alt="" width="20px" />
+                                        {{'Subscription_active' |translate}}
+                                    </li>
+                                    <li class="noti-flex">
+                                        <img src="/assets/svgs/x-circle-contained.png" alt="" width="20px" />
+                                        {{'Notifications_for_latest_Content'|translate}}
+                                    </li>
+
+                                    <li class="noti-flex">
+                                        <img src="/assets/svgs/x-circle-contained.png" alt="" width="20px" />
+                                        {{'Alerts_for_Imp_Live_Events' |translate}}
+                                    </li>
+
+                                    <li class="noti-flex">
+                                        <img src="/assets/svgs/x-circle-contained.png" alt="" width="20px" />
+                                        {{'Rental_Purchase_history' |translate}}
+                                    </li>
+                                    <li class="noti-flex">
+                                        <img src="/assets/svgs/x-circle-contained.png" alt="" width="20px" />
+                                        {{'Special_Offers'|translate}}
+                                    </li>
+
+                                </ul>
+                                <div class="deactive-btn">
+                                    <button class="btn-nactive" (click)="delete('delete')">{{'delete_account' |translate}}</button>
+                                </div>
+                            </div>
+
+                            <!-- <div class="active-logo">
+                                <img src="assets/img/whereacc.png" alt="" />
+                            </div> -->
+                        </div>
+                    
+                    </div>
+                </div>
+
+                <div class="help text purchase">
+                    <app-purchase></app-purchase>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="basesignin.viewing_restrictions.logo.is_allow == 1">
+            <img src="{{basesignin.viewing_restrictions.logo.web}}" alt="AOL">
+        </span>
+
+        <button (click)="close()" class="close-btn">
+            <!-- <mat-icon>close</mat-icon> -->
+            <img src="assets/svgs/Vector.svg" alt="">
+        </button>
+
+
+
+
+        <div class="radio-wrapper">
+
+            <div class="radio-title">
+                <p *ngIf="basesignin.viewing_restrictions.heading.is_allow == 1" style="color: #FFFFFF;font-weight: 600;
+        font-size: 17px;">{{basesignin.viewing_restrictions.heading.text}}</p>
+            </div>
+            <hr>
+            <br>
+            <div class="radio-btn">
+                <form class="optionlist" [formGroup]="profileForm" #profileFormDir="ngForm" novalidate="" name="form"
+                    (ngSubmit)="updateRestrict()">
+
+
+                    <ng-container *ngFor="let v of ageGrp;let i=index">
+                        <div style="text-align:start"> <input formControlName="gender"  (click)="title(v.title)"
+                                value="{{v.age_group}}" type="radio" id="{{i}}" >
+                            <label for="{{i}}" class="label-restrict">{{v.title}}</label><br>
+                            
+                        </div>
+
+                    </ng-container>
+
+                    <br>
+
+                    <button class="updateBtn"
+                        *ngIf="basesignin.viewing_restrictions.submit_btn.is_allow == 1">{{basesignin.viewing_restrictions.submit_btn.text}}
+                    </button>
+
+
+                </form>
+            </div>
+
+        </div>
+
+
+
+        <!-- <div class="row">
+                <div class="col-6">
+                    <button type="button"  class="btn-one">Yes</button>
+                </div>
+                <div class="col-6">
+                    <button (click)="close()" type="button" class="btn-one">NO</button>
+                </div>
+            </div> -->
+
+
+    </div>
+</div>

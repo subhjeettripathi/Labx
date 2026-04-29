@@ -1,0 +1,219 @@
+<!-- <div class="corporate" [innerHTML]=this.device></div> -->
+<div id="static-page">
+    <style type="text/css">
+        .device-wrapper .row {
+            margin-left: -9px;
+            margin-right: -9px;
+        }
+
+        .device-wrapper .row [class*="col-"] {
+            padding-left: 9px;
+            padding-right: 9px;
+        }
+
+        .device-wrapper .card {
+            background-color: transparent;
+            border: 0;
+            border-radius: 0;
+            margin-bottom: 20px;
+            min-height: 130px;
+        }
+
+        .device-wrapper .card .card-img-top {
+            border-radius: 0;
+            position: relative;
+        }
+
+        .device-wrapper .card .card-thumb {
+            position: relative;
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+
+        .device-wrapper .card .card-thumb::after {
+            content: "";
+            background: -webkit-linear-gradient(135deg, #fe0099, #ff072c, #fe9102);
+            background: linear-gradient(-45deg, #fe0099, #ff072c, #fe9102);
+            height: 4px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .device-wrapper .card .chrome-thumb::after {
+            content: "";
+            background: -webkit-linear-gradient(135deg, #fe0099, #ff072c, #fe9102);
+            background: linear-gradient(-45deg, #fe0099, #ff072c, #fe9102);
+            height: 4px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 36%;
+        }
+
+        .card-body {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .device-title,
+        .card-title {
+            font-family: "GothamHTF-Bold";
+            font-size: 30px;
+        }
+
+        .card-title {
+            font-size: 20px;
+        }
+
+        .card-text,
+        .card li {
+            color: #d2d2d2;
+            font-family: "GothamHTF-Book";
+            font-size: 12px;
+            list-style: none !important;
+        }
+
+        .card li {
+            font-family: "GothamHTF-Medium";
+            margin: 5px 0 0;
+            vertical-align: middle;
+            list-style: none !important;
+        }
+
+        .card li:last-child {
+            display: block;
+            list-style: none !important;
+        }
+
+        .dot-icon {
+            margin: 0 5px 0 0;
+        }
+
+        .chrome_img {
+            width: 36%;
+        }
+    </style>
+    <div class="poster-wrapper device-wrapper">
+        <div class="container text-center">
+            <figure class="figure mb-0">
+                <img [src]= this.device.head.image
+                    class="img-fluid" alt="AOL">
+            </figure>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-inner-wrapper device-wrapper">
+            <div class="list-wrapper mt-5">
+                <h3 class="text-uppercase device-title mb-4">{{this.device.media_player.title}}</h3>
+                <div class="card">
+                    <a [href]= this.device.media_player.data[0].link class="chrome-thumb"><img
+                           class="chrome_img"  [src]=this.device.media_player.data[0].image alt="Chromecast"></a>
+                </div>
+
+                <div class="card-body">
+                    <div [innerHTML]=this.device.media_player.data[0].text></div>
+                </div>
+            </div>
+            <div class="list-wrapper mt-5">
+                <h3 class="text-uppercase device-title mb-4">{{this.device.mobile_and_tablet.title}}</h3>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3" *ngFor="let mobiletablet of this.device.mobile_and_tablet.data">
+                        <div class="card">
+                            <a [href]=mobiletablet.link class="card-thumb"><img class="card-img-top"
+                                    [src]=mobiletablet.image alt="Apple iPhone"></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title text-uppercase card-text m-0 list-inline list-inline-item"
+                                [innerHTML]=mobiletablet.text></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="list-wrapper mt-5">
+                <h3 class="text-uppercase device-title mb-4">{{this.device.web_browser.title}}</h3>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card">
+                            <a [href]=this.device.web_browser.data[0].link class="card-thumb"><img class="card-img-top"
+                                    [src]=this.device.web_browser.data[0].image alt="Apple iPhone"></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title text-uppercase card-text m-0 list-inline list-inline-item"
+                                [innerHTML]=this.device.web_browser.data[0].text></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-wrapper mt-5">
+                <h3 class="text-uppercase device-title mb-4">{{this.device.apple_tv.title}}</h3>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card">
+                            <a [href]=this.device.apple_tv.data[0].link class="card-thumb"><img class="card-img-top"
+                                    [src]=this.device.apple_tv.data[0].image alt="Apple iPhone"></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title text-uppercase card-text m-0 list-inline list-inline-item"
+                                [innerHTML]=this.device.apple_tv.data[0].text></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-wrapper mt-5">
+                <h3 class="text-uppercase device-title mb-4">{{this.device.android_tv.title}}</h3>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card">
+                            <a [href]=this.device.android_tv.data[0].link class="card-thumb"><img class="card-img-top"
+                                    [src]=this.device.android_tv.data[0].image alt="Apple iPhone"></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title text-uppercase card-text m-0 list-inline list-inline-item"
+                                [innerHTML]=this.device.android_tv.data[0].text></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-wrapper mt-5">
+                <h3 class="text-uppercase device-title mb-4">{{this.device.amazon_fire_tv.title}}</h3>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card">
+                            <a [href]=this.device.amazon_fire_tv.data[0].link class="card-thumb"><img class="card-img-top"
+                                    [src]=this.device.amazon_fire_tv.data[0].image alt="Apple iPhone"></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title text-uppercase card-text m-0 list-inline list-inline-item"
+                                [innerHTML]=this.device.amazon_fire_tv.data[0].text></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-wrapper mt-5">
+                <h3 class="text-uppercase device-title mb-4">{{this.device.roku.title}}</h3>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card">
+                            <a [href]=this.device.roku.data[0].link class="card-thumb"><img class="card-img-top"
+                                    [src]=this.device.roku.data[0].image alt="Apple iPhone"></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title text-uppercase card-text m-0 list-inline list-inline-item"
+                                [innerHTML]=this.device.roku.data[0].text></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+

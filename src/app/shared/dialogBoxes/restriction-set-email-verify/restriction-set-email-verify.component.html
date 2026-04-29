@@ -1,0 +1,56 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <div class="alt-login-img">
+            <img src="assets/svgs/altbalaji_logo.svg" alt="AOL">
+        </div>
+        <button class="close-btn">
+            <!-- <mat-icon (click)="close()">close</mat-icon>
+             -->
+             <img src="../../../../assets/svgs/Vector.svg" alt="">
+        </button>
+
+
+        <!-- <div class="parental-heading-1" >
+            <p>
+                Enter your parental lock PIN
+             </p>
+             <p style="color: red;">{{incorrectPinMsg}}</p>
+            <div>
+              
+                <form>
+
+                    <ng-otp-input #ngOtpInput [formCtrl]="otpInputCurrent" (onInputChange)="onOtpChange($event)"
+                        [config]="config"></ng-otp-input>
+                     <br>
+                        <button mat-button (click)="submit()" class="submitBtn">SUBMIT</button>
+                </form>
+
+            </div>
+
+        </div> -->
+        <div>
+            <p class="heading"> Verify Your Account</p>
+
+            <p class="email_head">
+                Enter your login password for {{loginId.email}}
+            </p>
+            <p style="color: red;" *ngIf="msg">Invalid Password</p>
+            <form [formGroup]="otpForm" #otpFormDir="ngForm" (ngSubmit)="submitOtplogin()">
+                <div style="position:relative">
+                    <span (click)="showPassword1(input1)" class="showBtn"><img [hidden]="showpassword1" width="20px"
+                            height="20px" src="assets/svgs/closeeye.svg">
+                        <img width="20px" height="20px" [hidden]="!showpassword1" src="assets/svgs/openeye.svg">
+                    </span>
+                    <input type="password" #input1 class="form-control verify-input" formControlName="email">
+                </div>
+                <br>
+                <p class="verify_forgot" (click)="forgotPassword()">Forgot your password?</p>
+                <button class="verify_submit">Submit</button>
+            </form>
+        </div>
+
+
+    </div>
+
+
+</div>

@@ -1,0 +1,54 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="alt-login-content">
+        <div class="alt-login-img">
+            <img src="assets/svgs/altt_logo.svg" alt="AOL">
+        </div>
+        <button (click)="onNoClick()" class="close-btn">
+            <!-- <mat-icon>close</mat-icon> -->
+            <img src="/assets/svgs/Vector.svg" alt="">
+        </button>
+        <div class="text-white mb-2">Paytm has sent an OTP on your number  </div><br>
+        
+        <ng-otp-input #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event)" [config]="config" >
+        </ng-otp-input>
+        <!-- <mat-error *ngIf="otpInput.invalid" class="mt-2" style="text-align: center !important;" >OTP is required
+        </mat-error> -->
+        <mat-error *ngIf="show && !otpInput.valid " class="mt-2" style="text-align:center !important;">OTP is required
+        </mat-error>
+        <mat-error *ngIf="!hide" class="mt-2" style="text-align: center !important;">Invalid OTP
+        </mat-error>
+        <div class="alt-m-4">
+            <button type="submit" class="alt-btn-p alt-w-100" [disabled]="clicked" (click)="onVerifyOtp()">Submit</button>
+        </div>
+
+        <!-- <ng-container >
+            <mat-card class="bg-payment alt-br-12" >
+                <form action="" [formGroup]="paytmForm" (ngSubmit)="paytmOtpFormSubmit()">
+                    <span class="">Paytm has sent an OTP on your number {{}} </span>
+                    <mat-form-field appearance="fill" class="drop" >
+                   
+                        <input matInput placeholder="Paytm registered mobile number" formControlName="paytmInput"
+                            autocomplete="off" required 
+                            >
+    
+                      
+                    </mat-form-field>
+                  
+                    <div class="alt-m-4">
+                        <button type="submit" class="alt-btn-p alt-w-30">Submit</button>
+                    </div>
+                    
+                    
+                    
+                </form>
+               
+            </mat-card>
+        </ng-container> -->
+
+
+    </div>
+    <ng-container *ngIf="isCheckoutVisible">
+       
+        <paytm-checkout></paytm-checkout>
+       </ng-container>
+</div>

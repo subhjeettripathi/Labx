@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22.733" height="22.733" viewBox="0 0 22.733 22.733">
+  <g id="Full_Screen" data-name="Full Screen" transform="translate(-4.5 -4.5)">
+    <path id="Path_2980" data-name="Path 2980" d="M27.047,27.047H22.5v3.031h7.578V22.5H27.047Z" transform="translate(-2.844 -2.844)" fill="#fff"/>
+    <path id="Path_2981" data-name="Path 2981" d="M27.047,7.531v4.547h3.031V4.5H22.5V7.531Z" transform="translate(-2.844 0)" fill="#fff"/>
+    <path id="Path_2982" data-name="Path 2982" d="M7.531,7.531h4.547V4.5H4.5v7.578H7.531Z" transform="translate(0 0)" fill="#fff"/>
+    <path id="Path_2983" data-name="Path 2983" d="M7.531,27.047V22.5H4.5v7.578h7.578V27.047Z" transform="translate(0 -2.844)" fill="#fff"/>
+  </g>
+</svg>
