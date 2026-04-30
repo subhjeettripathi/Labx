@@ -47,7 +47,6 @@
               "node_modules/videojs-contrib-ads/dist/videojs-contrib-ads.css",
               "node_modules/videojs-ima/dist/videojs.ima.css",
               "node_modules/videojs-seek-buttons/dist/videojs-seek-buttons.css",
-              "node_modules/videojs-playlist/dist/videojs-quality-menu.css",
               "src/styles.scss"
             ],
             "scripts": [
