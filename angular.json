@@ -64,7 +64,6 @@
               "node_modules/videojs-ima/dist/videojs.ima.js",
               "node_modules/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js",
               "node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js",
-              "node_modules/videojs-playlist/dist/videojs-quality-menu.min.js",
               "node_modules/videojs-playlist/dist/dash.all.debug.js",
               "node_modules/videojs-playlist/dist/videojs-dash.js"
 
