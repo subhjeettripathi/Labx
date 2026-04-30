@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="92" height="92" viewBox="0 0 92 92">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" y1="0.163" x2="1.276" y2="2.424" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f68b1f"/>
+      <stop offset="0.747" stop-color="#ed2124"/>
+      <stop offset="1" stop-color="#de0084" stop-opacity="0.949"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f68b1f"/>
+      <stop offset="0.494" stop-color="#ed2124"/>
+      <stop offset="1" stop-color="#de0084" stop-opacity="0.949"/>
+    </linearGradient>
+  </defs>
+  <g id="gaming" transform="translate(-4.53 0.5)">
+    <g id="noun-games-3324988" transform="translate(27.653 19.246)">
+      <path id="Path_744" data-name="Path 744" d="M120.154,29.309H88.212a8.252,8.252,0,0,0-8.237,8.252V50.033a8.629,8.629,0,0,0,17.187,0V47.249a.392.392,0,0,1,.392-.392h13.258a.392.392,0,0,1,.392.392v2.769a8.629,8.629,0,0,0,17.187,0V37.561a8.252,8.252,0,0,0-8.237-8.252ZM89.232,43.217a4.393,4.393,0,1,1,3.1-1.284,4.393,4.393,0,0,1-3.1,1.284Zm33.12-3.209h-2.04v2.032h0a1.177,1.177,0,1,1-2.353,0V40.009H115.95a1.177,1.177,0,1,1,0-2.353h2.04v-2.04a1.177,1.177,0,0,1,2.353,0v2.04h2.04a1.177,1.177,0,1,1,0,2.353Zm-31.08-1.177h0a2.04,2.04,0,1,1-.6-1.442,2.04,2.04,0,0,1,.6,1.442Zm14.12-11.877h-2.353V23.229a5.107,5.107,0,0,1,5.1-5.1h4.228a2.745,2.745,0,0,0,2.746-2.746V11.416a1.177,1.177,0,0,1,2.353,0v3.969a5.1,5.1,0,0,1-5.1,5.1h-4.259a2.754,2.754,0,0,0-2.746,2.746Z" transform="translate(-79.975 -10.239)" fill="url(#linear-gradient)"/>
+    </g>
+    <path id="Subtraction_14" data-name="Subtraction 14" d="M46,92a46.012,46.012,0,0,1-17.9-88.385A46.012,46.012,0,0,1,63.9,88.385,45.714,45.714,0,0,1,46,92ZM46,2.875A43.137,43.137,0,0,0,29.213,85.736,43.136,43.136,0,0,0,62.786,6.264,42.856,42.856,0,0,0,46,2.875Z" transform="translate(4.53 -0.5)" fill="url(#linear-gradient-2)"/>
+  </g>
+</svg>

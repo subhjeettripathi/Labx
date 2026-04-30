@@ -49,7 +49,10 @@
               "node_modules/videojs-seek-buttons/dist/videojs-seek-buttons.css",
               "src/styles.scss"
             ],
+
             "scripts": []
+
+
           },
           "configurations": {
             "production": {
