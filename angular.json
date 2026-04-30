@@ -49,26 +49,7 @@
               "node_modules/videojs-seek-buttons/dist/videojs-seek-buttons.css",
               "src/styles.scss"
             ],
-            "scripts": [
-              
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "node_modules/slick-carousel/slick/slick.min.js",
-              "node_modules/videojs-seek-buttons/dist/videojs-seek-buttons.min.js",
-              "node_modules/videojs-landscape-fullscreen/dist/videojs-landscape-fullscreen.min.js",
-              "node_modules/videojs-overlay-buttons/dist/videojs-overlay-buttons.min.js",
-              "node_modules/videojs-playlist/dist/videojs-playlist.min.js",
-              "node_modules/videojs-contrib-eme/dist/videojs-contrib-eme.min.js",
-              "node_modules/videojs-sprite-thumbnails/dist/videojs-sprite-thumbnails.min.js",
-              "node_modules/videojs-overlay/dist/videojs-overlay.min.js",
-              "node_modules/videojs-ima/dist/videojs.ima.js",
-              "node_modules/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js",
-              "node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js",
-              "node_modules/videojs-playlist/dist/dash.all.debug.js",
-              "node_modules/videojs-playlist/dist/videojs-dash.js"
-
-              
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
