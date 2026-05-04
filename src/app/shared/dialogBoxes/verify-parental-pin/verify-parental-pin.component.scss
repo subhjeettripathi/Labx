@@ -1,43 +1,31 @@
 
-::ng-deep .otp-input {
-    border: none !important;
-    outline: none !important;
-    font-size: 40px !important;
-    width: 65px !important;
-    height: 85px !important;
-    background-color: #3D3D3D;
-}
+// ::ng-deep .otp-input {
+//     border: none !important;
+//     outline: none !important;
+//     font-size: 40px !important;
+//     width: 65px !important;
+//     height: 85px !important;
+//     background-color: #3D3D3D;
+// }
 .parental-control-content {
-    position: relative;
-    text-align: center;
+
   
 
     .parental-heading{
         p{
             font-size: 18px;
-            font-family: 'GothamMedium' !important;
+            font-family: var(--theme-font-style) !important;
             text-align: center;
             color: #FFFFFF;
         }
     }
 
 
-   
-    
-    .img-logo{
-        position: absolute;
-        top: -61px;
-        right: 38%;
-        margin-bottom: 5px;
-        }
-        // .img-logo img{
-        // width: 25%;
-        // }
 
     .parental-heading-1{
         p{
             font-size: 16px;
-            font-family: "GothamMedium" !important;
+            font-family: var(--theme-font-style) !important;
             text-align: center;
             color: white;
 
@@ -66,17 +54,7 @@
     }
 }
 }
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
 
-}
 .submitBtn{
     background-color: red;
     width: 76%;
@@ -92,7 +70,7 @@
     .radio-title{
         p{
             font-size: 18px;
-            font-family: 'GothamMedium' !important;
+            font-family: var(--theme-font-style) !important;
             color: #FFFFFF;
           text-align: center;
           margin: 0px 0px 20px 0px;
@@ -121,47 +99,34 @@
     }
     .lock-btn{
         text-align: center;
-        border: 1px solid #4A4A4A;
-        background-color: #FB0000;
+        // border: 1px solid #4A4A4A;
+        background-color: var(--theme-secondary-color);
         border-radius: 5px;
         padding: 4px 0px;
         
         h2{
             font-size: 18px;
             color: #FFFFFF;
-            font-family: 'GothamMedium' !important;
+            font-family: var(--theme-font-style) !important;
             margin-bottom: 0px;
         }
 
     }
 }
-
-.heading{
-    font-size: 16px;
-    color: #FFFFFF;
-    font-weight: 600;
-    }
-    .email_head{
-        font-size: 16px;
-        color: #DEDEDE;
-        font-weight: 600
-    }
     .verify-input{
         padding: 24px !important;
     }
     .verify_forgot{
         color: #DEDEDE;
         font-size: 12px;
-        font-weight: 600;
         cursor: pointer;
     }
     .verify_submit{
-        width: 63%;
-        background-color: red;
+        width: 100%;
+        background-color: var(--theme-secondary-color);
         border: none;
         padding: 12px;
         color: white;
-        font-weight: 600;
         font-size: 19px;
         border-radius: 4px;
     }
@@ -173,7 +138,7 @@
 .updateBtn{
     font-size: 20px;
     width: 100%;
-    background-color: red;
+    background-color: var(--theme-secondary-color);
     color: white;
     border: none;
     padding: 10px;

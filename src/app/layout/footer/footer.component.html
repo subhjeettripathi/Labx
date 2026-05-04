@@ -1,179 +1,280 @@
-<div style="background-color: #0c0616;min-height: 30vh;">
-    <div class="container-fuild">
-        <div fxLayout="row wrap" fxLayout.sm="column" fxLayoutAlign="space-between" class="footer">
-            <div fxFlex="100" fxFlex.xs="100" fxFlex.sm="100" fxLayout="row wrap" class="alt-p-10 footer-pad">
-                <div fxFlex="100%;" fxFlex.xs="100%" class="mat-elevation-z0 desktop-view">
-                    <div fxLayout=“row” fxLayout.xs="column" fxLayoutAlign="space-between"
-                        fxLayoutAlign.sm="space-between" class="card-1">
-                        <div fxLayoutAlign.xs="center" fxLayout="column" class="socialicons_aol">
-                            <div fxLayout="row" class="social-icons-aol">
-                                <ul *ngFor="let share of footerShare" class="share_ul">
-                                    <li *ngIf="share.is_allow=='1'"><a href="{{share.link}}" target="_blank"><img
-                                                width="30px" height="30px" src="{{share.logo}}" alt="AOL"></a>
-                                    </li>
-                                </ul>
-
-                            </div>
-                            <div>
-                                <ul class="about">
-                                    <li><a [routerLink]="'/about-us'">{{'about_us'|translate}}</a></li>
-                                    <li>|</li>
-                                    <li style="cursor:pointer" (click)="openDialog('contact_us')"><a
-                                            [routerLink]="'/'">{{'contactUs'|translate}}</a></li>
-                                    <li>|</li>
-                                    <li><a [routerLink]="'/termsofUse'"> {{'terms_of_use'|translate}}</a></li>
-                                    <li>|</li>
-                                    <li><a [routerLink]="'/privacy-policy'">{{'privacy_policy'|translate}}</a> </li>
-                                    <li>|</li>
-                                    <li><a [routerLink]="'/investor-relations'">{{'refund_policy'|translate}}</a> </li>
-                                    <li>|</li>
-                                    <li><a [routerLink]="'/careers'">{{'shipping'|translate}}</a> </li>
-                                    <li>|</li>
-                                    <li><a [routerLink]="'/corporate'">{{'cancellation_policy'|translate}}</a> </li>
-                                </ul>
-                            </div>
-                            <div class="footer-version">
-                                <div style="color: #FF8731;" [innerHTML]=footer_version></div>
-                            </div>
-                        </div>
-                        <div class="footer-share" fxLayoutAlign="end" fxLayoutAlign.xs="center">
-
-                            <div class="footer_1">
-                                <div class="connect-num">
-                                    <div *ngIf="footer_logo_show=='1'">
-                                        <a> <img [src]="footer_logo" alt="" (click)="gotoHome()"
-                                                style="cursor: pointer;"></a>
-                                    </div>
+<div class="footer-bg">
+    <div fxLayout="row wrap" fxLayout.sm="column" fxLayoutAlign="space-between" class="footer">
+        <div fxFlex="100" fxFlex.xs="100" fxFlex.sm="100" fxLayout="row wrap" class="footer-pad">
+            <div fxFlex="100%;" fxFlex.xs="100%" fxHide.sm class="mat-elevation-z0 desktop-view" fxHide.xs>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card-1 row">
+                            <div class="col-lg-2">
+                                <!-- <button (click)="open()"></button> -->
+                                <div *ngFor="let a of company">
+                                    <h3 class="footerHeading" *ngIf="a.heading_allow=='1'">{{a.heading |uppercase}}</h3>
+                                    <p class="" (click)="openAboutUs(a.type)" *ngIf="a.is_allow=='1'"><a>{{a.name}}</a>
+                                    </p>
                                 </div>
-                                <h2 style="color: #FF8731;">
-                                    <!-- Get the Art of Living App -->
-                                    {{'Get_the_App'|translate}}
-                                </h2>
-                                <div class="share-icons">
 
-                                    <div *ngFor="let download of footerDownload">
-                                        <a *ngIf="download.is_allow=='1'" href="{{download.link}}" target="_blank"><img
-                                                width="118px" height="35px" src="{{download.logo}}" alt="AOL"></a>
-                                    </div>
+
+                            </div>
+                            <div class="col-lg-2">
+                                <div *ngFor="let b of customer">
+                                    <h3 *ngIf="b.customer_allow=='1'">{{b.heading |uppercase}}</h3>
+                                    <p class="" (click)="openPage(b.type)" *ngIf="b.is_allow=='1'"><a>{{b.name}}</a></p>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div *ngFor="let c of connect">
+                                    <h3 *ngIf="c.connect_allow=='1'">{{c.heading | uppercase}}</h3>
+                                    <p class="" (click)="openDialog(c.type)" *ngIf="c.is_allow=='1'"><a>{{c.name}}</a>
+                                    </p>
+
+
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div *ngFor="let shows of top_altbalaji_shows">
+                                    <h3 *ngIf="shows.shows_allow=='1'">{{shows.heading}}</h3>
+                                    <p class="" (click)="openIt(shows.link)" *ngIf="shows.is_allow=='1'">
+                                        <a>{{shows.name}}</a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div *ngFor="let originals of latest_altbalaji_originals">
+                                    <h3 *ngIf="originals.originals_allow=='1'">{{originals.heading}}</h3>
+                                    <p class="" (click)="openIt(originals.link)" *ngIf="originals.is_allow=='1'">
+                                        <a>{{originals.name}}</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- <div fxLayout="row-reverse">
-                        <div class="ply-version" fxFlex="50">
+                    <div class="col-lg-3">
+                        <div class="footer-share">
+                            <!-- <div *ngIf="footer_logo_show=='1'">
+                                <a> <img [src]="footer_logo" alt="dangal"></a>
+                            </div><br> -->
+                            <!-- <p *ngIf="footer_description_show=='1'">{{footerDescription}}</p><br> -->
+                            <div fxLayoutGap="20px">
+                                <span *ngFor="let download of footerDownload;let i = index">
+                                    <a *ngIf="download.is_allow=='1'" href="{{download.link}}" target="_blank"><img
+                                            src="{{download.logo}}" alt="vive"></a>
+                                </span>
+                            </div>
 
-                            <div fxLayout=“row” fxLayoutGap="20px" fxLayoutAlign="end" fxLayoutAlign.sm="center center"
-                                fxHide.xs="true" fxHide.sm="true" fxLayoutAlign.xs="center center"
-                                class="footer-policy">
+                            <!-- <br><br> -->
+                            <h3 class="footerHeading" *ngIf="footerShare.is_allow=='1'"> 
+                                Connect With Us
+                            </h3>
 
-                                <div *ngFor="let term of footer_term">
-                                    <a *ngIf="term.is_allow=='1'" (click)="openTerms(term.type)">{{term.name}}</a>
-
-                                </div>
+                            <div class="social-icons2" fxLayout="row" *ngIf="footerShare.is_allow=='1'">
+                                <ul *ngFor="let share of footerShare">
+                                    <li *ngIf="share.is_allow=='1'"><a href="{{share.link}}" target="_blank"><img
+                                                src="{{share.logo}}" alt="vive"></a>
+                                    </li>
+                                </ul>
 
                             </div>
                         </div>
-
-
-
-                    </div> -->
+                    </div>
+                </div>
+                <div class="row pt-4">
+                    <div class="col-lg-9">
+                        <div fxLayoutAlign.sm="center center" fxLayoutAlign.xs="center center" class="footer-version">
+                            <div [innerHTML]=footer_version></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div fxLayout=“row” fxLayoutGap="20px" fxLayoutAlign="end" fxLayoutAlign.sm="center center"
+                            fxHide.xs="true" fxHide.sm="true" fxLayoutAlign.xs="center center" class="footer-policy">
+                            <div *ngFor="let term of footer_term">
+                                <a *ngIf="term.is_allow=='1'" (click)="openTerms(term.type)">{{term.name}}</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
-                <!-- <mat-accordion fxFlexFill multi="false" class="mobile-view">
-                    <mat-expansion-panel [expanded]="isOpen" class="mobile-view">
+            </div>
+            <!-- <mat-accordion fxFlexFill multi="false" class="mobile-view">
+                <mat-expansion-panel [expanded]="isOpen" class="mobile-view">
 
-                        <mat-expansion-panel-header class="footer-panel">
-                            <div *ngFor="let a of company">
-                                <mat-panel-title *ngIf="a.heading_allow=='1'">
-                                    {{a.heading |uppercase}}
-                                </mat-panel-title>
-                            </div>
-                        </mat-expansion-panel-header>
+                    <mat-expansion-panel-header class="footer-panel">
                         <div *ngFor="let a of company">
-                            <p class="links-footer" (click)="openAboutUs(a.type)" *ngIf="a.is_allow=='1'">
-                                <a>{{a.name}}</a>
-                            </p>
-
+                            <mat-panel-title *ngIf="a.heading_allow=='1'">
+                                {{a.heading |uppercase}}
+                            </mat-panel-title>
                         </div>
-                    </mat-expansion-panel>
+                    </mat-expansion-panel-header>
+                    <div *ngFor="let a of company">
+                        <p class="links-footer" (click)="openAboutUs(a.type)" *ngIf="a.is_allow=='1'">
+                            <a>{{a.name}}</a>
+                        </p>
+
+                    </div>
+                </mat-expansion-panel>
 
 
-                    <mat-expansion-panel [expanded]="isOpen" class="mobile-view">
-                        <mat-expansion-panel-header class="footer-panel">
-                            <div *ngFor="let b of customer">
-                                <mat-panel-title *ngIf="b.customer_allow=='1'">
-                                    {{b.heading |uppercase}}
-                                </mat-panel-title>
-                            </div>
-                        </mat-expansion-panel-header>
+                <mat-expansion-panel [expanded]="isOpen" class="mobile-view">
+                    <mat-expansion-panel-header class="footer-panel">
                         <div *ngFor="let b of customer">
-                            <p class="links-footer" (click)="openPage(b.type)" *ngIf="b.is_allow=='1'"><a>{{b.name}}</a>
-                            </p>
-
+                            <mat-panel-title *ngIf="b.customer_allow=='1'">
+                                {{b.heading |uppercase}}
+                            </mat-panel-title>
                         </div>
-                    </mat-expansion-panel>
+                    </mat-expansion-panel-header>
+                    <div *ngFor="let b of customer">
+                        <p class="links-footer" (click)="openPage(b.type)" *ngIf="b.is_allow=='1'"><a>{{b.name}}</a>
+                        </p>
 
-                    <mat-expansion-panel [expanded]="isOpen" class="mobile-view">
-                        <mat-expansion-panel-header class="footer-panel">
-                            <div *ngFor="let c of connect">
-                                <mat-panel-title *ngIf="c.connect_allow=='1'">
-                                    {{c.heading | uppercase}}
-                                </mat-panel-title>
-                            </div>
-                        </mat-expansion-panel-header>
+                    </div>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel [expanded]="isOpen" class="mobile-view">
+                    <mat-expansion-panel-header class="footer-panel">
                         <div *ngFor="let c of connect">
-                            <p class="links-footer"><a (click)="openDialog(c.type)"
-                                    *ngIf="c.is_allow=='1'">{{c.name}}</a>
-                            </p>
-
+                            <mat-panel-title *ngIf="c.connect_allow=='1'">
+                                {{c.heading | uppercase}}
+                            </mat-panel-title>
                         </div>
-                    </mat-expansion-panel>
+                    </mat-expansion-panel-header>
+                    <div *ngFor="let c of connect">
+                        <p class="links-footer"><a (click)="openDialog(c.type)" *ngIf="c.is_allow=='1'">{{c.name}}</a>
+                        </p>
 
-                    <mat-expansion-panel [expanded]="isOpen" class="mobile-view">
-                        <mat-expansion-panel-header class="footer-panel">
-                            <div *ngFor="let shows of top_altbalaji_shows">
-                                <mat-panel-title *ngIf="shows.shows_allow=='1'">
-                                    {{shows.heading}}
-                                </mat-panel-title>
-                            </div>
-                        </mat-expansion-panel-header>
-                        <div *ngFor="let shows of top_altbalaji_shows">
-                            <p class="links-footer" *ngIf="shows.is_allow=='1'"><a
-                                    href="{{shows.link}}">{{shows.name}}</a>
-                            </p>
-                        </div>
-                    </mat-expansion-panel>
+                    </div>
+                </mat-expansion-panel>
 
-                    <mat-expansion-panel [expanded]="isOpen" class="mobile-view">
-                        <mat-expansion-panel-header class="footer-panel">
-                            <div *ngFor="let originals of latest_altbalaji_originals">
-                                <mat-panel-title *ngIf="originals.originals_allow=='1'">
-                                    {{originals.heading}}
-                                </mat-panel-title>
-                            </div>
-                        </mat-expansion-panel-header>
-                        <div *ngFor="let originals of latest_altbalaji_originals">
-                            <p class="links-footer" *ngIf="originals.is_allow=='1'"><a
-                                    href="{{originals.link}}">{{originals.name}}</a></p>
+                <mat-expansion-panel [expanded]="isOpen" class="mobile-view">
+                    <mat-expansion-panel-header class="footer-panel">
+                        <div *ngFor="let shows of top_altbalaji_shows;let i = index">
+                            <mat-panel-title *ngIf="shows.shows_allow=='1'">
+                                {{shows.heading}}
+                            </mat-panel-title>
                         </div>
-                    </mat-expansion-panel>
-                </mat-accordion> -->
+                    </mat-expansion-panel-header>
+                    <div *ngFor="let shows of top_altbalaji_shows;let i = index">
+                        <p class="links-footer" (click)="openIt(shows.link)" *ngIf="shows.is_allow=='1'">
+                            <a>{{shows.name}}</a>
+
+                        </p>
+                    </div>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel [expanded]="isOpen" class="mobile-view">
+                    <mat-expansion-panel-header class="footer-panel">
+                        <div *ngFor="let originals of latest_altbalaji_originals;let i = index">
+                            <mat-panel-title *ngIf="originals.originals_allow=='1'">
+                                {{originals.heading}}
+                            </mat-panel-title>
+                        </div>
+                    </mat-expansion-panel-header>
+                    <div *ngFor="let originals of latest_altbalaji_originals;let i = index">
+                        <p class="links-footer" (click)="openIt(originals.link)" *ngIf="originals.is_allow=='1'">
+                            <a>{{originals.name}}</a>
+                        </p>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion> -->
+
+        </div>
+        <!-- 
+        <div fxFlex="30" style="text-align: center;" fxFlex.xs="100%" fxFlex.sm="100"
+            class="mat-elevation-z0 alt-share alt-p-5">
+
+        </div> -->
+    </div>
+</div>
+<div class="alt" fxHide fxShow.xs="true" fxShow.sm="true">
+
+    <!-- <div *ngFor="let a of company">
+        <div *ngIf="a.heading_allow=='1'">
+            {{a.heading | uppercase}}
+        </div>
+    </div> -->
+
+
+    <div class="footer-share">
+        <!-- <div *ngIf="footer_logo_show=='1'">
+            <a> <img [src]="footer_logo" alt="dangal"></a>
+        </div><br>
+
+        <p *ngIf="footer_description_show=='1'">{{footerDescription}}</p><br> -->
+        <div class="links-footer-mob">
+            <div *ngFor="let a of company">
+                <div (click)="openAboutUs(a.type)" *ngIf="a.is_allow=='1'">
+                    <a>{{a.name}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="links-footer-mob">
+            <div *ngFor="let b of customer">
+                <!-- <h3 *ngIf="b.customer_allow=='1'">{{b.heading |uppercase}}</h3> -->
+                <div class="" (click)="openPage(b.type)" *ngIf="b.is_allow=='1'"><a>{{b.name}}</a></div>
 
             </div>
         </div>
-    </div>
-
-    <div class="alt" fxHide fxShow.xs="true" fxShow.sm="true">
-        <ng-container *ngTemplateOutlet="footerDataTemplate"></ng-container>
-    </div>
-
-
-    <ng-template #footerDataTemplate>
-        <div fxLayout=“row” fxLayoutGap="20px" fxLayoutAlign="start" fxLayoutAlign.sm="center :center" fxHide.xs="true"
-            fxHide.sm="false" fxLayoutAlign.xs="center center" fxLayoutAlign.md="center center" class="footer-policy">
-            <div *ngFor="let term of footer_term">
-                <a *ngIf="term.is_allow=='1'" (click)="openTerms(term.type)">{{term.name}}</a>
-            </div>
+        <div fxLayoutGap="20px">
+            <span *ngFor="let download of footerDownload;let i = index">
+                <a *ngIf="download.is_allow=='1'" href="{{download.link}}" target="_blank"><img src="{{download.logo}}"
+                        alt="vive"></a>
+            </span>
         </div>
-    </ng-template>
+
+        <!-- <br><br> -->
+        <h3 class="footerHeading" *ngIf="footerShare.is_allow == 1">
+            Connect With Us
+        </h3>
+        <div class="social-icons2" fxLayout="row" *ngIf="footerShare.is_allow=='1'">
+            <ul>
+                <li *ngFor="let share of footerShare"><a *ngIf="share.is_allow=='1'" href="{{share.link}}"
+                        target="_blank"><img src="{{share.logo}}" alt="vive"></a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <ng-container *ngTemplateOutlet="footerDataTemplate"></ng-container>
+</div>
+
+
+<ng-template #footerDataTemplate>
+    <div fxLayout=“row” fxLayoutGap="20px" fxLayoutAlign="start" fxLayoutAlign.sm="center :center" fxHide.xs="false"
+        fxHide.sm="false" fxLayoutAlign.xs="center center" fxLayoutAlign.md="center center" class="footer-policy">
+        <div *ngFor="let term of footer_term">
+            <a *ngIf="term.is_allow=='1'" (click)="openTerms(term.type)">{{term.name}}</a>
+
+        </div>
+
+    </div>
+
+    <div fxLayoutAlign.md="center center" fxLayoutAlign.sm="center center" fxLayoutAlign.xs="center center"
+        class="footer-version">
+        <div [innerHTML]=footer_version></div>
+    </div>
+</ng-template>
+
+
+
+<!-- <div class="fix-footer">
+
+    <ul>
+        <a routerLink="/">
+            <li> <img src="assets/svgs/home_new.svg" alt=""> <br> Home </li>
+        </a>
+        <a routerLink="/search">
+            <li> <img src="assets/svgs/search_new.svg" alt=""> <br> Search </li>
+        </a>
+        <a (click)="gotoPremium()">
+            <li class="premium"> <img src="assets/svgs/footer-icon3.svg" alt=""> <br> Premium</li>
+        </a>
+        <a (click)="gotoLogin(1)">
+            <li> <img src="assets/svgs/account_new.svg" alt=""> <br> Account </li>
+        </a>
+        <a  (click)="gotoLogin(2)">
+            <li> <img src="assets/svgs/play_new1.svg" alt=""> <br> Watchlist </li>
+        </a>
+    </ul>
+
+</div> -->

@@ -8,8 +8,8 @@
 
 
 .video-js .vjs-notes-btn.notes-icon::before {
-    /* content: url('/assets/new_icons/episode.svg'); */
-    content: url('/assets/new_icons/episode-v1.svg');
+    content: url('../../../assets/Logos/seasonselector.svg');
+  
 }
 
 .video-js .vjs-notes-wrapper {
@@ -39,13 +39,3 @@
     background: black;
     border-radius: 40%;
 }
-
-@media screen and (max-width:992px) {
-    
-.video-js .vjs-notes-btn.notes-icon::before {
-    content: url('/assets/new_icons/episode-v1.svg') !important;
-}
-
-}
-
-  

@@ -1,19 +1,35 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
-
-        <span (click)="close()" class="close-btn">
-            <img src="assets/svgs/Vector.svg" alt="">
+        <span class="img-logo">
+            <img src="https://static.creatorott.com/configration/5006/5006_68c8fd27e9291.png" alt="vive" class="vive-img">
         </span>
-
+        
+        
+        <button (click)="close()" class="close-btn">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </button>
+       
         <div class="logo">
-            <img src="assets/svgs/info.svg" alt="AOL">
+            <img src="assets/svgs/info.svg" alt="vive" class="vive-img">
         </div>
-        <br>
+   <br>
+   
+            <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
+            <p style="font-size:17px;color: #FF8787 !important;font-weight: 600">
+                {{wrongOtp}}
+            </p>
+            
+          
+          
+            <!-- <div class="row">
+                <div class="col-6">
+                    <button type="button"  class="btn-one">Yes</button>
+                </div>
+                <div class="col-6">
+                    <button (click)="close()" type="button" class="btn-one">NO</button>
+                </div>
+            </div> -->
 
-        <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
-        <p style="font-size:17px;color: #FF8787 !important;font-weight: 600">
-           {{'your_payment_has_been_Cancelled' |translate}}. {{'payment_later' |translate}}.
-        </p>
-
+       
     </div>
 </div>

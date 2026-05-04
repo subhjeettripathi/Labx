@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-investor-relations',
   templateUrl: './investor-relations.component.html',
   styleUrls: ['./investor-relations.component.scss']
 })
 export class InvestorRelationsComponent implements OnInit {
-  refundPolicy:any;
-  constructor(private ds: DataService,private location:Location,private router: Router) { }
-
+  invester: any;
+  show:boolean=false;
+  clickedIndex:boolean=true;
+  constructor(private ds:DataService) { }
 
   ngOnInit(): void {
     this.investerData()
@@ -18,17 +18,26 @@ export class InvestorRelationsComponent implements OnInit {
   }
 
   investerData() {
-    var data: any = localStorage.getItem('innerJson')
-    data = JSON.parse(data) 
-    console.log(data.Website[0].footer_menu);
-    this.refundPolicy = data.Website[0].footer_menu.footer_term.refund_policy
-
+    this.ds.json2().subscribe((data: any) => {
+      this.invester = data.Form[0].investor_relations  
+    
+      
+    })
   }
-  back() {
-    if (window.history.length > 1) {
-      this.location.back();
-    } else {
-     this.router.navigate(['/'])
+  openFirst(){
+    this.show=false;
+ 
+  }
+  openTab(data:any){
+    if(data=='agm'){
+  
+    this.show=false;
+   
+    }else{
+      this.clickedIndex=false
+      this.show=true;
+     
     }
   }
+
 }

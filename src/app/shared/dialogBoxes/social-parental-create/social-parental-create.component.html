@@ -1,10 +1,88 @@
+<div fxLayout="column" fxLayoutGap="10px" class="socialCreatePin">
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="basesignin.create_password.logo.is_allow == 1">
+            <img src="{{basesignin.create_password.logo.web}}" alt="vive" class="vive-img">
+        </span>
+        <button (click)="close()" class="close-btn">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </button>
+       <br>
+        <p class="social-heading" *ngIf="basesignin.create_password.heading.is_allow == 1">  {{basesignin.create_password.heading.text}}</p>
+        <hr>
+        <br>
+        <p class="text-white password" *ngIf="basesignin.create_password.description.is_allow == 1">{{basesignin.create_password.description.text}}</p>
+        <div class="social-content">
+            <form [formGroup]="socialForm" #otpFormDir="ngForm" (ngSubmit)="submitOtplogin()">
+             <label for="" *ngIf="basesignin.create_password.new_password.is_allow == 1">
+                {{basesignin.create_password.new_password.text}}
+             </label>
+             <div  style="position:relative"  class="socialInput" *ngIf="basesignin.create_password.new_password.is_allow == 1">
+            <span (click)="showPassword(input)" class="showBtn"><img [hidden]="showpassword"
+                src="{{basesignin.create_password.new_password.invisible_web}}" alt="vive">
+            <img [hidden]="!showpassword" src="{{basesignin.create_password.new_password.visible_web}}" alt="vive">
+        </span>
+                <input type="password" #input class="form-control"  formControlName="pass" id="myText" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$#!%*?&]{8,}$"> 
+            
+             </div>
+             <div
+             *ngIf="socialForm.controls['pass'].invalid && (socialForm.controls['pass'].touched || socialForm.controls['pass'].dirty)" class="errorDisplay">
 
-<div class="socialLogo">
-    <div class="close-btn" (click)="close()"><img src="assets/svgs/Vector.svg" alt="closeButton"></div>
+             <div *ngIf="socialForm.controls['pass'].hasError('required'); else minLengthElem;" style="color: #FF8787 !important;">
+                 Please Enter password
+             </div>
+             <ng-template #minLengthElem>
+                 <div *ngIf="socialForm.controls['pass']?.errors?.['minlength']; else patternElem;" style="color: #FF8787 !important;">
+                     password must be at least 8 characters
+                 </div>
+             </ng-template>
+             <ng-template #patternElem>
+                 <div class="password-reds" *ngIf="socialForm.controls['pass'].hasError('pattern')" style="color: #FF8787 !important;">
+                     password should atleast contain one uppercase, one lower case, one special character and
+                     one number
+                 </div>
+             </ng-template>
+         </div>
+             <br>
+             <label for="" *ngIf="basesignin.create_password.confirm_password.is_allow == 1">
+                {{basesignin.create_password.confirm_password.text}}
+             </label>
+             <div style="position:relative" *ngIf="basesignin.create_password.confirm_password.is_allow == 1">
+                <!-- <span (click)="showPassword1(input1)" class="showBtn1"><img [hidden]="showpass"
+                    src="assets/svgs/closeeye.svg">
+                <img [hidden]="!showpass" src="assets/svgs/openeye.svg">
+            </span> -->
+            <span (click)="showPassword1(input1)" class="showBtn1"><img [hidden]="showpassword1" width="20px"
+                height="20px" src="{{basesignin.create_password.confirm_password.invisible_web}}" alt="vive">
+            <img width="20px" height="20px" [hidden]="!showpassword1" src="{{basesignin.create_password.confirm_password.visible_web}}" alt="vive">
+        </span>
+                <input type="password"  #input1 class="form-control" formControlName="confirm" id="myText" >  
+              
+             </div>
+             <div class="invalidError"
+             *ngIf="socialForm.controls['pass'].invalid && (socialForm.controls['confirm'].touched || socialForm.controls['confirm'].dirty)">
 
-    <div class="logos">
-      <div class="one"><img src="assets/icons/bi_facebook.svg" alt="facebook"></div>
-      <div class="two"><img src="assets/icons/ri_whatsapp-fill.svg" alt="whatsapp"></div>
+             <div *ngIf="socialForm.controls['confirm'].hasError('required'); else minLengthElem;" style="color: #FF8787 !important;">
+                 Please Enter password
+             </div>
+             <ng-template #minLengthElem>
+                 <div *ngIf="socialForm.controls['confirm']?.errors?.['minlength']; else patternElem;" style="color: #FF8787 !important;">
+                     password must be at least 8 characters
+                 </div>
+             </ng-template>
+             <ng-template #patternElem>
+                 <div *ngIf="socialForm.controls['confirm'].hasError('pattern')" style="color: #FF8787 !important;">
+                     password should atleast contain one uppercase, one lower case, one special character and
+                     one number
+                 </div>
+             </ng-template>
+           
+         </div>
+         <div  class="passwordMatch">{{msg}}</div>
+             <br>
+             <div>
+                <button type="submit" class="btn verify_submit" *ngIf="basesignin.create_password.submit_btn.is_allow == 1"> {{basesignin.create_password.submit_btn.text}}</button>
+             </div>
+            </form>
+        </div>
     </div>
-
-  </div>
+</div>

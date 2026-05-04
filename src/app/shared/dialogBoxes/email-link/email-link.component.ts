@@ -17,17 +17,20 @@ export class EmailLinkComponent implements OnInit {
   loginId = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
   // emailPattern = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
   emailPattern ="^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*"+"@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-  
+  popupJson = JSON.parse(localStorage.getItem('popupJson') || '{}');
   show:any=false;
+  basesignin:any
   constructor(public dialogRef: MatDialogRef<EmailLinkComponent>, private _fb: FormBuilder, private ds: DataService ,private dialog:MatDialog) { }
   onNoClick(): void {
 
     this.dialogRef.close();
   }
   ngOnInit(): void {
+    
     this.loginForm = this._fb.group({
       email: [null,Validators.compose([Validators.required, Validators.pattern(`${this.emailPattern}`)])],
     });
+    this.basesignin = this.popupJson.PopupList[0]
   }
   getSwalmsg(msg: string, icon: any) {
     const Toast = Swal.mixin({
@@ -56,8 +59,9 @@ export class EmailLinkComponent implements OnInit {
   }
   onSubmit() {
    
+  
     if (this.loginForm.valid) {
-      
+   
       const formData = new FormData();
       formData.append('email', this.loginForm.value.email);
       formData.append('user_id', this.loginId.id);
@@ -72,7 +76,7 @@ export class EmailLinkComponent implements OnInit {
            
           });
         } else {
-
+          
           this.show=true;
           this.invalidMsg =res.error
         }

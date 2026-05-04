@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'app-payu-success',
   templateUrl: './payu-success.component.html',
@@ -8,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 export class PayuSuccessComponent implements OnInit {
 
   constructor() { }
-
+  USER_ACCOUNT_id:any
   ngOnInit(): void {
   }
 

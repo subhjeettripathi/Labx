@@ -1,0 +1,86 @@
+<div>
+    <div class="back-btn" (click)="back()">
+        <img src="assets/icons/ic_back_arrow.svg" alt="" />
+    </div>
+
+    <div (click)="adClick()" (touchstart)="touchStart($event)">
+        <video contextmenu="false" id="feelsplayer" loop data-setup="{}" preload="auto" playsinline="" #target
+            class="video-js vjs-big-play-centered"></video>
+        <div id="waterMarkFeels">
+            <img width="50px" src="https://static.creatorott.com/configration/5006/5006_68c8fc7215f66.png" alt="" />
+        </div>
+        <div class="feels-title-mobile" *ngIf="isAd != 1">
+            <p>{{ this.abc }}</p>
+        </div>
+        <div class="play-pause" *ngIf="isAd != 1">
+            <div (click)="play()" class="plyfeels" *ngIf="hidePlay">
+                <img src="/assets/Logos/play1.svg" />
+            </div>
+
+            <div (click)="pause()" class="paufeels" *ngIf="hidePause">
+                <img src="/assets/Logos/pause1.svg" />
+            </div>
+        </div>
+
+        <div class="mute-unmute-reels" *ngIf="isAd != 1">
+            <div (click)="mute()" class="mutefeels" *ngIf="hideMute">
+                <img src="/assets/vive/volume-high.svg" />
+            </div>
+
+            <div (click)="unmute()" class="unmutefeels" *ngIf="hideUnmute">
+                <img src="/assets/vive/volume-slash.svg" />
+            </div>
+        </div>
+        <div class="details" *ngIf="isAd != 1">
+            <div class="feels-title">
+                {{ this.abc }}
+            </div> 
+            <div class="feels-shows" (click)="addRemoveToWatchlist()"  *ngIf="audioSrc[this.itemget]?.sources[0]?.is_favourite == 0">
+                <img class="watchlist" src="../../../assets/vive/add-square.svg" alt="" />
+                <div class="feels-shows-titles">Add To Watchlist</div>
+            </div>
+            <div class="feels-shows" (click)="addRemoveToWatchlist()" *ngIf="audioSrc[this.itemget]?.sources[0]?.is_favourite == 1">
+                <img class="watchlist" src="../../../assets/vive/tick-square.svg" alt="" />
+                <div class="feels-shows-titles">Added To Watchlist</div>
+            </div>
+            <div class="feels-shows" (click)="share()">
+                <img src="../../../assets/vive/episode-feels.svg" alt="" />
+                <div class="feels-shows-titles">Watch Now</div>
+            </div>
+            <div class="feels-shows">
+                <a role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" class="feels-shows"
+                    aria-expanded="false">
+                    <img src="assets/vive/share.svg" alt="" />
+                    <div class="feels-shows-titles">Share</div>
+                </a>
+
+                <div class="dropdown-menu dropMenu" id="social-share-toll" aria-labelledby="dropdownMenuLink">
+                    <div class="row socialIcons">
+                        <div class="col-6">
+                            <a (click)="sharing('fb')" class="fb tooltiptext"><img src="assets/svgs/facebook.svg"
+                                    alt="eclutchott"  class="twitter1"/></a>
+                        </div>
+                        <div class="col-6 p-0">
+                            <a (click)="sharing('twitter')" class="twitter tooltiptext"><img
+                                    src="assets/svgs/twitter.svg" alt="eclutchott" class="twitter1" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="feels-shows" *ngIf="!isSubscribed" (click)="goToSubscribe()">
+                <img src="../../../assets/vive/solar_crown-line-outline.svg" alt="" />
+                <div class="feels-shows-titles">Subscribe</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="button_review">
+        <div (click)="left()">
+            <img style="cursor: pointer" src="assets/svgs/left-arrow.svg" />
+        </div>
+        <div (click)="right()">
+            <img style="cursor: pointer" src="assets/svgs/right-arrow.svg" />
+        </div>
+        <!-- <span (click)="share()">share</span> -->
+    </div>
+</div>

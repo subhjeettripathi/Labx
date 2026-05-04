@@ -12,7 +12,6 @@
     }
   }
 }
-
 .epis-menu1 {
   display: flex;
   float: right;
@@ -20,127 +19,45 @@
 
   ng-select {
     position: relative;
-    right: 5%;
+    right: 7%;
 
   }
 }
-
-.epis-menu1 ::ng-deep ng-select .ng-select-container {
-  background: #27253D !important;
-  font-family: "LatoRegular";
-  font-size: 16px;
-  font-weight: 600;
-  text-align: left;
-  color: #FFFFFF;
-  border: none !important;
-  height: 50px !important;
+.epis-menu1 ::ng-deep ng-select .ng-select-container{
+  background-color: #0A0A0A !important;
+  color: white !important;
+  border: 1px solid #676767 !important;
+  gap: 24px;
 }
-
-.epis-menu1 .disable-arrow ::ng-deep ng-select .ng-select-container .ng-arrow-wrapper .ng-arrow {
+.epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+background-color: #0A0A0A !important;
+color: white !important;
+}
+.epis-menu .disable-arrow ::ng-deep ng-select .ng-select-container .ng-arrow-wrapper .ng-arrow {
   display: none !important;
 }
-
-.epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-  background: #27253D !important;
-  font-family: "LatoRegular";
-  font-size: 15px;
-  font-weight: 600;
-  text-align: left;
-  color: #FFFFFF;
-  border: none !important;
-  height: 50px !important;
-  padding: 0px 16px;
-  display: flex;
-  align-items: center;
-}
-
-.epis-menu1 ::ng-deep .ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
-
-  box-shadow: none !important;
-}
-
 .epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option:hover {
-  background-color: #2d2d2d !important;
-  font-family: "LatoRegular";
-  font-size: 15px;
-  font-weight: 600;
-  text-align: left;
-  color: #FFFFFF;
-  border: none !important;
-  height: 50px !important;
-  padding: 0px 16px;
+background-color: #2d2d2d !important;
+color: white !important;
+
 }
-
-
-
-
 .epis-menu1 ::ng-deep ng-select .ng-dropdown-panel.ng-select-bottom {
-  border: none !important;
-  // border: 1px solid #676767;
+border-top: none !important;
+border: 1px solid #676767;
 }
-
-.epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected .ng-option-label {
-  font-weight: inherit;
+.epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected .ng-option-label{
+font-weight: inherit;
 }
-
-
-
-.epis-menu1 ::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow {
-  border-color: none !important;
-  border-style: none !important;
-  border-width: 0 !important;
-}
-
-.epis-menu1 ::ng-deep .ng-select .ng-arrow-wrapper {
-  background-image: url('../../../assets/img/chevron-down-aol.svg');
-  background-repeat: no-repeat;
-  background-position: left;
-  background-size: 40px;
-  // margin-top: 4px;
-  width: 50px !important;
-}
-
-
-.epis-menu1 ::ng-deep .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
-  padding: 0 !important;
-}
-
-.epis-menu1 ::ng-deep .ng-select .ng-select-container .ng-value-container {
-  padding: 0px 20px;
-}
-
-/* width */
-::ng-deep .ng-dropdown-panel .scroll-host::-webkit-scrollbar {
-  width: 5px !important;
-  height: 5px !important;
-}
-
-/* Track */
-::ng-deep .ng-dropdown-panel .scroll-host::-webkit-scrollbar-track {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-}
-
-/* Handle */
-::ng-deep .ng-dropdown-panel .scroll-host::-webkit-scrollbar-thumb {
-  background: #888 !important;
-  // border-radius: 10px;
-}
-
-/* Handle on hover */
-::ng-deep .ng-dropdown-panel .scroll-host::-webkit-scrollbar-thumb:hover {
-  background: #555 !important;
-}
-
 
 .viewAllArrow {
   width: 6px;
+  display: none;
   color: #b4b4b4;
 }
 
 .free-icon {
   position: absolute;
-  top: 3%;
+  top: 2%;
   left: 1.5%;
 }
 
@@ -161,13 +78,13 @@
 
       li {
         font-size: 16px;
-        font-family: "GothamMedium" !important;
+        font-family: var(--theme-font-style) !important;
         margin-right: 0.5em;
       }
 
       li::before {
         content: "• ";
-        color: red;
+        color: var(--theme-secondary-color);
         display: inline-block;
         width: 1em;
         margin-right: -0.5em;
@@ -181,8 +98,8 @@
         border-radius: 5px;
         font-size: 16px;
         color: #ffffff;
-
-        font-family: "GothamMedium" !important;
+        margin: 0;
+        font-family: var(--theme-font-style) !important;
       }
     }
   }
@@ -194,7 +111,6 @@
   .sub-details {
     display: flex;
     list-style-type: none;
-    margin-top: 18px;
   }
 
   .details-button {
@@ -213,13 +129,14 @@
 
   p {
     margin: 0px !important;
+    font-size: 14px;
   }
 }
 
-// .content {
-//   display: flex;
-//   justify-content: space-between;
-// }
+.content {
+  display: flex;
+  justify-content: space-between;
+}
 
 .social-icon {
   transform: scale(0.8);
@@ -244,7 +161,6 @@
 .twitter {
   padding-right: 13px;
 }
-
 .icon {
   height: 26px;
   width: 26px;
@@ -260,19 +176,19 @@
 
 }
 
-.icon-crown {
+.crown {
   position: absolute;
-  top: 1%;
-  left: 2%;
+  right: 4%;
+  top:2.5%;
+  z-index: 9;
+}
+
+
+.crown img {
+  width: 22px;
 }
 
 @media screen and (max-width:992px) {
-
-  // .aol_epsi_title{
-  //   font-size: 16px !important;
-  // }
-
-
 
   .free-icon {
     left: 11px !important;
@@ -280,77 +196,58 @@
   }
 
   .crown {
-    left: 20px !important
+    right: 20px !important
   }
-
-  // .epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-  //   padding: 6px !important;
-  // }
-
-  // .epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option:hover {
-  //   padding: 6px !important;
-  // }
-
-  // .epis-menu1 ::ng-deep .ng-select .ng-select-container .ng-value-container {
-  //   padding: 0px 6px !important;
-  // }
-
-  // .epis-menu1 ::ng-deep .ng-select .ng-arrow-wrapper {
-  //   width: 50px !important;
-  // }
-
-  .epis-menu1 ::ng-deep ng-select .ng-select-container {
-    font-size: 15px !important;
-  }
-
-  .epis-menu1  .ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option{
-    font-size: 13px !important;
-  }
-
-
+  
   .sec-top {
-    margin-top: 10px !important;
+    margin-top: 25px !important;
     margin-left: 25px !important;
     margin-right: 25px !important;
 
   }
 
+  .free-icon img {
+    width: 40px !important;
+  }
+
+  .crown img {
+    width: 15px !important;
+  }
+
+  .free-icon {
+
+    top: -2px !important;
+  }
+
 }
 
 @media only screen and (max-width: 572px) {
-
-  .sec-top {
-    margin-top: 0px !important;
-    margin-left: 15px !important;
-    margin-right: 15px !important;
-  }
-  .img-deta {
+  .img-deta-child {
     display: flex;
   }
 
-  // .img-deta img {
-  //   width: 50%;
-  //   height: fit-content;
-  // }
+  .img-deta-child img {
+    width: 50%;
+    // height: fit-content;
+  }
 
   .min-deta-watch {
     margin-top: 20px;
-    // padding: 0;
+    padding: 0;
   }
 
   .containerContent {
     padding: 0px 10px;
-    width: 50%;
   }
 
-  .free-icon {
-    top: 0px !important;
-    left: -4px !important;
-  }
+  // .free-icon {
+  //   top: 0px !important;
+  //   left: -4px !important;
+  // }
 
-  .crown {
-    left: 3px !important;
-  }
+  // .crown {
+  //   left: 3px !important;
+  // }
 
   .font-tt {
     font-size: 12px;
@@ -359,106 +256,35 @@
 
   .subtitle {
     font-size: 12px;
-
   }
-
-  .t-white {
-    font-size: 14px !important;
-    line-height: 20px !important;
-  }
-
-  .t-time {
-    font-size: 14px !important;
-  }
-
-  .epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-    padding: 6px !important;
-  }
-
-  .epis-menu1 ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option:hover {
-    padding: 6px !important;
-  }
-
-  .epis-menu1 ::ng-deep .ng-select .ng-select-container .ng-value-container {
-    padding: 0px 6px !important;
-  }
-
-  .epis-menu1 ::ng-deep .ng-select .ng-arrow-wrapper {
-    width: 35px !important;
-  }
-
-  .epis-menu1 ::ng-deep ng-select .ng-select-container {
-    font-size: 15px !important;
-  }
-
-  .episodes-wrapper .epis-menu {
-    gap: 6px !important;
-  }
-
-  .aol_epsi_title {
-    font-size: 15px !important;
-  }
-
-  .aol_play_img {
-    width: 35px !important;
-  }
-
-  .all_epsd_img {
-    width: 50% !important;
-
-  }
-
-
+}
+.twitter1{
+  width: 25px;
 }
 
-.arrow-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 12px;
-  position: relative;
-  left: -4px;
-}
 
-.aol_epsi_title {
-  font-family: "PoppinsRegular";
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 26px;
-  letter-spacing: 0em;
-  color: #ffffff;
-}
+// .crown {
+//   position: absolute;
+//   right: 3%;
+//   top: 2.5%;
+// }
 
-.t-white {
-  font-family: "PoppinsRegular" !important;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 25px;
-  letter-spacing: 0em;
-  // text-align: left;
-  color: #C5C5C5;
-}
+// .crown img {
+//   width: 35px;
+// }
 
-.t-time {
-  font-family: "PoppinsRegular";
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 27px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: #C5C5C5;
-}
-
-.all_epsd_img {
-  position: relative;
-
-}
-
-.aol_play_img {
+.free-icon {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
+  right: 10px;
+  top: 0px;
+}
+
+.free-icon img {
   width: 50px;
 }
+
+.min-deta-watch{
+  padding: 0px 8px;
+}
+
+

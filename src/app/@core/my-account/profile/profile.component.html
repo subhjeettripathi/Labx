@@ -1,188 +1,469 @@
+<!-- 
 <div class="profile">
     <div id="content-1" *ngIf="!checked">
-        <div class="container-fliud">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="aol-inputt">
-                        <input type="text" placeholder="{{'full_name' |translate}}" disabled [value]="accountdata.full_name"
-                            class="inp-width" />
-                    </div>
-                </div>
-                <div class="col-lg-6" *ngIf="phoneCode==91">
-                    <div class="aol-inputt-1">
-                        <div class="country-code">
-                            +{{phoneCode}}
+        <div>
+            <div class="container-fliud" fxFlex="100" style="gap: 12px;">
+                <div class="profile-pic" fxFlex="8"><img src="assets/new_icons/profile-pic.png" alt=""></div>
+                <div class="profile-content" fxFlex="92">
+                    <div class="IND" *ngIf="this.country_code == 'IN' && this.country_name == 'India'">
+
+                        <div>
+                            <div class="" *ngIf="accountdata?.first_name">
+                                <div class="aol-inputt">
+                                    <div class="nameprofile">{{accountdata?.first_name}}</div>
+
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="aol-inputt">
+
+                                    <input type="text" placeholder="Email" [value]="accountdata?.email" disabled
+                                        class="inp-width" />
+                                    <div class="verify">
+                                        <mat-icon *ngIf="emailTick" aria-hidden="false" svgIcon="tick"></mat-icon>
+                                        <button id="verify" *ngIf="this.accountdata?.email != ''  && !emailTick "
+                                            (click)="otpForgot()">VERIFY</button>
+                                        <a class="emailLink" *ngIf="this.accountdata?.email ==''" (click)="linkEmail()"
+                                            style="border-bottom:1px solid var(--theme-secondary-color)">link email
+                                            id</a>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="line_country">
-                            |
+                        <div>
+
+                            <div class="">
+                                <div class="aol-inputt-1">
+                                    <div class="num-inputt">
+                                        <div class="country-code">
+                                            +91
+                                        </div>
+                                        <div class="line_country">
+                                            |
+                                        </div>
+    
+                                        <input type="tel" inputmode="numeric" placeholder="Mobile Number" disabled
+                                            [value]="accountdata?.contact_no" class="inp-width-1" />
+                                    </div>
+                             
+                                    <div class="verify">
+                                        <mat-icon class="" aria-hidden="false" *ngIf="showMobileTick" svgIcon="tick">
+                                        </mat-icon>
+                                        <div class="text-value" *ngIf=" this.accountdata?.contact_no==''">
+                                            <a class="emailLink" *ngIf="this.accountdata?.contact_no ==''"
+                                                (click)="linkMobile()"
+                                                style="border-bottom:1px solid var(--theme-secondary-color)">link mobile
+                                                no.</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+            
+                            <div class="">
+                                <div class="aol-inputt">
+                                    <input type="text" placeholder="Gender" [value]="accountdata?.gender" disabled
+                                        class="inp-width" />
+                                </div>
+                            </div>
+
                         </div>
-                        <input type="text" placeholder="{{'enter_mobile_number' |translate}}" disabled
-                            [value]="accountdata.contact_no" class="inp-width-1" />
+              
+                    </div>
+                    <div class="ROW" *ngIf="this.country_code != 'IN' && this.country_name != 'India'">
+                        <div>
+                            <div class="col-lg-6 " style="display: flex;">
+                                <div class="aol-inputt">
+                                    <div class="nameprofile">{{accountdata?.first_name}}</div>
+                                    <input type="text" placeholder="Email" [value]="accountdata?.email" disabled
+                                        class="inp-width" />
+                                    <div class="verify">
+                                        <mat-icon *ngIf="emailTick" aria-hidden="false" svgIcon="tick"></mat-icon>
+                                        <button id="verify" *ngIf="this.accountdata?.email != ''  && !emailTick "
+                                            (click)="otpForgot()">VERIFY</button>
+                                        <a class="emailLink" *ngIf="this.accountdata?.email ==''" (click)="linkEmail()"
+                                            style="border-bottom:1px solid var(--theme-secondary-color)">link email
+                                            id</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+
+
+
+                            <div class="col-lg-6">
+                                <div class="aol-inputt">
+                                    <input type="text" placeholder="Gender" [value]="accountdata?.gender" disabled
+                                        class="inp-width" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="btnn-edit">
+                        <button class="edit-btn" (click)="editProfile()">
+                            Edit Profile
+                        </button>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="aol-inputt">
-                        <input type="text" placeholder="{{'email' |translate}}" [value]="accountdata.email" disabled
-                            class="inp-width" />
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="aol-inputt">
-                        <!-- <input type="text" placeholder="Age Range" [value]="accountdata.age_group" disabled
-                            class="inp-width" /> -->
-                        <input type="text" placeholder="{{'select_age_range' |translate}}"
-                            [value]="accountdata.age_group" disabled class="inp-width" />
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="aol-inputt">
-                        <input type="text" placeholder="{{'gender' |translate}}" [value]="accountdata.gender" disabled
-                            class="inp-width" />
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="aol-inputt">
-                        <input type="text" placeholder="{{'content_language' |translate}}" [value]="selected" disabled
-                            class="inp-width" />
-                    </div>
-                </div>
+
+
+
+
 
             </div>
 
 
+        </div>
+
+    </div>
+    <div id="content-1" *ngIf="checked">
+        <div class="edit-head">
+            Edit Profile
+        </div>
+        <div class="container-fliud">
+
+            <div class="IND" *ngIf="this.country_code == 'IN' && this.country_name == 'India'">
+                <form [formGroup]="profileForm" #profileFormDir="ngForm" novalidate="" name="form"
+                    class="form-account-edit ng-pristine ">
+                    <div class="row" style="display: flex; flex-direction: column; gap: 25px;">
+                        <div class="col-lg-5">
+                            <div class="aol-inputtt">
+                                <input type="text" placeholder="Enter Your Full Name" formControlName="name"
+                                    maxlength="50" class="inp-widthh update-input" />
+                    
+                                <div *ngIf="profileForm.controls['name'].invalid || nameLength === maxLength && (profileForm.controls['name'].touched)"
+                                    style="color: var(--error-color); font-size: 13px; position: absolute; text-align: left; line-height: 15px;">
+                                    <div *ngIf="profileForm.controls['name'].errors?.['required']">
+                                        Please Enter Full Name
+                                    </div>
+
+                                   
+                                    <div *ngIf="nameLength === maxLength">
+                                        Maximum length of characters reached
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="aol-inputt">
+                                <input type="text" placeholder="Email" readonly formControlName="email"
+                                    class="inp-widthh update-input" />
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="aol-inputtt-1">
+                                <div class="country-code update">
+                                    +91
+                                </div>
+                                <div class="line_country update">
+                                    |
+                                </div>
+                                <div class="verify1">
+                                    <mat-icon class="" aria-hidden="false" *ngIf="showMobileTick" svgIcon="tick">
+                                    </mat-icon>
+                                    <div class="text-value" *ngIf=" this.accountdata?.contact_no==''">
+                                        <a class="emailLink" *ngIf="this.accountdata?.contact_no ==''"
+                                            (click)="linkMobile()" style="border-bottom:1px solid white">link mobile
+                                            no.</a>
+                                    </div>
+                                </div>
+                                <input type="tel" inputmode="numeric" placeholder="Mobile Number" disabled
+                                    [value]="accountdata.contact_no" class="inp-width-1 update-input inp-update" />
 
 
-            <div class="btnn-edit">
-                <button class="edit-btn" (click)="editProfile()">
-                    <img src="/assets/svgs/edit-03.svg" alt="" width="20px" />
-                    {{'editProfile' |translate}}
-                </button>
+                            </div>
 
-                <span class="">
-                    <div id="google_translate_element"></div>
-                </span>
+
+
+                            <div class="error-profile-1"
+                                *ngIf="profileForm.controls['phone'].invalid && profileFormDir.submitted">
+                                Please Enter Valid Mobile Number</div>
+
+
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="aol-select">
+                           
+                                <div class="aol-select">
+                                    <select name="cars" id="cars" class="arrow-aol" formControlName="gender">
+                                        <option value="" disabled selected hidden>
+                                            Select Gender
+                                        </option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+
+                        </div>
+     
+                    </div>
+
+                    <div class="btnn-edit btnn-edit-1">
+                        <button class="edit-btn-1" (click)="back()">
+                            Go back
+                        </button>
+                        <button class="edit-btn-1" (click)="update_value()">
+                  
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="ROW" *ngIf="this.country_code != 'IN' && this.country_name != 'India'">
+                <form [formGroup]="profileForm" #profileFormDir="ngForm" novalidate="" name="form"
+                    class="form-account-edit ng-pristine ">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="aol-inputt">
+                                <input type="text" placeholder="Enter Your Full Name" formControlName="name"
+                                    maxlength="50" class="inp-width" />
+    
+                                <div *ngIf="profileForm.controls['name'].invalid || nameLength === maxLength"
+                                    style="color: #FF8787; font-size: 13px; position: absolute; text-align: left; line-height: 15px;">
+                                   
+                                    <div *ngIf="profileForm.controls['name'].errors?.['required']">
+                                        Please Enter Full Name
+                                    </div>
+
+                
+                                    <div *ngIf="nameLength === maxLength">
+                                        Maximum length of characters reached
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="aol-inputt">
+                                <input type="text" placeholder="Email" readonly formControlName="email"
+                                    class="inp-width" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-6">
+                            <div class="aol-select">
+                          
+                                <div class="aol-select">
+                                    <select name="cars" id="cars" class="arrow-aol" formControlName="gender">
+                                        <option value="" disabled selected hidden>
+                                            Select Gender
+                                        </option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+
+                        </div>
+       
+                    </div>
+
+                    <div class="btnn-edit">
+                        <button class="edit-btn-1" (click)="update_value()">
+                            UPDATE
+                        </button>
+                    </div>
+                </form>
             </div>
 
         </div>
     </div>
-    <div id="content-1" *ngIf="checked">
-        <div class="container-fliud">
-            <form [formGroup]="profileForm" #profileFormDir="ngForm" novalidate="" name="form"
-                class="form-account-edit ng-pristine ">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="aol-inputt">
-                            <input type="text" placeholder="{{'Enter_Full_Name' |translate}}" formControlName="name"
-                                class="inp-width" />
-                            <div style="color:#FF8787;font-size:13px;position: absolute; text-align: left;line-height: 15px;"
-                                *ngIf="profileForm.controls['name'].invalid && profileFormDir.submitted">
-                                <!-- Please Enter Full Name -->
-                                {{'Enter_Full_Name' |translate}}
+</div> -->
+
+<div class="profile">
+    <div class="row">
+        <div class="profile-section col-lg-5" *ngIf="!checked">
+            <div class="profile-pic">
+                <img src="assets/new_icons/profile-pic.png" alt="Profile Picture"  class="vive-img">
+            </div>
+            <div class="profile-details">
+                <p *ngIf="accountdata?.first_name"><strong>{{accountdata?.first_name}}</strong></p>
+                <div class="email-pro">
+                    <p>{{accountdata?.email}}
+                    </p>
+                    <div class="verify"> <img *ngIf="emailTick" src="assets/vive/charm_tick.svg" alt="">
+                        <span *ngIf="this.accountdata?.email != ''  && !emailTick " (click)="otpForgot()" class="link">Verify</span>
+                        <a *ngIf="this.accountdata?.email ==''" (click)="linkEmail()" class="link">link email
+                            id</a>
+                    </div>
+
+                </div>
+
+                <p class="email-pro" *ngIf="this.country_code == 'IN' && this.country_name == 'India'">
+                    <ng-container *ngIf="accountdata?.contact_no && accountdata?.contact_no !== ''; else linkMobileTpl">
+                        <div class="con">
+                            +91-{{ accountdata?.contact_no }}
+                        </div>
+                        <img *ngIf="showMobileTick" src="assets/vive/charm_tick.svg" alt="">
+                    </ng-container>
+                </p>
+
+                <ng-template #linkMobileTpl>
+                    <div>
+                        +91 - Mobile no.
+                    </div>
+                    <span class="link" (click)="linkMobile()">link mobile no.</span>
+                </ng-template>
+                <p>
+                    <ng-container *ngIf="accountdata?.gender && accountdata?.gender !== ''">
+                        {{accountdata?.gender}}
+                    </ng-container>
+                </p>
+                <button class="edit-btn" (click)="editProfile()">
+                    Edit Profile
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="edit-section" *ngIf="checked">
+        <div class="edit-head">
+            Edit Profile
+        </div>
+        <form [formGroup]="profileForm" #profileFormDir="ngForm" novalidate="" name="form" class="form-account-edit">
+            <div class="row" style="display: flex; flex-direction: column; gap: 25px;">
+                <div class="col-lg-5">
+                    <div class="aol-inputtt">
+                        <input type="text" placeholder="Enter Your Full Name" formControlName="name" maxlength="50"
+                            class="inp-widthh update-input" />
+
+                        <div *ngIf="profileForm.controls['name'].invalid || nameLength === maxLength && (profileForm.controls['name'].touched)"
+                            style="color: var(--error-color); font-size: 13px; position: absolute; text-align: left; line-height: 15px;">
+                            <div *ngIf="profileForm.controls['name'].errors?.['required']">
+                                Please Enter Full Name
+                            </div>
+
+                            <div *ngIf="nameLength === maxLength">
+                                Maximum length of characters reached
                             </div>
                         </div>
+
                     </div>
-                    <div class="col-lg-6" *ngIf="phoneCode==91">
-                        <div class="aol-inputt-1">
-                            <div class="country-code">
-                                +{{phoneCode}}
+                </div>
+                <div class="col-lg-5">
+                    <div class="aol-inputt">
+                        <input type="text" placeholder="Email" readonly formControlName="email"
+                            class="inp-widthh update-input" />
+                    </div>
+                </div>
+                <div class="col-lg-5" *ngIf="this.country_code == 'IN' && this.country_name == 'India'">
+                    <div class="aol-inputtt-1">
+                        <div class="country-code update">
+                            +91
+                        </div>
+                        <div class="line_country update">
+                            -
+                        </div>
+                        <div class="verify1">
+                            <mat-icon class="" aria-hidden="false" *ngIf="showMobileTick" svgIcon="tick">
+                            </mat-icon>
+                            <div class="text-value" *ngIf=" this.accountdata?.contact_no==''">
+                                <a class="emailLink" *ngIf="this.accountdata?.contact_no ==''"
+                                    (click)="linkMobile()">link mobile
+                                    no.</a>
                             </div>
-                            <div class="line_country">
-                                |
-                            </div>
-                            <input type="text" placeholder="{{'enter_mobile_number' |translate}}" readonly
-                                formControlName="phone" class="inp-width-1" />
                         </div>
+                        <input type="tel" inputmode="numeric" placeholder="Mobile Number" disabled
+                            [value]="accountdata.contact_no" class="inp-width-1 update-input inp-update" />
+
+
                     </div>
-                    <div class="col-lg-6">
-                        <div class="aol-inputt">
-                            <input type="text" placeholder="{{'email' |translate}}" readonly formControlName="email"
-                                class="inp-width" />
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="aol-select">
-                            <!-- <select name="cars" id="cars" class="arrow-aol" formControlName="age">
-                            <option value="0-0" disabled selected hidden>
-                                {{'select_age_range' |translate}}
-                            </option>
-                            <option value="0-15">Below 15 years</option>
-                            <option value="15-25">15 - 25 years</option>
-                            <option value="25-35">25 - 35 years</option>
-                            <option value="35-45">35 - 45 years</option>
-                            <option value="45-55">45 - 55 years</option>
-                            <option value="55-100">55 years and above</option>
-                        </select> -->
-
-                            <select formControlName="age" class="arrow-aol" name="cars" id="cars">
-                                <option value="0-0" disabled selected hidden>
-                                    {{ 'select_age_range' | translate }}
-                                </option>
-
-                                <option value="0-15">{{ 'age_ranges.0' | translate }}</option>
-                                <option value="15-25">{{ 'age_ranges.1' | translate }}</option>
-                                <option value="25-35">{{ 'age_ranges.2' | translate }}</option>
-                                <option value="35-45">{{ 'age_ranges.3' | translate }}</option>
-                                <option value="45-55">{{ 'age_ranges.4' | translate }}</option>
-                                <option value="55-100">{{ 'age_ranges.5' | translate }}</option>
-                            </select>
 
 
 
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
+                    <div class="error-profile-1"
+                        *ngIf="profileForm.controls['phone'].invalid && profileFormDir.submitted">
+                        Please Enter Valid Mobile Number</div>
+
+
+                </div>
+                <div class="col-lg-5">
+                    <div class="aol-select">
                         <div class="aol-select">
                             <!-- <select name="cars" id="cars" class="arrow-aol" formControlName="gender">
-                                    <option value="" disabled selected hidden>
-                                        {{'select_gender' |translate}}
-                                    </option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Others">Others</option>
-                                </select> -->
-                            <select name="cars" id="cars" class="arrow-aol" formControlName="gender">
                                 <option value="" disabled selected hidden>
-                                    {{ 'select_gender' | translate }}
+                                    Select Gender
                                 </option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Others">Others</option>
+                            </select> -->
+                            <div class="custom-select-wrapper" [formGroup]="yourForm">
+                                <div class="custom-select" (click)="toggleDropdown()" [class.open]="dropdownOpen">
+                                    <span class="selected">
+                                        {{ selectedGender || 'Select Gender' }}
+                                    </span>
+                                    <img class="arrow" src="assets/vive/arrow-down.svg" alt="">
+                                </div>
+                                <ul class="custom-options" *ngIf="dropdownOpen">
+                                    <li *ngFor="let gender of genderss" (click)="selectGender(gender)"
+                                        [class.selected]="selectedGender === gender">
+                                        {{ gender }}
+                                    </li>
+                                </ul>
 
-                                <option value="Male">{{ 'genders.0' | translate }}</option>
-                                <option value="Female">{{ 'genders.1' | translate }}</option>
-                                <option value="Others">{{ 'genders.2' | translate }}</option>
-                            </select>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="aol-select">
-                            <select name="cars" id="cars" class="arrow-aol" [(ngModel)]="selected"
-                                [ngModelOptions]="{standalone: true}" (change)="subtitleSet($any($event.target).value)">
-                                <option value="" disabled selected hidden>
-                                    {{'select_content_language' |translate}}
-                                </option>
-                                <option [value]="x.page_title" *ngFor="let x of mains">{{x.page_title}}</option>
-
-                            </select>
+                                <!-- Hidden actual formControl to bind the value -->
+                                <input type="hidden" formControlName="gender" />
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
 
 
 
-                <div class="btnn-edit">
-                    <button class="edit-btn-1" (click)="update_value()">
-                        {{'update' |translate}}
-                    </button>
-                    <!-- <div>
-                        <div class="aol-select" style="cursor:pointer">
-                         <a (click)="changePassword()">Change Password</a>
-                        </div>
-                    </div> -->
-                    <button class="edit-btn-3" (click)="changePassword()">
-                        {{'change_password' |translate}}
-                    </button>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+
                 </div>
-            </form>
-        </div>
+
+            </div>
+
+            <div class="btnn-edit btnn-edit-1">
+                <button class="save-btn" (click)="back()">
+                    Go back
+                </button>
+                <button class="edit-btn-1" (click)="update_value()">
+
+                    Save Changes
+                </button>
+            </div>
+        </form>
     </div>
 
 </div>

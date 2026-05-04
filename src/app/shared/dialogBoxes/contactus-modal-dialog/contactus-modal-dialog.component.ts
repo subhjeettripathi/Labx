@@ -11,12 +11,13 @@ import {
   NgForm,
   Validators,
 } from "@angular/forms";
+import { Router } from "@angular/router";
+
 import { DeviceDetectorService } from "ngx-device-detector";
 import { PaymentQueryModalDialogComponent } from "../payment-query-modal-dialog/payment-query-modal-dialog.component";
 import { OtherQueryModalDialogComponent } from "../other-query-modal-dialog/other-query-modal-dialog.component";
 import { LoginModalDialogComponent } from "src/app/shared/dialogBoxes/login-modal-dialog/login-modal-dialog.component";
 import { DataService } from "src/app/services/data.service";
-import { Router } from "@angular/router";
 @Component({
   selector: "app-contactus-modal-dialog",
   templateUrl: "./contactus-modal-dialog.component.html",
@@ -32,24 +33,25 @@ export class ContactusModalDialogComponent implements OnInit {
     private deviceService: DeviceDetectorService,
     public dialog: MatDialog,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getConfigData();
   }
   onNoClick() {
     this.dialogRef.close();
+
   }
   openDialog() {
     window.scroll(0, 0);
     this.dialogRef.close();
     this.openPaymentDialog();
-   
+
   }
   openPaymentDialog(): void {
-    document.body.style.overflow='hidden'
-   
-  
+    document.body.style.overflow = 'hidden'
+
+
     if (this.loggedIn == "1") {
       const dialogRef = this.dialog.open(PaymentQueryModalDialogComponent, {
         panelClass: "query-mdl",
@@ -58,7 +60,7 @@ export class ContactusModalDialogComponent implements OnInit {
         data: { name: "paymentQuery" },
       });
       dialogRef.afterClosed().subscribe((result) => {
-        document.body.style.overflow='auto'
+        document.body.style.overflow = 'auto'
       });
     } else {
       const dialogRef = this.dialog.open(LoginModalDialogComponent, {
@@ -68,19 +70,17 @@ export class ContactusModalDialogComponent implements OnInit {
         data: { name: "login" },
       });
       dialogRef.afterClosed().subscribe((result) => {
-        document.body.style.overflow='auto'
+        document.body.style.overflow = 'auto'
       });
-      dialogRef.disableClose = true;
     }
   }
   getConfigData() {
-    var res:any=localStorage.getItem('faqData')
-    res=JSON.parse(res)
-    // this._DS.faqData().subscribe((res: any) => {
-      // console.log(res.Form[0].signin)
+    this._DS.faqData().subscribe((res: any) => {
+
       this.queryForm = res.Form[0].contactus;
-      console.log(this.queryForm);
-    // });
+      console.log(this.queryForm, "ggggggg");
+
+    });
   }
 
   openDialogOtherQuery() {
@@ -88,7 +88,7 @@ export class ContactusModalDialogComponent implements OnInit {
     this.dialogRef.close();
   }
   openOtherQueryDialog(): void {
-    document.body.style.overflow='hidden'
+    document.body.style.overflow = 'hidden'
     const dialogRef = this.dialog.open(OtherQueryModalDialogComponent, {
       autoFocus: true,
       restoreFocus: true,
@@ -99,14 +99,15 @@ export class ContactusModalDialogComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      document.body.style.overflow='auto'
+      document.body.style.overflow = 'auto'
     });
   }
-  subscribe(){
+  subscribe() {
     this.router.navigate(["/subscribe"]);
     this.dialogRef.close();
   }
-  close(){
+  close() {
     this.dialogRef.close();
+     this.router.navigate(["/"]);
   }
 }

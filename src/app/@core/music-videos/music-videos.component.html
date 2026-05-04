@@ -1,0 +1,422 @@
+<div class="main-panel" infinite-scroll [infiniteScrollDistance]="5" [infiniteScrollThrottle]="800"
+    [infiniteScrollDisabled]="busyGettingData" (scrolled)="onScroll()">
+    <ng-container *ngFor="let home of mainData; let indexOfHomeelement = index">
+        <ng-container [ngSwitch]="home?.category_type">
+            <ng-container *ngSwitchCase="'feature_banner'" style="padding:0">
+                <div class="ott-slick-carousel">
+                    <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig"
+                        (init)="slickInit($event, indexOfHomeelement)" (breakpoint)="breakpoint($event)"
+                        (afterChange)="afterChange($event, indexOfHomeelement)"
+                        (beforeChange)="beforeChange($event, indexOfHomeelement)" [id]="'demo4' + indexOfHomeelement">
+                        <div ngxSlickItem *ngFor="let slide of home?.cat_cntn;let i = index" class="slide">
+
+                            <!-- <img class="mySlidesMain" [src]="slide?.sliderImg"
+                                onerror="this.src='assets/svgs/placeholder.png'" alt="" width="100%"> -->
+                            <div [id]="'musicMain' + slide?.id" class="player">
+                                <video [id]="'music' + slide?.id" class="cardvideo" muted playsinline preload="auto"
+                                    [poster]="slide?.sliderImg?slide?.sliderImg:DefaultBanner"
+                                    data-setup='{"liveui": true}'>
+                                    <source [src]="m3u8Main" />
+                                </video>
+
+                                <span id="ageRestrict" [class]="'music' + slide?.id">
+                                    <span class="getre" *ngIf="getres != -1 && getres != 999">U/A {{getres}}+</span>
+                                    <span class="getre" *ngIf="getres == -1">A</span>
+                                    <span class="getre" *ngIf="getres == 999">U</span>
+                                </span>
+
+                                <div style=" display: flex;" class="iconage"
+                                    *ngIf="(slide.age_group >= 18) && (slide.age_group < 999)">
+                                    <div>
+                                        <img ngcontent-cib-c227="" (click)="playCarousel(slide)"
+                                            src="assets/svgs/play-v1.png" alt="Play button" style="cursor: pointer" />
+                                    </div>
+                                    <div>
+                                        <button id="info" (click)="navigate(slide)">
+                                            <img id="moreInfo" src="assets/svgs/info.svg" alt="vive"
+                                                style="cursor: pointer"> More Info
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div style=" display: flex;" class="iconage" *ngIf="parentalset">
+                                    <div>
+                                        <img ngcontent-cib-c227="" (click)="playCarousel(slide)"
+                                            src="assets/svgs/play-v1.png" alt="Play button" style="cursor: pointer" />
+                                    </div>
+                                    <div>
+                                        <button id="info" (click)="navigate(slide)">
+                                            <img id="moreInfo" src="assets/svgs/info.svg" alt="vive"
+                                                style="cursor: pointer"> More Info
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- for autoplay -->
+                                <div style="display: flex;" class="iconage"
+                                    *ngIf="(slide.age_group == 16) && this.mainData[0]['replay'] == 0">
+                                    <div>
+                                        <img (click)="playCarousel(slide)" src="assets/svgs/play-v1.png"
+                                            alt="Play button" style="cursor: pointer" />
+                                    </div>
+                                    <div>
+                                        <button id="info" (click)="navigate(slide)">
+                                            <img id="moreInfo" src="assets/icons/more-info.png" alt="vive"
+                                                style="cursor: pointer"> More Info
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex;" class="iconage"
+                                    *ngIf="(slide.age_group == 999) && this.mainData[0]['replay'] == 0">
+                                    <div>
+                                        <img (click)="playCarousel(slide)" src="assets/svgs/play-v1.png"
+                                            alt="Play button" style="cursor: pointer" />
+                                    </div>
+                                    <div>
+                                        <button id="info" (click)="navigate(slide)">
+                                            <img id="moreInfo" src="assets/icons/more-info.png" alt="vive"
+                                                style="cursor: pointer"> More Info
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex;" class="iconage" *ngIf="this.mainData[0]['auto_play'] == 0">
+                                    <div>
+                                        <img (click)="playCarousel(slide)" src="assets/svgs/play-v1.png"
+                                            alt="Play button" style="cursor: pointer" />
+                                    </div>
+                                    <div>
+                                        <button id="info" (click)="navigate(slide)">
+                                            <img id="moreInfo" src="assets/icons/more-info.png" alt="vive"
+                                                style="cursor: pointer"> More Info
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- end autoplay -->
+
+
+
+                                <div class="iconn">
+                                    <!-- For autoplay -->
+                                    <span id="agecon" class="ag"
+                                        *ngIf="agehide && (slide.age_group >= 18) && (slide.age_group < 999) && this.mainData[0]['auto_play'] == 1"><img
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive"
+                                            (click)="agepopup()"></span>
+
+                                    <span id="agecon" class="ag"
+                                        *ngIf="agehide && slide.age_group == 16 && this.mainData[0]['auto_play'] == 0 && isLoggedIn != 1"><img
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive"
+                                            (click)="IsAutoplay()"></span>
+
+                                    <span id="agecon" class="ag"
+                                        *ngIf="agehide && slide.age_group == 999 && this.mainData[0]['auto_play'] == 0 && isLoggedIn != 1"><img
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive"
+                                            (click)="IsAutoplay()"></span>
+
+                                    <span id="agecon" class="ag"
+                                        *ngIf="agehide && slide.age_group == 18 && this.mainData[0]['auto_play'] == 0 && isLoggedIn != 1"><img
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive"
+                                            (click)="agepopup()"></span>
+
+                                    <span id="agecon" class="ag"
+                                        *ngIf="agehide && slide.age_group == -1 && this.mainData[0]['auto_play'] == 0 && isLoggedIn != 1"><img
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive"
+                                            (click)="agepopup()"></span>
+
+                                    <span id="agecon" class="ag"
+                                        *ngIf="agehide && slide.age_group == 16 && this.mainData[0]['auto_play'] == 0 && isLoggedIn == 1"><img
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive"
+                                            (click)="IsAutoplay()"></span>
+
+                                    <span id="agecon" class="ag"
+                                        *ngIf="agehide && slide.age_group == 999 && this.mainData[0]['auto_play'] == 0 && isLoggedIn == 1"><img
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive"
+                                            (click)="IsAutoplay()"></span>
+
+                                    <span id="agecon" class="ag"
+                                        *ngIf="agehide && slide.age_group == 18 && this.mainData[0]['auto_play'] == 0 && isLoggedIn == 1"><img
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive"
+                                            (click)="IsAutoplay()"></span>
+
+                                    <span id="agecon" class="ag"
+                                        *ngIf="agehide && slide.age_group == -1 && this.mainData[0]['auto_play'] == 0 && isLoggedIn == 1"><img
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive"
+                                            (click)="IsAutoplay()"></span>
+
+                                    <span id="agecon" class="ag"
+                                        *ngIf="agehide && slide.age_group == -1 && this.mainData[0]['auto_play'] == 1"><img
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive"
+                                            (click)="agepopup()"></span>
+
+
+
+                                    <div *ngIf="parentaltest && this.mainData[0]['auto_play'] == 1"
+                                        style="cursor: pointer;" class="parentalicon">
+                                        <img (click)="setpin('musicMain' + slide?.id)" src="assets/svgs/playbtn.svg"
+                                            class="vmc" alt="vive">
+                                    </div>
+
+                                    <div *ngIf="parentaltest && this.mainData[0]['auto_play'] == 0"
+                                        style="cursor: pointer;" class="parentalicon">
+                                        <img (click)="parentalset('age' + slide.age_group , idd)"
+                                            src="assets/svgs/playbtn.svg" class="vmc" alt="vive">
+                                    </div>
+
+                                    <div *ngIf="home.replay == 1 && !replay" class="parentalicon">
+                                        <img (click)="replaybtn('musicMain' + slide?.id)" src="assets/svgs/replay.png"
+                                            class="vmc" alt="vive">
+                                    </div>
+
+                                    <!-- autoplay end -->
+                                </div>
+
+                                <!-- <div class="replay">
+                                    <img src="assets/svgs/replay.png" alt="">
+                                </div> -->
+
+                                <div class="lock" *ngIf="!this.lock1 && !this.isSubscribed && home.replay == 0">
+                                    <img src="assets/svgs/padlock.png" alt="" />
+
+                                    <h1>To watch more</h1>
+                                    <button style="cursor: pointer" routerLink="/subscribe"
+                                        (click)="gotoSubscribePage(slide.id,slide.title)">
+                                        SUBSCRIBE NOW
+                                    </button>
+                                </div>
+                                <div class="lock6"
+                                    *ngIf="subscribedButtonshow.is_allow==1 && this.lock1 && !this.isSubscribed &&slide.is_ad !=1">
+                                    <h1>To watch</h1>
+                                    <button style="cursor: pointer" aria-label="" routerLink="/subscribe"
+                                        (click)="gotoSubscribePage(slide.id,slide.title)">
+                                        {{subscribedButtonshow.btn_text}}
+                                    </button>
+                                </div>
+                                <span id="liveget" [class]="'live' + slide.is_live"></span>
+                                <span id="agegroup" [class]="'Age' + slide.age_group"></span>
+
+                                <span id="getdrm" [class]="'drm' + slide.drm"></span>
+                                <span id="titleget" [class]="slide.title.split(' ').join('/')"></span>
+                                <span id="saesonGet" [class]="slide.season_title"></span>
+                                <span id="saesonSend" [class]="slide.series_title.split(' ').join('/')"></span>
+                                <div class="icons-1 iconlayout" *ngIf="this.lock && this.slide.url != ''">
+                                    <div class="row icon-left">
+                                        <div class="col play-btn">
+                                            <img style="cursor: pointer" *ngIf="!playing && slide.is_live == 0"
+                                                (click)="pausebtn()" width="55px" height="55px"
+                                                src="assets/svgs/pausebtn.svg" alt="abc" />
+                                            <img style="cursor: pointer" *ngIf="playing && slide.is_live == 0"
+                                                (click)="playbtn()" width="55px" height="55px"
+                                                src="assets/svgs/play.svg" alt="abc" />
+                                            <div (click)="navigate(slide)" class="d-flex">
+                                                <img style="cursor: pointer" width="55px" height="55px"
+                                                    src="assets/svgs/Union-Info.svg" alt="abc" />
+                                                <span class="info-more">More Info</span>
+                                            </div>
+                                        </div>
+                                        <img style="cursor: pointer" *ngIf="!playing && slide.is_live == 0"
+                                            (click)="pausebtn()" width="55px" height="55px" src="assets/svgs/pausebtn.svg"
+                                            alt="abc" class="play-none" />
+                                        <img style="cursor: pointer" *ngIf="playing && slide.is_live == 0"
+                                            (click)="playbtn()" width="55px" height="55px" src="assets/svgs/play.svg"
+                                            alt="abc" class="play-none" />
+                                        <img style="cursor: pointer" *ngIf="muted" (click)="unmutebtn()" width="60px"
+                                            height="60px" src="assets/svgs/unmuteicon.png" alt="vive"
+                                            class="mute-unmute" />
+                                        <img style="cursor: pointer" *ngIf="!muted" (click)="mutebtn()" width="60px"
+                                            height="60px" src="assets/svgs/muteicon.png" alt="vive"
+                                            class="mute-unmute" />
+                                        <img style="cursor: pointer" (click)="fullscreenbtn()" width="55px"
+                                            height="55px" src="assets/svgs/fullscreen.svg" alt="abc" />
+
+                                    </div>
+                                </div>
+
+                                <div class="parent-layout iconlayout" *ngIf="this.lock">
+                                    <div *ngIf="slide.is_live == 1">
+                                        <div class="live-button">
+                                            <div style="padding: 2px;"><img src="assets/svgs/Union 469.svg"
+                                                    alt="alt-img"></div>
+                                            <div>1 M</div>
+                                            <div><img src="assets/svgs/live-logo.svg" alt=""></div>
+
+                                        </div>
+                                        <!-- live-button-ends -->
+                                        <!-- new-logo -->
+                                        <div class="live-logo">
+                                            <img src="assets/svgs/live-stream.svg" alt="">
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="content-list">
+                                        <h3 *ngIf="slide.is_group==0">{{ slide.title }}</h3>
+                                        <h3 *ngIf="slide.is_group==1">{{slide.series_title + ' ' +slide.season_title}}
+                                        </h3>
+                                        <ul>
+                                            <span class="ua-list"
+                                                *ngIf="slide.age_group != -1 && slide.age_group != 999">
+                                                U/A {{ slide.age_group }}+ </span>
+                                            <span class="ua-list" *ngIf="slide.age_group == -1">A</span>
+                                            <span class="ua-list" *ngIf="slide.age_group == 999">U</span>
+                                            <li *ngIf="slide.meta_year.length != 0 && slide.meta_year != 0">
+                                                {{ slide.meta_year }}
+                                            </li>
+                                            <li *ngIf="slide.meta_language.length != 0">
+                                                {{ slide.meta_language }}
+                                            </li>
+                                            <li *ngIf="slide.meta_genre.length != 0">
+                                                {{ slide.meta_genre.split(',')[0] }}
+                                            </li>
+                                            <li
+                                                *ngIf="slide.meta_genre.length != 0 && slide.meta_genre.split(',')[1] != null">
+                                                {{ slide.meta_genre.split(',')[1] }}
+                                            </li>
+
+                                        </ul>
+                                    </div> -->
+
+                                    <div class="content-list">
+                                        <h3 *ngIf="slide.is_group==0">{{ slide.title }}</h3>
+                                        <h3 *ngIf="slide.is_group==1">{{slide.series_title + ' ' +slide.season_title}}
+                                        </h3>
+                                        <ul>
+                                            <span class="ua-list"
+                                                *ngIf="slide.age_group != -1 && slide.age_group != 999 && getFaqData?.Others?.age_rating == 1">
+                                                U/A {{ slide.age_group }}+ </span>
+                                            <span class="ua-list" *ngIf="slide.age_group == -1 && getFaqData?.Others?.age_rating == 1">A</span>
+                                            <span class="ua-list" *ngIf="slide.age_group == 999 && getFaqData?.Others?.age_rating == 1">U</span>
+                                            <li *ngIf="slide.meta_year.length != 0  && slide.meta_year != 0 && getFaqData?.Others?.year == 1">
+                                                {{ slide.meta_year }}
+                                            </li>
+                                            <li *ngIf="slide.meta_language.length != 0 && getFaqData?.Others?.language == 1">
+                                                {{ slide.meta_language }}
+                                            </li>
+                                            <li *ngIf="slide.meta_genre.length != 0 && getFaqData?.Others?.genre == 1">
+                                                {{ slide.meta_genre.split(',')[0] }}
+                                            </li>
+                                            <li
+                                                *ngIf="slide.meta_genre.length != 0 && slide.meta_genre.split(',')[1] != null && getFaqData?.Others?.genre == 1">
+                                                {{ slide.meta_genre.split(',')[1] }}
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+                                    <div class="thril">
+                                        <p *ngIf="slide.is_group==0 && slide.des!=''" id="p1">{{
+                                            slide.des.substring(0,130) +' ...'}}</p>
+                                        <p *ngIf="slide.is_group==1 && slide.season_des!=''" id="p2">{{
+                                            slide.season_des.substring(0,180) +' ...'}}</p>
+
+                                        <span class="text-white"> Content Advisory: </span>
+                                        <p id="p3">{{ slide.content_advisory }}</p>
+                                        <ul _ngcontent-cib-c227="" class="sub-details">
+                                            <li ngcontent-cib-c227="" (click)="playCarousel(slide)">
+                                                <img ngcontent-cib-c227="" src="assets/svgs/play-v1.png"
+                                                    alt="Play button" style="cursor: pointer" />
+                                            </li>
+                                            <li ngcontent-cib-c227="">
+                                                <button id="info" (click)="navigate(slide)">
+                                                    <img id="moreInfo" src="assets/icons/more-info.png" alt="abc"> More
+                                                    Info
+                                                </button>
+                                                <!-- <img ngcontent-cib-c227="" src="assets/svgs/more.png" alt="Play button"
+                                                    (click)="navigate(slide, movie.cat_name)" style="cursor: pointer" /> -->
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+                                    <div class="social-icon">
+                                        <span *ngIf="this.mainData[0]['is_watchlist'] == 1"
+                                            style="cursor: pointer; width: auto">
+                                            <div (mouseenter)="hoverWatchMain()" (mouseleave)="hoverWatchRemoveMain()"
+                                                class="addToWatchlist"
+                                                (click)="add(slide?.id + home.cat_id, slide,home.cat_id,slide.categories,slide.title)"
+                                                *ngIf="slide.is_favourite == 0">
+
+                                                <div class="hvr">
+
+                                                </div>
+                                            </div>
+                                            <div (mouseenter)="hoverRemoveMain()" (mouseleave)="hoverRemoveIconMain()"
+                                                class="removeFromWatchlist"
+                                                (click)="add(slide?.id + home.cat_id, slide,home.cat_id,slide.categories,slide.title)"
+                                                *ngIf="slide.is_favourite == 1">
+
+                                                <div class="hvr-2"></div>
+                                            </div>
+                                            <div class="hide-car">Watchlist</div>
+                                            <div class="hide-carremove">Added</div>
+                                        </span>
+                                        <span *ngIf="slide.is_live == 0"><a (mouseenter)="hoverShareMain()"
+                                                (mouseleave)="hoverShareRemoveMain()" role="button" class="socialIcon"
+                                                id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <img src="assets/svgs/Group 4318.svg" class="shareaddMain" alt="vive" />
+                                                <img src="assets/svgs/Group 6824.svg" class="shareremoveMain"
+                                                    alt="vive" /></a>
+                                            <div class="hide2-car">Share</div>
+
+                                            <div class="dropdown-menu" id="social-share-toll"
+                                                aria-labelledby="dropMenu">
+                                                <div class="d-flex" style="justify-content: space-around;">
+                                                    <a (click)="sharing('fb', slide.share_url)"
+                                                        class="fb tooltiptext"><img src="assets/svgs/facebook.svg"
+                                                            alt="vive" /></a>
+
+                                                    <a (click)="sharing('tweet', slide.share_url)"
+                                                        class="twitter tooltiptext"><img src="assets/svgs/twitter.svg"
+                                                            alt="vive" /></a>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ngx-slick-carousel>
+                </div>
+
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'list'">
+                <div class="section-content sec-top">
+                    <div fxLayout="row wrap" layout-xs="column" flexLayoutAlign="flex-start" style="cursor: pointer;">
+                        <div [ngStyle]="{'width':home.layout=='vertical_9x16'?'16.66%':'25%'}"
+                            class="alt-brr-10 alt-p-3 text-center" fxFlex.xs="50%" fxFlex.sm="33.30%" fxFlex.md="33.30%"
+                            *ngFor="let card of home?.cat_cntn" (click)="navigate(card)">
+                            <mat-icon *ngIf="card.access_type=='paid' "
+                                [ngClass]="(home?.layout=='rectangle_16x9')?'crown2':'crown'" aria-hidden="false"
+                                svgIcon="crown" [ngStyle]="{'display':card.type=='circle'?'none':'block'}"></mat-icon>
+                            <div [ngClass]="(home?.layout=='rectangle_16x9')?'free-icon2':'free-icon'"
+                                *ngIf="card.access_type=='free' "
+                                [ngStyle]="{'display':home?.type=='circle'?'none':'block'}"> <img
+                                    src="assets/svgs/free.svg" alt="abc">
+                            </div>
+                            <a [href]="card.permalink" (click)="onAnchorClick($event)">
+                                <img [src]="card.sliderImg"
+                                    [ngStyle]="{'border-radius':home?.type=='circle'?'50%':'10px','height':'auto',width:'100%'}"
+                                    (error)="onImgError($event,home?.layout)" class=" alt-brr-10" [alt]="card.title"
+                                    [title]="card.title">
+                            </a>
+
+                            <div *ngIf="card.is_group == 1 && getFaqData?.Others?.main_page_title==1"
+                                class="titleCards" style="margin-top: 10px; text-align: left;">
+                                <h4>{{(card.series_title + ' ' + card.season_title).slice(0,45)}}</h4>
+                            </div>
+
+                            <div *ngIf="card.is_group == 0 && getFaqData?.Others?.main_page_title==1"
+                                class="titleCards" style="margin-top: 10px; text-align: left;">
+                                <h4>{{card.title.slice(0,45)}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+
+        </ng-container>
+
+    </ng-container>
+</div>

@@ -18,15 +18,12 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import { NgSelectModule } from "@ng-select/ng-select";
 import { MatExpansionModule } from '@angular/material/expansion';
-import { TranslatePipe1 } from 'src/app/services/pipes/translate.pipe';
-
 @NgModule({
   declarations: [
     SearchComponent,
     PopularSearchComponent,
     RecentSearchComponent,
-    SearchFilterComponent,
-    TranslatePipe1
+    SearchFilterComponent
   ],
   imports: [
    CommonModule,

@@ -67,7 +67,7 @@ export class SpritesPlugin extends Plugin {
   }
 
   handleError(error: string | Event, canvas: HTMLCanvasElement) {
-    console.log(error, 'Error');
+    
     canvas.hidden = true;
   }
 

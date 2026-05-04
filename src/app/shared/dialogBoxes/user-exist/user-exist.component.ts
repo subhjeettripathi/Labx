@@ -13,7 +13,7 @@ export class UserExistComponent implements OnInit {
 
   ngOnInit(): void {
     // this.value=this.message.msg
-    this.value="already linked with other account"
+    this.value="Already linked with other account"
   }
   close() {
     this.dialogRef.close();

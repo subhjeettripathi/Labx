@@ -66,7 +66,7 @@ import { ParentalOtpEnableComponent } from '../shared/dialogBoxes/parental-otp-e
 import { ParentalOtpPhonePinGenerateComponent } from '../shared/dialogBoxes/parental-otp-phone-pin-generate/parental-otp-phone-pin-generate.component';
 import { SocialParentalCreateComponent } from '../shared/dialogBoxes/social-parental-create/social-parental-create.component';
 import { EnterOtpMobileComponent } from '../shared/dialogBoxes/enter-otp-mobile/enter-otp-mobile.component';
-import { ActivationSuccessComponent } from '../@core/activation-success/activation-success.component';
+// import { ActivationSuccessComponent } from '../@core/activation-success/activation-success.component';
 import { NotificationComponent } from '../shared/notification/notification.component';
 import { MobileLinkComponent } from '../shared/dialogBoxes/mobile-link/mobile-link.component';
 import { LazypayDialogMobileOtpComponent } from '../shared/dialogBoxes/lazypay-dialog-mobile-otp/lazypay-dialog-mobile-otp.component';
@@ -83,14 +83,18 @@ import { DeviceRestrictionPopupComponent } from '../shared/dialogBoxes/device-re
 import { EmailLinkComponent } from '../shared/dialogBoxes/email-link/email-link.component';
 import { EmailLinkSendVerificationComponent } from '../shared/dialogBoxes/email-link-send-verification/email-link-send-verification.component';
 import { RestrictionSetEmailVerifyComponent } from '../shared/dialogBoxes/restriction-set-email-verify/restriction-set-email-verify.component';
-import { NgCacheRouteReuseModule } from 'ng-cache-route-reuse';
 import { StatePopupComponent } from '../shared/dialogBoxes/state-popup/state-popup.component';
-import { RegisterDialogComponent } from '../shared/dialogBoxes/register-dialog/register-dialog.component';
-import { SucessDialogComponent } from '../shared/dialogBoxes/sucess-dialog/sucess-dialog.component';
-import { TranslatePipe } from '../services/pipes/translate.pipe';
+import { PackageStackingComponent } from '../shared/dialogBoxes/package-stacking/package-stacking.component';
+// import { CancelSubscriptionComponent } from '../shared/dialogBoxes/cancel-subscription/cancel-subscription.component';
+import { OffersComponent } from './offers/offers.component';
+import { CancelSubscriptionSuccessComponent } from '../shared/dialogBoxes/cancel-subscription-success/cancel-subscription-success.component';
+import { CancelSubscriptionAlertComponent } from '../shared/dialogBoxes/cancel-subscription-alert/cancel-subscription-alert.component';
+import { LogoutPopupComponent } from '../shared/dialogBoxes/logout-popup/logout-popup.component';
+import { ActivationModule } from '../activation/activation.module';
+
+
 @NgModule({
   declarations: [
-    TranslatePipe,
     LayoutComponent,
     NavbarComponent,
     FooterComponent,
@@ -130,14 +134,14 @@ import { TranslatePipe } from '../services/pipes/translate.pipe';
     RestrictionPinValidateComponent,
     VerifyParentalAlreadyRegisterComponent,
     ConsentDeleteAccountComponent,
-    ActivationComponent,
+    // ActivationComponent,
     ParentalCreatePinCheckComponent,
     ParentalOtpCreateComponent,
     ParentalOtpEnableComponent,
     ParentalOtpPhonePinGenerateComponent,
     SocialParentalCreateComponent,
     EnterOtpMobileComponent,
-    ActivationSuccessComponent,
+    // ActivationSuccessComponent,
     NotificationComponent,
     MobileLinkComponent,
     LazypayDialogMobileOtpComponent,
@@ -154,11 +158,15 @@ import { TranslatePipe } from '../services/pipes/translate.pipe';
     RestrictionSetEmailVerifyComponent,
     SwitchCouponComponent,
     StatePopupComponent,
-    RegisterDialogComponent,
-    SucessDialogComponent,
-    
+    PackageStackingComponent,
+    OffersComponent,
+    CancelSubscriptionSuccessComponent,
+    CancelSubscriptionAlertComponent,
+    LogoutPopupComponent
+    // CancelSubscriptionComponent
   ],
   imports: [
+
     CommonModule,
     LayoutRoutingModule,
     MatToolbarModule,
@@ -184,8 +192,7 @@ import { TranslatePipe } from '../services/pipes/translate.pipe';
     MatPseudoCheckboxModule,
     CheckoutModule,
     NgSelectModule,
-    
- 
+    ActivationModule,
 
   ]
 })

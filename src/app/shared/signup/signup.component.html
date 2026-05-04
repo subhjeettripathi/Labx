@@ -1,5 +1,10 @@
 <ng-container [ngSwitch]="loginType">
     <ng-container *ngSwitchCase="'default'">
+        <div class="img-logo" *ngIf="baseSignin?.logo?.is_allow == 1">
+            <img [src]="baseSignin?.logo?.web" alt="" class="vive-img">
+        </div>
+
+        <h3 class="text-center alt-m-4">Sign In / Sign-Up</h3>
         <form [formGroup]="loginForm" #loginFormDir="ngForm" (ngSubmit)="onSubmitLogin()" style="position: relative;">
 
             <!-- <div class="formField">
@@ -36,9 +41,9 @@
                 </ng-container>
                 <ng-container>
                     <mat-form-field appearance="outline" [style.width]="isInputKeyNumber?'70% !important':'100%'">
-                        <input matInput id="inputLength" [placeholder]="baseSignup.email.placeholder"
+                        <input  id="inputLength" [placeholder]="baseSignup.email.placeholder"
                             formControlName="emailphone" oninput="this.value = this.value.toLowerCase()"
-                            autocomplete="off" class="input-font-alt" required [errorStateMatcher]="errorMatcher"
+                            autocomplete="off" class="input-font-alt-sub" required [errorStateMatcher]="errorMatcher"
                             (input)="getInputKey()">
 
                         <mat-error
@@ -52,55 +57,125 @@
             <div class="formField formData">
                 <ng-container *ngIf="isInputKeyNumber">
                     <div id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                        [style.width]="isInputKeyNumber ? '30% !important' : '100%'" class="country-code-section">
+                        [style.width]="isInputKeyNumber ? '20% !important' : '100%'" class="country-code-section">
                         <div class="dropdown-toggle">
                             <span class="country-code">{{ defaultVal }}</span>
                         </div>
-                        <ul aria-labelledby="dropdownMenuButton" class="country-code-lists dropdown-menu">
+                        <!-- <ul aria-labelledby="dropdownMenuButton" class="country-code-lists dropdown-menu">
                             <li onclick="(event||window.event).stopPropagation()" class="search-country-code">
                                 <input id="search-country" [(ngModel)]="searchText"
                                     [ngModelOptions]="{ standalone: true }" type="search" aria-label="Search"
                                     autocomplete="off" name="country-code" placeholder="Search country" /><span
-                                    class="search-icon text-right"><img class="loginSearchImg"
-                                        src="assets/svgs/searchLogin.svg" alt="AOL"></span>
+                                    class="search-icon text-right"><img
+                                    class="loginSearchImg" src="assets/svgs/searchLogin.svg" alt="vive"></span>
                             </li>
                             <li class="country-list">
                                 <ul>
-                                    <li *ngFor="let countr of country | filters : searchText" class="dropdown-item"
-                                        (click)="change(countr.dial_code);changeSelect(countr.dial_code);changeAnotherSelect(
+                                    <li *ngFor="let countr of country | filters : searchText"
+                                        class="dropdown-item" (click)="change(countr.dial_code);changeSelect(countr.dial_code);changeAnotherSelect(
                                           countr.dial_code,
                                           countr.mobile_length
                                         )">
-                                        <a class="countryNames">{{ countr.name }}</a><span
-                                            class="text-right countryNames">{{ countr.dial_code
+                                        <a class="countryNames">{{ countr.name }}</a><span class="text-right countryNames">{{ countr.dial_code
                                             }}</span>
                                     </li>
                                 </ul>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </ng-container>
-                <ng-container>
+                <ng-container *ngIf="this.is_email_login =='1' && 
+                this.is_mobile_login =='0'  && defaultVal == '+91'">
                     <div [ngClass]="isInputKeyNumber ? 'NewClass !important' : 'OldClass'">
-                        <input id="myText" class="input-font-alt main-div" [placeholder]="baseSignin.email_login.placeholder"
-                            formControlName="emailphone" autocomplete="off" required (input)="getInputKey()"
+                        <input type="email" id="myText" class="input-font-alt-sub"
+                            [placeholder]="baseSignin?.email_login.email_custom" formControlName="emailphone"
+                            autocomplete="off" required (input)="getInputKey()"
+                            oninput="this.value = this.value.toLowerCase()" />
+
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="this.is_email_login =='0' && 
+                this.is_mobile_login =='1'  && defaultVal == '+91'">
+                    <div [ngClass]="isInputKeyNumber ? 'NewClass !important' : 'OldClass'">
+                        <input type="email" (keydown)="validateNumber($event)" maxlength={{counts}} id="myText"
+                            class="input-font-alt-sub" minlength="5"
+                            [placeholder]="baseSignin?.mobile_login.mobile_custom" formControlName="emailphone"
+                            autocomplete="off" required (input)="getInputKey()" />
+
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="this.is_email_login =='1' && 
+                this.is_mobile_login =='1'  && defaultVal == '+91'">
+                    <div [ngClass]="isInputKeyNumber ? 'NewClass !important' : 'OldClass'">
+                        <input type="email" id="myText1" class="input-font-alt-sub"
+                            [placeholder]="baseSignin?.email_login.placeholder" formControlName="emailphone"
+                            autocomplete="off" required [attr.maxlength]="isInputKeyNumber ? counts : 50" (input)="getInputKey()"
                             oninput="this.value = this.value.toLowerCase()" />
 
                     </div>
                 </ng-container>
 
+                <ng-container *ngIf="this.is_email_login_row =='1' && 
+                this.is_mobile_login_row =='0' && defaultVal != '+91'">
+                    <div [ngClass]="isInputKeyNumber ? 'NewClass !important' : 'OldClass'">
+                        <input type="email" id="myText" class="input-font-alt-sub"
+                            placeholder="Please enter valid email" formControlName="emailphone" autocomplete="off"
+                            required (input)="getInputKey1()" oninput="this.value = this.value.toLowerCase()" />
+
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="this.is_email_login_row =='0' && 
+                this.is_mobile_login_row =='1' && defaultVal != '+91'">
+                    <div [ngClass]="isInputKeyNumber ? 'NewClass !important' : 'OldClass'">
+                        <input type="email" (keydown)="validateNumber($event)" maxlength={{counts}} id="myText"
+                            class="input-font-alt-sub" minlength="5"
+                            [placeholder]="baseSignin?.mobile_login.mobile_custom" formControlName="emailphone"
+                            autocomplete="off" required (input)="getInputKey1()" />
+
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="this.is_email_login_row =='1' && 
+                this.is_mobile_login_row =='1' && defaultVal != '+91'">
+                    <div [ngClass]="isInputKeyNumber ? 'NewClass !important' : 'OldClass'">
+                        <input type="email" id="myText1" class="input-font-alt-sub"
+                            [placeholder]="baseSignin?.email_login.placeholder" formControlName="emailphone"
+                            autocomplete="off" required [attr.maxlength]="isInputKeyNumber ? counts : 50" (input)="getInputKey1()"
+                            oninput="this.value = this.value.toLowerCase()" />
+
+                    </div>
+                </ng-container>
+
+
+
             </div>
-            <div style="color:#FF8484;font-size:14px;top:44px;position: absolute; text-align: left;"
-                class="error-login-1" *ngIf="loginForm.controls['emailphone'].hasError('pattern')">
+            <div class="error-login-1" *ngIf="loginForm.controls['emailphone'].hasError('pattern') && this.is_email_login =='1' && 
+            this.is_mobile_login =='0' && defaultVal == '+91'">
+                {{baseSignin.email_login.email_custom}}</div>
+            <div class="error-login-1" *ngIf="loginForm.controls['emailphone'].hasError('pattern') && this.is_email_login =='0' && 
+            this.is_mobile_login =='1' && defaultVal == '+91'">
+                {{baseSignin.mobile_login.mobile_custom}}</div>
+            <div class="error-login-1" *ngIf="loginForm.controls['emailphone'].hasError('pattern') && this.is_email_login =='1' && 
+            this.is_mobile_login =='1' && defaultVal == '+91'">
+                {{errorMsg.messageEmailMobileEmptyError}}</div>
+            <div class="error-login-1" *ngIf="loginForm.controls['emailphone'].hasError('pattern') && this.is_email_login_row =='1' && 
+                this.is_mobile_login_row =='0' && defaultVal != '+91'">
+                Please enter valid email</div>
+            <div class="error-login-1" *ngIf="loginForm.controls['emailphone'].hasError('pattern') && this.is_email_login_row =='0' && 
+                this.is_mobile_login_row =='1' && defaultVal != '+91' ">
+                {{baseSignin.mobile_login.mobile_custom}}</div>
+            <div class="error-login-1" *ngIf="loginForm.controls['emailphone'].hasError('pattern') && this.is_email_login_row =='1' && 
+                this.is_mobile_login_row =='1' && defaultVal != '++91'">
                 {{errorMsg.messageEmailMobileEmptyError}}</div>
             <div class="mar-btn-top">
                 <button type="submit" class="alt-w-100 alt-bg-sec alt-btn-p"
-                    style="background-color: #676767;">Continue</button>
+                    style="background-color: #676767;">Submit</button>
             </div>
         </form>
     </ng-container>
     <ng-container #emailLoginTemp *ngSwitchCase="'emailLogin'">
-
+  <div class="img-logo" *ngIf="baseSignin?.logo?.is_allow == 1">
+            <img [src]="baseSignin?.logo?.web" alt="">
+        </div>
         <form *ngIf="isUserExist==1" [formGroup]="emailLoginForm" #emailLoginFormDir="ngForm"
             (ngSubmit)="onSubmitEmailLogin()">
             <h3 class="text-center alt-m-4">Sign In</h3>
@@ -108,27 +183,28 @@
                 <p>{{loginMsg}}</p>
             </div>
             <div class="formField">
-                <mat-form-field appearance="outline">
+                <div appearance="outline" style="position: relative;">
 
                     <span class="showBtnEmail" style="cursor: pointer;" (click)="edit()"><img
-                            [src]="baseSignin.email_login.web" alt="AOL"></span>
-                    <input matInput placeholder="Enter Email" formControlName="email" autocomplete="off"
-                        class="input-font-alt" required oninput="this.value = this.value.toLowerCase()" readonly>
+                            [src]="baseSignin.email_login.web" alt="vive"></span>
+                    <input placeholder="Enter Email" formControlName="email" autocomplete="off"
+                        class="input-font-alt-sub" required oninput="this.value = this.value.toLowerCase()" readonly>
                     <mat-error
                         *ngIf="emailLoginForm.controls['email'].hasError('pattern') && (emailLoginForm.controls['email'].dirty || emailLoginForm.controls['email'].touched)">
                         {{errorMsg.messageEmailValidationError}}
                     </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
+                </div>
+                <div appearance="outline" style="position: relative;">
                     <span (click)="showPassword(input)" class="showBtn"><img [hidden]="showpass"
-                            [src]="baseSignin.email_login.invisible_web" alt="AOL">
+                            [src]="baseSignin.email_login.invisible_web" alt="vive">
                         <img [hidden]="!showpass" [src]="baseSignin.email_login.visible_web">
                     </span>
-                    <input autofocus matInput #input [placeholder]="baseSignin.email_login.password_placeholder"
-                        type="password" formControlName="password" autocomplete="off" class="input-font-alt" required
-                        minlength="8" maxlength="16">
+                    <input class="myText" class="input-font-alt" autofocus #input
+                        [placeholder]="baseSignin?.email_login?.password_placeholder" type="password"
+                        (enter)="myFunc($event)" formControlName="password" autocomplete="off" required minlength="6"
+                        (click)="clearVal()">
                     {{ input.focus() }}
-                    <mat-error>
+                    <!-- <mat-error>
                         <div *ngIf="emailLoginForm.controls['password'].errors">
                             <span
                                 *ngIf="emailLoginForm.controls['password'].invalid">{{errorMsg.messageSignUpPasswordError}}</span>
@@ -137,13 +213,34 @@
                             </span>
                         </div>
 
-                    </mat-error>
-                </mat-form-field>
+                    </mat-error> -->
+                </div>
+                <mat-error *ngIf="incorrectPass">
+                    <div style="text-align: left;font-size: 12px;font-weight:600;margin-bottom:7px">
+                        <span>
+                            {{errorMsg.invalidCredentials}}
+                        </span>
+
+                    </div>
+                </mat-error>
+                <mat-error *ngIf="showError">
+                    <div style="text-align: left;font-size: 12px;font-weight:600;margin-bottom:7px">
+                        <span>
+                            {{errorMsg.invalidCredentials}}
+                        </span>
+
+                    </div>
+                </mat-error>
             </div>
 
             <div class="submit-btn">
                 <button type="submit" class="alt-btn-p alt-w-100">Submit</button>
             </div>
+              <div class="mt-2 text-center" *ngIf="baseSignin?.forgot_password==1">
+            <a href="javascript:void(0)" (click)="gotoForgotPassword()" class="forgotPass">Forgot
+                your
+                password?</a>
+        </div>
         </form>
 
 
@@ -154,26 +251,26 @@
                 <p>{{loginMsg}}</p>
             </div>
             <div *ngIf="!genderAndCountVisible" class="formField">
-                <mat-form-field appearance="outline">
+                <div style="position: relative;" appearance="outline">
 
                     <span class="showBtnEmail" style="cursor: pointer;" (click)="edit()"><img
-                            [src]="baseSignup.email.web" alt="AOL"></span>
-                    <input matInput placeholder="Enter Email" formControlName="email" readonly autocomplete="off"
-                        required oninput="this.value = this.value.toLowerCase()">
+                            [src]="baseSignup.email.web" alt="vive"></span>
+                    <input placeholder="Enter Email" class="input-font-alt-sub" formControlName="email" readonly
+                        autocomplete="off" required oninput="this.value = this.value.toLowerCase()">
                     <mat-error
                         *ngIf="emailSignupForm.controls['email'].hasError('pattern') && (emailSignupForm.controls['email'].dirty || emailSignupForm.controls['email'].touched)">
                         {{errorMsg.messageEmailMobileEmptyError}}
                     </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline" style="margin-top: 7px;">
-                    <span style="cursor: pointer;" (click)="showPassword(input)" class="showBtn">
-                        <!-- <img [hidden]="showpass" [src]="baseSignup.password.invisible_web" alt="AOL"> -->
-                        <!-- <img [hidden]="!showpass" [src]="baseSignup.password.visible_web" alt="AOL"> -->
+                </div>
+                <div appearance="outline" style="margin-top: 7px; position: relative;">
+                    <span style="cursor: pointer;" (click)="showPassword(input)" class="showBtn"><img
+                            [hidden]="showpass" [src]="baseSignup?.password?.invisible_web" alt="vive">
+                        <img [hidden]="!showpass" [src]="baseSignup?.password?.visible_web" alt="vive">
                     </span>
-                    <input autofocus matInput #input [placeholder]="baseSignup.password.placeholder" type="password"
-                        formControlName="password" autocomplete="off" required minlength="8" maxlength="16"
-                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d@$#!%*?&]{8,}$">
-                    {{ input.focus() }}
+                    <input autofocus #input [placeholder]="baseSignup?.password?.placeholder" type="password"
+                        class="input-font-alt-sub" formControlName="password" autocomplete="off" required minlength="8"
+                        maxlength="16" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d@$#!%*?&]{8,}$">
+
                     <mat-error>
                         <div
                             *ngIf="emailSignupForm.controls['password'].invalid && (emailSignupForm.controls['password'].touched || emailSignupForm.controls['password'].dirty)">
@@ -194,13 +291,39 @@
                             </ng-template>
                         </div>
                     </mat-error>
-                </mat-form-field>
+                </div>
 
-                <mat-form-field class="alt-w-100" appearance="outline" style="margin-top: 7px;">
-                    <input matInput class="input-font-alt" [min]="" [placeholder]="baseSignup.dob.placeholder"
+                <!-- confirm password -->
+                <div style="margin-top: 7px; position: relative;" *ngIf="baseSignup.password?.is_allow==1"
+                    class="logo-correction">
+                    <span (click)="showPassword1(input)" class="showBtn"><img [hidden]="showpass1"
+                            [src]="baseSignup?.password?.invisible_web" alt="vive">
+                        <img [hidden]="!showpass1" [src]="baseSignup?.password?.visible_web" alt="vive">
+                    </span>
+                    <input autofocus (keydown)="onKeydown($event)" class="input-font-alt" #input
+                        placeholder="Confirm Password" type="password" formControlName="confirm_password"
+                        autocomplete="off" required minlength="8" maxlength="16"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d@$#!%*?&]{8,}$">
+                    <div class="error-login-3"
+                        *ngIf="emailSignupForm.controls['confirm_password'].invalid && (emailSignupForm.controls['confirm_password'].touched || emailSignupForm.controls['confirm_password'].dirty)">
+                        <div
+                            *ngIf="emailSignupForm.controls['confirm_password']?.errors?.['minlength']; else patternElem;">
+                            {{errorMsg.passwordLengthError}}
+                        </div>
+                        <ng-template #patternElem>
+                            <div *ngIf="emailSignupForm.controls['confirm_password'].hasError('pattern')">
+                                {{errorMsg.passwordPolicyError}}
+                            </div>
+                        </ng-template>
+                    </div>
+                    <div class="error-login-3" *ngIf="alertMsg">
+                        {{errorMsg?.passwordMatchError}}</div>
+                </div>
+                <!-- <div class="alt-w-100" appearance="outline" style="margin-top: 7px;">
+                    <input class="input-font-alt-sub" [min]="" [placeholder]="baseSignup.dob.placeholder"
                         formControlName="dob" [max]="maxDob" [matDatepicker]="picker" (click)="picker.open()" readonly>
                     <mat-datepicker-toggle matSuffix [for]="picker" class="datepicker"><img matDatepickerToggleIcon
-                            [src]="baseSignup.dob.web" class="date-picker-icon" alt="AOL"
+                            [src]="baseSignup.dob.web" class="date-picker-icon" alt="vive"
                             srcset=""></mat-datepicker-toggle>
 
                     <mat-datepicker #picker style="width: 100%;"></mat-datepicker>
@@ -210,7 +333,17 @@
                             {{errorMsg.messageSignupDOBError}}
                         </span>
                     </mat-error>
-                </mat-form-field>
+                </div> -->
+                <div class="formField overage">
+                    <!-- <div class="form-group mt">
+                        <input type="checkbox" id="html" formControlName="isover18">
+                        <label for="html">I am over 18</label>
+                    </div>
+                    <mat-error class="matErr"
+                        *ngIf="emailSignupForm.controls['isover18'].invalid && emailSignupFormDir.submitted">This
+                        field is
+                        required*</mat-error> -->
+                </div>
                 <!-- <div class="formField">
                     <mat-checkbox type="checkbox" formControlName="isover18">I am over 18 years of age.
                     </mat-checkbox>
@@ -220,18 +353,18 @@
                         required*</mat-error>
                 </div> -->
 
-                <div class="formField">
-                    <mat-checkbox class="altcheck-font" type="checkbox" [(ngModel)]="myModel"
-                        formControlName="isCheckedAgree">
-                        By signing in, you agree to the <u><a href="/termsofUse" style="color:white;">Terms
-                                of
-                                use</a> </u> and the <u><a href="/privacy-policy" style="color:white;">Privacy
-                                Policy</a></u></mat-checkbox>
-                    <mat-error class="matErr"
-                        *ngIf="emailSignupForm.controls['isCheckedAgree'].invalid && emailSignupFormDir.submitted">This
-                        field is
-                        required*</mat-error>
-                </div>
+                <!-- <div class="formField">
+                        <mat-checkbox class="altcheck-font" type="checkbox" [(ngModel)]="myModel"
+                            formControlName="isCheckedAgree">
+                            By signing in, you agree to the <u><a href="/termsofUse" style="color:white;">Terms
+                                    of
+                                    use</a> </u> and the <u><a href="/privacy-policy" style="color:white;">Privacy
+                                    Policy</a></u></mat-checkbox>
+                        <mat-error class="matErr"
+                            *ngIf="emailSignupForm.controls['isCheckedAgree'].invalid && emailSignupFormDir.submitted">This
+                            field is
+                            required*</mat-error>
+                    </div> -->
                 <!-- <div class="formField">
                     <mat-checkbox type="checkbox" formControlName="isCheckedUpdate">I would like to recieve updates from
                         Products
@@ -239,14 +372,15 @@
                     </mat-checkbox>
 
                 </div> -->
+
                 <div class="">
-                    <button (click)="submitfirstemailStep()" class="alt-btn-p alt-w-100">Continue</button>
+                    <button (click)="submitfirstemailStep()" class="alt-btn-p alt-w-100">Submit</button>
                 </div>
             </div>
 
             <div *ngIf="genderAndCountVisible">
                 <form [formGroup]="genderForm" #genderFormDir="ngForm">
-                    <div class="alt-w-100 formField">
+                    <!-- <div class="alt-w-100 formField">
                         <p>Gender*</p>
                         <div class="selector">
                             <div class="selecotr-item">
@@ -269,8 +403,8 @@
                             *ngIf="genderForm.controls['gender'].invalid && genderFormDir.submitted">This
                             {{errorMsg.genderError}}</mat-error>
                     </div>
-                    <br>
-                    <div class="formField drop">
+                    <br> -->
+                    <!-- <div class="formField drop">
                         <p>Location*</p>
 
 
@@ -282,14 +416,14 @@
                         <mat-error class="matErr"
                             *ngIf="genderForm.controls['location'].invalid && genderFormDir.submitted"></mat-error>
                     </div>
-                    <br>
-                    <div class=" formField">
+                    <br> -->
+                    <!-- <div class=" formField">
                         <mat-checkbox class="altcheck-font" type="checkbox" [(ngModel)]="myModel1"
                             formControlName="isCheckedUpdate"><span
                                 [innerHTML]=baseSignup.sms_email_updates.text></span></mat-checkbox>
 
 
-                    </div>
+                    </div> -->
                     <div class="">
                         <button type="submit" class="alt-btn-p " style="width: 100%;" (click)="onSubmitEmailLogin()">
                             Submit</button>
@@ -311,7 +445,9 @@
 
 
     <ng-container #ottLoginTemp *ngSwitchCase="'otpLogin'">
-
+  <div class="img-logo" *ngIf="baseSignin?.logo?.is_allow == 1">
+            <img [src]="baseSignin?.logo?.web" alt="">
+        </div>
 
         <h3 class="text-center alt-m-4">Sign Up</h3>
         <div style="text-align:center;color:red;font-size: 20px;">
@@ -319,7 +455,7 @@
         </div>
         <form [formGroup]="otpForm" #otpFormDir="ngForm" (ngSubmit)="submitFirstStepOtp()" *ngIf="!genderForMobile">
             <div class=" formField">
-                <ng-container *ngIf="isInputKeyNumber">
+                <!-- <ng-container *ngIf="isInputKeyNumber">
                     <mat-form-field appearance="outline" [style.width]="isInputKeyNumber?'25% !important':'100%'">
                         <mat-select [(value)]="selected1" panelClass='my-parent-class' formControlName="code"
                             (valueChange)="changeValue($event)" [disabled]="true">
@@ -342,7 +478,7 @@
                 </ng-container>
                 <ng-container>
                     <mat-form-field appearance="outline" [style.width]="isInputKeyNumber?'75% !important':'100%'">
-                        <input matInput placeholder="Enter Email or Phone" class="input-font-alt"
+                        <input  placeholder="Enter Email or Phone" class="input-font-alt-sub"
                             [readonly]="enabledInput" formControlName="mobile" autocomplete="off" required
                             [errorStateMatcher]="errorMatcher" (input)="getInputKey()">
                         <span class="showBtnEmail" style="cursor: pointer;" (click)="edit()"><img
@@ -352,10 +488,36 @@
                             {{errorMsg.messageLpMobileValidationError}}
                         </mat-error>
                     </mat-form-field>
-                </ng-container>
+                </ng-container> -->
+                <div class="codeDisplay">
+                    <ng-container *ngIf="isInputKeyNumber">
+                        <div class="country-code-section">
+                            <div class="dropdown-toggle">
+                                <span class="country-code">{{defaultVal}}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container>
+                        <div class="countryField" [style.width]="isInputKeyNumber ? '80% !important' : '100%'">
+                            <input id="myText" class="input-font-alt-subq" readonly placeholder="Enter Email or Phone"
+                                formControlName="mobile" />
+                            <span class="showBtnEmail1" style="cursor: pointer;" (click)="edit()"><img
+                                    [src]="baseSignup?.email?.web" /></span>
 
-                <mat-form-field class="alt-w-100" appearance="outline">
-                    <input matInput class="input-font-alt" [min]="" [placeholder]="baseSignup.dob.placeholder"
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="formField overage">
+                    <!-- <div class="form-group">
+                        <input type="checkbox" id="html" formControlName="isover18">
+                        <label for="html">I am over 18</label>
+                    </div>
+                    <mat-error class="matErr" *ngIf="otpForm.controls['isover18'].invalid && otpFormDir.submitted">This
+                        field is
+                        required*</mat-error> -->
+                </div>
+                <!-- <mat-form-field class="alt-w-100" appearance="outline">
+                    <input class="input-font-alt-sub" [min]="" [placeholder]="baseSignup.dob.placeholder"
                         formControlName="dob" [max]="maxDob" [matDatepicker]="picker" (click)="picker.open()" readonly>
                     <mat-datepicker-toggle matSuffix [for]="picker"><img matDatepickerToggleIcon
                             [src]="baseSignup.dob.web" class="date-picker-icon" alt=""
@@ -367,7 +529,7 @@
                             {{errorMsg.messageSignupDOBError}}
                         </span>
                     </mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
                 <!-- <div class=" formField">
                     <mat-checkbox type="checkbox" formControlName="isCheckedUpdate">I would like to recieve updates from
                         Products
@@ -383,7 +545,7 @@
                         required*</mat-error>
                 </div> -->
 
-                <div class=" formField">
+                <!-- <div class=" formField">
 
 
                     <mat-checkbox class="altcheck-font" type="checkbox" [(ngModel)]="myModel"
@@ -397,7 +559,7 @@
                         *ngIf="otpForm.controls['isCheckedAgree'].invalid && otpFormDir.submitted">This
                         field is
                         required*</mat-error>
-                </div>
+                </div> -->
             </div>
 
             <div class="">
@@ -470,15 +632,28 @@
         <div style="text-align:center;color:red;font-size: 20px;">
             <p>{{loginMsg}}</p>
         </div>
-        <ng-otp-input style="text-align: center;" #ngOtpInput [formCtrl]="otpInput" [config]="config"></ng-otp-input>
-        <mat-error *ngIf="otpInput.invalid " class="mt-2" style="text-align: center;">{{errorMsg.otpLengthError}}
-        </mat-error><br>
+        <ng-otp-input class="signup-input" type="tel" inputmode="numeric" style="text-align: center;" #ngOtpInput [formCtrl]="otpInput"
+            (onInputChange)="onOtpChange($event)" [config]="config"></ng-otp-input>
+        <mat-error *ngIf="show && !otpInput.valid " class="mt-2 otp-error"
+            style="text-align:center !important;">{{errorMsg.otpLengthError}}
+        </mat-error>
+        <mat-error *ngIf="!verifyOtp" class="mt-2 otp-error" style="text-align:center !important; ">
+            {{errorMsg.messageIncorrectOtp}}
+        </mat-error>
+        <mat-error *ngIf="otpExceeded" class="mt-2 otp-error">
+            {{errorMsg.messageOtpResendLimitReached}}
+        </mat-error>
+        <!-- <mat-error *ngIf="otpInput.invalid " class="mt-2 otp-error" style="text-align: center;">{{errorMsg.otpLengthError}} -->
+        <br>
         <div style="text-align: center;">
             <div *ngIf="timerHide" style="color: #FFFFFF;font-size: 12px;font-weight:600">OTP will expire in {{display}}
                 minutes</div><br>
-            <div class="otpResend"> <button style="border: none;
-                background-color: transparent;"> Didn't receive the OTP? <button [disabled]="clicked"
-                        (click)="resendOtp()" class="insideBtn" style="cursor:pointer">Resend</button></button></div>
+            <div class="otpResend"> <button style="border: none; 
+                background-color: transparent;"> Didn't receive the OTP? <button [disabled]="clicked || timerHide"
+                        [ngClass]="{'disabled-resend': clicked || timerHide}" (click)="resendOtp()"
+                        class="insideBtn">Resend</button></button>
+
+            </div>
         </div>
 
         <div class="alt-m-4">
@@ -486,5 +661,35 @@
         </div>
     </ng-container>
 
+    <div *ngIf="hideSocialLogin">
+        <div class="hr alt-mt-6 alt-mr-3 alt-ml-3 alt-mb-6">
+            <span>OR</span>
+        </div>
+        <div class="alt-mt-4">
+            <div class="alt-mb-4 text-white">
+                <p style="font-weight: 600" class="text-center">Or Sign In with Social Account</p>
+            </div>
+            <div class="row web-soc-icons" *ngIf="baseSignin?.social_login?.is_allow == 1">
+                <div *ngFor="let social of socialIcons" class="web-social-login ">
+                    <img src="{{ social.web }}" (click)="socialSelect(social)" *ngIf="social.is_allow == 1"
+                        style="cursor: pointer" alt="" width="100%" />
+                </div>
+                <!-- <div class="col-8">
+                    <img src="../../../../assets/icons/Buttons-01 (1).png" alt="" width="100%">
+                </div>
+              <div class="col-8">
+                <img src="../../../../assets/icons/Buttons-02 (1).png" alt="" width="100%">
+              </div> -->
 
+            </div>
+            <div class="" *ngIf="baseSignin?.term_conditon?.is_allow == 1">
+                <p class="agreePolicy">
+                    By signing in, you agree to the <br />
+                    <u><a href="/termsofUse" style="color: white">Terms of use</a> </u>
+                    and the
+                    <u><a href="/privacy-policy" style="color: white">Privacy Policy</a></u>
+                </p>
+            </div>
+        </div>
+    </div>
 </ng-container>

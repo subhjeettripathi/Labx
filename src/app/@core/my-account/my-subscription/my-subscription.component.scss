@@ -1,103 +1,74 @@
-.radio {
-  display: none;
+.head {
+    padding: 16px 0;
+    background: #4A4A4A 0% 0% no-repeat padding-box;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
-#one:checked~#one-tab,
-#two:checked~#two-tab {
-  border-bottom: 2px solid #FF8731;
-  color: #FF8731;
+.left {
+    color: #B4B4B4;
+}
+h1{
+    font-size: 18px;
+}
+.card {
+    padding: 0px;
+    color: white;
+    border: none !important;
+    border-radius: 15px;
+    width: 40%;
 }
 
-#one:checked~.panels #one-panel,
-#two:checked~.panels #two-panel {
-  display: block;
-  padding: 50px;
+.mat-divider {
+    border-top-color: #707070;
 }
 
+.mat-card-content {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 
-.panel {
-  display: none;
 }
 
-.tab {
-  cursor: pointer;
-  // padding: 1px 20px;
-  margin: 0px 25px;
-  // background:#000;
-
-  // border-bottom: 2px solid #FF8731;
-  font-family: 'PoppinsRegular';
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 33px;
-  letter-spacing: -0.022em;
-  text-align: left;
-  border-bottom: 2px solid #7F7F7F;
-  color: #7F7F7F;
-  padding: 0px 20px;
-  // color: #FF8731;
+#tick-img{
+    display: flex;
+    flex: auto !important;
+    width: 20%;
+}
+.mat-card-subtitle{
+    margin-bottom: 0;
 }
 
-
-.sub-container {
-  background: #27253D;
-  min-height: 60vh;
-  height: 100%;
-  width: 100%;
-  padding: 20px;
-  border-radius: 6px;
+.img-acts img{
+    width: 50px;
+    margin-left: 20px;
+    position: relative;
+    left: 25%;
 }
+// #discountType{
+//     text-decoration: line-through !important;
 
-.Currently {
-  font-family: "PoppinsRegular";
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 25px;
-  letter-spacing: -0.022em;
-  text-align: center;
-  // width: 80%;
-  margin: auto;
-  margin-top: 20px;
-}
+// }
 
-.issubs {
-  // text-align: center;
-  // margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-
-@media screen and (max-width:992px) {
-  .tab {
-    margin: 0px 8px;
-    font-size: 13px;
-    padding: 0px 8px;
+.discountType {
+    display: inline-block;
+    position: relative;
   }
-
-  #one:checked~.panels #one-panel,
-  #two:checked~.panels #two-panel {
-    display: block;
-    // padding-top: 10px;
-    padding: 0;
+  .discountType::before {
+    content: '';
+    position: absolute;
+    left: -0.1em;
+    right: -0.1em;
+    top: 0.38em;
+    bottom: 0.38em;
+    background: linear-gradient(to left top, transparent 45.5%, currentColor 47.5%, currentColor 52.5%, transparent 54.5%);
+    pointer-events: none;
   }
-
-  .panels {
-    margin-top: 20px;
-  }
-
-  .issubs img {
-    width: 100%;
-  }
-
-  .Currently {
-    width: 100%;
-    font-size: 14px;
-    line-height: 22px;
-
-  }
+.discountValue{
+    margin-left: 5px;
+}
 
 
+
+.account-child{
+    display: none !important;
 }

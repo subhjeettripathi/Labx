@@ -1,11 +1,17 @@
 .crown {
     position: absolute;
-    left: 4%;
+    right: 4%;
     top:6%;
+    z-index: 9;
+}
 
+
+.crown img {
+    width: 22px;
 }
 
 .viewAllArrow {
+    display: none;
     width: 6px;
     color: #B4B4B4;
 }
@@ -18,62 +24,32 @@
 .containerContent {
     p {
         margin: 0px !important;
-        font-family: "PoppinsRegular" !important;
-        font-size: 15px;
-        font-weight: 600;
-        line-height: 19px;
-        letter-spacing: 0em;
-        text-align: left;
-        
-    }
-
-    .subtitle{
-        font-family: "PoppinsRegular" !important;
-        font-size: 15px;
-        font-weight: 400;
-        line-height: 19px;
-        letter-spacing: 0em;
-        text-align: left;
-        margin-top: 10px;
-        color: #C5C5C5;
-
     }
 }
 
-.containerContent{
-    margin-top: 10px;
+
+.alt-paddd{
+    width: 100%;
+    padding: 0 6px 25px 6px;
 }
 
 
-.clear_btn{
-    background: #FF8731;
-    border: 0;
-    outline: 0;
-    padding: 10px 25px;
-    color: #FFFFFF;
-    border-radius: 10px;
-    font-family: "PoppinsMedium";
-    font-size: 17px;
-    font-weight: 500;
-    letter-spacing: 0em;
-    text-align: left;
-}
-
-
-.border-img{
+.continue-btn{
+    width: 100%;
+    padding: 10px 16px;
+    background: var(--theme-secondary-color);
+    color: var(--bs-white);
     border-radius: 6px;
+    border: 0;
+    font-family: var(--theme-font-style);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
 }
 
-.continue-watch-progress{
-    display: block;
-    height: 5px;
-    overflow: hidden;
-    bottom: 12px;
-    position: relative;
-    transition: opacity 250ms linear;
-    width: 95%;
-    margin: auto;
-    border-radius: 50px;
+.font-continue{
+    font-size: 20px;
 }
 
 .cont-play {
@@ -88,13 +64,6 @@
     position: relative;
 }
 
-.free_aol-icon {
-    width: 45px;
-    z-index: 9;
-    position: relative;
-}
-
 .play_cont{
-    width: 55px;
+    width: 40px;
 }
-

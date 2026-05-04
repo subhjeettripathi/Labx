@@ -7780,18 +7780,11 @@
 
 	                    if (attr[i] === "monospaceSerif") {
 
-	                        // rslt.push("Courier New");
-	                        rslt.push('"Liberation Mono"');
-	                        // rslt.push("Courier");
-	                        rslt.push("monospace");
+	                      
 
 	                    } else if (attr[i] === "proportionalSansSerif") {
 
-	                        // rslt.push("Arial");
-	                        // rslt.push("Helvetica");
-	                        rslt.push('"Liberation Sans"');
-	                        rslt.push("sans-serif");
-
+	                      
 	                    } else if (attr[i] === "monospace") {
 
 	                        rslt.push("monospace");

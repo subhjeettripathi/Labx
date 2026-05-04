@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
-import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-careers',
   templateUrl: './careers.component.html',
   styleUrls: ['./careers.component.scss']
 })
 export class CareersComponent implements OnInit {
- shipping:any;
+  career: any;
 
-  constructor(private ds: DataService,private location:Location,private router: Router) { }
+  constructor(private ds:DataService) { }
 
   ngOnInit(): void {
     window.scroll(0,0)
@@ -18,16 +17,9 @@ export class CareersComponent implements OnInit {
   }
 
   careerData() {
-     var data: any = localStorage.getItem('innerJson')
-    data = JSON.parse(data)
-    this.shipping = data.Website[0].footer_menu.footer_term.shipping_policy
+    this.ds.json2().subscribe((data: any) => {
+      this.career = data.Form[0].careers
+    })
   }
 
-  back() {
-    if (window.history.length > 1) {
-      this.location.back();
-    } else {
-     this.router.navigate(['/'])
-    }
-  }
 }

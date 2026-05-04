@@ -24,20 +24,19 @@ export class VoiceRecognitionService {
         .map((result) => result.transcript)
         .join('');
       this.tempWords = transcript;
-      console.log(transcript);
+    
     });
   }
 
   start() {
     this.isStoppedSpeechRecog = false;
     this.recognition.start();
-    console.log("Speech recognition started")
+   
     this.recognition.addEventListener('end', (condition: any) => {
-      console.log(condition);
-      
+ 
       if (this.isStoppedSpeechRecog) {
         this.recognition.stop();
-        console.log("End speech recognition")
+      
       } else {
         this.wordConcat()
         this.recognition.start();
@@ -48,12 +47,12 @@ export class VoiceRecognitionService {
     this.isStoppedSpeechRecog = true;
     this.wordConcat()
     this.recognition.stop();
-    console.log("End speech recognition")
+  
   }
 
   wordConcat() {
     this.text =this.text+this.tempWords;
     this.tempWords = '';
-    console.log(this.text);
+  
   }
 }

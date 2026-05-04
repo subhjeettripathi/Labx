@@ -1,12 +1,11 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
         <span class="img-logo" *ngIf="basesignin.parentalEmailVerify.logo.is_allow == 1">
-            <img src="{{basesignin.parentalEmailVerify.logo.web}}" alt="AOL">
+            <img src="{{basesignin.parentalEmailVerify.logo.web}}" alt="vive" class="vive-img">
         </span>
         <button class="close-btn">
-            <mat-icon (click)="close()">close</mat-icon>
+            <img src="assets/arrows_icons/VectorClose.svg"  (click)="close()" alt="">
         </button>
-        <br>
         <div>
             <p class="heading" *ngIf="basesignin.parentalEmailVerify.heading.is_allow == 1"> {{basesignin.parentalEmailVerify.heading.text}}</p>
 
@@ -17,12 +16,11 @@
             <form [formGroup]="otpForm" #otpFormDir="ngForm" (ngSubmit)="submitOtplogin()">
                 <div style="position:relative" *ngIf="basesignin.parentalEmailVerify.email_field.is_allow == 1">
                     <span (click)="showPassword1(input1)" class="showBtn"><img [hidden]="showpassword1" width="20px"
-                            height="20px" src="{{basesignin.parentalEmailVerify.field_icon.invisible_web}}" alt="AOL">
-                        <img width="20px" height="20px" [hidden]="!showpassword1" src="{{basesignin.parentalEmailVerify.field_icon.visible_web}}" alt="AOL">
+                            height="20px" src="{{basesignin.parentalEmailVerify.field_icon.invisible_web}}" alt="vive">
+                        <img width="20px" height="20px" [hidden]="!showpassword1" src="{{basesignin.parentalEmailVerify.field_icon.visible_web}}" alt="vive">
                     </span>
-                    <input type="password" #input1 class="form-control verify-input" placeholder="{{basesignin.parentalEmailVerify.email_field.placeholder}}" formControlName="email">
+                    <input type="password" #input1 class="" id="myText" placeholder="{{basesignin.parentalEmailVerify.email_field.placeholder}}" formControlName="email">
                 </div>
-                <br>
                 <p class="verify_forgot" (click)="forgotPassword()" *ngIf="basesignin.parentalEmailVerify.forgot_password.is_allow == 1">{{basesignin.parentalEmailVerify.forgot_password.text}}</p>
                 <button class="verify_submit"  *ngIf="basesignin.parentalEmailVerify.submit_btn.is_allow == 1">{{basesignin.parentalEmailVerify.submit_btn.text}}</button>
             </form>

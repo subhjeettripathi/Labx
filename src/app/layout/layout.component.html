@@ -1,7 +1,6 @@
 <app-navbar [isOttLoggedIn]="isOttLoggedIn" [isSubscribed]="isSubscribed" [isParentalLocked1]="isParentalLocked" (isLoggedInforLayout)="getLoggedInBoolean($any($event))" (isLoggedInLayout)="getLoggedInBoolean($any($event))" (loadedData)="loadedData($any($event))" [ngClass]="'header'"></app-navbar>
-<main *ngIf="loadRouter" class="main-list">
+<main *ngIf="loadRouter">
     <router-outlet></router-outlet>
 </main>
-
-<app-footer *ngIf="showFooter"></app-footer>
+<app-footer *ngIf="showFooter && router.url != '/vives'"></app-footer>
 

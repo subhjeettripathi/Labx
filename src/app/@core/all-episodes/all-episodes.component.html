@@ -1,136 +1,73 @@
 <div class="details-wrapper sec-top">
     <div class="episodes-wrapper row  " *ngIf="showData.is_group==1 && showData.groupInfo!=null">
-        <div class="col-md-6 f-size_aol">
-            <!-- <h1 class="font-36"><span class="mr-3 arrow-right ">
-                        <img src="assets/svgs/Vector (4).png" style="cursor: pointer;" (click)="backClicked()"
-                            alt="AOL">
-                    </span>{{title}} Adhyaay</h1> -->
-            <div class="arrow-right">
-                <img src="assets/svgs/Vector (4).png" style="cursor: pointer;" (click)="backClicked()" alt="altbalaji">
-                <div class="aol_epsi_title">{{title}}</div>
-            </div>
-            <!-- <div class="details-title">
-                    <span class="category">
-                        <p *ngIf="showData.age_group != -1 && showData.age_group != 999">U/A {{showData.age_group}}+
-                        </p>
-                        <p *ngIf="showData.age_group == -1"> A </p>
-                        <p *ngIf="showData.age_group == 999">U </p>
-                    </span>
-                    <ul class=" sub-details" *ngIf="showData.meta">
-                        <li *ngIf="showData.meta.year"> {{showData.meta.year | date:'y'}}</li>
-                        <li *ngIf="showData.meta.language"> {{showData.meta.language}}</li>
-                        <li *ngIf="showData.meta.genre"> {{showData.meta.genre.split(',')[0]}}</li>
-                        <li *ngIf="showData.meta.genre.split(',')[1]"> {{showData.meta.genre.split(',')[1]}}</li>
-                    </ul>
+        <div class="col-md-12 p-0">
+            <h1 class="font-36"><span class="mr-3 arrow-right">
+                        <img src="assets/svgs/Vector-back.svg" style="cursor: pointer;" (click)="backClicked()"
+                            alt="vive">
+                </span>{{title}} Episodes</h1>
+            <div class="details-title">
+                <span class="category" *ngIf="navvar?.Others?.age_rating==1">
+                    <p *ngIf="showData.age_group != -1 && showData.age_group != 999">U/A {{showData.age_group}}+
+                    </p>
+                    <p *ngIf="showData.age_group == -1"> A </p>
+                    <p *ngIf="showData.age_group == 999">U </p>
+                </span>
+                <ul class=" sub-details" *ngIf="showData.meta">
+                    <li *ngIf="showData.meta.year && navvar?.Others?.year==1"> {{showData.meta.year | date:'y'}}</li>
+                    <li *ngIf="showData.meta.language && navvar?.Others?.language==1"> {{showData.meta.language}}</li>
+                        <li *ngIf="showData.meta.genre && navvar?.Others?.genre==1"> {{showData.meta.genre.split(',')[0]}}</li>
+                        <li *ngIf="showData.meta.genre.split(',')[1] && navvar?.Others?.genre==1"> {{showData.meta.genre.split(',')[1]}}</li>
+                </ul>
 
-                </div> -->
-        </div>
-        <div class="col-md-6">
-            <!-- <form class="episodes-select " style="display: inline;">
-
-
-                    <select style="cursor: pointer;" (change)="getData($any($event.target).value)">
-                        <option *ngFor="let x of seasonData" [selected]="x.id===selected" [value]="x.id">{{x.title}}
-                        </option>
-                    </select>
-
-
-                    <select style="cursor: pointer;" (change)="getEpisodeData($any($event.target).value)">
-                        <option *ngFor="let x of episodesArray" [value]="x.offset">{{x.long_title}}
-                        </option>
-                    </select>
-                </form> -->
-            <div class="epis-menu1">
-                <ng-select class="select" *ngIf="seasonData.length>=2" [(ngModel)]="selected" [searchable]="false"
-                    [clearable]="false" (change)="getData($event)">
-                    <ng-option *ngFor="let x of seasonData" [value]="x.id">{{x.title}}</ng-option>
-                </ng-select>
-                <ng-select *ngIf="totalEpisodes>10" [(ngModel)]="selectedEpisode" [clearable]="false"
-                    [searchable]="false" (change)="getEpisodeData($event)">
-                    <ng-option *ngFor="let x of episodesArray" [value]="x.offset">{{x.long_title}}</ng-option>
-                </ng-select>
             </div>
         </div>
+
 
     </div>
     <div class="row">
-        <div class="col-lg-3 col-md-6 min-deta-watch" *ngFor="let card of seasonSelectData;let i = index">
-            <div class="img-deta">
-                <div class="all_epsd_img">
-                    <img [src]="card.sliderImg" class="" (error)="onImgError($event)"
-                        [alt]="card.is_group == 0 ? card.title : card.season_title"
-                        [title]="card.is_group == 0 ? card.title : card.season_title" width="100%"
-                        style="cursor: pointer;" (click)="playvideo(card)">
-                    <div *ngIf="card.is_ad != 1">
-                        <img src="assets/svgs/Vector.png" alt="" class="aol_play_img" (click)="playvideo(card)">
-                    </div>
-
-                </div>
-                <!-- <div  class="icon-crown" *ngIf="card.access_type == 'paid'">
-                        <img src="assets/svgs/aol_crown.svg" class="aol_crown">
-                      </div>
-                     
-                  <div class="free-icon " *ngIf="card.access_type == 'free'">
-                      <img src="assets/svgs/free.svg" class="free_aol" alt="altt"/>
-                  </div>
-                  <div class="prime-icon" *ngIf="card.package_mode == 'Prime'">
-                    <img src="assets/svgs/lock-prime.svg" class="free_aol" alt="AOL" />
-                </div> -->
-                <!-- <mat-icon *ngIf="card.access_type=='paid' && !isSubscribed" class="crown" aria-hidden="false" svgIcon="crown"
+        <div class="col-lg-3 col-md-6 min-deta-watch" *ngFor="let card of seasonSelectData;let i = index"
+            style="cursor: pointer;  position: relative;">
+            <div class="img-deta-child">
+                <img [src]="card.sliderImg" (click)="EpisodeNavigation(card)" class="" (error)="onImgError($event)"
+                        [alt]="card.series_title + ' ' + card.season_title + ' - '+card.title" [title]="card.series_title + ' ' + card.season_title + ' - '+card.title" width="100%">
+                <!-- <mat-icon *ngIf="card.access_type=='paid' && card.is_ad!=1" class="crown" aria-hidden="false" svgIcon="crown"
                         [ngStyle]="{'display':card.type=='circle'?'none':'block'}"></mat-icon>
-                    <div class="free-icon" *ngIf="card.access_type=='free' && !isSubscribed"
+                    <div class="free-icon" *ngIf="card.access_type=='free' && card.is_ad!=1"
                         [ngStyle]="{'display':card.type=='circle'?'none':'block'}"> <img
                             src="assets/svgs/Group 5070.svg" alt="abc">
                     </div> -->
-                <div class="containerContent">
+                <!-- <div *ngIf="card.access_type == 'paid'  && !isSubscribed" class="crown">
+                        <img src="assets/icons/dimond.svg" alt="vive" loading="lazy" />
+                      </div>
+                      <div class="free-icon" *ngIf="card.access_type == 'free'  && !isSubscribed">
+                        <img src="assets/icons/FreeIcon.svg" alt="vive" loading="lazy" />
+                      </div> -->
+                <div class="containerContent" *ngIf="card.is_ad!=1">
                     <div class="content">
-                        <p class="t-white" *ngIf="card.title.length >= 40">{{card.title.substring(0,40) + "..."}}</p>
-                        <p class="t-white" *ngIf="card.title.length < 40">{{card.title}}</p>
-                        <!-- <p class="t-time" *ngIf="card.duration.slice(0,2) == 0">{{card.duration.slice(3,5)}}min</p>
-                        <p class="t-time" *ngIf="card.duration.slice(0,2) != 0">{{card.duration.slice(0,2)+"h"+"
-                            "+card.duration.slice(3,5)+"m"}}</p> -->
-                        <p class="t-time">{{convertTimeToMinutes(card.duration)}} min</p>
-                        <div style="display: flex;gap: 8px;">
-                            <!-- <p class="icon"
-                                    (click)="addEpisodeToWatchlist((hellData[i].is_favourite==0)?1:0,card.category_ids[0],card.id)">
-
-                                    <mat-icon *ngIf="(hellData[i].is_favourite==0)" aria-hidden="false">add</mat-icon>
-                                    <mat-icon *ngIf="(hellData[i].is_favourite==1)" aria-hidden="false">done</mat-icon>
-
-                                </p> -->
-                            <!-- <div class="icon">
-                                    <mat-icon role="button" aria-label="" id="dropdownMenuLinks" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false" class="social-icon">share</mat-icon>
-                                    <div class="dropdown-menu dropMenus" aria-labelledby="dropdownMenuLinks">
-
-                                        <div class="d-flex" style="gap:20px">
-                                            <a (click)="sharing('fb',card)" class="fb"><img
-                                                    src="assets/svgs/facebook.svg"></a>
-
-
-                                            <a (click)="sharing('tweet',card)" class="twitter"><img
-                                                    src="assets/svgs/twitter.svg"></a>
-
-                                        </div>
-
-
-                                    </div>
-                                </div> -->
-
-
-                        </div>
-
+                        <p class="font-14 t-white"> {{(card.season_number.length == 0 || card.season_number == 'S0') ? "
+                            " : card.season_number}} {{(card.episode_number.length == 0 || card.episode_number == 'E0')
+                            ? '' : card.episode_number }} {{card.season_number.length == 0 || card.episode_number.length
+                            == 0 ? '': ':'}} {{card.title.length
+                            <= 35? card.title.slice(0,35) : card.title.slice(0,35) + "..." }}</p>
                     </div>
 
-                    <!-- <p class="t-y font-12">{{card.duration.slice(3,5)}}m | {{card.year}} |  <span class="category">
-                            <span *ngIf="card.age_group != -1 && card.age_group != 999"> U/A {{card.age_group}}+</span>
-                            
-                            <span *ngIf="card.age_group == -1"> A </span>
-                            <span *ngIf="card.age_group == 999">U </span>
+                    <p class="t-y font-12">{{card.duration.slice(3,5)}}m <span *ngIf="navvar?.Others?.year==1">|
+                            {{card.year}}</span><span class="category">
+                            <span
+                                *ngIf="card.age_group != -1 && card.age_group != 999 && navvar?.Others?.age_rating==1">
+                                | U/A {{card.age_group}}+</span>
+
+                            <span *ngIf="card.age_group == -1 && navvar?.Others?.age_rating==1"> | A </span>
+                            <span *ngIf="card.age_group == 999 && navvar?.Others?.age_rating==1"> | U </span>
                         </span>
-                        </p> -->
+                    </p>
                     <!-- <p class="t-y font-12">{{card.duration}} | 2022 | U/A 13+</p> -->
-                    <!-- <p class="font-14 subtitle" ngif>{{card.des.substring(0,50) + '...'}}</p> -->
+                    <p class="font-14 subtitle" *ngIf="card.des && card.des.length > 50">
+                        {{ card.des.substring(0, 50) + '...' }}
+                    </p>
+                    <p class="font-14 subtitle" *ngIf="card.des && card.des.length <= 50">
+                        {{ card.des }}
+                    </p>
 
                 </div>
             </div>

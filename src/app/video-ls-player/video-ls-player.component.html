@@ -1,19 +1,115 @@
-<video id="video-ls" [poster]="poster" playsinline muted class="videopl vjs-default-skin" data-setup='{"liveui": true}'>
-    <source [src]='videourl'>
+<video id="video-ls" [poster]="poster" preload="auto" playsinline muted class="videopl vjs-default-skin" disablepictureinpicture
+    data-setup='{"liveui": true}'>
+    <source [src]='videourl' type="application/x-mpegURL">
 </video>
 
-<div class="episodeSelector1" *ngIf="alldata.groupInfo != null" >
-    <div class="tabset-screen"  style="display: flex;">
-        <div class="tabset1" 
-            *ngFor="let seasontitle of alldata.groupInfo.child; let first = first;" (click)="getEpisode1(seasontitle.id, seasontitle.total_episode);" >
+<div id="astonbandMini" *ngIf="bandimageMini != null">
+    <a href="{{astonBandShare}}" target="_blank" style="width: 75%;"><img src={{astonBandImage}} width="100%"
+            style="margin: 0 auto;" height="100%" alt="vive"></a>
+    <img (click)="astoncross()" id="astoncancelMini" class="astoncrossMini" src="assets/svgs/playercross.svg" alt="">
+</div>
 
-            <input type="radio" name="tabset1" id={{seasontitle.id}} aria-controls="marzen" [checked]="first">
+<!-- <div id="waterMarkLs"><img src="assets/footer-header-images/Masti-100-px.png" alt=""></div> -->
+
+<div class="bit-main">
+    <ul id="bitrateLevels" class="hd-mode">
+        <li id="quality11">
+            144p
+        </li>
+
+        <li id="quality21">
+            240p
+        </li>
+
+        <li id="quality31">
+            360p
+        </li>
+
+        <li id="quality41">
+            480p
+        </li>
+
+        <li id="quality51">
+            540p
+        </li>
+
+        <li id="quality61">
+            720pl
+        </li>
+
+        <li id="quality71">
+            720ph
+        </li>
+
+        <li id="quality81">
+            1080pl
+        </li>
+
+        <li id="quality91">
+            1080ph
+        </li>
+
+        <li id="quality101" class="activemodeauto">
+            Auto
+        </li>
+
+    </ul>
+</div>
+<!-- <span class="seasonhover" data-hover="Hello">Season-Selector</span> -->
+<div class="episodeSelector1" *ngIf="alldata.groupInfo != null">
+    <div class="tabset-screen" style="display: flex;">
+        <div class="tabset1" (click)="getEpisode1(seasontitle.id, seasontitle.total_episode);getId(seasontitle.id)"
+            *ngFor="let seasontitle of alldata.groupInfo.child;">
+            <input type="radio" name="tabset1" id={{seasontitle.id}} aria-controls="marzen"
+                [checked]="seasontitle.id == checked">
             <label for={{seasontitle.id}}>{{seasontitle.title}}</label>
         </div>
+
+
+        <!-- <div style="display:flex ;" *ngIf="setF; else elseBlock">
+        <div class="tabset" (click)="getEpisode(seasontitle.id);" *ngFor="let seasontitle of this.data.groupInfo.child" style="margin-bottom: 20px;">
+         
+            <input type="radio" *ngIf="seasontitle.id == this.p" name="tabset" id={{seasontitle.id}}
+            aria-controls="marzen" [checked]="this.p" >
+            <label for={{seasontitle.id}}>{{seasontitle.title}}</label>
+        
+        </div>
+       </div>
+
+     <ng-template #elseBlock>
+        <div class="tabset" (click)="getEpisode(seasontitle.id);getId(seasontitle.id)" *ngFor="let seasontitle of this.data.groupInfo.child" style="margin-bottom: 20px;">
+     
+            <input type="radio" *ngIf="seasontitle.id == this.data.groupInfo.child[0].id" name="tabset" id={{seasontitle.id}}
+            aria-controls="marzen" checked >
+            <label for={{seasontitle.id}}>{{seasontitle.title}}</label>
+           
+        </div>
+      </ng-template> -->
+
         <div class="crossepisode">
             <img (click)="crossEpisode()" src="assets/svgs/playercross.svg" alt="alt">
         </div>
     </div>
+
+    <!-- <div style="display:flex ;" *ngIf="setF; else elseBlock">
+        <div class="tabset" (click)="getEpisode(seasontitle.id);getId(seasontitle.id)" *ngFor="let seasontitle of this.data.groupInfo.child" style="margin-bottom: 20px;">
+         
+            <input type="radio" *ngIf="seasontitle.id == this.p" name="tabset" id={{seasontitle.id}}
+            aria-controls="marzen" [checked]="this.p" >
+            <label for={{seasontitle.id}}>{{seasontitle.title}}</label>
+        
+        </div>
+    </div>
+
+    <ng-template #elseBlock>
+        <div class="tabset" (click)="getEpisode(seasontitle.id);getId(seasontitle.id)" *ngFor="let seasontitle of this.data.groupInfo.child" style="margin-bottom: 20px;">
+     
+            <input type="radio" *ngIf="seasontitle.id == this.data.groupInfo.child[0].id" name="tabset" id={{seasontitle.id}}
+            aria-controls="marzen" checked >
+            <label for={{seasontitle.id}}>{{seasontitle.title}}</label>
+           
+        </div>
+    </ng-template> -->
 
     <div class="tab-panels">
         <div class="player-slick-carousel">
@@ -21,34 +117,158 @@
                 (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
                 (beforeChange)="beforeChange($event)">
                 <div ngxSlickItem *ngFor="let episodes of EpiData, index as i" class="slide">
-                    <h6 class="season-head-2"> E{{i+1}} : {{episodes.title.slice(0, 10)}}.. </h6>
-                    <h6 class="season-head"> E{{i+1}} : {{episodes.title.slice(0, 15)}}.. </h6>
-                    <img class="mySlidesMain" [src]="episodes.sliderImg" (click)="playEpisode(episodes)"
-                        (error)="onImgError($event)" alt="AOL" width="100%">
-                    <p class="slide-para"> {{episodes.des.slice(0, 65)}}... </p>
-                    <p class="slide-para-2"> {{episodes.des.slice(0, 35)}}... </p>
+                    <h6 *ngIf="episodes.is_ad != 1" class="season-head-2"> {{episodes.episode_number}}
+                        {{(episodes.episode_number.length == 0)? " " : ":"}}
+                        {{(episodes.title.length >=10 ) ?
+                        (episodes.title.slice(0,10)) + '...': (episodes.title)}} </h6>
+                    <h6 *ngIf="episodes.is_ad != 1" class="season-head"> {{episodes.episode_number}}
+                        {{(episodes.episode_number.length == 0)? " " : ":"}}
+                        {{(episodes.title.length >=25 ) ?
+                        (episodes.title.slice(0,25)) + '...' : (episodes.title)}} </h6>
+
+                    <h6 *ngIf="episodes.is_ad == 1" style="visibility: hidden;"> Ad</h6>
+
+                    <img *ngIf="episodes.is_ad != 1" class="mySlidesMain" [src]="episodes.sliderImg"
+                        (click)="playEpisode(episodes , i)" (error)="onImgError($event)" alt="vive" width="100%">
+
+                    <img *ngIf="episodes.is_ad == 1" class="mySlidesMain" [src]="episodes.sliderImg"
+                        (click)="playEpisode(episodes , i)" (error)="onImgError($event)" alt="vive" width="100%">
+
+                    <small
+                        *ngIf="episodes.age_group != -1 && episodes.age_group != 999  && episodes.age_group != '' && episodes.is_ad != 1">
+                        {{episodes.duration.slice(3,5)}} m &nbsp; | &nbsp; {{episodes.year}} &nbsp; | &nbsp; U/A
+                        {{episodes.age_group}}+ </small>
+                    <small *ngIf="episodes.age_group == -1 && episodes.age_group != '' && episodes.is_ad != 1">
+                        {{episodes.duration.slice(3,5)}} m &nbsp; | &nbsp; {{episodes.year}} &nbsp; | &nbsp;
+                        A </small>
+                    <small *ngIf="episodes.age_group == 999 && episodes.age_group != '' && episodes.is_ad != 1">
+                        {{episodes.duration.slice(3,5)}} m &nbsp; | &nbsp; {{episodes.year}} &nbsp; | &nbsp;
+                        U </small>
+                    <p *ngIf="episodes.is_ad != 1" class="slide-para"> {{episodes.des.slice(0, 65)}}... </p>
+                    <p *ngIf="episodes.is_ad != 1" class="slide-para-2"> {{episodes.des.slice(0, 35)}}... </p>
                 </div>
             </ngx-slick-carousel>
         </div>
     </div>
 </div>
+<!--   -->
 
-<div class="icons">
-    <img style="cursor: pointer;" (click)="pause()" width="55px"
-        height="55px" src="assets/svgs/Pause.svg" alt="AOL">
-    <img style="cursor: pointer;" (click)="play()" width="55px"
-        height="55px" src="assets/svgs/play.svg" alt="AOL">
-    <img style="cursor: pointer;" (click)="mute()" width="60px" height="60px"
-        src="assets/svgs/muteicon.png" alt="AOL">
-    <img style="cursor: pointer;" (click)="unmute()" width="60px" height="60px" src="assets/svgs/unmuteicon.png"
-        alt="AOL">
-    <img style="cursor: pointer;" (click)="fullscreen()" width="55px" height="55px" src="assets/svgs/fullscreen.svg"
-        alt="AOL">
+<div class="moveToVideoJs">
+    <span *ngIf="this.alldata.agegroup_player_title != null" class="age">
+        <p class="ua-p">
+            {{this.alldata.agegroup_player_title}}</p>
+    </span>
+    <!-- <span *ngIf="this.alldata.age_group == -1" class="age"><p class="ua-p">A</p></span>
+    <span *ngIf="this.alldata.age_group == 999" class="age"><p class="ua-p">U</p></span> -->
+
+</div>
+
+<div class="play-icons"
+    *ngIf="!this.ended && !this.hideicon && alldata.trailer_url != '' && this.playicon && alldata.access_type == 'paid'">
+    <img style="cursor: pointer;" *ngIf="!playing && this.alldata.is_live == 0" (click)="pause()" width="40px"
+        src="assets/Logos/media-icons_play.svg" alt="vive">
+    <img style="cursor: pointer;" *ngIf="playing && this.alldata.is_live == 0" (click)="play()" width="40px"
+        src="assets/Logos/media-icons.svg" alt="vive">
+</div>
+
+<div class="play-icons" *ngIf="!this.ended && !this.hideicon && this.playicon && alldata.access_type == 'free'">
+    <img style="cursor: pointer;" *ngIf="!playing && this.alldata.is_live == 0" (click)="pause()" width="40px"
+        src="assets/Logos/media-icons_play.svg" alt="vive">
+    <img style="cursor: pointer;" *ngIf="playing && this.alldata.is_live == 0" (click)="play()" width="40px"
+        src="assets/Logos/media-icons.svg" alt="vive">
+</div>
+<div class="icons"
+    *ngIf="!this.ended && !this.hideicon && this.playicon && alldata.trailer_url != '' && isSubsInfo != 1 && this.flickring && alldata.access_type == 'paid'">
+    <div class="plyy-pau">
+        <img style="cursor: pointer;" *ngIf="!playing && this.alldata.is_live == 0" (click)="pause()" width="70px"
+            height="70px" src="assets/Logos/media-icons_play.svg" alt="vive">
+        <img style="cursor: pointer;" *ngIf="playing && this.alldata.is_live == 0" (click)="play()" width="70px"
+            height="70px" src="assets/Logos/media-icons.svg" alt="vive">
+    </div>
+    <img style="cursor: pointer;" *ngIf="!muted" (click)="mute()" width="75px" height="75px"
+        src="assets/Logos/unmuted.svg" alt="dangal" class="mutealt">
+    <img style="cursor: pointer;" *ngIf="muted" (click)="unmute()" width="75px" height="75px"
+        src="assets/Logos/muted.svg" alt="dangal" class="mutealt">
+    <img style="cursor: pointer;" (click)="fullscreen()" width="70px" height="70px"
+        src="../../assets/Logos/media-icons_fullscr.svg" alt="vive" class="fullalt">
+</div>
+
+<div class="icons"
+    *ngIf="!this.ended && !this.hideicon && this.playicon && isSubsInfo != 1 && this.flickring && alldata.access_type == 'free'">
+    <div class="plyy-pau">
+        <img style="cursor: pointer;" *ngIf="!playing && this.alldata.is_live == 0" (click)="pause()" width="70px"
+            height="70px" src="assets/Logos/media-icons_play.svg" alt="vive">
+        <img style="cursor: pointer;" *ngIf="playing && this.alldata.is_live == 0" (click)="play()" width="70px"
+            height="70px" src="assets/Logos/media-icons.svg" alt="vive">
+    </div>
+    <img style="cursor: pointer;" *ngIf="!muted" (click)="mute()" width="75px" height="75px"
+        src="assets/Logos/unmuted.svg" alt="dangal" class="mutealt">
+    <img style="cursor: pointer;" *ngIf="muted" (click)="unmute()" width="75px" height="75px"
+        src="assets/Logos/muted.svg" alt="dangal" class="mutealt">
+    <img style="cursor: pointer;" (click)="fullscreen()" width="70px" height="70px"
+        src="../../assets/Logos/media-icons_fullscr.svg" alt="vive" class="fullalt">
+</div>
+
+<div class="icons" *ngIf="!this.ended && !this.hideicon && this.playicon && isSubsInfo == 1 && this.flickring">
+    <div class="plyy-pau">
+        <img style="cursor: pointer;" *ngIf="!playing && this.alldata.is_live == 0" (click)="pause()" width="70px"
+            height="70px" src="assets/Logos/media-icons_play.svg" alt="vive">
+        <img style="cursor: pointer;" *ngIf="playing && this.alldata.is_live == 0" (click)="play()" width="70px"
+            height="70px" src="assets/Logos/media-icons.svg" alt="vive">
+    </div>
+    <img style="cursor: pointer;" *ngIf="!muted" (click)="mute()" width="75px" height="75px"
+        src="assets/Logos/unmuted.svg" alt="dangal" class="mutealt">
+    <img style="cursor: pointer;" *ngIf="muted" (click)="unmute()" width="75px" height="75px"
+        src="assets/Logos/muted.svg" alt="dangal" class="mutealt">
+    <img style="cursor: pointer;" (click)="fullscreen()" width="70px" height="70px"
+        src="../../assets/Logos/media-icons_fullscr.svg" alt="vive" class="fullalt">
 </div>
 <div class="lock" *ngIf="ended && !isSubscribed">
-    <img src="assets/svgs/padlock.png" alt="">
+    <img src="../../assets/vive/lock.svg" alt="">
 
-    <h1>{{'to_watch_more'|translate}}</h1>
-    <br>
-    <button style="cursor: pointer;" routerLink="/subscribe">{{'subscribe_now'|translate}}</button>
+    <h1>To watch more</h1>
+    <button style="cursor: pointer;" routerLink="/subscribe">SUBSCRIBE NOW</button>
+</div>
+
+
+
+<div *ngIf="!playicon" class="parentalbtn">
+    <img (click)="this.setpin()" src="assets/svgs/playbtn.svg" alt="mastiiWeb">
+</div>
+
+<div id="agecon" class="ag" *ngIf="agehide && (ageGroup >= 18) && (ageGroup < 999)"><img src="assets/svgs/playbtn.svg"
+        alt="" (click)="agepopup()"></div>
+<div id="agecon" class="ag" *ngIf="agehide && ageGroup == -1"><img src="assets/svgs/playbtn.svg" alt=""
+        (click)="agepopup()"></div>
+
+<div id="agecon" class="ag" *ngIf="isSubsInfo != 1 && alldata.trailer_url == '' && alldata.access_type == 'paid'"><img
+        src="assets/svgs/playbtn.svg" alt="" (click)="imgSubs()"></div>
+
+<div
+    *ngIf="this.alldata.skip_duration != null && this.alldata.skip_duration.length && this.alldata.skip_duration.length === 1 && !isTrailerPlaying  && !isAdPlaying ">
+    <div class="title" id="titleOne">
+        <button (click)="skipIntro()">{{this.alldata.skip_duration[0].title.replace('_', ' ') | titlecase}}</button>
+    </div>
+</div>
+<div
+    *ngIf="this.alldata.skip_duration != null && this.alldata.skip_duration.length && this.alldata.skip_duration.length === 2 && !isTrailerPlaying && !isAdPlaying ">
+    <div class="title" id="titleOne">
+        <button (click)="skipIntro()">{{this.alldata.skip_duration[0].title.replace('_', ' ') | titlecase}}</button>
+    </div>
+    <div class="title1" id="titleTwo">
+        <button (click)="skipRecap()">{{this.alldata.skip_duration[1].title.replace('_', ' ') | titlecase}}</button>
+    </div>
+</div>
+
+<div
+    *ngIf="this.alldata.skip_duration != null && this.alldata.skip_duration.length && this.alldata.skip_duration.length === 3 && !isTrailerPlaying && !isAdPlaying ">
+    <div class="title" id="titleOne">
+        <button (click)="skipIntro()">{{this.alldata.skip_duration[0].title.replace('_', ' ') | titlecase}}</button>
+    </div>
+    <div class="title1" id="titleTwo">
+        <button (click)="skipRecap()">{{this.alldata.skip_duration[1].title.replace('_', ' ') | titlecase}}</button>
+    </div>
+    <div class="title2" id="titleThree">
+        <button (click)="skipCredit()">{{this.alldata.skip_duration[2].title.replace('_', ' ') | titlecase}}</button>
+    </div>
 </div>

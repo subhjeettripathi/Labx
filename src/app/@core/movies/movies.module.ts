@@ -16,11 +16,9 @@ import { FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { TranslatePipe4 } from 'src/app/services/pipes/translate.pipe';
 @NgModule({
   declarations: [
-    MoviesComponent,
-    TranslatePipe4
+    MoviesComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +36,8 @@ import { TranslatePipe4 } from 'src/app/services/pipes/translate.pipe';
     FormsModule,
     MatCardModule,
     MatDialogModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    
   ]
 })
 export class MoviesModule { }

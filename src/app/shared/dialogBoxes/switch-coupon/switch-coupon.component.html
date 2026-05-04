@@ -1,27 +1,26 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
         <div class="alt-login-img" >
-            <img src="assets/svgs/Group.png" alt="AOL">
+            <img src="https://static.creatorott.com/configration/5006/5006_68c8fd27e9291.png" alt="vive" class="vive-img"> 
         </div>
         <button (click)="close()" class="close-btn">
-            <!-- <mat-icon>close</mat-icon> -->
-            <img src="/assets/svgs/Vector.svg" alt="">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
         </button>
 
 
         <div>
             <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
-            <p style="color:white;font-size:16px;font-weight: 600;" >
-                {{'Discount_valid'|translate  }} {{couponValue}} {{'Pack' |translate}} .{{'Do_you_want_to_proceed' |translate}}
+            <p style="color:white;font-size:16px;" >
+                Discount selected is valid only for {{couponValue}} Pack .Do you want to proceed?
             </p>
            
             <br>
             <div class="row">
-                <div class="col-6 pl-0">
-                    <button type="button" (click)="switchPack()" class="btn-one" >{{'Switch_Pack' |translate}}</button>
+                <div class="col-6">
+                    <button type="button" (click)="switchPack()" class="btn-one" >Switch Pack</button>
                 </div>
-                <div class="col-6 p-0">
-                    <button (click)="close()" (click)="removeCoupon()" type="button" class="btn-two" >{{'remove_coupon' |translate}}</button>
+                <div class="col-6">
+                    <button (click)="close()" (click)="removeCoupon()" type="button" class="btn-two" >Remove Coupon</button>
                 </div>
             </div>
 

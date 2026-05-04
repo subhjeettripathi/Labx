@@ -15,11 +15,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
-import { TranslatePipe15 } from 'src/app/services/pipes/translate.pipe';
 @NgModule({
   declarations: [
-    NewsComponent,
-    TranslatePipe15
+    NewsComponent
   ],
   imports: [
     CommonModule,

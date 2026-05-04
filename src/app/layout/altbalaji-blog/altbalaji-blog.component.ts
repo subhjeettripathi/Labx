@@ -16,11 +16,10 @@ export class ALTBalajiBlogComponent implements OnInit {
   }
 
   blogData() {
-    var data:any=localStorage.getItem('faqData')
-    data=JSON.parse(data)
-    // this.ds.faqData().subscribe((data: any) => {
+    
+    this.ds.faqData().subscribe((data: any) => {
       this.altblog = data.Website[0].footer_menu.company[5].link    
-    // })
+    })
   }
 
 }

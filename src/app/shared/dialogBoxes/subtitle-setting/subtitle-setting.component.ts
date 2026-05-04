@@ -16,9 +16,10 @@ export class SubtitleSettingComponent implements OnInit {
   subtitledata: any = [];
   selected: any;
   basesignin: any = []
+  acc:any
   popupJson = JSON.parse(localStorage.getItem('popupJson') || '{}');
   @Output() subtitleSett = new EventEmitter<any>();
-  acc: any;
+  
   constructor(
     public dialogRef: MatDialogRef<SubtitleSettingComponent>,
     private ds: DataService,
@@ -30,7 +31,7 @@ export class SubtitleSettingComponent implements OnInit {
     this.getConfig();
     this.getsubtit();
     // if(this.subtitleFromSetting.title != ''){
-    //   console.log((this.subtitleFromSetting.title))
+   
     //   if(this.subtitleFromSetting.title=='off'){
     //     this.offShow=true
     //     this.englishShow=false
@@ -75,7 +76,7 @@ export class SubtitleSettingComponent implements OnInit {
       this.DEC_SER.getDecryptedData(res?.result);
       let decryptData = JSON.parse(this.DEC_SER.decryptData);
       const sendTosett = decryptData;
-      console.log(sendTosett);
+      
 
       if (sendTosett.payload != null && sendTosett.payload.language_key != null) {
         this.regionals = sendTosett.payload.language_key;
@@ -131,14 +132,19 @@ export class SubtitleSettingComponent implements OnInit {
       this.DEC_SER.getDecryptedData(res?.result);
       let decryptData = JSON.parse(this.DEC_SER.decryptData);
       const sendTosett = decryptData;
-      console.log(sendTosett, "subtitle");
+
+     if(sendTosett.payload == null){
+      this.acc = "None"
+     }else{
       this.acc = sendTosett.payload.subtitle;
+     }
+      
     });
   }
   getConfig() {
     // this.ds.faqData().subscribe((res: any) => {
     //   this.subtitledata = res.App[0].subtitle;
-    //   console.log(this.subtitledata, "subtitleConfig");
+    
     // });
     this.subtitledata=this.popupJson.PopupList[0].subtitle.languages
     this.basesignin=this.popupJson.PopupList[0]

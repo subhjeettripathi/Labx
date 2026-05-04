@@ -1,175 +1,28 @@
-<div *ngIf="userExist==0 && type=='email'">
-    <div style="color: #7F7F7F;  margin: auto; " *ngIf="baseLine.profileMobileVerify.description.is_allow == 1">
-        {{'sent_otp_your_number' |translate}}
-    </div>
-    <div style="color:#FFFFFF; font-weight: 600; margin: 10px 0px;">{{userEmail}}</div>
-    <ng-otp-input #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event)"
-        (keydown)="onKeydown_email($event)" [config]="config" type="tel" inputmode="numeric" pattern="[0-9]*"
-        class="otp-flex">
+<div>
+    <div style="color: white;font-weight:600" *ngIf="baseLine.profileMobileVerify.description.is_allow == 1">
+        {{baseLine.profileMobileVerify.description.text}} <br> XXXXXX{{userMobile}}</div><br>
+    <ng-otp-input class="otp-dialog" *ngIf="showOtp"  #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event ,'otp')" [config]="config"
+         (keyup.enter)="onVerifyOtp()" type="tel" inputmode="numeric" pattern="[0-9]*">
     </ng-otp-input>
-    <mat-error *ngIf="show && !otpInput.valid " class="mt-2" style="text-align:center !important;">
-        <!-- OTP is required  (key added in translation service) -->
-        {{'OTP_is_required' |translate}}
+    <mat-error *ngIf="show && !otpInput.valid " class="mt-2" style="text-align:center !important;">OTP is required
     </mat-error>
     <mat-error *ngIf="otpExceeded"
         style="text-align:center !important; margin-top: 20px !important; font-size: 14px !important; ">
-        {{'maximum_OTP_limit' |translate}}
+        {{errorMsg.messageOtpResendLimitReached}}
     </mat-error>
     <br>
     <br>
-    <div *ngIf="timerHide" style="color: #FFFFFF;font-size: 12px;font-weight:600">{{'otp_will_expire_in_phone'
-        |translate}}{{display}}
-        <!-- minutes (key added in translation service) -->
-        {{'minutes'|translate}}
+    <div *ngIf="timerHide" style="color: #FFFFFF;font-size: 12px;font-weight:600">OTP will expire in {{display}} minutes
     </div><br>
     <div class="otpResend"> <button *ngIf="baseLine.profileMobileVerify.resent_text.is_allow == 1" style="border: none;
-        background-color: transparent;" [disabled]="clicked" type="button">
-            {{'didn_t_receive_the_otp' |translate}}</button> <button
-            *ngIf="baseLine.profileMobileVerify.resent_btn.is_allow == 1" [disabled]="clicked" type="button"
-            (click)="resendOtp()" class="insideBtn" style="cursor:pointer">{{'resend' |translate}}</button></div>
-    <div class="alt-m-4">
-        <button type="submit" class="alt-btn-red alt-w-100" (click)="onVerifyEmailOtp()"
-            *ngIf="baseLine.profileMobileVerify.submit_btn.is_allow == 1">{{'submit' |translate}}</button>
-    </div>
-</div>
-
-<div *ngIf="userExist==0 && type=='phone'">
-    <div class="mobile-otp">
-        <div style="color: #7F7F7F;  margin: auto; " *ngIf="baseLine.profileMobileVerify.description.is_allow == 1">
-            <!-- We have sent an OTP on the below Number -->
-            {{'otp_sent_to_the_below_number' |translate}}
-        </div>
-        <div style="color:#FFFFFF; font-weight: 600; margin: 10px 0px;">+ 91 - {{usermobile}}</div>
-        <ng-otp-input #ngOtpInput [formCtrl]="otpInput2" (onInputChange)="onOtpChange($event)"
-            (keydown)="onKeydown_Phone($event)" [config]="config" type="tel" inputmode="numeric" pattern="[0-9]*"
-            class="otp-flex">
-        </ng-otp-input>
-        <br>
-        <mat-error *ngIf="show && !otpInput2.valid " class="mt-2"
-            style="text-align:center !important;">{{'OTP_is_required' |translate}}
-        </mat-error>
-        <mat-error *ngIf="otpExceeded"
-            style="text-align:center !important; margin-top: 20px !important; font-size: 14px !important; ">
-            {{'maximum_OTP_limit' |translate}}
-        </mat-error>
-        <br>
-        <br>
-        <div *ngIf="timerHide" style="color: #FFFFFF;font-size: 12px;font-weight:600">{{'otp_will_expire_in_phone'
-            |translate}} {{display}}
-            {{'minutes'|translate}}
-
-        </div><br>
-        <div class="otpResend"> <button *ngIf="baseLine.profileMobileVerify.resent_text.is_allow == 1" style="border: none;
-                background-color: transparent;" [disabled]="clicked" type="button">
-
-                {{'didn_t_receive_the_otp' |translate}}
-            </button> <button
-                *ngIf="baseLine.profileMobileVerify.resent_btn.is_allow == 1" [disabled]="clicked" type="button"
-                (click)="resendOtp()" class="insideBtn"
-                style="cursor:pointer">{{'resend' |translate}}</button></div>
-    </div>
-
+        background-color: transparent;" [disabled]="clicked"   >
+            {{baseLine.profileMobileVerify.resent_text.text}}</button> <button
+            *ngIf="baseLine.profileMobileVerify.resent_btn.is_allow == 1" [disabled]="clicked || timerHide"
+    [ngClass]="{'disabled-resend': clicked || timerHide}" (click)="resendOtp()"
+            class="insideBtn" style="cursor:pointer">{{baseLine.profileMobileVerify.resent_btn.text}}</button></div>
 
     <div class="alt-m-4">
-        <button type="submit" class="alt-btn-red alt-w-100" (click)="onVerifyOtp()"
-            *ngIf="baseLine.profileMobileVerify.submit_btn.is_allow == 1">{{'submit'|translate}}</button>
+        <button type="submit" class="theme-btn" (click)="onVerifyOtp()"
+            *ngIf="baseLine.profileMobileVerify.submit_btn.is_allow == 1">{{baseLine.profileMobileVerify.submit_btn.text}}</button>
     </div>
-</div>
-<div *ngIf="userExist==1 && type != 'verify'">
-
-
-    <div class="mobile-otp">
-        <div style="color: #7F7F7F;  margin: auto; ">
-            <!-- We have sent an OTP on the below Number
-              -->
-            {{'otp_sent_to_the_below_number' |translate}}
-
-        </div>
-        <div style="color:#FFFFFF; font-weight: 600; margin: 10px 0px;">+ 91 - {{usermobile |translate}}</div>
-        <ng-otp-input #ngOtpInput [formCtrl]="otpInput2" (onInputChange)="onOtpChange($event)"
-            (keydown)="onKeydown_Phone($event)" [config]="config" type="tel" inputmode="numeric" pattern="[0-9]*"
-            class="otp-flex">
-        </ng-otp-input>
-        <br>
-        <mat-error *ngIf="show" class="mt-2" style="text-align:center !important;">
-            {{'OTP_is_required' |translate}}
-
-        </mat-error>
-        <mat-error *ngIf="otpExceeded"
-            style="text-align:center !important; margin-top: 20px !important; font-size: 14px !important; ">
-            {{'maximum_OTP_limit' |translate}}
-        </mat-error>
-        <br>
-        <br>
-        <div *ngIf="timerHide" style="color: #FFFFFF;font-size: 12px;font-weight:600">{{'otp_will_expire_in_phone'
-            |translate}} {{display}}
-            {{'minutes'|translate}}
-        </div><br>
-        <div class="otpResend"> <button style="border: none;
-                background-color: transparent;" [disabled]="clicked" type="button">
-                <!-- {{baseLine.profileMobileVerify.resent_text.text |translate}} -->
-                {{'didn_t_receive_the_otp' |translate}}
-
-            </button> <button
-                *ngIf="baseLine.profileMobileVerify.resent_btn.is_allow == 1" [disabled]="clicked" type="button"
-                (click)="resendOtp()" class="insideBtn"
-                style="cursor:pointer">{{'resend' |translate}}</button></div>
-    </div>
-
-
-    <div class="alt-m-4">
-        <button type="submit" class="alt-btn-red alt-w-100"
-            (click)="onVerifyOtp()">{{'submit' |translate}}</button>
-    </div>
-
-
-</div>
-
-<div *ngIf="userExist==1 && type=='verify'">
-
-
-    <div class="mobile-otp">
-        <div style="color: #7F7F7F;  margin: auto; ">
-            <!-- We have sent an OTP on your entered e-mail id -->
-            {{'sent_otp_your_number' |translate}}
-        </div>
-        <div style="color:#FFFFFF; font-weight: 600; margin: 10px 0px;">{{userEmail}}</div>
-        <!-- <div style="color:#FFFFFF; font-weight: 600; margin: 10px 0px;">+ 91 - {{usermobile}}</div> -->
-        <ng-otp-input #ngOtpInput [formCtrl]="otpInput2" (onInputChange)="onOtpChange($event)"
-            (keydown)="onKeydown_Phone($event)" [config]="config" type="tel" inputmode="numeric" pattern="[0-9]*"
-            class="otp-flex">
-        </ng-otp-input>
-        <br>
-        <mat-error *ngIf="show" class="mt-2" style="text-align:center !important;">{{'OTP_is_required' |translate}}
-        </mat-error>
-        <mat-error *ngIf="otpExceeded"
-            style="text-align:center !important; margin-top: 20px !important; font-size: 14px !important; ">
-            <!-- {{errorMsg.messageOtpResendLimitReached |translate}} -->
-            {{'maximum_OTP_limit' |translate}}
-
-        </mat-error>
-        <br>
-        <br>
-        <div *ngIf="timerHide" style="color: #FFFFFF;font-size: 12px;font-weight:600">{{'otp_will_expire_in_phone'
-            |translate}} {{display}}
-            {{'minutes'|translate}}
-        </div><br>
-        <div class="otpResend"> <button style="border: none;
-                background-color: transparent;" [disabled]="clicked" type="button">
-                <!-- {{baseLine.profileMobileVerify.resent_text.text |translate}} -->
-                {{'didn_t_receive_the_otp' |translate}}
-
-            </button> <button
-                *ngIf="baseLine.profileMobileVerify.resent_btn.is_allow == 1" [disabled]="clicked" type="button"
-                (click)="resendOtp()" class="insideBtn"
-                style="cursor:pointer">{{'resend' |translate}}</button></div>
-    </div>
-
-
-    <div class="alt-m-4">
-        <button type="submit" class="alt-btn-red alt-w-100"
-            (click)="onVerifyOtp()">{{'submit' |translate}}</button>
-    </div>
-
-
 </div>

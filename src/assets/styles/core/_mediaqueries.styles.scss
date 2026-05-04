@@ -1,80 +1,260 @@
 @media only screen and (max-width: 992px) {
-
-  .gap-aol{
-    gap: 14px !important;
+  .need-help {
+    margin-top: 12px;
+    text-align: center;
   }
 
-  .live-ended{
+  .starring-title{
+    font-size: 13px !important;
+  }
+
+  .similar-title {
+    font-size: 13px !important;
+
+}
+
+
+.edit-btn {
+
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.edit-btn-1 {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+
+
+}
+
+.save-btn {
+
+  font-size: 14px !important;
+  font-weight: 600 !important;
+
+}
+
+.link{
+  font-size: 14px !important;
+}
+
+
+  .show-sub-category {
+    font-size: 16px !important;
+    margin-bottom: 6px !important;
+  }
+
+
+  .headcor {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+  }
+
+  .corporate {
+    font-size: 13px !important;
+  }
+
+
+  .pro-file img {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .vive-img {
+    width: 75px !important;
+    height: auto !important;
+  }
+
+  .left-menu {
+    font-size: 14px !important;
+
+  }
+
+  .inner-tabs span {
+    font-size: 14px !important;
+  }
+
+  .left-menu ul li {
+    padding: 6px !important;
+    margin-bottom: 2px !important;
+
+  }
+
+
+  .right-content {
+    padding: 10px !important;
+  }
+
+  .edit-head {
+    font-size: 14px !important;
+  }
+
+  .section-setting {
+    padding: 0 !important;
+  }
+
+  .textss img {
+    width: 40% !important;
+  }
+
+  .dur_time {
+    font-size: 13px !important;
+  }
+
+  .my-100 {
+    margin-top: 75px !important;
+  }
+
+
+  .main-sec-top {
+    margin-top: 14% !important;
+  }
+
+  // .mySlides{
+  //   border-radius: 6px !important;
+  // }
+  .card-slider-header1 {
+    padding: 100px 0px 0px 15px !important;
+    // position: relative;
+    // top: -10px;
+  }
+
+
+  .mute-unmute {
+    display: none !important;
+  }
+
+  .mute-unmute-mobile {
+    display: block !important;
+    position: absolute !important;
+    bottom: 10% !important;
+    right: 9% !important;
+    z-index: 99 !important;
+  }
+
+
+  #col-right {
+    margin-top: 20px;
+  }
+
+  #waterMarkLs img {
+    width: 40% !important;
+  }
+
+  #waterMark img {
+    width: 40% !important;
+  }
+
+  .btn-close {
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .continue-btn {
+    font-size: 12px !important;
+  }
+
+  .font-continue {
+    font-size: 14px !important;
+  }
+
+  .watchlist-btn {
+    font-size: 12px !important;
+  }
+
+  .masti-mute {
+    display: none !important;
+  }
+
+  .heading-delete {
     font-size: 16px !important;
   }
-  .ott-slick-carousel .slick-prev {
-    top: 50% !important;
-    left: 3% !important;
-            height: 26px !important;
-        width: 26px !important;
+
+  #searchDiv h3 {
+    font-size: 14px !important;
   }
 
-  .ott-slick-carousel .slick-next {
-    top: 50% !important;
-    right: 2% !important;
-            height: 26px !important;
-        width: 26px !important;
+  .autoplay-mastii img {
+    width: 30px !important;
   }
 
+  .choose-head {
+    font-size: 18px !important;
+  }
 
+  .detail-head-arrow-footer {
+    position: absolute !important;
+    left: 5px !important;
+    top: 9% !important;
+  }
 
-  // .ott-slick-carousel .slick-prev {
-  //   top: 50% !important;
+  .list label span {
+    font-size: 16px !important;
+  }
+
+  .dots-pack {
+    bottom: 15px !important;
+  }
+
+  .profile {
+    padding: 0 !important;
+  }
+
+  .profile-sec {
+    margin-top: 60px !important;
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+    margin-bottom: 100px !important;
+  }
+
+  body h1,
+  h2,
+  h3 {
+    font-size: 16px !important;
+  }
+
+  // .corporate {
+  //   margin-top: 90px !important;
   // }
 
-  // .ott-slick-carousel .slick-next {
-  //   top: 50% !important;
-  // }
+  .subscr {
+    display: none !important;
+  }
 
+  .slick-track {
+    margin-left: unset !important;
+  }
 
-  .icon_player {
-    bottom: 11.5% !important;
-    right: 6% !important;
+  .see {
+    // display: none !important;
+    font-size: 12px !important;
   }
 
 
-  .create_pwd_err {
-    line-height: 10px !important;
-    font-size: 10px !important;
-  } 
-  .rental_head h6 {
-    text-align: center !important;
-    font-size: 13px !important;
-    align-items: start !important;
+  .see1 {
+    font-size: 12px !important;
   }
 
-  .playlist-list {
-    height: calc(100vh - 640px) !important;
-    margin-top: 10px !important;
+
+  .nav_sign {
+    display: none !important;
   }
 
-  .mbl {
-    width: auto !important;
+  .navicon img {
+    display: none !important;
   }
 
-  //  .detail-playlist li{
-  //   display: flex;
-  //   justify-content: flex-end;
-  //  }
-
-  .optionsAddPlaylist ul li button img {
-    position: relative;
+  .height-nav {
+    display: none !important;
   }
 
-  //  .fa-clock-o:before {
-  // position: relative;
-  // left: -5px;
-  //  }
-
-  // .menuItem_temp {
-  //   font-size: 13px !important;
-
-  // }
+  .mobile-nav-sub {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px;
+  }
 
   .sec-top-list {
     margin-top: 60px !important;
@@ -83,39 +263,60 @@
     margin-bottom: 100px !important;
   }
 
-  .grad-bttm {
-    display: none;
+  .sec-top-payment {
+    margin-top: 60px !important;
+    margin-right: 15px !important;
+    margin-left: 15px !important;
+    margin-bottom: 50px !important;
   }
 
 
+
   .ok-btn button {
-    font-size: 14px !important;
-    padding: 7px !important;
+    font-size: 16px !important;
+    padding: 7px 0px !important;
     line-height: 24px !important;
   }
 
 
   .ott-slick-carousel {
     .slick-dots {
-      bottom: 10% !important;
+      bottom: -8% !important;
     }
   }
 
- 
+  .icon_player {
+    bottom: 8.5% !important;
+    right: 6% !important;
+  }
 
   .card-slider-header:nth-child(2) {
     position: unset !important;
     z-index: unset !important;
-    margin-top: unset !important;
+    // margin-top: unset !important;
+    margin-top: unset;
+
   }
 
-  .alt-btn-red {
-    margin-top: 15px !important;
+  .theme-btn {
+    margin-top: 10px !important;
   }
 
-  .web-social-login {
-    gap: 4px;
+
+  .theme-btn-1 {
+    font-size: 14px;
+    font-weight: 500 !important;
   }
+
+  .theme-btn-2 {
+    font-size: 14px;
+    font-weight: 500 !important;
+  }
+
+
+  // .web-social-login{
+  //   gap: 4px;
+  // }
 
   .left-shdw {
     display: none;
@@ -135,14 +336,13 @@
     border-radius: 6px !important;
   }
 
-  .free_aol {
-    width: 20px !important;
-  }
+  // .free_aol {
+  //   width: 20px !important;
+  // }
 
-  .free_aol-icon {
-    width: 25px !important;
-    height: 16px !important;
-  }
+  // .free_aol-icon {
+  //   width: 25px !important;
+  // }
 
   .filterCLoseButton {
     top: 0 !important;
@@ -150,6 +350,8 @@
 
   .otpResend button {
     font-size: 14px !important;
+    color: #fff;
+    margin-right: 12px;
   }
 
   .addedlist_aol {
@@ -158,7 +360,7 @@
   }
 
   .arrow-right img {
-    width: 35px !important;
+    width: 30px !important;
   }
 
   .aol-mob-num {
@@ -176,12 +378,10 @@
 
   .music_art {
     width: 20px !important;
-    height: 20px !important;
   }
 
   .aol_crown {
     width: 22px !important;
-      height: 20px !important;
   }
 
 
@@ -230,13 +430,14 @@
     text-align: justify;
   }
 
-  .back-pg {
-    padding: 10px !important;
-  }
+  // .back-pg {
+  //   padding: 10px !important;
+  // }
 
   .headd {
-    font-size: 16px !important;
+    font-size: 18px !important;
     line-height: 25px !important;
+    margin-top: 10px;
   }
 
   .sec-top1 {
@@ -290,6 +491,8 @@
 
   p {
     overflow-wrap: anywhere !important;
+    // margin-top: 10px;
+    margin-bottom: 0 !important;
   }
 
   .ott-slick-carousel .cardvideo {
@@ -323,8 +526,8 @@
 
   .details-wrapper li {
     font-size: 11px !important;
-    font-family: "GothamMedium" !important;
-    margin-right: 0.5em;
+    font-family: var(--theme-font-style) !important;
+    // margin-right: 0.5em;
   }
 
   .details-wrapper {
@@ -332,9 +535,20 @@
   }
 
   .card-slider-header {
-    padding: 0 15px !important;
+    padding: 0 10px !important;
     position: relative;
-    top: -10px;
+    // margin-bottom: 5px !important;
+    // top: -10px;
+    margin-bottom: 5px;
+
+  }
+
+  .Binge_verticall h1 {
+    padding: 0 10px !important;
+    position: relative;
+    // margin-bottom: 5px !important;
+    // top: -10px;
+    margin-bottom: 5px;
   }
 
   .icons img {
@@ -345,14 +559,26 @@
   }
 
   .viewAllArrow {
-    width: 6px;
+    display: block !important;
+    width: 9px;
     color: #b4b4b4;
     position: relative;
-    left: -9px;
-    top: -1px;
+    // left: -9px;
+    // top: -1px;
   }
 
   .card-slider-header h1 {
+    padding-left: 0px;
+    width: 55%;
+    line-height: 12px;
+    line-height: 25px !important;
+    position: relative;
+    // left: 10px;
+    top: 10px;
+    font-size: 15px !important;
+  }
+
+  .card-slider-header1 h1 {
     padding-left: 0px;
     width: 55%;
     line-height: 12px;
@@ -371,7 +597,7 @@
     padding-left: 22px;
     position: fixed;
     z-index: 1000;
-    background: #100E22;
+    background: #000;
     width: 100%;
     top: 0;
     bottom: 0;
@@ -447,7 +673,8 @@
 
   .popularSearch a {
     font-size: 14px !important;
-    text-transform: lowercase;
+    text-transform: capitalize;
+    font-weight: 900;
   }
 
   .popular-search::first-letter {
@@ -474,7 +701,7 @@
   // }
 
   // h1 {
-  //   font-family: "GothamBook" !important;
+  //   font-family: var(--theme-font-style) !important;
   //   font-size: 16px !important;
   // }
 
@@ -484,13 +711,9 @@
     margin-right: 15px !important;
   }
 
-  // .arrow-right img {
-  //   margin-right: 10px !important;
-  // }
 
-  // .header div {
-  //     display: block !important;
-  // }
+
+
   .search-Input {
     width: 100% !important;
     // height: 30px !important;
@@ -551,7 +774,7 @@
 
   .icons {
     position: absolute !important;
-    top: 87% !important;
+    top: 80% !important;
   }
 
   .slick-card-carousel {
@@ -580,13 +803,13 @@
   //   width: 24px;
   // }
 
-  .crown {
-    position: absolute;
-    left: 4px !important;
-    top: 4px !important;
-    width: 21px !important;
-    height: 21px !important;
-  }
+  // .crown {
+  //   position: absolute;
+  //   left: 4px !important;
+  //   top: 4px !important;
+  //   width: 21px !important;
+  //   height: 21px !important;
+  // }
 
   // .binge-card-carousel .free-icon {
   //   top: 3px !important;
@@ -598,27 +821,30 @@
   //   left: 10px !important;
   // }
 
-  .free-icon {
-    position: absolute;
-    top: 4px !important;
-    left: 0px !important;
+  // .free-icon {
+  //   position: absolute;
+  //   top: 4px !important;
+  //   left: -4px !important;
+  // }
+
+  .all-slider {
+    border-radius: 4px !important;
   }
 
 
+  // .free-icon img {
+  //   width: 35px;
+  // }
 
-  .free-icon img {
-    width: 35px;
-  }
+  // .free-icon2 {
+  //   position: absolute;
+  //   left: 0;
+  //   top: 5px !important;
+  // }
 
-  .free-icon2 {
-    position: absolute;
-    left: 0;
-    top: 5px !important;
-  }
-
-  .free-icon2 img {
-    width: 30px;
-  }
+  // .free-icon2 img {
+  //   width: 30px;
+  // }
 
   .nvc-btn {
     display: none;
@@ -693,26 +919,6 @@
     position: relative;
     left: -13px;
   }
-
-  // .lock {
-  //   top: 150px !important;
-  // }
-
-  .adulttHeading .close-btn {
-    position: absolute !important;
-    top: -58px !important;
-    right: 110px !important;
-  }
-
-  // .parental-control-content .img-logo {
-  //   position: absolute !important;
-  //   // top: -46px !important;
-  //   left: 0;
-  //   margin: auto;
-  //   text-align: center;
-  //   right: 0 !important;
-  //   width: unset !important;
-  // }
 
   .adulttHeading {
     font-size: 14px !important;
@@ -827,7 +1033,7 @@
   .profile label,
   .profile p {
     color: #b4b4b4;
-    font-size: 13px !important;
+    font-size: 14px !important;
   }
 
   .my-parent-class {
@@ -875,10 +1081,10 @@
     color: #ff8787 !important;
   }
 
-  .otp-input {
-    width: 20% !important;
-    height: 74px !important;
-  }
+  // .otp-input {
+  //   width: 20% !important;
+  //   height: 74px !important;
+  // }
 
   .profile #verify {
     z-index: 9;
@@ -897,7 +1103,13 @@
   }
 
   .text-value {
-    font-size: 12px !important;
+    font-size: 13px !important;
+    font-weight: 500;
+  }
+
+  .with-toggle {
+    font-size: 13px !important;
+    font-weight: 500;
   }
 
 
@@ -943,7 +1155,7 @@
 
   .popularSearch {
     gap: 0px !important;
-    margin-top: 20px !important;
+    margin-top: 6px !important;
 
   }
 
@@ -961,8 +1173,7 @@
 
 
   .section-deleteAccount {
-    padding-left: 15px !important;
-    padding-right: 15px !important;
+    padding: 0 !important;
   }
 
   .captcha {
@@ -1048,13 +1259,8 @@
     width: 50px;
   }
 
-  .corporate {
-    margin-top: 60px !important;
-  }
 
-  .my-100 {
-    margin-top: unset !important;
-  }
+
 
   .faq-mar {
     margin-bottom: unset !important;
@@ -1073,53 +1279,57 @@
   //   padding: 0px !important;
   // }
 
-  .crossImg .close-btn {
-    position: absolute;
-    top: 10px !important;
-  }
 
   .Search-Input {
     position: relative;
     width: 100%;
     // height: 45px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     opacity: 1;
-    background: #DEDEDE 0% 0% no-repeat padding-box;
+    background-color: var(--search-bar-bgColor);
     border: none;
     border-radius: 4px;
     padding-left: 40px;
-    caret-color: black !important;
+    caret-color: #fff !important;
     padding-right: 75px;
+    color: #fff;
   }
 
   .ser-icon {
     position: absolute;
     z-index: 2;
-    top: 10px;
+    top: 46%;
     padding-left: 7px;
-
+    bottom: 0;
+    transform: translateY(-50%);
   }
 
-  .mic-mobile-icon {
-    z-index: 999;
-    position: absolute;
-    right: 54px;
-    width: 28px;
-    top: 10px;
+
+  .mat-form-field-infix {
+    padding: 0.5em 0;
+    border-top: unset !important;
   }
 
-  .mic-mobile-icon-1 {
-    z-index: 999;
-    position: absolute;
-    right: 20px;
-    width: 28px;
-    top: 10px;
-  }
+  // .mic-mobile-icon {
+  //   z-index: 999;
+  //   position: absolute;
+  //   right: 54px;
+  //   width: 28px;
+  //   top: 10px;
+  // }
+
+  // .mic-mobile-icon-1 {
+  //   z-index: 999;
+  //   position: absolute;
+  //   right: 20px;
+  //   width: 28px;
+  //   top: 10px;
+  // }
 
   .srch-icn {
-    width: 21px;
-    margin-right: 10px;
+    // width: 21px;
+    // margin-right: 10px;
 
 
     .query-mdl .mat-dialog-container {
@@ -1187,11 +1397,13 @@
   }
 
   .privacy-container {
+    width: 100% !important;
+    padding: 0px 20px;
     margin-top: 75px !important;
   }
 
   .verify_submit {
-    width: 60% !important;
+    width: 100% !important;
     margin-top: 10px;
   }
 
@@ -1248,10 +1460,10 @@
   }
 
 
-  .crown2 {
-    width: 21px !important;
-    height: 21px !important;
-  }
+  // .crown2 {
+  //   width: 21px !important;
+  //   height: 21px !important;
+  // }
 
   .age-btnn {
     display: none !important;
@@ -1304,6 +1516,7 @@
     list-style: none;
     padding: 0;
     gap: 10px;
+    margin-top: 20px;
   }
 
   .img-mar {
@@ -1312,7 +1525,7 @@
 
   .icon-flex {
 
-    gap: 0px !important;
+    gap: 10px !important;
 
   }
 
@@ -1331,31 +1544,30 @@
 
   .error-login-3 {
     font-size: 12px !important;
-    // font-size: 10px !important;
-    margin-top: 3px !important;
-  }
-
-  .error-code {
-    font-size: 9px !important;
-    margin-top: 3px !important;
-  }
-
-  .error-login-1 {
     margin-top: 6px !important;
-    // bottom: -3px !important;
   }
 
+  .mat-error div div {
+    font-size: 12px !important;
+    margin-top: 6px !important;
+    line-height: 10px !important;
+  }
+
+
+  // .error-login-1 {
+  //   margin-top: 6px !important;
+  //   // bottom: -3px !important;
+  // }
   .error-login-2 {
     margin-top: 6px !important;
     // bottom: -3px !important;
   }
 
   .error-login-aol {
-    font-size: 11px !important;
     margin-top: 7px !important;
   }
 
-  .country-code-section {
+  .country-code-section{
     padding: 10px !important;
     // margin-bottom: 20px !important;
   }
@@ -1371,36 +1583,91 @@
   height: 360px !important;
 }
 
+.profile-pic {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 8px;
+
+}
+
 @media only screen and (max-width: 572px) {
-
-
-  .ott-slick-carousel .slick-prev {
-    top: 50% !important;
-    left: 6% !important;
+  .btnn-edit {
+    padding: 6px 0px !important;
+    position: unset !important;
   }
 
-  .ott-slick-carousel .slick-next {
-    top: 50% !important;
-    right: 2% !important;
+  .menuItem {
+    line-height: 32px !important;
+    font-size: 13px !important;
+  }
+
+  .menuItem_temp{
+    line-height: 32px !important;
+    font-size: 13px !important;
+  }
+
+  .account-wrapper {
+    flex-direction: column !important;
+  }
+
+  .profile #verify {
+    padding: 0px 4px !important;
+    font-family: var(--theme-font-style) !important;
+    font-size: 12px !important;
+  }
+
+
+  .emailLink {
+    font-size: 11px !important;
+  }
+
+
+  .left-menu {
+    width: 100% !important;
+    height: unset !important;
+    flex: none !important;
+
+  }
+
+  .left-menu ul li {
+    padding: 6px !important;
+    margin-bottom: 12px !important;
+    border-left: none !important;
+
+    white-space: nowrap;
   }
 
 
 
-  .icon_player {
-    bottom: 22.5% !important;
-    right: 8% !important;
-  }  
+  .left-menu ul li:hover,
+  .left-menu ul li.active {
+    // background: #1d1d1d;
+    border-bottom: 2px solid var(--theme-secondary-color) !important;
+    border-left: 0;
 
+  }
+
+  .ok-btn button {
+    font-size: 14px !important;
+  }
+
+  .sub-details {
+    gap: 7px;
+  }
+
+  .sub-details li {
+    font-size: 11px;
+  }
+
+  .card-slider-header1 {
+    padding: 60px 0px 0px 15px !important;
+    // position: relative;
+    // top: -10px;
+  }
 
   .sub-container {
-    padding: 10px !important;
-    min-height: 75vh !important;
-  }
-
-  .ott-slick-carousel {
-    .slick-dots {
-      bottom: 15% !important;
-    }
+    // padding: 10px !important;
+    min-height: 43vh !important;
   }
 
   .aol-lang-rel {
@@ -1413,19 +1680,18 @@
 
   .create_pwd_err {
 
-    line-height: 8px !important;
-    font-size: 9px !important;
+    line-height: 12px !important;
+    font-size: 12px !important;
 
   }
 
   #myText {
-    padding: 10px 40px 10px 10px !important;
+    padding: 10px 35px 10px 10px !important;
     // margin-bottom: 20px !important;
   }
 
   .main-div-aol {
-    // margin-bottom: 20px !important;
-    // margin-bottom: 30px !important;
+    margin-bottom: 20px !important;
   }
 
 
@@ -1448,7 +1714,7 @@
 
   .timer {
     width: 90%;
-    font-size: 18px !important;
+    font-size: 21px !important;
     text-align: center;
   }
 
@@ -1468,32 +1734,33 @@
   }
 
   .back-pg {
-    padding: 0px !important;
+    padding: 0px 0px 20px 0px !important;
+
   }
 
   .icons {
     position: absolute !important;
-    top: 75% !important;
+    top: 70% !important;
   }
 
-  .country-code-section {
-    float: right;
-    font-size: 16px;
-    padding: 10px !important;
-    margin-bottom: 30px !important;
-    // margin-right: 10px;
-  }
+  // .country-code-section {
+  //   float: right;
+  //   font-size: 16px;
+  //   padding: 10px !important;
+  //   margin-bottom: 20px !important;
+  //   // margin-right: 10px;
+  // }
 
   .close-btn img {
     width: 25px;
   }
 
-  .otp-input {
-    width: 20% !important;
-    height: 52px !important;
-    color: #fff !important;
-    font-size: 19px !important;
-  }
+  // .otp-input {
+  //   width: 20% !important;
+  //   height: 52px !important;
+  //   color: #fff !important;
+  //   font-size: 19px !important;
+  // }
 
   .poster-wrapper img {
     top: 20% !important;
@@ -1592,10 +1859,6 @@
 
   }
 
-  .crossImg .close-btn {
-    top: 0px !important;
-  }
-
   .subscontain {
     justify-content: unset !important;
     gap: 4px !important;
@@ -1612,6 +1875,11 @@
 
   .my-parent-class {
     min-width: 265px !important;
+  }
+
+  #waterMarkFeels {
+    right: 0 !important;
+    left: unset !important;
   }
 
 
@@ -1635,7 +1903,7 @@
   .content {
     color: #B4B4B4;
     font-size: 16px !important;
-    font-family: GothamHTF-Bold !important;
+    font-family: var(--theme-font-style) !important;
   }
 
   .content .icon-font {
@@ -1652,9 +1920,6 @@
     margin-top: 12px;
   }
 
-  .crossImg .close-btn {
-    right: 8px !important;
-  }
 
   //    .alt-login-img img  {
   //     width: 20% !important;
@@ -1721,18 +1986,19 @@
   .text-title,
   .text-restrict {
     font-size: 13px !important;
+    font-weight: 500;
   }
 
-  .country-code {
-    left: -22px !important;
-  }
+  // .country-code {
+  //   left: -22px !important;
+  // }
 
   // .dropdown-toggle{
   //    width: 70px !important;
   // }
   .error-login-1 {
-    font-size: 11px !important;
-    margin-top: 6px !important;
+    font-size: 10px !important;
+    // margin-top: 6px !important;
   }
 
   .error-login-2 {
@@ -1741,14 +2007,10 @@
   }
 
   .error-login-3 {
-    font-size: 8px !important;
-    // margin-top: 3px !important;
+    font-size: 10px !important;
+    margin-top: 6px !important;
   }
 
-  .error-code {
-    font-size: 8px !important;
-    margin-top: 3px !important;
-  }
 
   .error-login-aol {
     font-size: 11px !important;
@@ -1764,6 +2026,11 @@
   .ng-otp-input-wrapper .otp-input:not(:last-child) {
     margin-right: 12px !important;
   }
+
+  .ng-otp-input-wrapper .otp-input {
+    width: 35px !important;
+  }
+
 
   .register-btn button {
     padding: 10px 30px !important;
@@ -1796,6 +2063,8 @@
   .added-btnn {
     padding: 6px;
     border-radius: 6px;
+    font-size: 14px !important;
+    gap: 6px !important;
   }
 
   .added-btnn img {
@@ -1803,41 +2072,52 @@
   }
 
   .wat-btnn {
-    font-size: 14px;
+    font-size: 14px !important;
     padding: 6px !important;
     gap: 6px !important;
     border-radius: 6px;
   }
 
-  .wat-btnn img {
-    width: 23px !important;
-  }
+  // .wat-btnn img {
+  //   width: 23px !important;
+  // }
 
   .text-btnn {
     font-size: 14px !important;
   }
 
-  // .vol-hide {
-  //   display: none;
-  // }
+  .vol-hide {
+    display: none;
+  }
 
   .error-login-2 {
     font-size: 10px !important;
   }
 
-  .playlist-list {
-    height: calc(100vh - 490px) !important;
-    margin-top: 10px !important;
+  .mat-error div div {
+    font-size: 10px !important;
+    line-height: 10px !important;
   }
+
 
 }
 
 @media screen and (max-width:375px) {
+  .ok-btn button {
+    padding: 6px 0px !important;
+    line-height: 20px !important;
+    font-size: 13px !important;
+  }
 
 
-  .create_pwd_err {
-    line-height: 8px !important;
-    font-size: 8px !important;
+  .profile #verify {
+    padding: 0px 4px !important;
+    font-family: var(--theme-font-style) !important;
+    font-size: 11px !important;
+  }
+
+  .added-btnn {
+    font-size: 11px !important;
   }
 
   .error-login-2 {
@@ -1846,18 +2126,15 @@
 
   .error-login-3 {
     font-size: 9px !important;
-    line-height: 11px !important;
+    line-height: 10px !important;
   }
 
-  .error-code {
-    font-size: 8px !important;
-    margin-top: 3px !important;
-    line-height: 9px !important;
+  .mat-error div div {
+    font-size: 9px !important;
+    line-height: 10px !important;
   }
 
-  .edit-btn-3{
-    padding: 5px 22px !important;
-  }
+
 
 
   .download a img {
@@ -1866,25 +2143,25 @@
   }
 
   .download a {
-    font-size: 10px;
+    font-size: 14px;
   }
 
   .download {
     padding: 5px 10px !important;
   }
 
-  .dropdown-toggle {
-    width: 60px !important;
-  }
+  // .dropdown-toggle {
+  //   width: 60px !important;
+  // }
 
   .btn-two-2 {
-    padding: 5px !important;
-    font-size: 10px !important;
+    padding: 10px !important;
+    font-size: 14px !important;
   }
 
   .btn-one-1 {
-    padding: 5px !important;
-    font-size: 10px !important;
+    padding: 10px !important;
+    font-size: 14px !important;
   }
 
   // #myText {
@@ -1895,15 +2172,15 @@
   // .input-font-alt {
   //   font-size: 11px;
   // }
-  .country-code-section {
-    padding: 10px !important;
-    font-size: 16px;
-    margin-bottom: 30px !important;
-  }
+  // .country-code-section {
+  //   padding: 10px !important;
+  //   font-size: 16px;
+  //   margin-bottom: 20px !important;
+  // }
 
   .error-login-1 {
     font-size: 10px !important;
-    margin-top: 6px !important;
+    // margin-top: 6px !important;
   }
 
   .error-login-2 {
@@ -1920,9 +2197,9 @@
     font-size: 14px !important;
   }
 
-  .dropdown-toggle:before {
-    margin-right: 25px !important;
-  }
+  // .dropdown-toggle:before {
+  //   margin-right: 25px !important;
+  // }
 
   .showBtn {
     top: 8px !important;
@@ -1937,100 +2214,8 @@
     top: 8px !important;
   }
 
-  .playlist-list {
-    height: calc(100vh - 455px) !important;
-    margin-top: 10px !important;
-  }
 
 
 
-
-
-
-
-
-}
-
-
-@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
-
-  .searchField input {
-    padding-left: 6% !important;
-  }
-
-  .icon-crown,
-  .icons_art1 {
-    top: 4% !important;
-    left: 6% !important;
-  }
-
-  .icons_art {
-    top: 4% !important;
-    right: 6% !important;
-  }
-
-  .aol_crown,
-  .music_art {
-    width: 30px !important;
-  }
-
-  .free_aol-icon {
-    width: 40px !important;
-  }
-
-  .btn-close {
-    top: 6px !important;
-  }
-
-  .play_cont {
-    width: 42px !important;
-  }
-
-
-  .menuItem {
-    font-size: 15px !important;
-  }
-
-  .card-title-1 {
-    line-height: 26px !important;
-  }
-
-  .stepper-line {
-
-    width: 55% !important;
-
-  }
-
-
-  .back-pg {
-    padding: 0 !important;
-  }
-
-  .arrow-back{
-    // display: none !important;
-    position: unset !important;
-    width: 30px !important;
-  }
-
-  /* Your CSS rules here */
-}
-
-
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1366px) 
-and (orientation : landscape) {
-
-  .player-slick-carousel .slick-next{
-    display: none !important;
-  }
-
-  .player-slick-carousel .slick-prev{
-    display: none !important;
-  }
-
-  .arrow-back{
-    left: 10px !important;
-  }
 
 }

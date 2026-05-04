@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, APP_INITIALIZER } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule, Title, Meta } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,45 +18,23 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { DatePipe } from '@angular/common';
 import { HttpCacheService } from './services/cache.service';
 import { CacheInterceptor } from './services/interceptor/cache.interceptor';
-import { NgCacheRouteReuseModule } from 'ng-cache-route-reuse';
-import { AudioPlayerModule } from './shared/audio-player/audio-player.module';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { ContentLoaderComponent } from './content-loader/content-loader.component';
-import * as firebase from 'firebase';
-import { PackageStackingComponent } from './shared/dialogBoxes/package-stacking/package-stacking.component';
-import { EventStatusDialogComponent } from './shared/dialogBoxes/event-status-dialog/event-status-dialog.component'
+import { GatewayloaderComponent } from './shared/gatewayservice/gatewayloader/gatewayloader.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NgOtpInputModule } from 'ng-otp-input';
-import { TranslatePipe14 } from './services/pipes/translate.pipe';
+import { CountryRestrictionComponent } from './shared/dialogBoxes/country-restriction/country-restriction.component';
+import { ConfigService } from './services/config.service';
 
-// import { TranslatePipe } from './services/pipes/translate.pipe';
-import { AppVersionService } from './services/app-version.service';
-import { TeachersComponent } from './shared/teachers/teachers.component';
-
-const config: SocketIoConfig = { url: 'https://aolsocket.multitvsolution.com/', options: {} };
-firebase.initializeApp(environment.firebaseConfig)
-export function initApp(appVersionService: AppVersionService) {
-  return () => appVersionService.loadVersion();
+export function initializeApp(configService: ConfigService): () => Promise<void> {
+  return () => configService.loadConfig();
 }
 @NgModule({
   declarations: [
     AppComponent,
     LoaderComponent,
-    ContentLoaderComponent,
-    PackageStackingComponent,
-    EventStatusDialogComponent,
-    // TranslatePipe,
-    TranslatePipe14,
-    TeachersComponent
-  
- 
-
-
+    GatewayloaderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatDialogModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -66,11 +44,7 @@ export function initApp(appVersionService: AppVersionService) {
     MatIconModule,
     MatProgressSpinnerModule,
     NgxSpinnerModule,
-    NgOtpInputModule,
-    NgCacheRouteReuseModule,
-    AudioPlayerModule,
-
-    SocketIoModule.forRoot(config)
+    MatDialogModule,
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -78,27 +52,29 @@ export function initApp(appVersionService: AppVersionService) {
     Title,
     Meta,
     DatePipe,
+    ConfigService,
     {
       provide: APP_INITIALIZER,
-      useFactory: initApp,
-      deps: [AppVersionService],
-      multi: true
+      useFactory: initializeApp,
+      deps: [ConfigService],
+      multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ReqInterceptor,
       multi: true
     },
+    { provide: ErrorHandler, useClass: ErrorHandler },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
     },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: CacheInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
+      multi: true
+    },
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
@@ -107,17 +83,20 @@ export function initApp(appVersionService: AppVersionService) {
 
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('1020772963820-fg7d6d5ec3424bjk52slae8l20n2r68c.apps.googleusercontent.com'),
+            // provider: new GoogleLoginProvider('447522731426-r44vop3asks8kg5ohkoff4vg10aknmt2.apps.googleusercontent.com'),
+            provider: new GoogleLoginProvider('200062459341-v1hkpqq40q3ie1g3k7g6qir8sdc79tfm.apps.googleusercontent.com'),
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
+            scope: 'public_profile,email,ads_read',
             // provider: new FacebookLoginProvider('2407604909394715')
-            provider: new FacebookLoginProvider('722755254863033')
+            provider: new FacebookLoginProvider('761925523141047')
 
           },
         ],
         onError: (err) => {
-          console.error(err);
+          console.log(err);
+
         }
       } as SocialAuthServiceConfig,
     },
@@ -127,7 +106,7 @@ export function initApp(appVersionService: AppVersionService) {
         siteKey: environment.recaptcha.siteKey,
       } as RecaptchaSettings,
     },
-    // HttpCacheService
+    HttpCacheService
   ],
 
   bootstrap: [AppComponent],

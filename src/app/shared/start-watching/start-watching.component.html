@@ -1,33 +1,112 @@
-
-
-<div class="payment-ends">
-    <div class="pay-head">
-        {{'Congratulations_succesfully_subscribed'|translate}} <span>{{mainData[0]?.title}}</span>.
+<!-- <div class="section-startWatching" *ngIf="!show">
+    <div class="subcribed-content">
+        <div style="text-align: center;">
+            <img src="assets/svgs/subcribed.svg" alt="vive">
+            <p class="woo">WOO HOO</p>
+        </div>
+        <p class="subcribed">
+            YOU’RE SUBSCRIBED.
+        </p>
+        <p class="binge">
+            Let's Binge It On!
+        </p>
+        <p class="subcribed-btn">
+           <button (click)="goBack()">Continue Watching</button>
+        </p>
     </div>
-    <div class="pay_head_1">
-        {{'plan_is_valid_until'|translate}} <span>{{mainData[0]?.subscription_end}}</span>.
+    
+</div>
+<div class="section-startWatch" *ngIf="show">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="subcribed-content">
+            <div style="text-align: center;">
+                <img src="assets/svgs/subcribed.svg" alt="vive">
+                <p class="woo">WOO HOO</p>
+            </div>
+            <p class="subcribed">
+                YOU’RE SUBSCRIBED.
+            </p>
+            <p class="binge">
+                Let's Binge It On!
+            </p>
+            <p class="watchnow-btn">
+               <button (click)="goBack2()">Watch Now!</button>
+            </p>
+        </div>
+        <div class="chack_Button">
+            <p style="color: #9B9B9B;font-size: 14px;">To Check Your Transaction Details, <a routerLink="/my-subscription" style="color: white;text-decoration: underline;"> Click Here!</a></p>
+        </div>
+      </div>
+      <hr>
+      <div class="col-lg-6  scrollable"  >
+        <div class="recomm-disp"><p class="recomm-text">Recommended Shows For You</p></div>
+        <div fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start" class="img_column">
+            <div class="alt-brr-10 alt-p-3 cards"  fxFlex="25%" fxFlex.xs="33.30%" fxFlex.sm="33.30%" fxFlex.md="20%" 
+                *ngFor="let card of contentData " style="cursor: pointer;text-align: center" (click)="navigate(card)">
+             
+                <img [src]="card.sliderImg" [ngStyle]="{'border-radius':'8px','height':'90%','width':'90%'}"
+                     (error)="onImgError($event)" alt="Allt">
+            </div>
+        </div>
+      </div>
+    
     </div>
-    <table class="table_aol">
-        <tr class="tab_head">
-            <th>{{'Subscription_Pack'|translate}}</th>
-            <th>{{'order_id'|translate}}</th>
-            <th>{{'Paymen_Mode'|translate}}</th>
-            <th>{{'Purchase_Date'|translate}}</th>
-            <th>{{'expiry_date'|translate}}</th>
-            <th>{{'Payment_Status'|translate}}</th>
-            <th>{{'Payment Receipt'|translate}}</th>
-        </tr>
-        <tr class="tab_sub_head">
-            <td>{{mainData[0]?.title}}</td>    
-            <td>{{mainData[0]?.order_id}}</td>
-            <td>{{mainData[0]?.gateway}}</td>
-            <td>{{mainData[0]?.subscription_start}}</td>
-            <td>{{mainData[0]?.subscription_end}}</td>
-            <td><div *ngIf="mainData[0]?.status==7" id="expired">{{'expired'|translate}}</div><div *ngIf="mainData[0]?.status==2" id="active">{{'Active'|translate}}</div></td>
-            <td><button *ngIf="mainData[0]?.package_id != '1' && mainData[0]?.package_id != '12' && mainData[0]?.package_id != '13' && mainData[0]?.package_id != '15'" class="invoice_download"><a [href]="mainData[0]['invoice_url']" download><img src="assets/img/download-02.svg" alt="" style="margin-right: 6px; width: 20px;">{{'download_video_str'|translate}} </a></button></td>
-        </tr>
-    </table>
+    
+</div> -->
+
+<div class="bg-p p-4">
+    <div class="start-main-head">
+        <div class="start-head">
+            <img src="assets/icons/success.png" alt="" class="vive-img">
+        </div>
+        <div class="start-title">
+            Payment Successful
+        </div>
+        <div class="start-data">
+            <table>
+                <tr>
+                    <td class="datas">Total Amount paid
+                    </td>
+                    <td *ngIf="mainData?.discounted_price == 0.00 || mainData == ' ' ">{{this.mainData?.currency}}
+                        {{this.mainData?.price}}</td>
+                    <td *ngIf="mainData?.discounted_price != 0.00 && mainData?.discounted_price != ' ' "><span
+                            class="discountType">{{mainData?.currency + " " + this.mainData?.price}}</span><span>
+                            {{mainData?.currency + " " + mainData?.discounted_price}}</span></td>
+                </tr>
+                <tr>
+                    <td class="datas">Order Id
+                    </td>
+                    <td>{{this.mainData?.order_id}}</td>
+                </tr>
+                <!-- <tr>
+                    <td>Start Date</td>
+                    <td>{{this.mainData}}</td>
+                </tr> -->
+                <tr>
+                    <td class="datas">Current Plan
+                    </td>
+                    <td>{{this.mainData?.title}}</td>
+                </tr>
+                <tr>
+                    <td class="datas">Start Date
+                    </td>
+                    <td>{{this.mainData?.start_date}}</td>
+                </tr>
+                <tr>
+                    <td class="datas">End Date
+                    </td>
+                    <td>{{this.mainData?.end_date}}</td>
+                </tr>
 
 
-
+            </table>
+            <div class="start-btn">
+                <button (click)="goBack2()">Continue watching</button>
+                <a [href]="this.mainData?.invoice_url" download=""><button class="start-download"><img
+                            src="assets/img/download-02.svg" alt="" style="margin-right: 6px;" width="20px">Download
+                        Receipt</button></a>
+            </div>
+        </div>
+    </div>
 </div>

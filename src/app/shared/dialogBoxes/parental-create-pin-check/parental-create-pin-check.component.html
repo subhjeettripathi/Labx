@@ -1,29 +1,49 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
-        <button (click)="close()" class="close-btn">
-            <mat-icon>Close</mat-icon>
-        </button>
-        <br><br>
-        <div *ngIf="!openOtpModal">
+        <span class="img-logo" *ngIf="basesignin.parentalEmailVerify.logo.is_allow == 1">
+            <img src="{{basesignin.parentalEmailVerify.logo.web}}" alt="vive" class="vive-img">
+        </span>
 
-            <span class="regstr-content"> {{'you_don_t_have_registered_mail_id_please_enter_your_new_e_mail_id_and_verify' |translate}} </span>
-                <br>
-                <br>
+        <button (click)="close()" class="close-btn">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </button>
+        <div>
+            <p class="heading" *ngIf="basesignin.parentalEmailVerify.heading.is_allow == 1">
+                {{basesignin.parentalEmailVerify.heading.text}}</p>
+            <p class="email_head" *ngIf="basesignin.parentalEmailVerify.description.is_allow == 1">
+                {{basesignin.parentalEmailVerify.description.text}} {{loginId.email}}
+            </p>
+            <p style="color: #FF8787 !important;" *ngIf="msg">Invalid Password</p>
             <form [formGroup]="otpForm" #otpFormDir="ngForm" (ngSubmit)="submitOtplogin()">
-               
-                <div style="position:relative">
-                    <input (keydown)="onKeydown($event)" type="text" #input1 placeholder="{{basesignin.parentalEmailVerify.email_field.placeholder |translate}}" class="form-control verify-input" formControlName="email">
+
+                <div style="position:relative" *ngIf="basesignin.parentalEmailVerify.email_field.is_allow == 1">
+                    <span (click)="showPassword1(input1)" class="showBtn"><img [hidden]="showpassword1" width="20px"
+                            height="20px" src="{{basesignin.parentalEmailVerify.field_icon.invisible_web}}" alt="vive">
+                        <img width="20px" height="20px" [hidden]="!showpassword1"
+                            src="{{basesignin.parentalEmailVerify.field_icon.visible_web}}" alt="vive">
+                    </span>
+                    <input type="password" #input1
+                        placeholder="{{basesignin.parentalEmailVerify.email_field.placeholder}}" class="" id="myText11"
+                        formControlName="email">
                 </div>
-                <br>
-                <p style="color: red;" *ngIf="emailexsist == true">{{'email_exist' |translate}}</p>
-                <p class="verify_forgot" *ngIf="basesignin.parentalEmailVerify.forgot_password.is_allow == 1" (click)="forgotPassword()">{{basesignin.parentalEmailVerify.forgot_password.text |translate}}</p>
-                <button class="verify_submit">{{'Send_OTP' |translate}}</button>
-             
+                <p class="verify_forgot" *ngIf="basesignin.parentalEmailVerify.forgot_password.is_allow == 1"
+                    (click)="forgotPassword()">{{basesignin.parentalEmailVerify.forgot_password.text}}</p>
+                <button class="verify_submit"
+                    *ngIf="basesignin.parentalEmailVerify.submit_btn.is_allow == 1">{{basesignin.parentalEmailVerify.submit_btn.text}}</button>
             </form>
         </div>
 
-        <ng-container *ngIf="openOtpModal">
-            <app-otp-dialog [email]="email" [type]="'verify'" [typeLogin]="typesLogin"></app-otp-dialog>
-        </ng-container>
+
+
+        <!-- <div class="row">
+                <div class="col-6">
+                    <button type="button"  class="btn-one">Yes</button>
+                </div>
+                <div class="col-6">
+                    <button (click)="close()" type="button" class="btn-one">NO</button>
+                </div>
+            </div> -->
+
+
     </div>
 </div>

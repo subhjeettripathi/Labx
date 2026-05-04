@@ -3,58 +3,44 @@
     <div class="hum-main col-6">
         <div id="kjl">
             <a href="javascript:void(0)" (click)="toggleNavbar()" class="hambergermenu">
-                <img src="assets/svgs/hamburger.svg" alt="AOL" style="width: 22px;height: 19px;" /></a>
-            <img src="assets/svgs/Group.png" alt="AOL" style="width: 90px;height: 34px;" class="alttt-logo"
+                <img src="assets/svgs/hamburger.svg" alt="vive"  style="width: 22px; height:22px;"/></a>
+            <img src="{{baseJson?.header_logo?.logo}}" alt="vive" style="width: 55px; height: 25px;" class="alttt-logo"
                 routerLink="/" />
         </div>
     </div>
 
     <div class="hum-ser1 col-6">
-        <!-- <select name="cars" id="cars" class="goog-te-combo" [(ngModel)]="selected" [ngModelOptions]="{standalone: true}"
-            (change)="changeLang($event)">
-            <option value="" disabled selected hidden>
-                {{'app_language'|translate}}
-            </option>
-            <option [value]="x.code" *ngFor="let x of mains">{{x.language}}</option>
-
-        </select> -->
         <div class="hum-ser">
-            <!-- <div *ngIf="!isOttLoggedIn">
-                <div id="google_translate_element"></div>
-            </div> -->
-            <a>
-                <button *ngIf="!isSubscribed && isOttLoggedIn" class="subscribe" routerLink="/subscribe">{{'subscribe'
-                    |translate}}</button>
-            </a>
-            <a class="t-white t-white-search" mat-button>
-                <mat-icon svgIcon="search" class="search" aria-hidden="false" (click)="searchNavigate()"></mat-icon>
-            </a>
+     
+                <div class="gradient-border" *ngIf="!isSubscribed">
+                    <button *ngIf="!isSubscribed " class="subscribe" routerLink="/subscribe">
+                        <span class="gradient-text">Subscribe</span>
+                    </button>
+                </div>
+
+
+            <img (click)="searchNavigate()" src="assets/icons/Vector.svg" alt="">
+
         </div>
     </div>
 </div>
 <div class="desktop-aol" fxLayout="row" fxShow fxHide.xs="true" fxHide.sm="true">
-    <div class="desktop_aol_nav" fxFlex="10" fxFlex.lg="10" fxFlex.md="10" *ngIf="!isHambergerMenu">
-        <div (click)="gotToHome()">
-            <img *ngIf="baseJson?.header_logo?.is_allow == 1" src="{{baseJson.header_logo.logo}}" alt=""
-                class="logo-aol" style="cursor: pointer;" />
+    <div class="desktop_aol_nav" fxFlex="30" fxFlex.lg="30" fxFlex.md="30" *ngIf="!isHambergerMenu">
+        <div>
+            <img *ngIf="baseJson?.header_logo?.is_allow == 1" src="{{baseJson?.header_logo?.logo}}" alt=""
+                class="logo-aol" style="cursor: pointer;" routerLink="/" />
         </div>
     </div>
-    <div class="menu-aol" fxFlex="60" fxFlex.lg="50" fxFlex.md="50">
+    <div class="menu-aol" fxFlex="40" fxFlex.lg="40" fxFlex.md="50">
         <div class="menu_head" *ngIf="!isHambergerMenu">
             <div class="nav-alt">
                 <div *ngFor="let menu of navbarItems; let i = index">
-                    <a *ngIf="menu.category != 'Premium' && menu.category_type!= 'Home'" style="cursor: pointer;"
-                        [ngClass]="{itemOne: (menu.category | lowercase) === (selectedItem | lowercase)}"
-                        class="menuItem" aria-label="Example icon-button with heart icon"
-                        (click)="getAllCatData(menu.id, menu.permalink, menu.category_type,menu.category)">
-                        {{ menu.category | titlecase }}
-
-                    </a>
-                </div>
-                <div>
-                    <a class="menuItem" style="cursor: pointer;" (click)="openStore()"
-                        aria-label="Example icon-button with heart icon">
-                        Store
+                    <a *ngIf="menu.name != 'Premium' " style="cursor: pointer;" [ngClass]="{
+                        
+                      itemOne: (menu.name | lowercase) === (selectedItem | lowercase)}" class="menuItem"
+                        aria-label="Example icon-button with heart icon"
+                        (click)="getAllCatData(menu.id, menu.permalink, menu.category_type,menu.name)">
+                        {{ menu.name | titlecase }}
 
                     </a>
                 </div>
@@ -65,45 +51,38 @@
 
 
 
-    <div class="subsc-ser" fxFlex="30" fxFlex.lg="40" fxFlex.md="40">
-
-
-        <select name="cars" id="cars" class="goog-te-combo" [(ngModel)]="selected" [ngModelOptions]="{standalone: true}"
-            (change)="changeLang($event)">
-            <option value="" disabled selected hidden>
-                {{'app_language'|translate}}
-            </option>
-            <option [value]="x.code" *ngFor="let x of mains">{{x.language}}</option>
-
-        </select>
+    <div class="subsc-ser" fxFlex="30" fxFlex.lg="30" fxFlex.md="30">
 
         <div *ngFor="let nav of navbar">
             <div *ngIf="nav.is_allow == '1'" class="menu-right">
 
                 <div *ngIf="nav.title != 'Subscribe' && nav.title != 'Sign In'" (click)="onClickMove(nav.type)">
                     <div class="search-aol">
-                        <img src="assets/icons/Vector (3).png" alt="">
+                        <img src="assets/icons/Vector.svg" alt="">
                     </div>
                 </div>
 
 
 
 
-                <div *ngIf="nav.title == 'Subscribe' && isOttLoggedIn==true">
+                <div *ngIf="nav.title == 'Subscribe' ">
                     <div *ngFor="let menu of navbarItems">
                         <img [ngClass]="{ itemOne: menu.name === selectedItem }"
-                            *ngIf="menu.category == 'Premium' && isSubscribed" src="assets/svgs/Union419.svg"
+                            *ngIf="menu.name == 'Premium' && isSubscribed" src="assets/svgs/Union419.svg"
                             style="cursor: pointer; padding: 4px"
-                            (click)="getAllCatData(menu.id, menu.permalink, menu.category_type,menu.category)"
-                            alt="AOL" />
+                            (click)="getAllCatData(menu.id, menu.permalink, menu.category_type,menu.name)" alt="vive" />
                     </div>
                     <div class="navicon" (click)="onClickMove(nav.type)">
                         <!-- <button class="subscr" *ngIf="!isSubscribed" [ngClass]="{ itemOne: nav.type === selectedItem }">
                             Subscribe
                         </button> -->
-                        <button class="subscr" *ngIf="!isSubscribed || showButton">
-                            {{'subscribe'|translate}}
-                        </button>
+                        <div class="gradient-border" *ngIf="!isSubscribed">
+                            <button class="subscr">
+                                <span class="gradient-text">Subscribe</span>
+                            </button>
+                        </div>
+
+
                     </div>
                 </div>
                 <div *ngIf="nav.title == 'Sign In'" style="cursor:pointer">
@@ -112,82 +91,63 @@
                       
                     </div> -->
 
-                    <!-- <img *ngIf="isOttLoggedIn == true" [src]="nav.icon" class="cat-img" alt="AOL" /> -->
-                    <!-- <span *ngIf="!isOttLoggedIn" class="mat-button-wrapper"
-                        (click)="openDialog()">{{nav.title.toUpperCase()}}</span> -->
-
-
-                    <span *ngIf="!isOttLoggedIn" class="mat-button-wrapper" (click)="openDialog()">SIGN IN</span>
+                    <!-- <img *ngIf="isOttLoggedIn == true" [src]="nav.icon" class="cat-img" alt="vive" /> -->
+                    <span *ngIf="!isOttLoggedIn" class="mat-button-wrapper"
+                        (click)="openDialog()">{{nav.title.toUpperCase()}}</span>
                     <span [matMenuTriggerFor]="menuTrigger" #menuTrigger1="matMenuTrigger"
                         (click)="buttonEnter(menuTrigger1)">
                         <a>
 
-                            <img *ngIf="isOttLoggedIn" src="assets/img/User-icon-png.png" class="cat-img" alt="AOL" />
+                            <img *ngIf="isOttLoggedIn" [src]="hamBanner.user_web_logo" class="cat-img" alt="vive" />
                         </a>
                     </span>
                 </div>
+
+
             </div>
+
         </div>
 
 
         <mat-menu #menuTrigger="matMenu">
             <span>
-                <button aria-label="" mat-menu-item routerLink="/account"
-                    (click)="navigate('my-account');profileClicked()">
-                    <p class="act-aol">{{'My_Account'|translate}}</p>
+                <button aria-label="" mat-menu-item routerLink="/account" (click)="navigate('my-account')">
+                    <p class="act-aol">MY ACCOUNT</p>
                 </button>
-                <button aria-label="" mat-menu-item (click)="list()" (click)="navigate('my-list')">
-                    <p class="act-aol">{{'favorites'|translate}}</p>
+                <button aria-label="" mat-menu-item routerLink="/watchlist" (click)="navigate('my-list')">
+                    <p class="act-aol">MY LIST</p>
                 </button>
-                <button aria-label="" mat-menu-item routerLink="/my-subscriptions" (click)="navigate('my-plans')">
-                    <p class="act-aol">{{'MyPlans'|translate}}</p>
-                </button>
-
-                <button aria-label="" mat-menu-item routerLink="/activation" (click)="navigate('tv-activation')">
-                    <p class="act-aol">
-                        <!-- ACTIVATE MY TV -->
-                        {{'activate_tv_code'|translate}}
-                    </p>
+                <button aria-label="" mat-menu-item routerLink="/my-subscription" (click)="navigate('my-plans')">
+                    <p class="act-aol">MY PLANS</p>
                 </button>
 
-                <button aria-label="" mat-menu-item>
-                    <p class="act-aol" (click)="feedback();navigate('feedback')">
-                        <!-- FEEDBACK /<br>REPORT AN ISSUE -->
-                        {{'feedback_report_an_issue'|translate}}
-
-                    </p>
+                <button aria-label="" mat-menu-item (click)="activate()" (click)="hideData()">
+                    <p class="act-aol">ACTIVATE MY TV</p>
                 </button>
-
-                <button aria-label="" mat-menu-item routerLink="/termsofUse" (click)="navigate('termsofUse')">
-                    <p class="act-aol">{{'terms_of_use'|translate}}</p>
-                </button>
-                <!-- <button aria-label="" mat-menu-item [matMenuTriggerFor]="supportMenu">
-                    <p class="act-aol">SUPPORT</p>
-                </button>
-                <mat-menu #supportMenu="matMenu" class="support-submenu">
-                    <button mat-menu-item>Whatsapp Support</button>
-                    <button mat-menu-item>Email Support</button>
-                    <button mat-menu-item>FAQs</button>
-                </mat-menu> -->
-
 
                 <button aria-label="" mat-menu-item (click)="openSignoutConfirmationDialog();navigate('logout')">
-                    <p class="act-aol">{{'signout'|translate}}</p>
+                    <p class="act-aol">SIGN OUT</p>
                 </button>
             </span>
 
         </mat-menu>
+        <div fxShow class="feels-aol-center" fxHide.sm="true" fxHide.xs="true">
+            <div class="feels-back">
+                <img (click)="onClickMove('feels')" src="assets/img/FEELS.svg">
+            </div>
+        </div>
     </div>
+
 </div>
 
 
 <div class="mobile-navbar" *ngIf="isMobileToggled">
     <div class="pro-file">
-        <img (click)="toggleNavbar()" src="assets/svgs/back_arrow.svg" class="bckbtn" style="cursor: pointer"
-            alt="AOL" />
-        <img *ngIf="!isOttLoggedIn" (click)="openLoginDialog()" src="assets/img/User-icon-png.png"
+        <img (click)="toggleNavbar()" src="assets/svgs/Vector-back.svg" class="bckbtn" style="cursor: pointer"
+            alt="vive" />
+        <img *ngIf="!isOttLoggedIn" (click)="openLoginDialog()" [src]="hamBanner.user_web_logo"
             style="cursor: pointer" /> <span *ngIf="!isOttLoggedIn" (click)="openLoginDialog()">Sign In</span>
-        <img *ngIf="isOttLoggedIn" (click)="openNav('settings')" src="assets/img/User-icon-png.png"
+        <img *ngIf="isOttLoggedIn" (click)="openNav('settings')" [src]="hamBanner.user_web_logo"
             style="cursor: pointer" /> <span class="word-brk" *ngIf="isOttLoggedIn"
             (click)="openNav('settings')">{{UserData}}</span>
     </div>
@@ -195,62 +155,45 @@
         <div *ngFor="let menu of navbarItems">
             <a *ngIf="menu.name != 'Premium'" mat-button class="menuItem"
                 aria-label="Example icon-button with heart icon"
-                (click)="getAllCatData(menu.id, menu.permalink, menu.category_type,menu.category); hideData()">
-                {{ menu.category | uppercase }}
+                (click)="getAllCatData(menu.id, menu.permalink, menu.category_type,menu.name); hideData()">
+                {{ menu.name | uppercase }}
 
                 <!-- [routerLink]="['/'+menu.permalink]" -->
             </a>
 
-            <a *ngIf="menu.category == 'Premium' && isSubscribed" mat-button class="menuItem"
+            <a *ngIf="menu.name == 'Premium' && isSubscribed" mat-button class="menuItem"
                 aria-label="Example icon-button with heart icon"
-                (click)="getAllCatData(menu.id, menu.permalink, menu.category_type,menu.category); hideData()">
-                {{ menu.category | uppercase }}
+                (click)="getAllCatData(menu.id, menu.permalink, menu.category_type,menu.name); hideData()">
+                {{ menu.name | uppercase }}
 
                 <!-- [routerLink]="['/'+menu.permalink]" -->
             </a>
 
             <!-- <span class="ott-10mr"></span> -->
         </div>
-        <div >
-            <a  mat-button class="menuItem"
-                aria-label="Example icon-button with heart icon"
-                (click)="openStore();hideData()">
-               STORE
-            </a>
-        </div>
 
         <hr class="menuline" />
 
         <button class="menuitem-2" aria-label="Example icon-button with heart icon" mat-menu-item *ngIf="isOttLoggedIn"
-            routerLink="/account" (click)="navigate('my-account'); hideData();profileClicked()">
-            <p class="menuItem_temp">{{'My_Account'|translate}}</p>
+            routerLink="/account" (click)="navigate('my-account'); hideData();">
+            <p class="menuItem_temp">MY ACCOUNT</p>
         </button>
         <button class="menuitem-2" aria-label="Example icon-button with heart icon" mat-menu-item *ngIf="isOttLoggedIn"
-            (click)="navigate('my-list'); hideData()" (click)="list()">
-            <p class="menuItem_temp">{{'favorites'|translate}}</p>
+            routerLink="/watchlist" (click)="navigate('my-list'); hideData()">
+            <p class="menuItem_temp">MY LIST</p>
         </button>
         <button class="menuitem-2" aria-label="Example icon-button with heart icon" mat-menu-item *ngIf="isOttLoggedIn"
-            routerLink="/my-subscriptions" (click)="navigate('my-plans'); hideData()">
-            <p class="menuItem_temp">{{'MyPlans'|translate}}</p>
+            routerLink="/my-subscription" (click)="navigate('my-plans'); hideData()">
+            <p class="menuItem_temp">MY PLANS</p>
         </button>
 
 
         <button class="menuitem-2" aria-label="Example icon-button with heart icon" mat-menu-item *ngIf="isOttLoggedIn"
-            routerLink="/activation" (click)="hideData();navigate('tv-activation')">
-            <p class="menuItem_temp">{{'activate_tv_code'|translate}}</p>
+            (click)="activate()">
+            <p class="menuItem_temp">ACTIVATE MY TV</p>
         </button>
-        <button class="menuitem-2" aria-label="Example icon-button with heart icon" mat-menu-item *ngIf="isOttLoggedIn"
-            (click)="feedback();navigate('feedback')">
-            <p class="menuItem_temp">{{'feedback_report_an_issue'|translate}}</p>
-        </button>
-        <select name="cars" id="cars" class="goog-te-combo" [(ngModel)]="selected" [ngModelOptions]="{standalone: true}"
-            (change)="changeLang($event)">
-            <option value="" disabled selected hidden>
-                {{'app_language'|translate}}
-            </option>
-            <option [value]="x.code" *ngFor="let x of mains">{{x.language}}</option>
 
-        </select>
+
         <!-- <button class="menuitem-2" aria-label="Example icon-button with heart icon" mat-menu-item *ngIf="isOttLoggedIn">
             <p class="menuItem_temp">SUPPORT</p>
 
@@ -260,13 +203,88 @@
 
 
 
-        <button *ngIf="isOttLoggedIn" (click)="openSignoutConfirmationDialog_mob();navigate('logout')" class="sign-btn">
-            {{'signout'|translate}}
+        <button *ngIf="isOttLoggedIn" (click)="openSignoutConfirmationDialog();navigate('logout')"
+            aria-label="Example icon-button with heart icon" mat-menu-item class="menuitem-2">
+            <p class="menuItem_temp">SIGN OUT</p>
         </button>
     </div>
 
 </div>
 
+<!-- <nav class="bottom-navbar" >
+  <a routerLink="/">
+    <img src="assets/new_icons/home-2.png" alt="">
+    <span>Home</span>
+  </a>
+  <a routerLink="/search">
+      <img src="assets/new_icons/search-normal.png" alt="">
+
+    <span>Search</span>
+  </a>
+
+  <a routerLink="/account">
+    <img src="assets/new_icons/account.png" alt="">
+
+    <span>Account</span>
+  </a>
+  <a routerLink="/watchlist">
+    <img src="assets/new_icons/watchlistTick.png" alt="">
+
+    <span>Watchlist</span>
+  </a>
+</nav> -->
+
+<div class="fix-footer" *ngIf="router.url != '/vives' && router.url != '/reels'">
+    <ul>
+        <li [class.active]="activeIndex === 0" (touchstart)="setActive(0)" (click)="setActive(0)">
+            <a routerLink="/">
+                <!-- <img src="assets/new_icons/home-2.png" alt=""> -->
+                <img [src]="activeIndex === 0 ? 'assets/new_icons/footer-home.png' : 'assets/new_icons/home-2.png'"
+                    alt="">
+
+
+                <span>Home</span>
+            </a>
+        </li>
+        <li [class.active]="activeIndex === 1" (touchstart)="setActive(1)" (click)="setActive(1)">
+            <a routerLink="/search">
+                <!-- <img src="assets/new_icons/search-normal.png" alt=""> -->
+                <img [src]="activeIndex === 1 ? 'assets/new_icons/footer-search.png' : 'assets/new_icons/search-normal.png'"
+                    alt="">
+
+                <span>Search</span>
+            </a>
+        </li>
+
+        <li [class.active]="activeIndex === 2" (touchstart)="setActive(2)" (click)="setActive(2)">
+            <a>
+                <!-- <img src="assets/new_icons/search-normal.png" alt=""> -->
+                <!-- <img [src]="activeIndex === 1 ? 'assets/new_icons/footer-search.png' : 'assets/new_icons/search-normal.png'" alt=""> -->
+                <img (click)="onClickMove('feels')" src="assets/img/FEELS.svg">
+                <span>VIVES</span>
+            </a>
+        </li>
+
+        <li [class.active]="activeIndex === 3" (touchstart)="setActive(3)" (click)="setActive(3)">
+            <a (click)="handleAccountClick($event)">
+                <!-- <img src="assets/new_icons/account.png" alt=""> -->
+                <img [src]="activeIndex === 3 ? 'assets/new_icons/footer-account.png' : 'assets/new_icons/account.png'"
+                    alt="">
+
+                <span>Account</span>
+            </a>
+        </li>
+        <li [class.active]="activeIndex === 4" (touchstart)="setActive(4)" (click)="setActive(4)">
+            <a (click)="handleWatchlistClick($event)">
+                <!-- <img src="assets/new_icons/watchlistTick.png" alt=""> -->
+                <img [src]="activeIndex === 4 ? 'assets/new_icons/footer-watchlist.png' : 'assets/new_icons/watchlistTick.png'"
+                    alt="">
+
+                <span>Watchlist</span>
+            </a>
+        </li>
+    </ul>
+</div>
 
 
 <ng-template #signoutConfirmationModal>
@@ -274,33 +292,24 @@
         <div fxLayout="column" fxLayoutGap="50px">
             <div class="parental-control-content">
                 <span class="img-logo">
-                    <img src="assets/svgs/Group.png" alt="">
+                    <img [src]="baseJson.logout.logo.web" alt="" class="vive-img">
                 </span>
                 <div class="log-out-mdl">
-                    <p style="color:white;font-size:16px;font-weight: 600; margin: 0;"
-                        *ngIf="baseJson.logout.description.is_allow == 1">
-                        <!-- {{baseJson.logout.description.text}} -->
-                        {{'sure_to_sign_out'|translate}}
-                    </p>
+                    <p style="color:white;font-size:16px; margin: 0;" *ngIf="baseJson.logout.description.is_allow == 1">
+                        {{baseJson.logout.description.text}} </p>
                     <br>
                     <div class="row-aol">
                         <div class="yes-btn">
                             <button type="button" class="btn-two" (click)="logout()"
-                                *ngIf="baseJson.logout.yes_btn.is_allow == 1">
-                                <!-- {{baseJson.logout.yes_btn.text}} -->
-                                {{'yes'|translate}}
-                            </button>
+                                *ngIf="baseJson.logout.yes_btn.is_allow == 1">{{baseJson.logout.yes_btn.text}}</button>
                         </div>
                         <div class="no-btn">
                             <button type="button" class="btn-one" (click)="signoutConfirmationclose()"
-                                *ngIf="baseJson.logout.no_btn.is_allow == 1">
-                                <!-- {{baseJson.logout.no_btn.text}} -->
-                                {{'no'|translate}}
-                            </button>
+                                *ngIf="baseJson.logout.no_btn.is_allow == 1">{{baseJson.logout.no_btn.text}}</button>
                         </div>
                     </div>
                     <button (click)="close()" class="close-btn">
-                        <img src="assets/svgs/Vector.svg" alt="">
+                        <img src="assets/arrows_icons/VectorClose.svg" alt="">
                     </button>
                 </div>
             </div>

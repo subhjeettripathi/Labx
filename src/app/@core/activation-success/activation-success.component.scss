@@ -6,31 +6,20 @@
     display: flex;
     position:relative;
     justify-content: center;
-    // margin-top: 120px;
+    margin-top: 120px;
 
 }  
 .heading{
     display: flex;
     justify-content: center;
     margin-top: 20px;
-    font-size: 22px;
+    font-size: large;
 }
 .input{
     display: flex;
     justify-content: center;
 }
-.alt-btn-aol {
-    line-height: 30px !important;
-    // justify-content: center;
-    // align-items: center;
-    // display: flex;
-    background-color: #FF8731!important;
-    color: white !important;
-    border: none !important;
-    font-weight: 700;
-    font-size: 16px;
-    font-family: 'PoppinsMedium';
-} 
+
 .para{
     text-align: center;
     justify-content: center;

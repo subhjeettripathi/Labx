@@ -30,32 +30,38 @@ import { Router } from "@angular/router";
 import { FunctionCallingService } from "src/app/services/function-calling.service";
 import { DeviceRestrictionPopupComponent } from "../device-restriction-popup/device-restriction-popup.component";
 import { DatePipe } from "@angular/common";
-import * as firebase from "firebase/app";
-declare var AF: any;
+import { environment } from "src/environments/environment";
+import { PackageStackingComponent } from "../package-stacking/package-stacking.component";
+// import * as amplitude from '@amplitude/analytics-browser';
+
+import { SwalMsgService } from "src/app/services/swal-msg.service";
+import { FacebookLoggerService } from "src/app/services/facebook-logger.service";
+import { FacebookPixelService } from "src/app/services/facebook-pixel.service";
+// declare var FB: any
+declare const posthog: any;
+declare global {
+  interface Window {
+    firebaseAnalytics?: {
+      logEvent: (eventName: string, params?: any) => void;
+    };
+  }
+}
 @Component({
   selector: "app-email-dialog",
   templateUrl: "./email-dialog.component.html",
   styleUrls: ["./email-dialog.component.scss"],
 })
 export class EmailDialogComponent implements OnInit {
-
-  @ViewChild('input') inputEl!: ElementRef;
-  email: any;
-  mobile: any;
-  @ViewChild('myInput') myInput!: ElementRef;
-  openOtpModal = false
+  @ViewChild("input")
+  inputEl!: ElementRef;
   emailLoginForm!: FormGroup;
   emailSignupForm!: FormGroup;
-  visitorId: any;
-  userSessionData: any;
   showpass = false;
-  mobLength: any;
-  showpass1 = false;
-  packageData: any;
-  jsonDatapack: any;
+  showpass1: boolean = false;
   baseSignin: any = [];
   baseSignup: any = [];
   incorrectPass = false;
+  visitorId: any = localStorage.getItem('device_id')
   maxDob: any = Date;
   emailPattern = "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$";
   genderAndCountVisible: boolean = false;
@@ -63,27 +69,33 @@ export class EmailDialogComponent implements OnInit {
   password: any;
   over18: any;
   termsandp: any;
+  showError: boolean = false;
   genderForm!: FormGroup;
   stateDefault: any;
   showCountry = true;
   states: any = [];
   check: any;
   latest_date!: any;
-  searchText: any
+  searchText: any;
   errorMsg: any;
   errorAlertData: any;
-  timeZoneOffset: any
-  confirmMessage = false
-  typesLogin: any
-  detail: any;
+  timeZoneOffset: any;
+  USER_ACCOUNT_id: any;
+  otherCountryState: any;
+  isCountryChange: any;
+  packageData: any;
+  jsonDatapack: any;
+  packageDataSend: any;
+  packageDataListCheck: any;
+  app_version: any;
   alertMsg: any;
-  mobilePattern = '^((\\-?)|)?[0-9]{10}$';
-  intermobilePattern = '^((\\-?)|)?[0-9]{10,15}$';
-  otpSecret: any
-  showError: boolean = false
+  userSessionData: any;
+  session_gender: any;
+  msgErrorADD: boolean = false;
+  // useRes:any
+  msgError: any;
   @Input() emailOption: string = "";
   countryAll: any = [];
-  OTTPlans: any = [];
   @Output() public sendModal = new EventEmitter<string>();
   @ViewChild("emailLoginFormDir") emailLoginFormDir!: NgForm;
   @ViewChild("emailSignupFormDir") emailSignupFormDir!: NgForm;
@@ -107,41 +119,18 @@ export class EmailDialogComponent implements OnInit {
     private deviceService: DeviceDetectorService,
     private _FPS: FingerPrintService,
     public ed: ExchangeDataService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _SWAL: SwalMsgService,
+    private fbLogger: FacebookLoggerService,
+    private fbPixelService: FacebookPixelService
   ) {
     this.timeZoneOffset = new Date();
-
   }
   myModel = true;
   ngOnInit(): void {
-    const ipDetail: any = localStorage.getItem("ipSaveData")
-    this.detail = JSON.parse(ipDetail)
-    if (this.detail.phoneCode == 91) {
-      this.mobLength = 10
-    } else {
-      this.mobLength = 15
-    }
-    console.log(this.detail);
-    this.errorAlertData = localStorage.getItem('errorMsg')
+    this.errorAlertData = localStorage.getItem("errorMsg");
     this.errorMsg = JSON.parse(this.errorAlertData);
-    console.log(this.errorMsg,"aaaaa");
 
-    function makeid(length: any) {
-      let result = '';
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-      const charactersLength = characters.length;
-      let counter = 0;
-      while (counter < length) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-      }
-      return result;
-    }
-
-
-    var gettoken = btoa(this.errorMsg.otpExpiryTime);
-
-    this.otpSecret = makeid(4) + gettoken
     this.getCountryStatesList();
     this.getConfigData();
     const today = new Date();
@@ -160,7 +149,7 @@ export class EmailDialogComponent implements OnInit {
       ],
       password: [
         "",
-        Validators.compose([Validators.required, Validators.minLength(3)]),
+        Validators.compose([Validators.required, Validators.minLength(8)]),
       ],
     });
     this.emailSignupForm = this._fb.group({
@@ -175,54 +164,120 @@ export class EmailDialogComponent implements OnInit {
         "",
         Validators.compose([Validators.required, Validators.minLength(8)]),
       ],
-      confirm_password: ['', Validators.compose([Validators.required, Validators.minLength(8)]),],
-      mobile: [
-        "", this.getMobileValidators()
+      confirm_password: [
+        "",
+        Validators.compose([Validators.required, Validators.minLength(8)]),
       ],
-    })
-    this.genderForm = this._fb.group({
-      gender: ["", Validators.required],
-      location: ["", Validators.required],
-      isCheckedUpdate: [""],
     });
-    this._FPS.getFingerPrintDeviceId();
-    this._FPS.visitorId.subscribe((r) => (this.visitorId = r));
-
+    this.genderForm = this._fb.group({
+      location: ["", Validators.required],
+    });
+    this.app_version = localStorage.getItem("appVersion");
   }
   ngAfterViewInit() {
-    this.getGeographicalState()
-    this.inputEl.nativeElement.focus();
-
-    let signtBtn = document.getElementById('registerSignup');
-    signtBtn?.addEventListener('click', () => {
-      this.myInput.nativeElement.focus();
-    })
-
+    // this.inputEl.nativeElement.focus();
   }
-  getMobileValidators() {
-    if (this.detail.phoneCode == '91') {
-      return Validators.compose([Validators.required, Validators.pattern(`${this.mobilePattern}`)])
-    }
-    else {
-      return null
-    }
-  }
+  // submitfirstemailStep() {
+  //   if (this.emailSignupForm.valid) {
+  //     this.emailss = this.emailSignupForm.value.email;
+  //     this.password = this.emailSignupForm.value.password;
+  //     // this.over18 = this.emailSignupForm.value.isover18;
+  //     // if (this.over18) {
+  //     //   this.over18 = 1;
+  //     // } else {
+  //     //   this.over18 = 0;
+  //     // }
+
+  //     // this.termsandp = this.emailSignupForm.value.isCheckedAgree;
+  //     this.getGeographicalState();
+  //     this.onSubmitEmailLogin();
+  //   } else {
+  //     this.msgError = "All Fields Are Mandatory*";
+  //     this.msgErrorADD = true;
+  //   }
+  // }
   submitfirstemailStep() {
+    // always reset error state at the start
+    this.msgError = "";
+    this.msgErrorADD = false;
 
     if (this.emailSignupForm.valid) {
-      this.onSubmitEmailLogin()
+      this.emailss = this.emailSignupForm.value.email;
+      this.password = this.emailSignupForm.value.password;
+
+      this.getGeographicalState();
+      this.onSubmitEmailLogin();
     } else {
-      this.msgError = "all_fields_are_mandatory"
-      //  key added to translation service
-      this.msgErrorADD = true
+      const hasEmpty = Object.values(this.emailSignupForm.controls)
+        .some(control => control.hasError('required'));
+
+      if (hasEmpty) {
+        this.msgError = "All Fields Are Mandatory*";
+        this.msgErrorADD = true;
+      }
+
+      // force Angular validation errors to show
+      Object.values(this.emailSignupForm.controls).forEach(c => {
+        c.markAsTouched();
+        c.updateValueAndValidity();
+      });
     }
   }
+
   inputEnable: boolean = true;
+  back() {
+    setTimeout(() => {
+      this.ed.pauseDetailVideo.next(true);
+      localStorage.setItem("videoCarousel", "1");
+    }, 200);
+    // this.fcs.loginModal.next(true)\
+    this.dialogRef.close();
+    const dialogRef = this.dialog.open(LoginModalDialogComponent, {
+      backdropClass: "popupBackdropClass",
+      panelClass: "logindialog",
+      width: "420px",
+      data: { email: this.emailSignupForm.value.email },
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // this.ed.reload.next(true);
+      if (localStorage.getItem("VideoAutoPlay") == "0") {
+        this.ed.pauseDetailVideo.next(false);
+      }
+      localStorage.setItem("videoCarousel", "0");
+    });
+    // this.inputEnable = false;
+  }
+  back2() {
+    setTimeout(() => {
+      this.ed.pauseDetailVideo.next(true);
+      localStorage.setItem("videoCarousel", "1");
+    }, 200);
+    this.dialogRef.close();
+    const dialogRef = this.dialog.open(LoginModalDialogComponent, {
+      backdropClass: "popupBackdropClass",
+      panelClass: "logindialog",
+      width: "420px",
+      data: { email: this.emailLoginForm.value.email },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // this.ed.reload.next(true);
+      if (localStorage.getItem("VideoAutoPlay") == "0") {
+        this.ed.pauseDetailVideo.next(false);
+      }
+      localStorage.setItem("videoCarousel", "0");
+    });
+    // this.inputEnable = false;
+  }
   getCountryStatesList() {
     this._DS.getCountryStateList().subscribe((res: any) => {
-      console.log(res.country);
       this.states = res.state;
       this.countryAll = res.country;
+      // let hh;
+      // hh = res
+      // for (let key of Object.keys(hh)) {
+      // this.countryAll.push(key)
+      //  }
     });
   }
 
@@ -249,89 +304,142 @@ export class EmailDialogComponent implements OnInit {
   clearVal() {
     this.incorrectPass = false;
   }
-  msgError: any
-  msgErrorADD: boolean = false
+
+  isSubmitting: boolean = false;
   onSubmitEmailLogin() {
-    if (this.emailSignupForm.value.password == this.emailSignupForm.value.confirm_password) {
+    if (this.isSubmitting) {
+      // If a submission is already in progress, do nothing
+      return;
+    }
+    this.isSubmitting = true;
+
+    if (
+      this.emailSignupForm.value.password ==
+      this.emailSignupForm.value.confirm_password
+    ) {
+      let ip: any = localStorage.getItem("ipSaveData") || {};
       this.userExist = localStorage.getItem("isUserExist");
-      let ip: any = localStorage.getItem("ipSaveData") || {}
+      const fcm = localStorage.getItem("fcm_token") || '';
+
       const device_other_detail = {
         os_version: this.deviceDetection.os_version,
-        app_version: "24.10.028",
+        app_version: "v2_1",
         network_type: "others",
         network_provider: "others",
+        push_device_token: fcm
       };
       const devicedetail = {
         make_model: this.deviceService.browser,
         os: this.deviceDetection.os,
         screen_resolution: window.innerWidth + "*" + window.innerHeight,
-        push_device_token: "others",
-        device_type: 'web',
-        platform: 'web',
+        // push_device_token: "others",
+        device_type: "web",
+        platform: this.deviceDetection.deviceType,
         device_unique_id: this.visitorId,
         onesignal_device_id: "fs95345jfddf",
+        push_device_token: fcm
       };
-      this.email = this.emailLoginForm.value.email
-      this.mobile = this.emailSignupForm.value.mobile
 
       if (this.userExist == 1) {
-
+        this.isSubmitting = true;
         if (this.emailLoginForm.valid) {
-
           const formData: any = new FormData();
           formData.append("email", this.emailLoginForm.value.email);
           formData.append("password", this.emailLoginForm.value.password);
           formData.append(
-            "dod",
+            "device_other_detail",
             JSON.stringify(device_other_detail)
           );
-          formData.append("dd", JSON.stringify(devicedetail));
+          formData.append("devicedetail", JSON.stringify(devicedetail));
           formData.append("device", "web");
-          formData.append('payload', this.otpSecret);
           this.auth.ottLogin(formData).subscribe((res: any) => {
             if (res.code == 1) {
-              this.DEC_SER.getDecryptedData(res?.result);
-              let decryptData = JSON.parse(this.DEC_SER.decryptData);
-              this.userSessionData = decryptData
-              console.log(this.userSessionData);
-
+              this.isSubmitting = false; // Re-enable on success
+              this.DEC_SER.getDecryptedData(res.result);
+              const data: any = JSON.parse(this.DEC_SER.decryptData);
+              var uid = data.id;
               this.sendToSubscribeLogin.emit(3);
               this.DEC_SER.getDecryptedData(res.result);
               localStorage.setItem("taploginInfo", this.DEC_SER.decryptData);
-              localStorage.setItem('device_id', this.visitorId)
+              let decryptData = JSON.parse(this.DEC_SER.decryptData);
+              this.userSessionData = decryptData;
               localStorage.setItem("ott_isLoggedIn", "1");
               localStorage.setItem("ott_subtitle_setup", "0");
-              this.getSwalmsg('Logged In Successfully', 'success');
+
               // this.getSwalmsg('Signed in successfully', 'success');
+              if (window.firebaseAnalytics && typeof window.firebaseAnalytics.logEvent === 'function') {
+                window.firebaseAnalytics.logEvent('LOGIN', {
+                  userId: JSON.parse(this.DEC_SER.decryptData).id
+                });
+              }
+
+              if (window.firebaseAnalytics && typeof window.firebaseAnalytics.logEvent === 'function') {
+                window.firebaseAnalytics.logEvent('DEVICE_ID', {
+                  DeviceId: this.visitorId
+                });
+              }
+              const userData = JSON.parse(this.DEC_SER.decryptData).id;
+              this.fbLogger.logRegistrationEvent(userData);
+              this.fbPixelService.trackCompleteRegistration(userData)
+
               this.dialogRef.close();
               this.loginSuccess.emit("success");
               this.getGeographicalState();
+              this.packageData = localStorage.getItem("faqData");
+              this.jsonDatapack = JSON.parse(this.packageData);
               this.getSubscribeInfo(JSON.parse(this.DEC_SER.decryptData).id);
-  
-              firebase.analytics().logEvent('LOGIN', {
-                'userId': JSON.parse(this.DEC_SER.decryptData).id,
-              })
-              firebase.analytics().logEvent('DEVICE_ID', {
-                'deviceId': this.visitorId,
-              })
-            } else {
-              firebase.analytics().logEvent('LOGIN_FAIL', {
+              // this._SWAL.getSwalmsg('Logged In Successfully', 'success');
 
-              })
+              this._DS.getUserSubscriptionDetails(uid).subscribe((res: any) => {
+                this.DEC_SER.getDecryptedData(res.result);
+                const data: any = JSON.parse(this.DEC_SER.decryptData);
+
+                if (
+                  data.user_days >=
+                  this.jsonDatapack.Others.package_stacking.register.days
+                ) {
+                } else {
+                  if (data.is_subscriber != "1") {
+                    window.location.reload();
+                  }
+                }
+              });
+
+              // window.location.reload()
+
+              if (localStorage.getItem("taploginInfo") === null) {
+              } else {
+                const is_subscriber: any =
+                  localStorage.getItem("is_subscriber");
+                if (is_subscriber == "0") {
+                } else {
+                }
+              }
+              var appVersion = localStorage.getItem("appVersion");
+            } else {
+              this.isSubmitting = false;
+              if (window.firebaseAnalytics && typeof window.firebaseAnalytics.logEvent === 'function') {
+                window.firebaseAnalytics.logEvent('LOGIN_FAIL', {
+                  userId: JSON.parse(this.DEC_SER.decryptData).id
+                });
+              }
+
               this.incorrectPass = true;
-              this.showError = true
+              this.showError = false;
             }
           });
         } else {
-          // this.showError=true;
+          this.incorrectPass = false;
+          this.showError = true;
+          this.isSubmitting = false;
         }
       } else if (this.userExist == 0) {
-
         if (this.emailSignupForm.valid) {
+          this.isSubmitting = true;
           const formData: any = new FormData();
           formData.append("email", this.emailSignupForm.value.email);
-          formData.append("password", this.emailSignupForm.value.password);
-          formData.append("phone", this.emailSignupForm.value.mobile);
+          formData.append("password", this.emailSignupForm.value.password)
+
           let location = {
             loc_country: JSON.parse(ip).countryName,
             city: JSON.parse(ip).city,
@@ -344,67 +452,93 @@ export class EmailDialogComponent implements OnInit {
           };
           formData.append("location", JSON.stringify(location));
           formData.append(
-            "dod",
+            "device_other_detail",
             JSON.stringify(device_other_detail)
           );
-          formData.append("dd", JSON.stringify(devicedetail));
+          formData.append("devicedetail", JSON.stringify(devicedetail));
           formData.append("device", "web");
-          formData.append("country_code", JSON.parse(ip).countryCode);
+
           this.auth.ottSignup(formData).subscribe((res: any) => {
             if (res.code == 1) {
-              this.openOtpModal = true
-              if (JSON.parse(ip).countryCode == 'IN') {
-                this.typesLogin = 'email'
-              } else {
-                this.typesLogin = 'international-email'
+              this.isSubmitting = false; // Re-enable on success
+              const ipDetail = JSON.parse(
+                localStorage.getItem("ipSaveData") || "{}"
+              );
+              var stateUpdate = ipDetail;
+              stateUpdate.regionName = this.genderForm.value.location;
+              localStorage.setItem("ipSaveData", JSON.stringify(stateUpdate));
+              this.dialogRef.close();
+              this.DEC_SER.getDecryptedData(res.result);
+              let UserInfo = JSON.parse(this.DEC_SER.decryptData);
+              localStorage.setItem(
+                "taploginInfo",
+                JSON.stringify(UserInfo.info)
+              );
+              localStorage.setItem('isUserId', UserInfo.id)
+              localStorage.setItem("ott_isLoggedIn", "1");
+              localStorage.setItem("ott_subtitle_setup", "0");
+              this.loginSuccess.emit("success");
+              localStorage.setItem("ottParental", "0");
+              this.auth.loginObservable.next(true);
+              this.auth.loginObservable.complete();
+              this.getGeographicalState();
+              this.getSubscribeInfo(JSON.parse(this.DEC_SER.decryptData).id);
+              this._SWAL.getSwalmsg("Registered Successfully", "success");
+              posthog.capture('Registered Successfully', {
+                user_id: String(JSON.parse(this.DEC_SER.decryptData).id),
+                device_id: String(this.visitorId)
+              });
+
+              if (window.firebaseAnalytics && typeof window.firebaseAnalytics.logEvent === 'function') {
+
+                // LOGIN event
+                window.firebaseAnalytics.logEvent('LOGIN', {
+                  userId: JSON.parse(this.DEC_SER.decryptData).id
+                });
+
+                // DEVICE_ID event
+                window.firebaseAnalytics.logEvent('DEVICE_ID', {
+                  DeviceId: this.visitorId
+                });
+
               }
 
-              this.DEC_SER.getDecryptedData(res?.result);
-              let decryptData = JSON.parse(this.DEC_SER.decryptData);
-              console.log(decryptData);
+              const userData = JSON.parse(this.DEC_SER.decryptData).id;
+              this.fbLogger.logRegistrationEvent(userData);
+              this.fbPixelService.trackCompleteRegistration(userData)
 
-              localStorage.setItem('ott_otp_userid', decryptData.id);
-              const formData: any = new FormData();
-              formData.append("mode", 'verification');
-              formData.append("type", 'mail');
-              formData.append("value", this.emailSignupForm.value.email);
-              formData.append("device", 'web');
-              formData.append('payload', this.otpSecret);
-              formData.append("c_id", decryptData.id);
-              this.auth.generateOtp(formData).subscribe((res: any) => {
-                this.DEC_SER.getDecryptedData(res?.result);
-                let decryptData = JSON.parse(this.DEC_SER.decryptData);
-                console.log(decryptData, 'otpppppppppp');
-            
-              });
+              window.location.reload();
+
+              // FB.AppEvents.logEvent('fb_web_complete_registration', {
+              //   'userId': JSON.parse(this.DEC_SER.decryptData).id
+              // });
             } else {
-              this.msgErrorADD = true
-              // this.msgError = res.error
-              this.msgError = "mobile_number_already_exists"
-                // console.log(res.error,"error")
+              this.isSubmitting = false; // Re-enable on success
+              if (window.firebaseAnalytics && typeof window.firebaseAnalytics.logEvent === 'function') {
+                window.firebaseAnalytics.logEvent('LOGIN_FAIL', {
+                  userId: JSON.parse(this.DEC_SER.decryptData).id
+                });
+              }
+              this.incorrectPass = true;
+              this.msgErrorADD = true;
+              this.msgError = res.error;
+             
 
             }
           });
         }
       }
     } else {
-      this.alertMsg = true
+      this.isSubmitting = false; // Re-enable on success
+      this.alertMsg = true;
     }
   }
-  getInputKey(event: any) {
-
-    if (event !== '') {
-      this.showError = false
-      this.msgErrorADD = false
-
-    } else {
-
+  myFunc(user: any) {
+    if (user.code != "") {
+      this.showError = false;
     }
+  }
 
-  }
-  onKeydown(event: any) {
-    this.alertMsg = false;
-  }
   formatDate(inputDate: any) {
     var date = new Date(inputDate);
 
@@ -415,172 +549,185 @@ export class EmailDialogComponent implements OnInit {
     var minutes: any = date.getMinutes();
     var seconds: any = date.getSeconds();
 
-    day = day < 10 ? '0' + day : day;
-    month = month < 10 ? '0' + month : month;
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
+    day = day < 10 ? "0" + day : day;
+    month = month < 10 ? "0" + month : month;
+    hours = hours < 10 ? "0" + hours : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
 
-    var formattedDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+    var formattedDate =
+      year +
+      "-" +
+      month +
+      "-" +
+      day +
+      " " +
+      hours +
+      ":" +
+      minutes +
+      ":" +
+      seconds;
 
     return formattedDate;
   }
 
   getGeographicalState() {
     this._DS.apipip().subscribe((res: any) => {
-      console.log(res);
-      if (res.countryName == "India") {
-        if (res.regionName == "National Capital Territory of Delhi") {
-          res.regionName = "Delhi";
+      if (res.code == 1) {
+        this.DEC_SER.getDecryptedData(res?.result);
+        let ipSaveData = JSON.parse(this.DEC_SER.decryptData);
+        if (this.userSessionData.gender == "") {
+          this.session_gender = "others";
+        } else {
+          this.session_gender = this.userSessionData.gender;
         }
-        this.stateDefault = res.regionName;
+        this.isCountryChange = res;
+        if (res.countryName == "India") {
+          if (res.regionName == "National Capital Territory of Delhi") {
+            res.regionName = "Delhi";
+          }
+          this.stateDefault = res.regionName;
 
+          this.showCountry = true;
+        } else {
+          this.stateDefault = res.countryName;
+          this.showCountry = false;
+          this.otherCountryState = res.regionName;
+        }
+        this.fcs.fgh.next(res);
+        localStorage.setItem("ipSaveData", JSON.stringify(ipSaveData));
 
-        this.showCountry = true;
-      } else {
-        this.stateDefault = res.countryName;
-        this.showCountry = false;
+        var inputDate = new Date();
+        var formattedDate = this.formatDate(inputDate);
+        const formData: any = new FormData();
+        formData.append("customer_id", this.userSessionData.id);
+        formData.append("type", "start");
+        formData.append("time", formattedDate);
+        formData.append("device_unique_id", this.visitorId);
+        formData.append("device_type", this.deviceService.deviceType);
+        formData.append("content_type", "vod");
+        formData.append(
+          "customer_name",
+          this.userSessionData.first_name + "" + this.userSessionData.last_name
+        );
+        formData.append("country", ipSaveData.countryName);
+        formData.append("country_code", ipSaveData.countryCode);
+        formData.append("network_type", ipSaveData.security.network);
+        formData.append("network_provider", ipSaveData.connection.isp);
+        formData.append("platform", this.deviceService.deviceType);
+        formData.append("browser", this.deviceService.browser);
+        formData.append(
+          "screen_resolution",
+          window.screen.availWidth + "*" + window.screen.availHeight
+        );
+        formData.append("os_version", ipSaveData.userAgent.browserVersion);
+        formData.append("age_group", this.userSessionData.age_group);
+        formData.append("gender", this.session_gender);
+        formData.append("city", "others");
+        this._DS.userSession(formData).subscribe((res: any) => {
+          if (res.code == 1) {
+          }
+        });
       }
-      this.fcs.fgh.next(res);
-      localStorage.setItem("ipSaveData", JSON.stringify(res));
-
-      // userSessionApi Start
-
-      var inputDate = new Date();
-      var formattedDate = this.formatDate(inputDate);
-
-      const formData: any = new FormData();
-      formData.append("customer_id", this.userSessionData.id);
-      formData.append("type", "start");
-      formData.append("time", formattedDate);
-      formData.append("device_unique_id", this.visitorId);
-      formData.append("device_type", "web");
-      formData.append("content_type", "vod");
-      formData.append("customer_name", this.userSessionData.first_name + '' + this.userSessionData.last_name);
-      formData.append("country", res.countryName);
-      formData.append("country_code", res.countryCode);
-      formData.append("network_type", res.security.network);
-      formData.append("network_provider", res.connection.isp);
-      formData.append("platform", res.userAgent.platform);
-      formData.append("browser", res.userAgent.browser);
-      formData.append("screen_resolution", window.screen.availWidth + '*' + window.screen.availHeight);
-      formData.append("os_version", res.userAgent.operatingSystem);
-      formData.append("age_group", this.userSessionData.age_group);
-      formData.append("gender", this.userSessionData.gender);
-      formData.append("city", res.city);
-      this._DS.userSession(formData).subscribe((res: any) => {
-        if (res.code == 1) {
-          console.log(res);
-
-        }
-      });
     });
   }
   getConfigData() {
     this._DS.faqData().subscribe((res: any) => {
-      console.log(res)
       this.baseSignin = res.Form[0].signin;
       this.baseSignup = res.Form[0].signup;
-      console.log(res.Form[0].signup);
     });
   }
   getSubscribeInfo(uid: number) {
-    this._DS.getSubtitle(uid).subscribe((res: any) => {
+    this.packageData = localStorage.getItem("faqData");
+    this.jsonDatapack = JSON.parse(this.packageData);
 
+    this._DS.getSubtitle(uid).subscribe((res: any) => {
       this.DEC_SER.getDecryptedData(res?.result);
       let decryptData = JSON.parse(this.DEC_SER.decryptData);
       const sendTosett = decryptData;
-      if (sendTosett.payload.language_key != null || sendTosett.payload.language_key != '') {
-        localStorage.setItem("regional", sendTosett.payload.language_key);
+      if (
+        sendTosett?.payload?.language_key != null ||
+        sendTosett?.payload?.language_key != ""
+      ) {
+        localStorage.setItem("regional", sendTosett?.payload?.language_key);
       }
-      // localStorage.setItem("app_lang", sendTosett.payload.app_language);
-      // const languageMap: { [key: string]: string } = {
-      //   'as': 'Assamese',
-      //   'bn': 'Bengali',
-      //   'bg': 'Bulgarian',
-      //   'zh-CN': 'Chinese (Simplified)',
-      //   'en': 'English',
-      //   'fr': 'French',
-      //   'de': 'German',
-      //   'gu': 'Gujarati',
-      //   'he': 'Hebrew',
-      //   'hi': 'Hindi',
-      //   'ja': 'Japanese',
-      //   'kn': 'Kannada',
-      //   'ko': 'Korean',
-      //   'ml': 'Malayalam',
-      //   'mr': 'Marathi',
-      //   'mn': 'Mongolian',
-      //   'or': 'Odia',
-      //   'pa': 'Punjabi',
-      //   'ru': 'Russian',
-      //   'es': 'Spanish',
-      //   'ta': 'Tamil',
-      //   'te': 'Telugu'
-      // };
-
-     
-      // const reverseLanguageMap: { [key: string]: string } = Object.keys(languageMap).reduce((acc, key) => {
-      //   acc[languageMap[key].toLowerCase()] = key;
-      //   return acc;
-      // }, {} as { [key: string]: string });
-      // setTimeout(() => {
-
-      //   const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-      //   if (selectElement) {
-      //     if (sendTosett.payload.app_language != '' || sendTosett.payload.app_language != null) {
-      //       const appLanguage = sendTosett.payload.app_language.toLowerCase();
-      //       const languageCode = reverseLanguageMap[appLanguage];
-      //       selectElement.value = languageCode;
-      //       selectElement.dispatchEvent(new Event('change'));
-      //       setTimeout(() => {
-      //         selectElement.value = languageCode;
-      //         selectElement.dispatchEvent(new Event('change'));
-      //       }, 1000);
-
-      //     }
-      //   }
-      // }, 2000);
     });
     this._DS.getUserSubscriptionDetails(uid).subscribe((res) => {
-      this.packageData = localStorage.getItem('faqData');
-      this.jsonDatapack = JSON.parse(this.packageData)
       this.DEC_SER.getDecryptedData(res.result);
       const data: any = JSON.parse(this.DEC_SER.decryptData);
+      this.packageDataListCheck = data.packages_list[0];
+
       if (data.is_subscriber == 1) {
         this.eds.isSubscribe.next(true);
-        this.eds.alreadySubscriber.next(true)
+        this.eds.alreadySubscriber.next(true);
+        // this.eds.alreadySubscriber.next(true)
+        // window.location.reload();
+        // if (this.packageDataListCheck.autorenew == 1 && this.packageDataListCheck.is_cancelled == 0) {
+
+        // } else if (this.packageDataListCheck.autorenew == 1 && this.packageDataListCheck.is_cancelled == 1) {
+        //   if (data.expire_days <= this.jsonDatapack.Others.package_stacking.subscribed.days) {
+        //     this.eds.alreadySubscriber.next(false)
+        //   } else {
+        //     this.eds.alreadySubscriber.next(true)
+        //   }
+
+        // } else {
+        //   if (data.expire_days <= this.jsonDatapack.Others.package_stacking.subscribed.days) {
+        //     this.eds.alreadySubscriber.next(false)
+        //   } else {
+        //     this.eds.alreadySubscriber.next(true)
+        //   }
+
+        // }
+
+        const exp_date = new Date(
+          data["packages_list"][0]["subscription_end"]
+        ).getTime();
+        this._storage.setData("ott_expiry_date", exp_date);
         localStorage.setItem("is_subscriber", "1");
         this.eds.parentalLock.next(false);
-        if (data.expire_days <= this.jsonDatapack.Others.package_stacking.subscribed.days) {
-          this.eds.showButton.next(true);
-          localStorage.setItem("showButton", "1");
-        }
 
+        const taplogininfo: any = localStorage.getItem("taploginInfo");
+        this.USER_ACCOUNT_id = JSON.parse(taplogininfo);
+        var d: any = new Date(this.packageDataListCheck.end_date);
+        var x: any = new Date();
+        var sd: any = new Date(x);
+        var s = d - sd;
       } else if (data.is_subscriber == 0) {
         localStorage.setItem("is_subscriber", "0");
         this.eds.isSubscribe.next(false);
-        this.eds.alreadySubscriber.next(false)
+        this.eds.alreadySubscriber.next(false);
         this.eds.parentalLock.next(true);
+
+        const taplogininfo: any = localStorage.getItem("taploginInfo");
+        this.USER_ACCOUNT_id = JSON.parse(taplogininfo);
+
+        if (
+          data.user_days >=
+          this.jsonDatapack.Others.package_stacking.register.days
+        ) {
+          this.openPackageStackingDialog(0);
+        }
       }
 
       this._storage.setData("ott_subscriptionPlan", data);
-      data.packages_list.filter((res: any) => {
-        if (res.package_mode == 'OTT') {
-          this.OTTPlans.push(res)
-        }
-      })
-      const devicerestc = this.OTTPlans[0].device_restriction;
+
+      const devicerestc = data.packages_list[0].device_restriction;
+      const visitorIds: any = localStorage.getItem("device_id");
       if (devicerestc) {
         const formData: any = new FormData();
         formData.append("customer_id", uid);
-        formData.append("device_unique_id", this.visitorId);
+        formData.append("device_unique_id", visitorIds);
         formData.append("session_status", 1);
         formData.append("device", "web");
         formData.append("device_count", devicerestc);
-        formData.append("type", this.OTTPlans[0].restriction_type);
+        formData.append("type", data.packages_list[0].restriction_type);
         this.auth.isAllowed(formData).subscribe((res) => {
+          console.log(res);
+
           if (res.code == 0 && res.error == "Device limit exceeded") {
+            this.ed.pauseDetailVideo.next(true);
+            localStorage.setItem("videoCarousel", "1");
             localStorage.setItem('deviceLimit', JSON.stringify(res))
             const dialogRef = this.dialog.open(
               DeviceRestrictionPopupComponent,
@@ -592,32 +739,95 @@ export class EmailDialogComponent implements OnInit {
               }
             );
             dialogRef.afterClosed().subscribe((result: any) => {
-              this.ed.reload.next(true);
+              if (
+                data.user_days <=
+                this.jsonDatapack.Others.package_stacking.subscribed.expire_days
+              ) {
+              } else {
+                this.ed.reload.next(true);
+              }
+              if (localStorage.getItem("VideoAutoPlay") == "0") {
+                this.ed.pauseDetailVideo.next(false);
+              }
+              localStorage.setItem("videoCarousel", "0");
             });
             dialogRef.disableClose = true;
+          } else {
+            if (
+              this.packageDataListCheck.autorenew == 1 &&
+              this.packageDataListCheck.is_cancelled == 0
+            ) {
+              this.ed.reload.next(true);
+            } else if (
+              this.packageDataListCheck.autorenew == 1 &&
+              this.packageDataListCheck.is_cancelled == 1
+            ) {
+              if (
+                data.expire_days <=
+                this.jsonDatapack.Others.package_stacking.subscribed.days
+              ) {
+                this.openPackageStackingDialog(data.is_subscriber);
+              } else {
+                this.ed.reload.next(true);
+              }
+            } else {
+              if (
+                data.expire_days <=
+                this.jsonDatapack.Others.package_stacking.subscribed.days
+              ) {
+                this.openPackageStackingDialog(data.is_subscriber);
+              } else {
+                this.ed.reload.next(true);
+              }
+            }
           }
-          else {
-            this.ed.reload.next(true);
-          }
-
         });
       } else {
-        this.ed.reload.next(true);
+        if (data.autorenew == 1 && data.is_cancelled == 0) {
+          this.ed.reload.next(true);
+        } else if (data.autorenew == 1 && data.is_cancelled == 1) {
+          if (
+            data.expire_days <=
+            this.jsonDatapack.Others.package_stacking.subscribed.days
+          ) {
+            this.openPackageStackingDialog(data.is_subscriber);
+          } else {
+            this.ed.reload.next(true);
+          }
+        } else {
+          if (
+            data.expire_days <=
+            this.jsonDatapack.Others.package_stacking.subscribed.days
+          ) {
+            this.openPackageStackingDialog(data.is_subscriber);
+          } else {
+            this.ed.reload.next(true);
+          }
+        }
       }
     });
-
   }
   showPassword(input: any) {
     this.showpass = !this.showpass;
     input.type = this.showpass ? "text" : "password";
   }
+
   showPassword1(input: any) {
     this.showpass1 = !this.showpass1;
     input.type = this.showpass1 ? "text" : "password";
   }
-  editEmail() {
-    console.log("Editable");
+
+  onKeydown(event: any) {
+    this.alertMsg = false;
   }
+  getInputKey(event: any) {
+    if (event !== "") {
+      this.showError = false;
+      this.msgErrorADD = false;
+    } else {
+    }
+  }
+  editEmail() { }
   moveToPolicy(policy: any) {
     if (policy == "policy") {
       this.router.navigate(["/privacy-policy"]);
@@ -631,36 +841,43 @@ export class EmailDialogComponent implements OnInit {
     this.dialogRef.close();
   }
   // checkLookup(data: any) {
-  // let ip: any = localStorage.getItem("ipSaveData");
-  // const formData = new FormData();
-  // formData.append("email", data);
-  // this.auth.OttcheckUserExisted(formData).subscribe((res) => {
-  // console.log(res);
-  // if(res.code==0){
-  // this.userExist=0
-  // localStorage.setItem('isUserExist', this.userExist)
-  // this.emailSignupForm.patchValue({
-  // email: data
-  // });
-  // this.sendtoLoginSocial.emit(false);
-  // // this.fcs.socialHIde.next(true)
-  // }else if(res.code==1){
-  // this.userExist=1
-  // localStorage.setItem('isUserExist', '1')
-  // this.emailLoginForm.patchValue({
-  // email: data
-  // });
-  // this.sendtoLoginSocial.emit(true);
-  // }
+  //   let ip: any = localStorage.getItem("ipSaveData");
+  //   const formData = new FormData();
+  //   formData.append("email", data);
+  //   this.auth.OttcheckUserExisted(formData).subscribe((res) => {
 
-  // });
+  //     if(res.code==0){
+  //       this.userExist=0
+  //       localStorage.setItem('isUserExist', this.userExist)
+  //       this.emailSignupForm.patchValue({
+  //         email: data
+  //       });
+  //       this.sendtoLoginSocial.emit(false);
+  //       //  this.fcs.socialHIde.next(true)
+  //     }else if(res.code==1){
+  //       this.userExist=1
+  //       localStorage.setItem('isUserExist', '1')
+  //       this.emailLoginForm.patchValue({
+  //         email: data
+  //       });
+  //       this.sendtoLoginSocial.emit(true);
+  //     }
+
+  //   });
   // }
   triggerEvent() {
-    this.searchText = ''
+    this.searchText = "";
   }
   gotoForgotPassword() {
-    localStorage.setItem("loginShow", "0")
+    setTimeout(() => {
+      this.ed.pauseDetailVideo.next(true);
+      localStorage.setItem("videoCarousel", "1");
+    }, 200);
+
+    localStorage.setItem("loginShow", "0");
+
     this.dialogRef.close();
+
     const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
       panelClass: "forgotPassword",
       backdropClass: "popupBackdropClass",
@@ -668,36 +885,59 @@ export class EmailDialogComponent implements OnInit {
       data: { name: this.emailOption },
     });
 
-    dialogRef.afterClosed().subscribe((result) => { });
-  }
-
-
-  back2() {
-    // this.fcs.loginModal.next(true)
-    this.dialogRef.close()
-    const dialogRef = this.dialog.open(LoginModalDialogComponent, {
-      backdropClass: "popupBackdropClass",
-      panelClass: "logindialog",
-      width: "420px",
-      data: { email: this.emailLoginForm.value.email },
+    dialogRef.afterClosed().subscribe((result) => {
+      if (localStorage.getItem("VideoAutoPlay") == "0") {
+        this.ed.pauseDetailVideo.next(false);
+      }
+      localStorage.setItem("videoCarousel", "0");
     });
-    dialogRef.disableClose = true;
-    // this.inputEnable = false;
   }
+  userInfo: any;
 
+  openPackageStackingDialog(data: any): void {
+    if (
+      data == 1 &&
+      this.jsonDatapack.Others.package_stacking.subscribed.is_allow == 1 &&
+      this.jsonDatapack.Others.package_stacking.row == 0
+    ) {
+      this.packageDataSend =
+        this.jsonDatapack.Others.package_stacking.subscribed;
+    } else if (
+      data == 0 &&
+      this.jsonDatapack.Others.package_stacking.register.is_allow == 1 &&
+      this.jsonDatapack.Others.package_stacking.row == 0
+    ) {
+      this.packageDataSend = this.jsonDatapack.Others.package_stacking.register;
+    }
+    if (
+      this.jsonDatapack.Others.package_stacking.is_allow == 1 &&
+      this.jsonDatapack.Others.package_stacking.row == 0
+    ) {
+      const dialogRef = this.dialog.open(PackageStackingComponent, {
+        panelClass: "package-stacking-popup",
+        width: "430px",
+        data: { name: this.packageDataSend },
+      });
+    } else {
+      window.location.reload();
+    }
+
+    // dialogRef.afterClosed().subscribe((result) => { });
+  }
 }
 @Pipe({
-  name: 'filter',
+  name: "filter",
 })
-
 export class FilterPipe implements PipeTransform {
   transform(items: any[], searchText: string): any[] {
     if (!items) return [];
     if (!searchText) return items;
 
-    return items.filter(item => {
-      return Object.keys(item).some(key => {
-        return String(item[key]).toLowerCase().includes(searchText.toLowerCase());
+    return items.filter((item) => {
+      return Object.keys(item).some((key) => {
+        return String(item[key])
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
       });
     });
   }

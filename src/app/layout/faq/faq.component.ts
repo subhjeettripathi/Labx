@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/app/services/data.service';
 import { ContactusModalDialogComponent } from "src/app/shared/dialogBoxes/contactus-modal-dialog/contactus-modal-dialog.component";
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 declare var $: any;
 @Component({
   selector: 'app-faq',
@@ -19,17 +21,33 @@ export class FaqComponent implements OnInit {
   res0: any;
   toggler: any = true;
   common: any = false;
-  constructor(private ds: DataService,  public dialog: MatDialog,) { }
+  supportData: any;
+  footerFaq:any
+  constructor(private ds: DataService,  public dialog: MatDialog,private location:Location,private router:Router) { }
 
   ngOnInit(): void {
     window.scroll(0, 0);
     this.faq();
+
+    const popup: any = localStorage.getItem('faqData');
+    const faq: any = JSON.parse(popup);
+ 
+    this.supportData=faq.Others.faq_footer
+
+
+    
   }
   faq() {
-    var data:any=localStorage.getItem('innerJson')
-    data=JSON.parse(data)
-    // this.ds.json2().subscribe((data: any) => {
+    this.ds.json2().subscribe((data: any) => {
       this.key = data.Form[0].faq;
+     
+      // for(let i of this.key){
+      //   this.footerFaq = this.key[i].is_allow
+
+      // }
+  
+    
+      
       this.default = this.key[0]['type'];
       this.key.filter((res: any) => {
         if (this.default == res.type) {
@@ -38,7 +56,7 @@ export class FaqComponent implements OnInit {
       })
       this.common_data = data.Form[0].faq.type;
       this.res0 = this.key.type[this.default];
-    // })
+    })
   }
   toggler_sign() {
     this.toggler = false;
@@ -46,25 +64,30 @@ export class FaqComponent implements OnInit {
   }
   open(value: any) {
     this.common = true;
-    console.log(value);
+  
     this.tab_id = value;
     this.key.filter((res: any) => {
       if (value == res.type) {
-        console.log(res.data);
+      
         this.res1 = res.data;
       }
     })
   }
 openLoginDialog(): void {
+  this.router.navigate(["/support"]);
+    // const dialogRef = this.dialog.open(ContactusModalDialogComponent, {
+    //   panelClass: "contactfooter",
+    //   backdropClass:'popupBackdropClass',
+    //   width: "450px", 
+    //   data: { name: "login" },
+    // });
 
-    const dialogRef = this.dialog.open(ContactusModalDialogComponent, {
-      panelClass: "contactfooter",
-      backdropClass:'popupBackdropClass',
-      width: "450px", 
-      data: { name: "login" },
-    });
+    // dialogRef.afterClosed().subscribe((result) => {});
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    
+  back(){
+    this.location.back();
   }
 
 

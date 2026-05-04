@@ -8,6 +8,7 @@ import { FingerPrintService } from 'src/app/services/finger-print.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ExchangeDataService } from 'src/app/services/exchange-data.service';
 import { ForgotPasswordDialogComponent } from '../forgot-password-dialog/forgot-password-dialog.component';
+import { DecryptService } from 'src/app/services/decrypt.service';
 @Component({
   selector: 'app-verify-parental-already-register',
   templateUrl: './verify-parental-already-register.component.html',
@@ -16,25 +17,25 @@ import { ForgotPasswordDialogComponent } from '../forgot-password-dialog/forgot-
 export class VerifyParentalAlreadyRegisterComponent implements OnInit {
   user_id: any;
   InvalidPin = false
-  @Output() case2Parental=new EventEmitter<any>()
-  @Output() case2=new EventEmitter<any>()
-  @Output() socialClose=new EventEmitter<any>()
+  @Output() case2Parental = new EventEmitter<any>()
+  @Output() case2 = new EventEmitter<any>()
+  @Output() socialClose = new EventEmitter<any>()
   otpForm!: FormGroup
-  restrictionTitle=localStorage.getItem("restriction_title")
-  restrictionLevel=localStorage.getItem("restriction_level")
+  restrictionTitle = localStorage.getItem("restriction_title")
+  restrictionLevel = localStorage.getItem("restriction_level")
   checkedCase2: any;
+  visitorId: any = localStorage.getItem('device_id')
   showpass = false;
-  visitorId: any;
   loginId = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
   msg: boolean | undefined;
   showpassword1 = false;
-  basesignin:any=[]
+  basesignin: any = []
   popupJson = JSON.parse(localStorage.getItem('popupJson') || '{}');
-  constructor(public dialogRef: MatDialogRef<VerifyParentalAlreadyRegisterComponent>, private auth: AuthService, private _FPS: FingerPrintService, private deviceService: DeviceDetectorService, private _fb: FormBuilder, private ed: ExchangeDataService, private ds: DataService, public dialog: MatDialog) { }
+  constructor(public dialogRef: MatDialogRef<VerifyParentalAlreadyRegisterComponent>, private auth: AuthService, private _FPS: FingerPrintService, private deviceService: DeviceDetectorService, private _fb: FormBuilder, private ed: ExchangeDataService, private ds: DataService, public dialog: MatDialog, private DEC_SER: DecryptService) { }
 
   ngOnInit(): void {
-    this.basesignin=this.popupJson.PopupList[0]
-    console.log(this.basesignin);
+    this.basesignin = this.popupJson.PopupList[0]
+
     this.otpForm = this._fb.group({
       email: [null]
     });
@@ -42,35 +43,34 @@ export class VerifyParentalAlreadyRegisterComponent implements OnInit {
     var data: any = localStorage.getItem('taploginInfo')
     var data_read = JSON.parse(data)
     this.user_id = data_read.id
-
-    this._FPS.getFingerPrintDeviceId();
-    this._FPS.visitorId.subscribe(r => this.visitorId = r);
   }
   otpInputCurrent = new FormControl('', Validators.compose([Validators.required, Validators.minLength(4)]));
   config = {
     allowNumbersOnly: true,
     length: 4,
-    isPasswordInput: true,
-    disableAutoFocus: false,
+    // isPasswordInput: true,
+    // disableAutoFocus: false,
     timer: 1,
-    placeholder: '',
+    // placeholder: '',
 
     inputStyles: {
-      'width': '65px',
-      'height': '85px',
+      'width': '55px',
       'color': 'white',
-      'border':'none',
-      'outline':'none',
-      'font-size':'40px',
-      'background-color':'#3D3D3D'
+      'background-color': 'transparent',
+      'border-top': 'none',
+      'border-left': 'none',
+      'border-right': 'none',
+      'border-bottom': '2px solid #AAAAAA',
+      'outline': 'none',
+      'border-radius': '0px'
     },
     inputClass: "dfg"
   };
   close() {
     this.dialogRef.close();
-  
-   this.case2.emit(true)
-   this.socialClose.emit(true)
+
+    this.case2.emit(true)
+    this.socialClose.emit(true)
   }
   // submit() {
   //   const formData1: any = new FormData();
@@ -85,7 +85,7 @@ export class VerifyParentalAlreadyRegisterComponent implements OnInit {
   //   formData1.append('device', "web")
   //   formData1.append('level', 0);
   //   formData1.append('title', 'enable');
- 
+
   //     this.ds.parentalControl(formData1).subscribe((data: any) => {
   //       if(res.code==1){
   //       // localStorage.setItem("setCase2Parental",'1')
@@ -95,7 +95,7 @@ export class VerifyParentalAlreadyRegisterComponent implements OnInit {
   //       this.getSwalmsg('Parental Lock Enabled', 'success');
   //       }
   //     })
-         
+
   //       } else {
   //         this.InvalidPin = true
   //       }
@@ -104,20 +104,19 @@ export class VerifyParentalAlreadyRegisterComponent implements OnInit {
   get deviceDetection(): any {
     return this.deviceService.getDeviceInfo()
   }
-  forgotPassword(){
-  // this.dialogRef.close();
-  const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
-    panelClass: 'forgotPassword',
-    width: "566px",
-    height: "524px",
-    disableClose: true,
-    data: { name: this.loginId.email },
-  });
+  forgotPassword() {
+    // this.dialogRef.close();
+    const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
+      panelClass: 'forgotPassword',
+      width: "566px",
+      height: "524px",
+      data: { name: this.loginId.email },
+    });
   }
   submitOtplogin() {
     const device_other_detail = {
       os_version: this.deviceDetection.os_version,
-      app_version: "26.04.024",
+      app_version: "v2_1",
       network_type: "others",
       network_provider: "others"
     }
@@ -127,7 +126,7 @@ export class VerifyParentalAlreadyRegisterComponent implements OnInit {
       screen_resolution: window.innerWidth + '*' + window.innerHeight,
       push_device_token: "others",
       device_type: 'web',
-      platform: 'web',
+      platform: this.deviceDetection.deviceType,
       device_unique_id: this.visitorId,
       onesignal_device_id: "fs95345jfddf",
     }
@@ -140,32 +139,33 @@ export class VerifyParentalAlreadyRegisterComponent implements OnInit {
       formData.append('devicedetail', JSON.stringify(devicedetail));
       formData.append('device', "web");
       this.auth.ottLogin(formData).subscribe((res: any) => {
-        console.log(res, 'login')
+
         if (res.code == 1) {
           const formData1: any = new FormData();
           formData1.append('u_id', this.user_id)
-          formData1.append('pin', '0000'),
+          formData1.append('pin', '0000')
           formData1.append('status', 1)
           formData1.append('device', "web")
-          formData1.append('level', 0);
-          formData1.append('title','');
-       
-            this.ds.parentalControl(formData1).subscribe((data: any) => {
-              if(res.code==1){
-              // localStorage.setItem("setCase2Parental",'1')
-              // localStorage.setItem("isParentalSet", "1")
-              var hey = this.loginId		
-              hey.is_parental = 1	
-              localStorage.setItem('taploginInfo', JSON.stringify(hey))	
+          formData1.append('level', 0)
+          formData1.append('parental_id', this.loginId.parental_id)
+          this.ds.parentalControl(formData1).subscribe((data: any) => {
+            if (data.code == 1) {
+              var hey = this.loginId
+              hey.is_parental = 1
+              localStorage.setItem('taploginInfo', JSON.stringify(hey))
               this.case2Parental.emit(true)
               this.dialogRef.close()
               this.getSwalmsg('Parental Lock Enabled', 'success');
-              }
-            })
-        }else{
-          this.msg=true
+            } else {
+              var hey = this.loginId
+              hey.is_parental = 2
+              localStorage.setItem('taploginInfo', JSON.stringify(hey))
+            }
+          })
+        } else {
+          this.msg = true
         }
-        
+
       })
     }
   }
@@ -193,7 +193,7 @@ export class VerifyParentalAlreadyRegisterComponent implements OnInit {
   }
   restrict(value: any) {
     //   this.restriction = value;
-    //  console.log(this.restriction);
+
 
 
   }

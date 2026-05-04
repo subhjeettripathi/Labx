@@ -22,7 +22,7 @@ export class ChechPinParentalComponent implements OnInit {
   validatePin: any;
   incorrectPinMsg: string | undefined;
   parentalData: any;
-  popupAlertData: any;
+  popupAlertData:any;
   // ageGrp:any;
   // showRestriction:boolean | undefined
   @Output() isSuccess = new EventEmitter<any>()
@@ -34,113 +34,152 @@ export class ChechPinParentalComponent implements OnInit {
   baseJson: any = []
   submitParetal = 0
   ngOnInit(): void {
-
+    localStorage.setItem('videoPlay' , '1');
+    // setTimeout(() => {
+    //   $('#LogintypeModal').on('shown.bs.ashish',  ()=> {
+    //     $('input[name="myInput"]').focus();
+    //   });
+    // }, 1000);
 
 
     var data: any = localStorage.getItem('taploginInfo')
     var data_read = JSON.parse(data)
     this.user_id = data_read.id
-    this.popupAlertData = localStorage.getItem('popUpForm')
-    this.baseJson = JSON.parse(this.popupAlertData)
+    // this.getConfigData();
+    this.popupAlertData=localStorage.getItem('popUpForm')
+    this.baseJson=JSON.parse(this.popupAlertData)
   }
+  ngAfterViewInit() {
+   
+  const otpInputs = document.querySelectorAll('ng-otp-input input');
+  otpInputs.forEach((input: any) => {
+    // input.setAttribute('type', 'text');
+    input.setAttribute('inputmode', 'numeric');
+    input.setAttribute('pattern', '[0-9]*');
+    input.setAttribute('autocomplete', 'one-time-code');
+    input.setAttribute('autocorrect', 'off');
+    input.setAttribute('autocapitalize', 'off');
+  });
+}
+  otpInputCurrent = new FormControl('', Validators.compose([Validators.required, Validators.minLength(4)]));
+  config = {
+    allowNumbersOnly: true,
+    length: 4,
+    //  isPasswordInput: false,
+    // disableAutoFocus: false,
+    timer: 1,
+    inputStyles: {
+      'width': '60px',
+      'color': 'white',
+      'background-color': 'transparent',
+      'border-top': 'none',
+      'border-left': 'none',
+      'border-right': 'none',
+      'border-bottom': '2px solid #AAAAAA',
+      'outline': 'none',
+      'border-radius': '0px'
 
-  // otpInputCurrent = new FormControl('', Validators.compose([Validators.required, Validators.minLength(4)]));
-  // config = {
-  //   allowNumbersOnly: true,
-  //   length: 4,
-  //   isPasswordInput: true,
-  //   disableAutoFocus: false,
-  //   timer: 1,
-  //   inputStyles: {
-  //     'width': '65px',
-  //     'height': '85px',
-  //     'color': 'white',
-  //     'border': 'none',
-  //     'outline': 'none',
-  //     'font-size': '40px ',
-  //     'background-color': '#3D3D3D'
+    },
+    
+  };
+  onOtpChange(otp: any) {
+  
+  
+    if (this.submitParetal == 0) {
+      if (otp.length == 4) {
+      
+      
 
-  //   },
-  //   inputClass: "dfg"
-  // };
-  // onOtpChange(otp: any) {
-  //   console.log(otp);
-  //   // 
-  //   if (this.submitParetal == 0) {
-  //     if (otp.length == 4) {
-  //       //  
-  //       console.log("1");
+        // if(this.submitParetal==0){
+        this.submitParetal = 1
+        const formData1: any = new FormData();
+        formData1.append('u_id', this.user_id)
+        formData1.append('pin', this.otpInputCurrent.value),
+          this.ds.parentalAuth(formData1).subscribe((res: any) => {
+            if (res.code == 1) {
 
-  //       // if(this.submitParetal==0){
-  //       this.submitParetal = 1
-  //       const formData1: any = new FormData();
-  //       formData1.append('u_id', this.user_id)
-  //       formData1.append('pin', this.otpInputCurrent.value),
-  //         this.ds.parentalAuth(formData1).subscribe((res: any) => {
-  //           if (res.code == 1) {
+              this.isSuccess.emit(true)
+              this.dialogRef.close()
+              localStorage.setItem('videoPlay' , '1');
 
-  //             this.isSuccess.emit(true)
-  //             this.dialogRef.close()
+            } else {
+              this.submitParetal = 0
+              this.show = true
+              this.incorrectPinMsg = res.error
 
-  //           } else {
-  //             this.submitParetal = 0
-  //             this.show = true
-  //             this.incorrectPinMsg = res.error
-  //           }
-  //         })
-  //       // }
+            }
+          })
+        // }
 
-  //     } else {
-  //       this.show = false
-  //     }
-  //   }
+      } else {
+        this.show = false
+      }
+    }
 
-  // }
+  }
   close() {
     this.dialogRef.close();
     this.fcs.sendToVideols.next(true)
+    // this.checked1.emit(true)
+  }
+  forgotPassword() {
+    //  this.dialogRef.close();
+
+    const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
+      panelClass: 'forgotPassword',
+      width: "566px",
+      height: "524px",
+      data: { name: this.loginId.email }
+    });
+  }
+  submit() {
+   
 
   }
-  // forgotPassword() {
-  
-  //   const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
-  //     panelClass: 'forgotPassword',
-  //     width: "566px",
-  //     height: "524px",
-  //     data: { name: this.loginId.email }
-  //   });
-  // }
-  // submit() {
+  mobileOnly(event: any) {
+    const keyCode = event.keyCode;
 
-  // }
+    const excludedKeys = [8, 37, 39, 46];
 
-  
-  // getSwalmsg(msg: string, icon: any) {
-  //   const Toast = Swal.mixin({
-  //     toast: true,
-  //     position: 'top-end',
-  //     showConfirmButton: false,
-  //     timer: 1000,
-  //     timerProgressBar: true,
-  //     didOpen: (toast) => {
-  //       toast.addEventListener('mouseenter', Swal.stopTimer)
-  //       toast.addEventListener('mouseleave', Swal.resumeTimer)
-  //     }
+    if (!((keyCode >= 48 && keyCode <= 57) ||
+      (keyCode >= 96 && keyCode <= 105) ||
+      (excludedKeys.includes(keyCode)))) {
+      event.preventDefault();
+    }
+  }
+  // getData(){
+  //   this.ds.parentalGet().subscribe((res:any)=>{
+  //     this.dep_ser.getDecryptedData(res?.result);
+  //     let decryptData = JSON.parse(this.dep_ser.decryptData);
+  //     this.parentalData=decryptData;
+
+  //     this.ageGrp = this.parentalData.agegp_list;
+
   //   })
-
-  //   // Toast.fire({
-  //   //   icon: icon,
-  //   //   title: msg
-  //   // })
   // }
+  getSwalmsg(msg: string, icon: any) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
 
-  // resetPin() {
+    Toast.fire({
+      icon: icon,
+      title: msg
+    })
+  }
 
-  //   this.router.navigate(["/" + "account"]);
-  //   this.dialogRef.close()
-  //   this.ed.openSettingAccount.next(true);
-  //   this.ed.openChangePin.next(true)
-
-
-  // }
+  resetPin() {
+    this.router.navigate(["/" + "account"]);
+    this.dialogRef.close()
+    this.ed.openSettingAccount.next(true);
+     this.ed.openChangePin.next(true)
+  }
 }

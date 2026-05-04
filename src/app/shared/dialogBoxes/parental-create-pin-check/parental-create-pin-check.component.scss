@@ -1,78 +1,57 @@
-
-
-.parental-control-content {
-    position: relative;
-    text-align: center;
-  
- 
-    .img-logo{
-        position: absolute;
-        top: -61px;
-        right: 37%;
-        margin-bottom: 5px;
-        }
-        // .img-logo img{
-        // width: 25%;
-        // }
+.adulttHeading {
+  color: white;
+  font-size: 18px;
+  font-family: var(--theme-font-style) !important;
 }
-.adulttHeading{color: white;font-size: 18px;font-family: "GothamBold" !important;}
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-}
+
 .btn-one {
-    color: #fff !important; 
-    background-color: none !important;
-    /* border-color: #858585 !important; */
-    border: 1px solid #858585;
-    padding: 13px;
-    border-radius: 4px;
-    color: white;
-    background-color: transparent;
-    font-size: 19px;
-    width: 100%;
-}
-.heading{
-font-size: 16px;
-color: #FFFFFF;
-font-weight: 600;
-}
-.email_head{
-    font-size: 16px;
-    color: #DEDEDE;
-    font-weight: 600
-}
-.verify-input{
-    padding: 24px !important;
-}
-.verify_forgot{
-    color: #DEDEDE;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-.verify_submit{
-    width: 100%;
-    background-color: #ff8731;
-    border: none;
-    padding: 12px;
-    color: white;
-    font-weight: 600;
-    font-size: 19px;
-    border-radius: 4px;
-}
-.showBtn{
-position: absolute;
-top: 32%;
-right: 5%;
+  color: #fff !important;
+  background-color: none !important;
+  /* border-color: #858585 !important; */
+  border: 1px solid #858585;
+  padding: 13px;
+  border-radius: 4px;
+  color: white;
+  background-color: transparent;
+  font-size: 19px;
+  width: 100%;
 }
 
-.regstr-content {
-    color: #fff;
+.verify-input {
+  padding: 24px !important;
+}
+.verify_forgot {
+  color: #dedede;
+  font-size: 12px;
+  cursor: pointer;
+}
+.verify_submit {
+  width: 100%;
+  background-color: var(--theme-secondary-color);
+  border: none;
+  padding: 12px;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+}
+.showBtn {
+  position: absolute;
+  top: 32%;
+  right: 5%;
+}
+
+#myText11 {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  margin-bottom: 15px;
+  border: 1px solid var(--theme-imput-border-color) !important;
+  color: var(--theme-input-text-color) !important;
+  background: none;
+  font-family: var(--theme-font-style);
+  font-size: 16px;
+  line-height: 27px;
+  position: relative;
 }

@@ -1,7 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-privacy-policy',
@@ -11,30 +10,26 @@ import { Router } from '@angular/router';
 export class PrivacyPolicyComponent implements OnInit {
   privacy: any;
 
-  constructor(private ds:DataService,private location:Location, private router: Router) { }
+  constructor(private ds:DataService, private location:Location) { }
 
   ngOnInit(): void {
     this.privacyData()
     window.scroll(0, 0)
   }
 
-  back(){
-    if (window.history.length > 1) {
-      this.location.back();
-    } else {
-     this.router.navigate(['/'])
-    }
-  }
-
 
   privacyData() {
-    var data:any=localStorage.getItem('innerJson')
-    data=JSON.parse(data)
-    // this.ds.json2().subscribe((data: any) => {    
+    this.ds.json2().subscribe((data: any) => {    
       this.privacy = data.Website[0].footer_menu.footer_term.privacy_policy.text
-    // })
+    })
   }
   @HostListener('window:scroll', ['$event']) getScrollHeight(event: any) {
     const n = event.srcElement.scrollingElement.scrollTop;
  }
+
+   
+ back(){
+  this.location.back();
+}
+
 }

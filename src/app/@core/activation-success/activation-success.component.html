@@ -1,14 +1,11 @@
-<div  class="sec-top">
+<div  class="container-fluid">
     <div class="row">
-        <div class="col-12 text-center">
-            <div class="alt-login-img">
-                <img src="/assets/svgs/Group.png" alt="abc">
+        <div class="col-12" >
+            <div class="alt-login-img"  *ngIf="basesignin?.activation?.logo?.is_allow == 1">
+                <img src="{{basesignin?.activation?.logo?.web}}"  alt="vive" class="vive-img">
             </div>
           <div  >
-            <h3 class="heading">
-              <!-- Activation Code is verified successfully! (key added to translation service) -->
-            {{'Activation_Code_verified' |translate}}
-            </h3>
+            <h3 class="heading">Activation Code is verified successfully!</h3>
           </div>
         </div>
     </div>  

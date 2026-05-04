@@ -1,33 +1,47 @@
-.text-value{
-    color: #F2F2F2;
+.section-setting {
+    padding: 25px 24px 16px;
+}
+
+.text-title,
+.text-restrict {
+    color: hsl(0, 0%, 71%);
     font-size: 15px;
-    cursor:pointer
-}
-.section-setting{
-    padding: 25px 24px 16px !important; 
+    font-family: var(--theme-font-style) !important;
+    font-weight: 500;
 }
 
-
-a {
-    font-family: 'GothamMedium' !important;
-    text-decoration: underline !important;
-}
-
-.text-title,.text-restrict {
-   
-    color: #B4B4B4;
+.text-value {
+    color: #f2f2f2;
     font-size: 15px;
-    font-weight: 600;
-}
-.slide-toggle {
-    margin-left: 20px;
-}
-::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
-    background-color: #3C7139 !important;
-}
-::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
-    background-color: #0DC700 !important;
-}
-.setting-content p a{
     cursor: pointer;
+    font-family: var(--theme-font-style) !important;
+    font-weight: 500;
+    /* replaces <br> */
+}
+
+.with-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--theme-font-style);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.slide-toggle {
+    margin-left: 8px;
+}
+
+/* Razor clean theme overrides */
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar,
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: var(--theme-secondary-color) !important;
+}
+
+
+.setting-flex{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
 }

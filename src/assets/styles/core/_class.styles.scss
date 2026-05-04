@@ -1,4 +1,6 @@
 @import "../variables/colors.variables.scss";
+@import "../variables/factory.variables.scss";
+
 
 .ott-10mr {
     margin-right: 30px;
@@ -9,7 +11,9 @@
 }
 
 .bg-p {
-    background: $bg-p  !important;
+    background: $bg-p;
+    border-radius: $bg-r !important ;
+    // min-height: $bg-min-height !important;
 }
 .bg-s {
     background: $bg-s  !important;
@@ -46,11 +50,15 @@
     background-color: $t-s !important;
 }
 .t-y{
-    color: #FF9401 !important;
+    color: var(--theme-secondary-color) !important;
 }
 .t-s {
     color: $t-s  !important;
 }
 .text-center{
     text-align: center !important;
+}
+
+.height-nav{
+    height: 100%;
 }

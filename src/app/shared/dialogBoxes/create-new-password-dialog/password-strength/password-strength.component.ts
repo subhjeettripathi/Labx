@@ -70,7 +70,7 @@ export class PasswordStrengthComponent implements OnChanges {
 
       switch (pwdStrength) {
         case 10:
-          this.message = 'weak';
+          this.message = 'Weak';
           break;
         case 20:
           this.message = 'Not Good';

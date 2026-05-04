@@ -7,10 +7,10 @@ import { DataService } from "src/app/services/data.service";
 import { DecryptService } from "src/app/services/decrypt.service";
 import { ExchangeDataService } from "src/app/services/exchange-data.service";
 import { PaymentErrorDialogComponent } from "../payment-error-dialog/payment-error-dialog.component";
+import { LoaderService } from "src/app/shared/gatewayservice/loader.service";
 import Swal from "sweetalert2";
 declare var $: any;
 declare var Razorpay: any;
-
 @Component({
   selector: "app-upi-modal-dialog",
   templateUrl: "./upi-modal-dialog.component.html",
@@ -28,6 +28,14 @@ export class UpiModalDialogComponent implements OnInit {
   reedmeForm: any;
   stateNamesend: any;
   errorMsg:any;
+  country_code:any;
+  USER_ACCOUNT_id:any
+  userDetails:any;
+  userInfo:any
+  ipAddress:any;
+  currency:any;
+  app_version:any;
+  content_id_Created:any;
   @Output() sendValueToPayment = new EventEmitter<any>();
   constructor(
     public dialogRef: MatDialogRef<UpiModalDialogComponent>,
@@ -38,10 +46,18 @@ export class UpiModalDialogComponent implements OnInit {
     private _fb: FormBuilder,
     private checkout: PaymentCheckoutService,
     private DEC_SER: DecryptService,
-    private _DS: DataService
+    private _DS: DataService,
+    private loaderService: LoaderService,
   ) {}
 
   ngOnInit(): void {
+    this._DS.apipip().subscribe((res: any) => {
+      if (res.code == 1) {
+        this.DEC_SER.getDecryptedData(res?.result);
+        let ipSaveData = JSON.parse(this.DEC_SER.decryptData);
+        localStorage.setItem("ipSaveData", JSON.stringify(ipSaveData));
+      }
+     });
     this.targetId = this.data.name;
     this.reedmeForm = this.data.reedmeForm;
     // if( this.reedmeForm==null){
@@ -49,11 +65,13 @@ export class UpiModalDialogComponent implements OnInit {
     // }
     
     this.stateNamesend = this.data.state;
-    console.log(this.stateNamesend);
+  
 
     this.upiForm = this._fb.group({
       upiInput: ["", Validators.required],
     });
+    this.content_id_Created=localStorage.getItem('CreatOrderC_id')
+    this.app_version= localStorage.getItem('appVersion')
     // this.getJson()
   }
   onNoClick() {
@@ -62,11 +80,10 @@ export class UpiModalDialogComponent implements OnInit {
   }
   // getJson() {
   //   this._DS.faqData().subscribe((data: any) => {
-  //     console.log(data);
-  //     console.log(data.payment_providers);
+
   //      this.razorPayKey = data.ThirdParty[0].Razorpay.SECRET_KEY;
 
-  //      console.log( this.razorPayKey);
+
 
   //   })
   // }
@@ -77,8 +94,9 @@ export class UpiModalDialogComponent implements OnInit {
 
       let cardDetails: any = localStorage.getItem("subscribeInfo") || {};
       let ip: any = localStorage.getItem("ipSaveData");
+      this.country_code = JSON.parse(ip).countryCode;
       const formData = new FormData();
-      if (Object.keys(userInfo).length >= 1 && JSON.parse(cardDetails).s_id != null) {
+      if (Object.keys(userInfo).length >= 1) {
         formData.append("c_id", JSON.parse(userInfo).id);
         formData.append(
           "cart",
@@ -87,10 +105,12 @@ export class UpiModalDialogComponent implements OnInit {
           }"}]}`
         );
         formData.append("paymentgateway", "razorpay");
+        formData.append("country_code", this.country_code);
         formData.append("region_type", "1");
         formData.append("coupon_code",this.reedmeForm);
         formData.append("user_role", "1");
         formData.append("device", "web");
+        formData.append('content_id',this.content_id_Created || '')
         if (this.stateNamesend) {
           formData.append("state", this.stateNamesend);
         } else {
@@ -103,6 +123,7 @@ export class UpiModalDialogComponent implements OnInit {
           loc_state: JSON.parse(ip).regionName,
           ip: JSON.parse(ip).ip,
           lat: JSON.parse(ip).latitude,
+          device_make:JSON.parse(ip).userAgent.platform +' '+JSON.parse(ip).userAgent.browser,
           long: JSON.parse(ip).longitude,
           pincode: JSON.parse(ip).postalCode,
           isp:JSON.parse(ip).connection.isp,
@@ -110,43 +131,56 @@ export class UpiModalDialogComponent implements OnInit {
         formData.append("location", JSON.stringify(location));
         this.checkout.createOrder(formData).subscribe(
           (data: any) => {
-            console.log(data);
-
+          if(data.code==1){
             this.DEC_SER.getDecryptedData(data.result);
             let checkoutData = JSON.parse(this.DEC_SER.decryptData);
             this.sessionId = checkoutData;
-            console.log(this.sessionId);
+          
 
-            this.DEC_SER.getDecryptedData(data.razorpay);
+            // this.DEC_SER.getDecryptedData(data.razorpay);
 
-            let checkoutDataRazorPay = JSON.parse(this.DEC_SER.decryptData);
-            console.log(checkoutDataRazorPay);
+            // let checkoutDataRazorPay = JSON.parse(this.DEC_SER.decryptData);
+          
 
-            this.razorPayKey = checkoutDataRazorPay.SECRET_KEY;
+            this.razorPayKey = this.sessionId.razorpay_creds.SECRET_KEY;
+           
+            
             Object.assign(checkoutData, {
               currency: this.targetId?.currency,
               amount: this.targetId?.amount,
             });
 
             this.goToUPIRazorpay(this.upiForm.value.upiInput);
+            this.loaderService.show();
+          }else{
+            this.loaderService.hide()
+            this.errorMsg=data.error
+            this.paymentErrorMsg()
+          }
+
+           
           },
           (err) => {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Something went wrong!",
-            });
+            this.loaderService.hide();
+            this.errorMsg='Upi is not working!'
+            this.paymentErrorMsg()
+            // Swal.fire({
+            //   icon: "error",
+            //   title: "Oops...",
+            //   text: "Something went wrong!",
+            // });
           }
         );
       }
     }
   }
   goToUPIRazorpay(input: any) {
+    
     var razorpay = new Razorpay({
       key: this.razorPayKey,
     });
 
-    // console.log(checkoutdata.gateway_ref_id);
+  
 
     const userInfo: any = localStorage.getItem("taploginInfo") || {};
     this.contact = JSON.parse(userInfo).contact_no;
@@ -163,8 +197,7 @@ export class UpiModalDialogComponent implements OnInit {
     } else {
       this.contact;
     }
-    console.log(this.contact);
-    console.log(this.email);
+   
     var data = {
       amount: this.sessionId.total, // in currency subunits. Here 1000 = 1000 paise, which equals to ₹10
       // currency: "INR",// Default is INR. We support more than 90 currencies.
@@ -183,7 +216,7 @@ export class UpiModalDialogComponent implements OnInit {
         flow: "collect",
       },
     };
-
+   
     $(document).ready(() => {
       $("#btn").trigger("click");
       razorpay.createPayment(data);
@@ -192,14 +225,16 @@ export class UpiModalDialogComponent implements OnInit {
       }); // will pass payment ID, order ID, and Razorpay signature to success handler.
 
       razorpay.on("payment.error",  (resp: any) => {
+        this.loaderService.hide()
        
         this.errorMsg=resp.error.description
         this.paymentErrorMsg()
       }); // will pass error object to error handler
     });
   }
-
+ 
   paymentErrorMsg() {
+   
     
     this.dialogRef.close();
     document.body.style.overflow = "hidden";
@@ -209,10 +244,19 @@ export class UpiModalDialogComponent implements OnInit {
       width: "390px",
       data: {paytmDetails: this.errorMsg },
     });
-    
     dialogRef.afterClosed().subscribe((result:any) => {
       document.body.style.overflow = "auto";
     });
+    let ip: any = localStorage.getItem("ipSaveData");
+    this.ipAddress = JSON.parse(ip).countryName;
+    this.userDetails = localStorage.getItem('taploginInfo')
+    this.userInfo=JSON.parse(this.userDetails);
+    if(this.ipAddress=='India'){
+      this.currency='INR'
+   }else{
+    this.currency='USD'
+   }
+
   }
 
   makeRazorpayPayment(data: any) {
@@ -244,6 +288,7 @@ export class UpiModalDialogComponent implements OnInit {
       city: JSON.parse(ip).city,
       loc_state: JSON.parse(ip).regionName,
       ip: JSON.parse(ip).ip,
+      device_make:JSON.parse(ip).userAgent.browser,
       lat: JSON.parse(ip).latitude,
       long: JSON.parse(ip).longitude,
       pincode: JSON.parse(ip).postalCode,
@@ -254,8 +299,9 @@ export class UpiModalDialogComponent implements OnInit {
     this.checkout.makeRazorPayPayment(formData).subscribe((res: any) => {
       this.dialogRef.close();
       this.DEC_SER.getDecryptedData(res.result);
-      console.log(res);
+    
       if (res.code == 1) {
+        this.loaderService.hide()
         this.sendValueToPayment.emit(4);
         // this.router.navigate(['/subscribe'], {queryParams:{'tab':'4'}});
         this.uid = localStorage.getItem("taploginInfo");
@@ -265,15 +311,19 @@ export class UpiModalDialogComponent implements OnInit {
         this._DS.getUserSubscriptionDetails(this.Uid).subscribe((res) => {
           this.DEC_SER.getDecryptedData(res.result);
           const data: any = JSON.parse(this.DEC_SER.decryptData);
-          console.log(data);
+        
           if (data.is_subscriber == 1) {
             localStorage.setItem("is_subscriber", "1");
             this.ed.isSubscribe.next(true);
             this.ed.parentalLock.next(false);
-            console.log("subcriberrr");
+          
           }
         });
+      }else{
+        this.errorMsg=res.error
+        this.paymentErrorMsg()
       }
     });
   }
+
 }

@@ -28,17 +28,17 @@
     color: white;
     border: none;
     border: 1px solid map-get($primary, 500) !important;
-    &:active{
-        transform: translateY(1px);
-        background-color: map-get($primary, act) !important;
-    }
-    &:hover{
-        background-color: map-get($primary, hov) !important;
-        border: 1px solid map-get($primary, hov) !important;
+    // &:active{
+    //     transform: translateY(1px);
+    //     background-color: map-get($primary, act) !important;
+    // }
+    // &:hover{
+    //     background-color: map-get($primary, hov) !important;
+    //     border: 1px solid map-get($primary, hov) !important;
 
-    }
-    &:disabled{
-        background-color: $lightprimary !important;
-        border: 1px solid $lightprimary !important;
-    }
+    // }
+    // &:disabled{
+    //     background-color: $lightprimary !important;
+    //     border: 1px solid $lightprimary !important;
+    // }
 }

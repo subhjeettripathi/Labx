@@ -1,69 +1,115 @@
 <div class="alt-login-content">
     <div class="alt-login-img" *ngIf="basesignin.mobileLink.logo.is_allow == 1">
-        <img src="{{basesignin.mobileLink.logo.web}}" alt="AOL">
+        <img src="{{basesignin.mobileLink.logo.web}}" alt="vive" class="vive-img">
     </div>
     <h3 class="text-white verifyEmail " *ngIf="basesignin.mobileLink.heading.is_allow == 1">
-        {{basesignin.mobileLink.heading.text |translate}}</h3>
+        {{basesignin.mobileLink.heading.text}}</h3>
     <!-- <div *ngIf="msg" style="color:red">Please enter mobile number</div> -->
     <br>
     <button (click)="onNoClick()" class="close-btn">
-        <mat-icon>Close</mat-icon>
+        <img src="assets/arrows_icons/VectorClose.svg" alt="">
     </button>
 
 
     <div>
         <form action="" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+         <!-- {{loginForm.value |json}}   -->
             <div class="codeDisplay">
-                <div>
-                    <div id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+
+                <!-- <select class="selectpicker sharma" formControlName="code" data-live-search="true"  (click)="open($event)" >
+                    <option selected aria-readonly="true">+91
+                       </option>
+                    <option *ngFor="let countr of country" >
+                       <div> <span class="countryNmaes">{{countr.name}}</span><span>{{countr.dial_code}}</span></div></option>
+
+                </select> -->
+
+                <!-- <input *ngIf="basesignin.mobileLink.input_field.is_allow == 1" matInput #input type="text"
+                    minlength="10" maxlength="10" pattern="[0-9]+" formControlName="mobile"
+                    placeholder="{{basesignin.mobileLink.input_field.placeholder}}" class="form-control mobileCode"> -->
+              
+                    <!-- <mat-form-field appearance="legacy" class="otpCode otpcode-mobile" > -->
+                        <!-- <mat-select  (closed)="triggerEvent()" [disableOptionCentering]="true" (selectionChange)="testttf($event);"  [(ngModel)]="selected1" panelClass='my-parent-class' 
+                             formControlName="code"  >
+                             <mat-select-trigger *ngIf="changeSelects; else elseBlock">
+                                {{defaultVal}}
+                            </mat-select-trigger>
+                            <ng-template #elseBlock>
+                                <mat-select-trigger>
+                                    {{ selected1}}
+                                </mat-select-trigger>
+                            </ng-template>
+                                    <ngx-mat-select-search [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}"
+                                placeholderLabel="Search Country" noEntriesFoundLabel="No matching country found">
+                            </ngx-mat-select-search>
+                                  
+                                    <mat-option class="option" id="dd" *ngFor="let countr of country | filter: searchText"
+                                    [value]="countr.dial_code"  (click)="changeSelect(countr.dial_code);changeAnotherSelect(countr.dial_code,countr.mobile_length)">
+                                   
+                                    <span *ngIf="countr.is_allow == 1" mat-line style="color:#F2F2F2">{{ countr.name }}</span>
+                                    <span  *ngIf="countr.is_allow == 1" mat-line style="color:#F2F2F2">{{ countr.dial_code }}</span>
+                                </mat-option>
+                        </mat-select> -->
+                        <div>
+                        <div id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"  
                         class="country-code-section">
                         <div class="dropdown-toggle">
-                            <span class="country-code">{{defaultVal |translate}}</span>
+                            <span class="country-code">{{defaultVal}}</span>
                         </div>
-                        <ul aria-labelledby="dropdownMenuButton" class="country-code-lists dropdown-menu">
+                        <!-- <ul aria-labelledby="dropdownMenuButton" class="country-code-lists dropdown-menu">
                             <li onclick="(event||window.event).stopPropagation()" class="search-country-code">
-                                <input id="search-country" [(ngModel)]="searchText"
+                                <input id="search-country" [(ngModel)]="searchText" 
                                     [ngModelOptions]="{ standalone: true }" type="search" aria-label="Search"
-                                    autocomplete="off" name="country-code" placeholder="{{'search_country' |translate}}" /><span
-                                    class="search-icon text-right"><img class="loginSearch"
-                                        src="assets/svgs/searchLogin.svg" alt="AOL"></span>
+                                    autocomplete="off" name="country-code" placeholder="Search country" /><span
+                                    class="search-icon text-right"><img
+                                            class="loginSearch" src="assets/svgs/searchLogin.svg" alt="vive"></span>
                             </li>
                             <li class="country-list">
                                 <ul>
-                                    <li *ngFor="let countr of country | filter: searchText" class="dropdown-item"
-                                        (click)="change1(countr.dial_code);changeSelect(countr.dial_code);changeAnotherSelect(
+                                    <li *ngFor="let countr of country | filter: searchText"
+                                        class="dropdown-item" (click)="change1(countr.dial_code);changeSelect(countr.dial_code);changeAnotherSelect(
                                           countr.dial_code,
                                           countr.mobile_length
                                         )">
-                                        <a class="countryNames">{{ countr.name |translate }}</a><span
-                                            class="text-right countryNames">{{ countr.dial_code
-                                            }}</span>
+                                        <a class="countryNames">{{ countr.name }}</a><span class="text-right countryNames">{{ countr.dial_code}}</span>
                                     </li>
                                 </ul>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
-
-                <div class="countryField">
-                    <input id="myText" class="input-font-alt"
-                        placeholder="{{basesignin.mobileLink.input_field.placeholder |translate}}" minlength="10"
-                        maxlength="{{this.counts}}"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                        formControlName="mobile" />
-
-
-                </div>
-                <mat-error *ngIf="loginForm.controls['mobile'].hasError('pattern')">
-                    {{'please_enter_valid_mobile_number' |translate}}
-                </mat-error>
-
+               
+                    <div class="countryField">
+                        <input type="tel" inputmode="numeric" id="myTextMob" class="input-font-alt" 
+                        placeholder="{{basesignin.mobileLink.input_field.placeholder}}" minlength="10" maxlength="{{this.counts}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        formControlName="mobile"  />
+                        
+                        
+                    </div>
+                
+                    <!-- </mat-form-field> -->
+                        <!-- <mat-form-field appearance="legacy" class="inputCode" *ngIf="basesignin.mobileLink.input_field.is_allow == 1">
+                            <input #input type="text" class="numeric" minlength="10" maxlength="{{this.counts}}" onkeypress="return /[0-9]/i.test(event.key)"
+                              formControlName="mobile" 
+                            placeholder="{{basesignin.mobileLink.input_field.placeholder}}" matInput >
+                            <mat-error 
+                            *ngIf="loginForm.controls['mobile'].hasError('pattern') || (loginForm.controls['mobile'].dirty || loginForm.controls['mobile'].touched)">
+                            Enter valid phone number
+                        </mat-error>
+                    </mat-form-field> -->
+                    <!-- <ng-template class="inputCode" *ngIf="basesignin.mobileLink.input_field.is_allow == 1"> -->
+                       
+                <!-- </ng-template> -->
 
             </div>
-
+               <mat-error 
+                    *ngIf="loginForm.controls['mobile'].hasError('pattern')">
+                    Enter valid phone number
+                </mat-error>
             <br>
             <button *ngIf="basesignin.mobileLink.submit_btn.is_allow == 1"
-                class="btn submitEmailLink">{{basesignin.mobileLink.submit_btn.text | translate}}</button>
+                class="btn submitEmailLink">{{basesignin.mobileLink.submit_btn.text}}</button>
 
         </form>
     </div>

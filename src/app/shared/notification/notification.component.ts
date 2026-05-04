@@ -18,12 +18,12 @@ export class NotificationComponent implements OnInit {
   getConfigData() {
     const popup: any = localStorage.getItem('faqData');
     const dataPopup: any = JSON.parse(popup);
-    console.log(dataPopup);
+  
     
     this.notifyData=dataPopup.Others.empty_notification
     // this._DS.faqData().subscribe((res: any) => {
     //   this.notifyData=res.Others.empty_notification
-    //  console.log(this.notifyData);
+   
      
     // })
   }

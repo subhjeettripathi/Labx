@@ -1,22 +1,8 @@
 
 
-.parental-control-content {
-    position: relative;
-    text-align: center;
-  
- 
-}
-.adulttHeading{color: white;font-size: 18px;font-family: "GothamBold" !important;}
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-}
+
+.adulttHeading{color: white;font-size: 18px;font-family: var(--theme-font-style) !important;}
+
 .btn-one {
     color: #fff !important; 
     background-color: none !important;

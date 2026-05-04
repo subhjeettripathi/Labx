@@ -3,15 +3,7 @@
     position: absolute;
     right: 0;
 }
-.alt-login-content {
-    position: relative;
-    text-align: center;
 
-    .alt-login-img {
-        position: relative;
-        top: -56px
-    }
-}
 
 .showBtnEmail {
     position: absolute;
@@ -20,28 +12,11 @@
 
 
 
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    transition: .1s;
-    color: white;
 
-    &:hover {
-        transform: scale(1.1);
-        transition: .1s;
-
-    }
-}
 
 .verifyEmail {
     text-align: center;
-    margin-top: -40px;
-
+    margin-top: 20px;
     display: flex !important;
     justify-content: center;
 
@@ -50,25 +25,26 @@
 
 .verificationCOde {
     text-align: center;
-    font-size: 16px;
-    font-family: 'PoppinsMedium' !important;
-    // margin: 60px;
-    letter-spacing: 0px;
-    color: #DEDEDE !important;
-    opacity: 1;
+    font-size: normal normal medium 18px/24px Gotham HTF !important;
 }
-.correct-img img{
+
+.correct-img img {
     margin-top: 65px !important;
     height: 75px !important;
 }
 
-.submitEmailLink{
-border: none;
-background-color: red;
-width: 67%;
-color: white;
-font-weight: 600;
+.submitEmailLink {
+    color: var(--white) !important;
+    background-color: none !important;
+    border: 1px solid var(--theme-secondary-color);
+    padding: 12px;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 16px;
+    background-color: var(--theme-secondary-color);
+    font-family: var(--theme-font-style) !important;
 }
+
 .form-control {
-    padding: 0px; 
+    padding: 0px;
 }

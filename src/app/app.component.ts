@@ -1,76 +1,70 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { SeoService } from './services/seo.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
-import { filter, map, mergeMap } from 'rxjs/operators';
-import { Meta, Title } from '@angular/platform-browser';
-import { TranslationService } from './services/translation.service';
+import { Component, OnInit } from "@angular/core";
+import { SeoService } from "./services/seo.service";
+import { NetworkConnectionService } from "./services/network-connection.service";
+import { FingerPrintService } from "./services/finger-print.service";
+import { LogoutPopupComponent } from "./shared/dialogBoxes/logout-popup/logout-popup.component";
+import { MatDialog } from "@angular/material/dialog";
 
+declare var require: any;
+declare const posthog: any;
+declare var firebase: any;
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
-  title = 'aol';
-  constructor(private router: Router,
-    private activatedRoute: ActivatedRoute,
-    @Inject(DOCUMENT) private doc: Document,
-    private titleService: Title,
-    private metaService: Meta,
-   private translateService: TranslationService) {
+  imageUrl: string = "assets/arrows_icons/VectorClose.svg";
+  title = "altbalaji_web";
+  connected: boolean = true;
+  USER_ACCOUNT_id: any;
+  constructor(
+    private meta: SeoService,
+    private networkConnectionService: NetworkConnectionService,
+    private dialog: MatDialog,
+  ) {
+    this.meta.updateTitle();
   }
+  ngOnInit(): void {
+    this.networkConnectionService.connected$.subscribe((connected) => {
+      this.connected = connected;
+    });
 
-  ngOnInit() {
-      this.translateService.loadSavedLang();
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        let canonicalLink: HTMLLinkElement =
-          this.doc.querySelector("link[rel='canonical']") ||
-          this.doc.createElement('link');
-        canonicalLink.setAttribute('rel', 'canonical');
-        canonicalLink.setAttribute(
-          'href',
-          'https://www.artofliving.app' + event.urlAfterRedirects
-        );
-
-        if (!canonicalLink.parentNode) {
-          this.doc.head.appendChild(canonicalLink);
-        }
+    window.addEventListener('message', (event) => {
+      //  console.log("Message received", event);
+      if (event.data?.type === 'FORCE_LOGOUT') {
+        const dialogRef = this.dialog.open(LogoutPopupComponent, {
+          backdropClass: 'popupBackdropClass',
+          panelClass: 'adultAgePopup',
+          width: "390px",
+          disableClose:false
+        })
       }
     });
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        map(() => {
-          let route = this.activatedRoute;
-          while (route.firstChild) route = route.firstChild;
-          return route;
-        }),
-        mergeMap(route => route.data)
-      )
-      .subscribe(data => {
-        const pageTitle = data['title'] || 'The Art of Living';
-        this.titleService.setTitle(pageTitle);
+    // setTimeout(() => {
+    //   console.log(firebase , 'firebase');
 
-        this.metaService.updateTag({
-          property: 'og:title',
-          content: pageTitle
-        });
+    //   firebase.firestore.collection('events').doc('status').valueChanges().subscribe(data => {
+    //     console.log('🔥 Backend triggered Firebase write:', data);
+    //     if (data?.status === 'completed') {
+    //       // Take action in UI
+    //     }
+    //   });
+    // }, 2000);
 
-        this.metaService.updateTag({
-          property: 'og:description',
-          content: 'The Art of Living Foundation- a humanitarian organisation devoted for betterment of society, brings smiles by yoga, meditation, Sudarshan Kriya & life skills.'
-        });
-        this.metaService.updateTag({ name: 'description', content: 'The Art of Living Foundation- a humanitarian organisation devoted for betterment of society, brings smiles by yoga, meditation, Sudarshan Kriya & life skills.' });
-
-        this.metaService.updateTag({
-          name: 'twitter:title',
-          content: pageTitle
-        });
-      });
+    // this.getDeviceId();
   }
+  // getDeviceId() {
+  //   setTimeout(() => {
+  //     const deviceId = posthog.get_distinct_id();
+  //     console.log('Device ID:', deviceId);
+
+  //   }, 1000);
+  // }
 
 
 
+  closeBanner() {
+    this.connected = true;
+  }
 }

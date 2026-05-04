@@ -1,60 +1,29 @@
 
+.adulttHeading{color: white;font-size: 18px;font-family: var(--theme-font-style) !important;}
 
-.parental-control-content {
-    position: relative;
-    text-align: center;
-  
- 
-    .alt-login-img {
-        // position: relative;
-        // top: -56px;
-        margin-bottom: 15px;
-    }
- 
-}
-.adulttHeading{color: white;font-size: 16px;font-family: "PoppinsBold" !important;}
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-}
 .btn-one {
     color: #fff !important; 
     background-color: none !important;
-    border: 1px solid #858585;
-    padding: 12px;
+    /* border-color: #6b6b6b !important; */
+    border: 1px solid #6b6b6b;
+    padding: 13px;
     border-radius: 4px;
     color: white;
-    background-color:#FF8731;
-    font-size:16px;
-    font-family: "PoppinsRegular";
-    font-weight: 600;
-    line-height: 20px;
-    letter-spacing: 0em;
-    text-align: center;
+    background-color: red;
+    font-size:19px;
     width: 100%;
 }
 .btn-two {
     color: #fff !important; 
     background-color: none !important;
     /* border-color: #858585 !important; */
-    border: 1px solid #858585;
-    padding: 12px;
+    border: 1px solid #6b6b6b;
+    padding: 13px;
     border-radius: 4px;
     color: white;
     background-color: transparent;
-    font-size: 16px;
+    font-size: 19px;
     width: 100%;
-    font-family: "PoppinsRegular";
-    font-weight: 600;
-    line-height: 20px;
-    letter-spacing: 0em;
-    text-align: center;
 }
 .btn-two:hover{
     background-color: none !important; 

@@ -23,9 +23,9 @@ export class GeographicalInformationComponent implements OnInit {
     const popup: any = localStorage.getItem('allJsonPopupData');
     const dataPopup: any = JSON.parse(popup);
     this.baseSign=dataPopup.PopupList[0]
-    console.log(dataPopup.PopupList[0])
+  
 //     this.ds.popupJson().subscribe((res: any) => {
-//        console.log(res.PopupList[0]);
+
       
 // this.baseSign=res.PopupList[0]
 //     })

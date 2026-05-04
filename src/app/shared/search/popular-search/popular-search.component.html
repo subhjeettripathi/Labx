@@ -1,47 +1,55 @@
 <ng-container>
-  <div id="searchDiv" fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start">
-    <ng-container *ngFor="let data of popular_data">
-      <div fxFlex="16.66%" fxFlex.xs="33.30%" fxFlex.sm="33.30" fxFlex.md="20%" class="alt-brr-10 alt-p-3"
-        (click)="navigate(data)">
-        <img [src]="data.sliderImg || defaultThumb" [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}"
-          class=" alt-brr-10" [alt]="data.is_group == 0 ? data.title : data.season_title"
-          [title]="data.is_group == 0 ? data.title : data.season_title" />
+        <div id="searchDiv">
+                <!-- <ng-container *ngFor="let category of getUniqueCategories()">
+                        <h3>{{category}}</h3> -->
+                <div class="pop-search" fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start">
 
-        <div *ngIf="data.is_ad != 1">
-          <div class="icons_art" [ngStyle]="{display: data?.content_type == 'audio' ? 'flex' : 'none'}">
-            <img src="assets/svgs/headphone.svg" class="music_art" alt="">
-          </div>
-          <div class="icons_art" [ngStyle]="{display: data?.content_type == 'ebook' ? 'flex' : 'none'}">
-            <img src="assets/svgs/e-book.svg" class="music_art" alt="">
+                        <div fxFlex="20%" fxFlex.xs="50%" fxFlex.sm="33.30%" fxFlex.md="20%"
+                                class="alt-brr-10 alt-p-3" *ngFor="let data of popular_data" >
+                                <!-- <mat-icon *ngIf="data.access_type=='paid' " class="crown" aria-hidden="false"
+                                        svgIcon="crown"
+                                        [ngStyle]="{'display':data.type=='circle'?'none':'block'}"></mat-icon>
+                                <div class="free-icon" *ngIf="data.access_type=='free' "
+                                        [ngStyle]="{'display':data.type=='circle'?'none':'block'}"> <img
+                                                src="assets/svgs/free.svg" alt="abc">
+                                </div> -->
+                                <div>
+                                       
+                                        <div class="img-container" (click)="naviagte(data)">
+                                                <div *ngIf="data.access_type == 'paid'  && !isSubscribed" class="crown">
+                                                        <img [src]="this.crownImg" alt="vive" loading="lazy" />
+                                                </div>
+                                                <div class="free-icon" *ngIf="data.access_type == 'free'  && !isSubscribed">
+                                                        <img [src]="freeImg" alt="vive" loading="lazy" />
+                                                </div>
+                                                <div *ngIf="data.is_live == '1' && data?.type != 'circle'" class="live-icon">
+                                                        <img [src]="liveImg" alt="">
+                                                </div>
+                                                <div *ngIf="data.is_group == 1">
+                                                        <img [src]="data.sliderImg || defaultThumb"
+                                                                [alt]="data.series_title + ' ' + data.season_title + ' - '+data.title"
+                                                                [title]="data.series_title + ' ' + data.season_title + ' - '+data.title"
+                                                                [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}"
+                                                                class=" alt-brr-10" />
+                                                </div>
+
+                                                <div *ngIf="data.is_group == 0">
+                                                        <img [src]="data.sliderImg || defaultThumb" [alt]="data.title"
+                                                                [title]="data.title"
+                                                                [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}"
+                                                                class=" alt-brr-10" />
+                                                </div>
+                                        </div>
+
+                                        <div class="title-cont" [ngClass]="{ 'ellipsis': data.title?.length > 10 }">
+                                                {{ data.title }}
+                                        </div>
+
+                                </div>
+                        </div>
+                </div>
 
 
-          </div>
-          <div class="icons_art" [ngStyle]="{display: data?.content_type == 'video' ? 'flex' : 'none'}">
-            <img src="assets/svgs/video_icon.svg" class="music_art" alt="">
-
-
-          </div>
-          <div class="icon-crown"
-            *ngIf="data.access_type == 'paid'   && data.package_mode !== 'Prime'  && !isSubscribed">
-            <img src="assets/svgs/aol_crown.svg" class="aol_crown" alt="AOL">
-          </div>
-
-          <div class=" free-icon "
-            *ngIf="data.access_type == 'free'  && data.package_mode !== 'Prime'  && !isSubscribed">
-            <img src="assets/svgs/free-v1.svg" class="free_aol-icon" alt="AOL" />
-          </div>
-          <div class="prime-icon" *ngIf="data.package_mode == 'Prime'  ">
-            <img src="assets/svgs/lock-prime-v2.svg" class="free_aol" alt="AOL" />
-          </div>
+                <!-- </ng-container> -->
         </div>
-
-        <div>
-          <p *ngIf="data.is_group==0" class="title_case">{{data.title}}</p>
-          <p *ngIf="data.is_group==1" class="title_case">{{data.season_title}} - (Season)</p>
-
-        </div>
-      </div>
-
-    </ng-container>
-  </div>
 </ng-container>

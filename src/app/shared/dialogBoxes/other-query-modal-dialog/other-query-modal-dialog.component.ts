@@ -13,7 +13,7 @@ import { SwalMsgService } from 'src/app/services/swal-msg.service';
 import { ThirdPartyIntegrationService } from 'src/app/services/third-party-integration.service';
 import { QueryMsgComponent } from '../query-msg/query-msg.component';
 import { Router } from '@angular/router';
-
+import { LoaderService } from "src/app/shared/gatewayservice/loader.service";
 declare var $: any;
 @Component({
   selector: 'app-other-query-modal-dialog',
@@ -51,13 +51,15 @@ export class OtherQueryModalDialogComponent implements OnInit {
   fileUpload:any;
   contactNumber:any;
   subscribe:any;
+  build_version:any;
+  erroMsgHIdeINcode:boolean=false;
   @ViewChild('emailLoginFormDir') emailLoginFormDir!: NgForm;
   @ViewChild('imageSizeALert')
   imageSizeALert!: TemplateRef<any>;
   private imageSieConfirmationDialogRef!: MatDialogRef<TemplateRef<any>>;
   constructor(
     public dialogRef: MatDialogRef<OtherQueryModalDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private _fb: FormBuilder, private socialAuthService: SocialAuthService, private _auth: AuthService, private DEC_SER: DecryptService, private router: Router,private deviceService: DeviceDetectorService, private _FPS: FingerPrintService, private _DS: DataService, private _storage: StorageService, private _SWAL: SwalMsgService, private auth: AuthService, private tps: ThirdPartyIntegrationService, public dialog: MatDialog,) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private _fb: FormBuilder,   private loaderService: LoaderService, private socialAuthService: SocialAuthService, private _auth: AuthService, private DEC_SER: DecryptService, private router: Router,private deviceService: DeviceDetectorService, private _FPS: FingerPrintService, private _DS: DataService, private _storage: StorageService, private _SWAL: SwalMsgService, private auth: AuthService, private tps: ThirdPartyIntegrationService, public dialog: MatDialog,) {
     this.timeZoneOffset = new Date();
   }
 
@@ -82,14 +84,15 @@ export class OtherQueryModalDialogComponent implements OnInit {
     this.dialogRef.close();
   }
   getJson() {
-    var data:any=localStorage.getItem('faqData')
-    data=JSON.parse(data)
-    // this._DS.faqData().subscribe((data: any) => {
+    this._DS.faqData().subscribe((data: any) => {
       this.queryForm = data.Form[0].contactus
-      console.log(this.queryForm);
+   
       this.attachment=data.Form[0].contactus.other.attach_screenshot.no_of_attachment
-      this.queryForm.payment_subscription.attach_screenshot.file_size   
-    // })
+      this.queryForm.payment_subscription.attach_screenshot.file_size
+      this.build_version = data.Website[0].footer_menu.footer_version.version;
+     
+     
+    })
   }
 
 
@@ -97,7 +100,7 @@ export class OtherQueryModalDialogComponent implements OnInit {
  
   
  this.fileData.splice(i,1)
- console.log(this.fileData);
+
  if(this.fileData.length==this.attachment){
   this.attachmentButton=false
 }else{
@@ -151,7 +154,7 @@ export class OtherQueryModalDialogComponent implements OnInit {
   // onSelect() {
   //   if (this.selectedFiles.length > this.attachment) {
   //     // this.deleteFile()
-  //    
+
   //     this.selectedFiles.preventDefault();
   //     this.fileAttributesName.preventDefault();
 
@@ -168,6 +171,7 @@ export class OtherQueryModalDialogComponent implements OnInit {
     this.submitted=true;
      this.priority = 1;
     this.status = 2;
+    this.loaderService.hide()
     if (this.otherQueryForm.valid) {
     
       const formData = new FormData();
@@ -194,7 +198,7 @@ export class OtherQueryModalDialogComponent implements OnInit {
       }
 
       formData.append("custom_fields[app_name]", "ALTT");
-      formData.append("custom_fields[app_version]", "3.0.78.3");
+      formData.append("custom_fields[app_version]",this.build_version.slice(11, 33));
       if(this.userInfo && this.subscribe!=1){
         formData.append("custom_fields[account_type]", "Free");
       }else if(this.subscribe==1){
@@ -211,7 +215,7 @@ export class OtherQueryModalDialogComponent implements OnInit {
       formData.append("custom_fields[web_browser_language]", navigator.language);
       formData.append("custom_fields[web_browser_cookies]", "true");
       formData.append("custom_fields[input]", "1");
-      // formData.append("custom_fields[query_type]", "Payment or Subscription Query");
+      formData.append("custom_fields[query_type]", "Other Query");
       formData.append("custom_fields[query_sub_type]", this.otherQueryForm.value.query_type);
       // formData.append("custom_fields[payment_gateway]",this.otherQueryForm.value.payment_type);
       // formData.append("custom_fields[other_payment_gateway]","1");
@@ -219,28 +223,51 @@ export class OtherQueryModalDialogComponent implements OnInit {
         if (res.code == 1) {
           this.dialogRef.close();
           this.gotoSuccessMsgSent();
+        }else{
+          this.erroMsgSHow()
+          this.loaderService.hide();
         }
+      },
+      (err) => {
+        this.loaderService.hide();
+        this.erroMsgSHow()
+      
       })
-    }else{
-     
     }
   }
 
   gotoSuccessMsgSent() {
     this.dialogRef.close();
-    const dialogRef = this.dialog.open(QueryMsgComponent, {
+    this.loaderService.hide()
+    const dialogRef123 = this.dialog.open(QueryMsgComponent, {
       panelClass: 'contactUsMsgSentDialog',
       width: "390px",
 
 
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef123.afterClosed().subscribe((result) => {
 
     });
   }
 
   openWatchListConfirmationDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.restoreFocus = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.role = 'dialog';
+    dialogConfig.panelClass = 'signoutConfirmation';
+    dialogConfig.backdropClass = 'popupBackdropClass';
+    dialogConfig.width = '420px'
+    this.imageSieConfirmationDialogRef = this.dialog.open(this.imageSizeALert, dialogConfig);
+    this.router.events.subscribe(() => {
+        this.imageSieConfirmationDialogRef.close();
+      });
+
+  }
+  erroMsgSHow(): void {
+    this.erroMsgHIdeINcode=true
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.restoreFocus = false;
@@ -261,8 +288,8 @@ export class OtherQueryModalDialogComponent implements OnInit {
   }
 
   selectCodeChange(event:any) {
-  //  console.log(event);
+
    
   }
-
+ 
 }

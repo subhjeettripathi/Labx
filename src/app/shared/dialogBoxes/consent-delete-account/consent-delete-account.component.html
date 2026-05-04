@@ -1,43 +1,31 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
-        <div class="alt-login-img" *ngIf="basesignin.delete_account_alert.logo.is_allow == 1">
-            <!-- <img src="{{basesignin.clearContinueWatching.logo.web}}" alt="AOL"> -->
-            <img src="assets/svgs/aol.png" alt="">
+        <div class="alt-login-img" *ngIf="basesignin.clearContinueWatching.logo.is_allow == 1">
+            <img src="{{basesignin.clearContinueWatching.logo.web}}" alt="vive" class="vive-img">
         </div>
         <button (click)="close()" class="close-btn">
-            <!-- <mat-icon>close</mat-icon> -->
-            <img src="assets/svgs/Vector.svg" alt="">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
         </button>
 
 
         <div>
             <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
-            <p style="color:white;font-size:16px;font-weight: 600;">
-                <!-- Are you sure you want request to (key added to translattion service) -->
-                 
-               {{'Are_you_sure_you_want_request_to' |translate}} {{data.data |translate}} 
-                 <!-- the account? key added to the translation service -->
-                  {{'the_account' |translate}}
+            <p style="color:white;font-size:16px;" *ngIf="abc">
+             Are you sure want to delete account?
             </p>
-            <p  style="color:#ffff;font-size:16px;font-weight: 600;">
-                <!-- OTP verification required in the next step. key added to the transalation service -->
-                 {{"OTP_verification_required_in_the_next_step" |translate}}
+            <br>
+            <div *ngIf="!abc">
+            <p style="color:white;font-size:16px;" *ngIf="basesignin.clearContinueWatching.description.is_allow == 1">
+                {{basesignin.clearContinueWatching.description.text}}
             </p>
+            </div>
+            <br>
             <div class="row">
                 <div class="col-6">
-                    <button type="button" (click)="yes()" class="btn-one"
-                        *ngIf="basesignin.delete_account_alert.cancel_btn.is_allow == 1">
-                        <!-- {{basesignin.delete_account_alert.cancel_btn.text |translate}} -->
-                         {{'yes'|translate}}
-                    </button>
+                    <button type="button" (click)="clearWatch()" class="btn-one" *ngIf="basesignin.clearContinueWatching.yes_btn.is_allow == 1"> {{basesignin.clearContinueWatching.yes_btn.text}}</button>
                 </div>
                 <div class="col-6">
-                    <button (click)="close()" type="button" class="btn-two"
-                        *ngIf="basesignin.delete_account_alert.continue_btn.is_allow == 1">
-                        <!-- {{basesignin.delete_account_alert.continue_btn.text |translate}} -->
-                         {{'no' |translate}}
-                    
-                    </button>
+                    <button (click)="close()" type="button" class="btn-two" *ngIf="basesignin.clearContinueWatching.no_btn.is_allow == 1"> {{basesignin.clearContinueWatching.no_btn.text}}</button>
                 </div>
             </div>
 

@@ -1,51 +1,7 @@
-.parental-control-content {
-
-    position: relative;
-    text-align: center;
-    font-family: "GothamLight" !important;
-    line-height: 25px;
-    padding: 0px 10px;
-    // .parental-heading{
-    //     p{
-    //         font-size: 18px;
-    //         font-family: 'GothamMedium' !important;
-    //         text-align: center;
-    //         color: #FFFFFF;
-    //     }
-    // }
-
-    .img-logo {
-        position: absolute;
-        top: -61px;
-        right: 41%;
-        margin-bottom: 5px;
-    }
-
-    // .img-logo img{ width: 26%;}
-    .alt-login-img {
-        position: relative;
-        top: -56px;
-
-    }
-
-}
-
 .adulttHeading {
     color: white;
     font-size: 16px;
-    font-family: "GothamBold" !important;
-}
-
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-
+    font-family: var(--theme-font-style) !important;
 }
 
 .submitBtn {
@@ -59,34 +15,53 @@
 }
 
 .btn-one-1 {
-    color: #fff !important;
-    background-color: none !important;
-    border: 1px solid #858585;
+    color:var(--white) !important;
+    background-color: transparent !important;
+    border: var(--theme-popup-border);
     padding: 12px;
     border-radius: 4px;
     width: 100%;
-    color: #fff;
-    background-color: transparent;
-    font-size: 19px;
-}
-
-.btn-two-2 {
-    color: #fff !important;
-    background-color: none !important;
-    border: 1px solid #9c2929;
+    font-size: 14px;
+    font-family: var(--theme-font-style) !important;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-one-1:hover {
+    background-color: var(--theme-secondary-color) !important;
+    color: var(--white) !important;
+    border-radius: 4px;
+  }
+  
+  .btn-two-2 {
+    // color: #6b6b6b !important;
+    color: var(--white) !important;
+    background-color: transparent !important;
+    border: var(--theme-popup-border);
     padding: 12px;
     border-radius: 4px;
-    font-weight: 600;
-    font-size: 19px;
+    font-size: 14px;
     width: 100%;
     letter-spacing: 1px;
-    background-color: red;
+    font-family: var(--theme-font-style) !important;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-two-2:hover {
+    background-color: var(--theme-secondary-color) !important;
+    color: var(--white) !important;
+    border-radius: 4px;
+  }
+  
+
+.d-flexi {
+    margin-top: 12px;
+    gap: 12px;
 }
 
 .adultContent {
-    color: #DEDEDE;
+    color: #aaaaaa;
     font-size: 14px;
-    font-family: "GothamMedium" !important;
+    font-family: var(--theme-font-style) !important;
     // font-weight: 600;
 }
 
@@ -94,96 +69,13 @@
     .btn-one-1 {
         padding: 10px;
         font-size: 11px;
-        font-weight: bold;
+        // font-weight: bold;
     }
 
     .btn-two-2 {
         padding: 10px;
         font-size: 11px;
-        font-weight: bold;
+        // font-weight: bold;
     }
 
-}
-
-
-.addtoplaylisttext {
-    font-family: "PoppinsRegular" !important;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 30px;
-    letter-spacing: 0em;
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 20px;
-
-}
-
-.create-aol {
-    display: flex;
-    font-family: "PoppinsRegular";
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    letter-spacing: 0em;
-    text-align: center;
-    color: #ffffff;
-    gap: 6px;
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-
-.playlists-aol {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
- 
-}
-
-.scroller{
-    min-height: 300px;
-    height: 300px;
-    overflow: hidden;
-    overflow-y: scroll;
-}
-
-/* width */
-::-webkit-scrollbar {
-    width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-
-.playlist-aol-text {
-    font-family: "PoppinsRegular" !important;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #ffffff;
-    margin-bottom: 20px;
-}
-
-.liner {
-    border-top: 2px solid #27253D;
-    margin: 20px 4px;
-}
-
-.addtoplaylist {
-    position: relative;
 }

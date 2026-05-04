@@ -17,10 +17,8 @@ export class DevicesComponent implements OnInit {
   }
 
   deviceData() {
-    var data:any=localStorage.getItem('innerJson')
-    data=JSON.parse(data)
-    // this.ds.json2().subscribe((data: any) => {
+    this.ds.json2().subscribe((data: any) => {
       this.device = data.Form[0].devices   
-    // })
+    })
   }
 }

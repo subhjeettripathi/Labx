@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { DataService } from 'src/app/services/data.service';
 import { FunctionCallingService } from 'src/app/services/function-calling.service';
 import { LoginModalDialogComponent } from '../login-modal-dialog/login-modal-dialog.component';
+import { ExchangeDataService } from 'src/app/services/exchange-data.service';
 
 @Component({
   selector: 'app-password-create-success-dialog',
@@ -14,7 +15,7 @@ export class PasswordCreateSuccessDialogComponent implements OnInit {
   hideLoginForgot:any
   baseJson:any=[];
   constructor(public dialogRef: MatDialogRef<PasswordCreateSuccessDialogComponent>,private fcs:FunctionCallingService,
-    @Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog,private ds:DataService) { 
+    @Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog,private ds:DataService,private ed:ExchangeDataService) { 
       this.fcs.submitButtonHideForgot.subscribe(value => {
         this.disableForForgot = value;
       });
@@ -33,13 +34,13 @@ export class PasswordCreateSuccessDialogComponent implements OnInit {
     const dataPopup: any = JSON.parse(popup);
     this.baseJson=dataPopup.PopupList[0].create_password_success
     this.data = dataPopup.PopupList[0].language.languages
-    console.log(dataPopup.PopupList[0])
+  
     //  this.ds.popupJson().subscribe((res:any)=>{
     //   this.data = res.PopupList[0].language.languages
-    //   console.log(this.data, 'sdfghjki');
+   
 
     //   this.baseJson = res.PopupList[0].create_password_success
-    //   console.log(this.baseJson)
+   
     //  })
 
      
@@ -49,6 +50,11 @@ export class PasswordCreateSuccessDialogComponent implements OnInit {
     this.dialogRef.close();
   }
   gotoLoginPage(){
+    setTimeout(() => {
+      this.ed.pauseDetailVideo.next(true);
+      localStorage.setItem('videoCarousel' , '1');
+     
+    }, 200);
     this.dialogRef.close();
     const dialogRef = this.dialog.open(LoginModalDialogComponent, {
       panelClass: 'logindialog',
@@ -56,7 +62,11 @@ export class PasswordCreateSuccessDialogComponent implements OnInit {
       data: { name: 'login' },
     });
     dialogRef.afterClosed().subscribe(result => {
+      if(localStorage.getItem('VideoAutoPlay') == '0'){
+      this.ed.pauseDetailVideo.next(false);
+     
+      }
+      localStorage.setItem('videoCarousel' , '0');
     });
-    dialogRef.disableClose = true;
   }
 }

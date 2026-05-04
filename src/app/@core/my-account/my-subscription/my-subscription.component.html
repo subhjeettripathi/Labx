@@ -1,10 +1,98 @@
-<div class="account sec-top">
+<!-- <div class="account sec-top">
+    
     <div class="account-header">
         <div fxLayout="row" fxLayoutAlign="space-between">
-            <h1 class="f-size_aol"><span class="mr-3 arrow-right">
-                    <img src="assets/svgs/Vector (4).png" style="cursor: pointer;" (click)="back()" alt="AOL">
+            <h1 class="font-36"><span class="mr-3 arrow-right">
+                <img src="assets/svgs/Vector-back.svg" style="cursor: pointer;" (click)="back()" alt="vive">
+            
+                </span>My Subscription</h1>
+        </div>
 
-                </span>{{'MyPlans' |translate}}</h1>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center">
+
+        <mat-card class="card">
+
+            <div class="head">
+
+                <div fxLayout="row" class="subscription-gap">
+                    <div fxFlex="10"></div>
+                    <div fxFlex="20" class="img-acts" id="tick-img">
+                        <img mat-card-image class=" alt-m-0" src="assets/svgs/Group 5074.svg" alt="vive"
+                            >
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                        <mat-card-title style="color: #FF9401;">
+                           <span class="acts-subs"> ACTIVE SUBSCRIPTION</span>
+                        </mat-card-title>
+
+                        <mat-card-subtitle style="color: white;">
+                            You’re subscribed
+                        </mat-card-subtitle>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <mat-card-content style="background-color: #5A5A5A;">
+                <div fxLayout="column" style="flex-wrap: wrap">
+                    <div fxLayout="row" style="height:42px; ">
+                        <div fxFlex="15" fxFlex.xs="10"></div>
+                        <div fxFlex="50" fxFlex.xs="30" class="left" fxLayoutAlign="start center">Current Plan:</div>
+                        <div fxFlex="50" fxLayoutAlign="start center">{{mainData.title}}</div>
+                        <div fxFlex="2"></div>
+                    </div>
+                    <div fxLayout="row" style="height:42px; ">
+                        <div fxFlex="15" fxFlex.xs="10"></div>
+                        <div fxFlex="50" fxFlex.xs="30" class="left" fxLayoutAlign="start center">Start Date:</div>
+                        <div fxFlex="50" fxLayoutAlign="start center">{{mainData.subscription_start | date:'dd-MM-y'}}</div>
+                        <div fxFlex="2"></div>
+                    </div>
+                    <div fxLayout="row" style="height:42px; ">
+                        <div fxFlex="15" fxFlex.xs="10"></div>
+                        <div fxFlex="50" fxFlex.xs="30" class="left" fxLayoutAlign="start center">Expiry Date:</div>
+                        <div fxFlex="50" fxLayoutAlign="start center">{{mainData.subscription_end | date:'dd-MM-y'}}</div>
+                        <div fxFlex="2"></div>
+                    </div>
+                    <div fxLayout="row" >
+                        <div fxFlex="15" fxFlex.xs="10"></div>
+                        <div fxFlex="50" fxFlex.xs="30" class="left" fxLayoutAlign="start center">Account:</div>
+                        <div fxFlex="50" class="mobile-email" fxLayoutAlign="start center">{{USER_ACCOUNT.email?USER_ACCOUNT.email:USER_ACCOUNT.country_code +' '+ USER_ACCOUNT.contact_no}}</div>
+                        <div fxFlex="2"></div>
+                    </div>
+
+                 
+                    <div fxLayout="row" style="height:42px; ">
+                        <div fxFlex="15" fxFlex.xs="10"></div>
+                        <div fxFlex="50" fxFlex.xs="30" class="left" fxLayoutAlign="start center">Order Id:</div>
+                        <div fxFlex="50" fxLayoutAlign="start center">{{mainData.order_id}}</div>
+                        <div fxFlex="2"></div>
+                    </div>
+                    <mat-divider [inset]="true"></mat-divider>
+    
+                    <div fxLayout="row" style="height:42px; ">
+                        <div fxFlex="15" fxFlex.xs="10"></div>
+                        <div fxFlex="50" fxFlex.xs="30" class="left" fxLayoutAlign="start center">Total:</div>
+                        <div fxFlex="50" fxLayoutAlign="start center"  *ngIf="mainData.gateway_type!=11">{{mainData.currency}} {{mainData.discounted_price}}</div>
+                        <div fxFlex="50" fxLayoutAlign="start center"   *ngIf="mainData.gateway_type==11" ><span class="discountType" >{{mainData.currency}} {{mainData.price}} </span> <span class="discountValue"> {{mainData.currency}} {{mainData.discounted_price}}</span></div>
+                       
+
+                        <div fxFlex="2"></div>
+                    </div>
+                </div>
+            </mat-card-content>
+
+        </mat-card>
+    </div>
+</div> -->
+
+<div class="account sec-top-acc">
+    <div class="account-header">
+        <div fxLayout="row" fxLayoutAlign="space-between">
+           
         </div>
     </div>
     <app-purchase></app-purchase>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ExchangeDataService } from 'src/app/services/exchange-data.service';
 
 
 @Component({
@@ -11,15 +10,14 @@ import { ExchangeDataService } from 'src/app/services/exchange-data.service';
 })
 export class ParentalPinCreatedSuccesComponent implements OnInit {
   basesignin:any=[]
-  constructor(public dialogRef: MatDialogRef<ParentalPinCreatedSuccesComponent>,private router:Router, private ed:ExchangeDataService) { }
+  constructor(public dialogRef: MatDialogRef<ParentalPinCreatedSuccesComponent>,private router:Router) { }
   loginId = JSON.parse(localStorage.getItem('popupJson') || '{}');
   ngOnInit(): void {
     this.basesignin=this.loginId.PopupList[0]
-    console.log(this.basesignin);
+   
     
   }
   close() {
-    this.ed.rentalDone.next(true)
     this.dialogRef.close();
     // this.checked1.emit(true)
   }
@@ -28,5 +26,4 @@ export class ParentalPinCreatedSuccesComponent implements OnInit {
      this.router.navigateByUrl("/")
     this.dialogRef.close()
   }
-
 }

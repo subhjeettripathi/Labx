@@ -1,14 +1,18 @@
 <section class="help-section my-100 ">
     <div class="container">
         <div class="help-wrapper">
-            <h1 class="my-5 faq-mar">FAQ</h1>
+            <div class="back-head">
+                <img (click)="back()" src="assets/svgs/Vector-back.svg" width="30px" style="cursor: pointer;" alt="abc">
+                <h1 class="headcor">FAQ</h1>
+            </div>
+       
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-12">
                     <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills">
                         <ng-container *ngFor="let value of key; let i=index">
                             <a id="v-pills-common-tab" (click)="open(value.type)" data-toggle="pill" role="tab"
-                                aria-controls="v-pills-common" aria-selected="true" class="nav-link "
-                                href="#value"><span>{{value.type}}</span></a>
+                                *ngIf="value.is_allow == 1" aria-controls="v-pills-common" aria-selected="true"
+                                class="nav-link " href="#value"><span>{{value.type}}</span></a>
 
                         </ng-container>
                         <!-- 
@@ -27,7 +31,7 @@
                     </div>
                 </div>
                 <div id="col-right" class="col-lg-9 col-md-8 col-sm-12">
-                    <div id="v-pills-tabContent" class="ml-md-5 ml-sm-0 mt-5 mt-md-0 mt-sm-5 tab-content">
+                    <div id="v-pills-tabContent" class="ml-md-5 ml-sm-0 mt-md-0 mt-sm-5 tab-content">
                         <ng-container *ngIf="!common">
                             <div role="tabpanel" aria-labelledby="v-pills-common-tab"
                                 class="tab-pane fade show active ng-star-inserted" id="{{tab_id}}">
@@ -38,10 +42,10 @@
                                         <ng-container *ngIf="data.status==1">
                                             <div class="card ng-star-inserted">
                                                 <div class="card-header">
-                                                    <h4 data-toggle="collapse" aria-expanded="false" aria-selected=""
+                                                    <h6 data-toggle="collapse" aria-expanded="false" aria-selected=""
                                                         class="mb-0" [attr.data-target]="'#collapse-' + i">
                                                         {{data.question}}
-                                                    </h4>
+                                                    </h6>
                                                 </div>
                                                 <div data-parent="#accordionExample" class="collapse"
                                                     id="collapse-{{i}}" aria-labelledby="collapse-9000138482">
@@ -65,11 +69,11 @@
                                         <div class="card ng-star-inserted">
                                             <div class="card-header">
 
-                                                <h4 ng-class="toggler? 'color-0' : 'color-1'" data-toggle="collapse"
+                                                <h6 ng-class="toggler? 'color-0' : 'color-1'" data-toggle="collapse"
                                                     aria-expanded="false" aria-selected="" (click)="toggler_sign()"
                                                     class="mb-0" [attr.data-target]="'#collapse-' + i">
                                                     {{data.question}}
-                                                </h4>
+                                                </h6>
 
                                             </div>
                                             <div data-parent="#accordionExample" class="collapse" id="collapse-{{i}}"
@@ -83,10 +87,10 @@
                                 </ng-container>
                                 <!-- <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000128954"
                                                 aria-controls="#collapse-9000128954"> How do I enable or disable mobile
-                                                data for downloads from the App?</h4>
+                                                data for downloads from the App?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000128954" aria-labelledby="collapse-9000128954">
@@ -101,10 +105,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138483"
                                                 aria-controls="#collapse-9000138483"> How do I contact Support team?
-                                            </h4>
+                                            </h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138483" aria-labelledby="collapse-9000138483">
@@ -119,10 +123,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138484"
                                                 aria-controls="#collapse-9000138484"> How do I cast content using
-                                                Chromecast from my phone or tablet?</h4>
+                                                Chromecast from my phone or tablet?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138484" aria-labelledby="collapse-9000138484">
@@ -141,10 +145,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138485"
                                                 aria-controls="#collapse-9000138485"> Is there a limit (number of hours,
-                                                times) to how much I can watch on ALTBalaji?</h4>
+                                                times) to how much I can watch on ALTBalaji?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138485" aria-labelledby="collapse-9000138485">
@@ -158,10 +162,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138486"
                                                 aria-controls="#collapse-9000138486"> Do I need to Login before I can
-                                                browse through content?</h4>
+                                                browse through content?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138486" aria-labelledby="collapse-9000138486">
@@ -176,10 +180,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138487"
                                                 aria-controls="#collapse-9000138487"> Why do I need to verify my Email
-                                                ID?</h4>
+                                                ID?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138487" aria-labelledby="collapse-9000138487">
@@ -194,10 +198,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138488"
                                                 aria-controls="#collapse-9000138488"> How many videos can I add to
-                                                ‘Favourites’?</h4>
+                                                ‘Favourites’?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138488" aria-labelledby="collapse-9000138488">
@@ -209,10 +213,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138489"
                                                 aria-controls="#collapse-9000138489"> How do I add a video to
-                                                ‘Favourites’?</h4>
+                                                ‘Favourites’?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138489" aria-labelledby="collapse-9000138489">
@@ -226,10 +230,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138490"
                                                 aria-controls="#collapse-9000138490"> How can I download videos on my
-                                                App?</h4>
+                                                App?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138490" aria-labelledby="collapse-9000138490">
@@ -250,10 +254,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138491"
                                                 aria-controls="#collapse-9000138491"> How can I clear my downloaded
-                                                content?</h4>
+                                                content?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138491" aria-labelledby="collapse-9000138491">
@@ -271,10 +275,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138492"
                                                 aria-controls="#collapse-9000138492"> Can I watch content on the
-                                                ALTBalaji App in offline mode?</h4>
+                                                ALTBalaji App in offline mode?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138492" aria-labelledby="collapse-9000138492">
@@ -288,10 +292,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138493"
                                                 aria-controls="#collapse-9000138493"> Where do my downloaded videos get
-                                                stored?</h4>
+                                                stored?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138493" aria-labelledby="collapse-9000138493">
@@ -304,10 +308,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138494"
                                                 aria-controls="#collapse-9000138494"> How do I discover
-                                                movie/shows/video on the App and website?</h4>
+                                                movie/shows/video on the App and website?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138494" aria-labelledby="collapse-9000138494">
@@ -321,10 +325,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138495"
                                                 aria-controls="#collapse-9000138495"> Can I leave a video on one device
-                                                and continue watching it on another device?</h4>
+                                                and continue watching it on another device?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138495" aria-labelledby="collapse-9000138495">
@@ -337,10 +341,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138496"
                                                 aria-controls="#collapse-9000138496"> What are the minimum requirements
-                                                for viewing the content on the App and website?</h4>
+                                                for viewing the content on the App and website?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138496" aria-labelledby="collapse-9000138496">
@@ -359,10 +363,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138497"
                                                 aria-controls="#collapse-9000138497"> How many videos can I download
-                                                once I subscribe to ALTBalaji?</h4>
+                                                once I subscribe to ALTBalaji?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138497" aria-labelledby="collapse-9000138497">
@@ -377,10 +381,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138498"
                                                 aria-controls="#collapse-9000138498"> On which platforms is ALTBalaji
-                                                available currently?</h4>
+                                                available currently?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138498" aria-labelledby="collapse-9000138498">
@@ -393,10 +397,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138499"
                                                 aria-controls="#collapse-9000138499"> How many devices can a user log in
-                                                from a single account and play content simultaneously?</h4>
+                                                from a single account and play content simultaneously?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138499" aria-labelledby="collapse-9000138499">
@@ -408,10 +412,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138500"
                                                 aria-controls="#collapse-9000138500"> What happens if the user exceeds
-                                                the device limit to login from a single account?</h4>
+                                                the device limit to login from a single account?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138500" aria-labelledby="collapse-9000138500">
@@ -426,10 +430,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000138501"
                                                 aria-controls="#collapse-9000138501"> How do I enable subtitles on
-                                                ALTBalaji the App and website?</h4>
+                                                ALTBalaji the App and website?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000138501" aria-labelledby="collapse-9000138501">
@@ -442,10 +446,10 @@
                                     </div>
                                     <div  class="card ng-star-inserted">
                                         <div  class="card-header">
-                                            <h4  data-toggle="collapse" aria-expanded="false"
+                                            <h6  data-toggle="collapse" aria-expanded="false"
                                                 aria-selected="" class="mb-0" data-target="#collapse-9000168959"
                                                 aria-controls="#collapse-9000168959"> How Can I create an account with
-                                                Mobile number?</h4>
+                                                Mobile number?</h6>
                                         </div>
                                         <div  data-parent="#accordionExample" class="collapse"
                                             id="collapse-9000168959" aria-labelledby="collapse-9000168959">
@@ -486,32 +490,16 @@
                         </div>
 
                         <div class="query-section ng-star-inserted">
-                            <h4 class="d-block">{{'Need_more_help?'|translate}}</h4><a class="btn btn-primary btn-send-query"
-                                (click)="openLoginDialog()">
-                                
-                                <!-- Send us a Question (key added to translation service) -->
-                            {{'Send_us_a_Question'|translate}}
-                            </a>
+                            <h6 class="d-block">Need more help?</h6><a class="btn btn-primary btn-send-query"
+                                (click)="openLoginDialog()">Send us a
+                                Question</a>
                         </div>
 
                     </div>
 
-                    <div class="help-support ml-md-5 ml-sm-0 my-5">
-                        <p class="mb-0">
-                            <!-- For support related queries please write to us at {key added to translation service} -->
-                            {{'support_related_queries'|translate}}
-                            
-                            <a
-                                href="mailto:support@altbalaji.com">support&#64;altbalaji.com</a>.
-                        </p>
-                        <p>
-                            <!-- All claims/complaints in relation to the content shall be addressed
-                            to (key added to transalation service) -->
-                            
-                            {{'claims/complaints_addressed'|translate}}
-                            
-                            <a href="mailto:legal@altbalaji.com">leagal&#64;altbalaji.com</a>
-                        </p>
+                    <div class="help-support ml-md-5 ml-sm-0 my-5" *ngIf="supportData.is_allow"
+                        [innerHTML]="supportData.text">
+                    
                     </div>
                 </div>
             </div>

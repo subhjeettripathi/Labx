@@ -1,19 +1,19 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
-        <span class="img-logo" *ngIf="basesignin.parental_success.logo.is_allow ==1">
-            <!-- <img src="{{basesignin.parental_success.logo.web}}" alt="AOL"> -->
-            <img src="assets/svgs/aol.png" alt="">
+        <span class="img-logo" *ngIf="basesignin.parental_success.logo.is_allow ==1" >
+            <img src="{{basesignin.parental_success.logo.web}}" alt="vive" class="vive-img">
         </span>
-        <div class="success">
-            <div class="msg">
-                <!-- You have successfully completed the purchase of a pack  {key added to translatiion service}-->
-  {{'purchase_of_a_pack' |translate}}
-  
-            </div>
-        </div>
-        <div class="sucess-btn">
-            <button (click)="close()">{{'ok' |translate}}</button>
-        </div>
+        <button (click)="close()" class="close-btn">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </button>   
+          <div>
+            <p class="heading" *ngIf="basesignin.parental_success.heading.is_allow ==1"> {{basesignin.parental_success.heading.text}}</p>
+            <p class="email_head" *ngIf="basesignin.parental_success.success_msg.is_allow ==1">
+                {{basesignin.parental_success.success_msg.placeholder}}
+            </p>
+            <button (click)="submit()" *ngIf="basesignin.parental_success.submit_btn.is_allow ==1" class="verify_submit"> {{basesignin.parental_success.submit_btn.text}}</button>
+          </div>
+        
 
        
     </div>

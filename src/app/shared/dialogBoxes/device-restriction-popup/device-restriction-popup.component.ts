@@ -11,17 +11,16 @@ import { FunctionCallingService } from 'src/app/services/function-calling.servic
   styleUrls: ['./device-restriction-popup.component.scss']
 })
 export class DeviceRestrictionPopupComponent implements OnInit {
+  
   visitorId: any;
   devices: any = []
   constructor(public dialogRef: MatDialogRef<DeviceRestrictionPopupComponent>, private ds: DataService, private fcs: FunctionCallingService, private _FPS: FingerPrintService, @Inject(MAT_DIALOG_DATA) public data: any, private router:Router) { }
   baseJson: any = []
   limit: any
   ngOnInit(): void {
-    this._FPS.getFingerPrintDeviceId();
-    this._FPS.visitorId.subscribe(r => this.visitorId = r);
+   this.devices = this.data.result
+   console.log(this.devices,"mlkjklkn")
     this.getConfigData()
-    this.devices = this.data.result
-    console.log(this.data.result, 'deviceeee');
     const subs: any = localStorage.getItem("ott_subscriptionPlan");
     if (subs != null && JSON.parse(subs).packages_list.length) {
       JSON.parse(subs).packages_list.filter((res: any) => {
@@ -33,24 +32,28 @@ export class DeviceRestrictionPopupComponent implements OnInit {
     }
   }
   close() {
-    localStorage.removeItem("deviceLimit");
+        localStorage.removeItem("deviceLimit");
+
     this.dialogRef.close();
     this.fcs.logoutProfile.next(true)
   }
   getConfigData() {
-    const popup: any = localStorage.getItem('allJsonPopupData');
+    const popup: any = localStorage.getItem('popUpForm');
     const dataPopup: any = JSON.parse(popup);
-    this.baseJson = dataPopup.PopupList[0]
-    console.log(dataPopup.PopupList[0])
+    this.baseJson=dataPopup
+  
+  //   this.ds.popupJson().subscribe((res: any) => {
+  //  this.baseJson=res.PopupList[0]
+  //   })
   }
-  clearDevices(x: any) {
+   clearDevices(x: any) {
     const taplogininfo: any = localStorage.getItem('taploginInfo');
     const USER_ACCOUNT: any = JSON.parse(taplogininfo);
     const formData: any = new FormData();
     formData.append('user_id', USER_ACCOUNT.id);
     if (x == 'all') {
       const visitorIds: any = localStorage.getItem('device_id')
-      formData.append('type', '-1');
+      formData.append('type', 'all');
       formData.append('device_unique_id', visitorIds)
     } else {
 

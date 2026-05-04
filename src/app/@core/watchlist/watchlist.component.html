@@ -1,0 +1,180 @@
+<div class="section-watchlist sec-top-acc">
+    <div class="watchlist-header">
+        <div fxLayout="row" fxLayoutAlign="end center">
+            <!-- <div class="edit-head">
+                My List
+            </div> -->
+            <p *ngIf="hasItemsInAnyCategory()"> <button class="watchlist-btn"
+                    (click)="openWatchListConfirmationDialog()">Clear
+                    All</button></p>
+        </div>
+
+    </div>
+    <div *ngFor="let x of watchingList;" style="margin-top: 20px;">
+        <div class="slick-card-carousel  slick-card-padding" *ngIf="x.cat_cntn.length">
+            <h1 class="title">{{x.title}}</h1>
+            <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="config" slick-track>
+                <mat-card style="cursor: pointer;" ngxSlickItem class="row card-slide Watchlist-card-1"
+                    *ngFor="let card of x.cat_cntn;" [id]="card.id">
+                    <mat-icon (click)="deleteWatchList(card.id)" mat-icon-button class="btn-close">close</mat-icon>
+                    <!-- <mat-icon *ngIf="card.access_type=='paid' " class="crown" aria-hidden="false" svgIcon="crown"
+                    [ngStyle]="{'display':card.type=='circle'?'none':'block'}"></mat-icon>
+               
+                    <div class="free-icon" *ngIf="card.access_type=='free' "
+                        [ngStyle]="{'display':card.type=='circle'?'none':'block'}"> <img src="assets/svgs/free.svg"
+                            alt="vive">
+                    </div> -->
+
+                    <div *ngIf="data.access_type == 'paid' && data?.type != 'circle' && !isSubscribed" class="crown">
+                        <img [src]="this.crownImg" alt="vive" loading="lazy" />
+                    </div>
+                    <!-- <div class="free-icon"
+                        *ngIf="data.access_type == 'free' && data?.type != 'circle' && !isSubscribed">
+                        <img src="assets/icons/FreeIcon.svg" alt="vive" loading="lazy" />
+                    </div> -->
+
+                    <div *ngIf="card.is_group == 1">
+                        <img [src]="card.sliderImg" class="alt-w-100 alt-br-4" (error)="onImgError($event)"
+                            [alt]="card.title + ' ' + card.series_title + ' ' + card.season_title"
+                            [title]="card.title + ' ' + card.series_title + ' ' + card.season_title" fxFlex.xs="50%"
+                            (click)="navigate(card)">
+                    </div>
+
+                    <div *ngIf="card.is_group == 0">
+                        <img [src]="card.sliderImg" class="alt-w-100 alt-br-4" (error)="onImgError($event)"
+                            [alt]="card.title" [title]="card.title" fxFlex.xs="50%" (click)="navigate(card)">
+                    </div>
+
+                    <div class="containerContent" alt="vive">
+
+                        <div class="content">
+                            <p *ngIf="card.is_group==0" class="font-14 t-white">{{card.title}}</p>
+                            <p *ngIf="card.is_group==1" class="font-14 t-white">{{card.series_title}}</p>
+                        </div>
+                        <p class="t-y font-12" *ngIf="card.age_group != -1 && card.age_group != 999">
+                            {{card.duration.slice(3,5)}}m <span *ngIf="card.year!='' && navvar?.Others?.year==1">|
+                                {{card.year}}</span> <span *ngIf="card.age_group!='' && navvar?.Others?.age_rating==1">
+                                | U/A {{card.age_group}}+</span> </p>
+                        <p class="t-y font-12" *ngIf="card.age_group == 999">{{card.duration.slice(3,5)}}m <span
+                                *ngIf="card.year!='' && navvar?.Others?.year==1">| {{card.year}}</span> <span
+                                *ngIf="navvar?.Others?.age_rating==1"> | U </span>
+                        </p>
+                        <p class="t-y font-12" *ngIf="card.age_group == -1">{{card.duration.slice(3,5)}}m <span
+                                *ngIf="card.year!='' && navvar?.Others?.year==1">| {{card.year}}</span> <span
+                                *ngIf="navvar?.Others?.age_rating==1"> | A </span>
+                        </p>
+                        <p class="font-14 subtitle" *ngIf="card.des!='' && card.is_group==0">{{card.des.substring(0,50)
+                            + '...'}}
+                        </p>
+                        <p class="font-14 subtitle" *ngIf="card.season_des!='' && card.is_group==1">
+                            {{card.season_des.substring(0,50) + '...'}}
+                        </p>
+                    </div>
+                </mat-card>
+            </ngx-slick-carousel>
+        </div>
+
+
+
+
+        <div class="mobile-view">
+            <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="x.cat_cntn.length">
+                <h2 class="title font-36"><span class="mr-3">
+                    </span>{{x.title}}</h2>
+            </div>
+            <div fxLayout="row wrap" fxLayout.xs="column" flexLayoutAlign="flex-start">
+                <div fxFlex="25%" class="alt-br-4 alt-wat-pad" fxFlex.xs="100%" fxFlex.sm="50"
+                    *ngFor="let card of x.cat_cntn" style="cursor: pointer;position: relative;">
+                    <mat-icon (click)="deleteWatchList(card.id)" mat-icon-button class="btn-close">close</mat-icon>
+                    <!-- <mat-icon *ngIf="card.access_type=='paid' " class="crown" aria-hidden="false" ><img class="watch-crown" src="assets/svgs/crown.svg"></mat-icon>
+                    <div class="free-icon" *ngIf="card.access_type=='free' "
+                        [ngStyle]="{'display':card.type=='circle'?'none':'block'}"> <img src="assets/svgs/free.svg">
+                    </div> -->
+
+                    <div *ngIf="data.access_type == 'paid' && data?.type != 'circle' && !isSubscribed" class="crown">
+                        <img [src]="this.crownImg" alt="vive" loading="lazy" />
+                    </div>
+                    <!-- <div class="free-icon"
+                        *ngIf="data.access_type == 'free' && data?.type != 'circle' && !isSubscribed">
+                        <img src="assets/icons/FreeIcon.svg" alt="vive" loading="lazy" />
+                    </div> -->
+
+                    <img [src]="card.sliderImg" class="alt-w-100 alt-br-4" (error)="onImgError($event)" alt="search"
+                        fxFlex.xs="50%" (click)="navigate(card)">
+                    <div class="containerContent">
+
+                        <div class="content">
+                            {{ card.title.length > 30 ? (card.title.substring(0,30) + '...') : card.title }}
+                        </div>
+                        <p class="t-y font-12">{{card.duration}}</p>
+                        <!-- <p class="font-14 subtitle">
+                            {{ card.short_desc.length > 50 ? (card.short_desc.substring(0, 50) + '...') : card.short_desc }}
+                          </p> -->
+                          <p class="t-y font-12" *ngIf="card.age_group != -1 && card.age_group != 999">
+                            {{card.duration.slice(3,5)}}m <span *ngIf="card.year!='' && navvar?.Others?.year==1">|
+                                {{card.year}}</span> <span *ngIf="card.age_group!='' && navvar?.Others?.age_rating==1">
+                                | U/A {{card.age_group}}+</span> </p>
+                        <p class="t-y font-12" *ngIf="card.age_group == 999">{{card.duration.slice(3,5)}}m <span
+                                *ngIf="card.year!='' && navvar?.Others?.year==1">| {{card.year}}</span> <span
+                                *ngIf="navvar?.Others?.age_rating==1"> | U </span>
+                        </p>
+                        <p class="t-y font-12" *ngIf="card.age_group == -1">{{card.duration.slice(3,5)}}m <span
+                                *ngIf="card.year!='' && navvar?.Others?.year==1">| {{card.year}}</span> <span
+                                *ngIf="navvar?.Others?.age_rating==1"> | A </span>
+                        </p>
+                        <p class="font-14 subtitle" *ngIf="card.des!='' && card.is_group==0"> {{ card.des.length > 30 ? (card.des.substring(0,30) + '...') : card.des }}
+                        </p>
+                        <p class="font-14 subtitle" *ngIf="card.season_des!='' && card.is_group==1">
+                            {{ card.season_des.length > 30 ? (card.season_des.substring(0,30) + '...') : card.season_des }}
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!daa.length || totalCount==0" class="text-center fav-msg mt-4 ng-star-inserted">
+        <h3 class="text-capitalize">No favorites yet. Really?</h3>
+
+    </div>
+
+
+</div>
+
+<ng-template #clearWatchListModal>
+    <div class="modal-container">
+
+        <div fxLayout="column" fxLayoutGap="50px">
+            <div class="parental-control-content">
+                <span class="img-logo" *ngIf="baseJson.clearWatchlist.logo.is_allow == 1">
+                    <img src="{{baseJson.clearWatchlist.logo.web}}" alt="">
+                </span>
+
+                <div class="log-out-mdl">
+                    <p style="color:white;font-size:15px;"
+                        *ngIf="baseJson.clearWatchlist.description.is_allow == 1">
+                        {{baseJson.clearWatchlist.description.text}} </p>
+
+                    <br>
+                    <div class="row">
+                        <div class="col-6">
+
+                            <button type="button" class="btn-two" (click)="removeWatchlistContent(-1)"
+                                *ngIf="baseJson.clearWatchlist.yes_btn.is_allow == 1">{{baseJson.clearWatchlist.yes_btn.text}}</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn-one" (click)="watchListConfirmationclose()"
+                                *ngIf="baseJson.clearWatchlist.no_btn.is_allow == 1">{{baseJson.clearWatchlist.no_btn.text}}</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</ng-template>

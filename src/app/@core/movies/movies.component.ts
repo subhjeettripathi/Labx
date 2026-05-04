@@ -18,9 +18,11 @@ import { FunctionCallingService } from "src/app/services/function-calling.servic
 import { map } from "rxjs";
 import { StorageService } from "src/app/services/storage.service";
 import { DeviceDetectorService } from "ngx-device-detector";
-import { Location } from "@angular/common";
-import * as firebase from "firebase/app";
-import { AnalyticsService } from "src/app/services/analytics.service";
+import { environment } from 'src/environments/environment';
+// import * as amplitude from '@amplitude/analytics-browser';
+import { NetworkConnectionService } from "src/app/services/network-connection.service";
+import { IosDecrycptionService } from "src/app/services/ios-decrycption.service";
+import { title } from "process";
 declare var $: any
 
 @Component({
@@ -37,14 +39,22 @@ export class MoviesComponent implements OnInit, OnDestroy {
   isOttLoggedIn = false;
   taploginInfo: any = localStorage.getItem('taploginInfo') || {};
   getlive: any;
+  totalCount: number = 0
+
   @HostListener("window:scroll", ["$event"])
+
   onResize(event: any) {
-    if (window.pageYOffset > 270 && !this.agehide && !this.parentaltest && this.lock1) {
+
+    var scroll = $(window).scrollTop();
+
+    if (scroll >= 270 && !this.parentaltest && this.lock1 && !this.agehide) {
       this.vid1.pause();
       this.playing = true;
-    } else if (!this.agehide && !this.parentaltest && this.lock1) {
-      this.vid1.play();
-      this.playing = false;
+    } else if (!this.parentaltest && this.lock1 && !this.agehide) {
+      if(localStorage.getItem('videoPlay') == '0') {
+        this.vid1.play();
+        this.playing = false;
+      }
     }
   }
 
@@ -54,14 +64,14 @@ export class MoviesComponent implements OnInit, OnDestroy {
   mainData: any;
   windowSize: number = 0;
   display_offset: number = 0;
-  display_limit: number = 3;
+  display_limit: number = 4;
   successs: any;
   homeData: any;
   isLoggedInn: any = localStorage.getItem("ott_isLoggedIn") || {};
   FavoriteData: any = []
   cat_id: any;
   videoJsData: any;
-  agehide = true;
+  agehide = false;
   playVid: any;
   video: any;
   parentaltest: boolean = false
@@ -78,21 +88,33 @@ export class MoviesComponent implements OnInit, OnDestroy {
   idd: any;
   appsflyer: any
   playing: boolean = false;
+  getBrowserName: any
   getAgeDuration: any
   muted: boolean = true;
   timeZoneOffset: any;
   lock: boolean = true;
   countryAllowed: any = []
+  m3u8Main: any
+  userId: any;
   agefound: any;
   vid: any;
   isSubsInfo: any = localStorage.getItem("is_subscriber") || {};
   hellData: any = []
-  visitorId: any;
   defaultImages: any = []
   DefaultBanner: any
+  connected: boolean = true;
+  getFaqData:any = []
+  USER_ACCOUNT_id:any
+  navbarAd:any=[];
+  navvar:any;
+  ad_data:any
+  seaonGet:any 
+  getSeason:any;
+  subscribedButton:any;
+  app_version:any
+  subscribedButtonshow:any;
   constructor(private dialog: MatDialog, private _storage: StorageService, private _FPS: FingerPrintService, private auth: AuthService, private fcs: FunctionCallingService,
-    private analyticsService:AnalyticsService  ,private homeservice: HomeCategoryUtilsService, private DEC_SER: DecryptService, private _dd: DataService, private ed: ExchangeDataService, private _ar: ActivatedRoute, private http: HttpClient, private dep_ser: DecryptService, public router: Router, private ds: DataService, private deviceService: DeviceDetectorService, private location: Location,
-  ) {
+    private homeservice: HomeCategoryUtilsService, private DEC_SER: DecryptService, private _dd: DataService, private ed: ExchangeDataService, private _ar: ActivatedRoute, private http: HttpClient, private dep_ser: DecryptService, public router: Router, private ds: DataService, private deviceService: DeviceDetectorService, private networkConnectionService: NetworkConnectionService, private DEC_SCR_IOS: IosDecrycptionService) {
     this.ed.isSubscribe.subscribe((value) => {
       this.isSubscribed = value;
     });
@@ -103,22 +125,30 @@ export class MoviesComponent implements OnInit, OnDestroy {
     });
   }
 
-  back() {
-    if (window.history.length > 1) {
-      this.location.back();
-    } else {
-     this.router.navigate(['/'])
-    }
-  }
-
   ngOnInit(): void {
+    this.networkConnectionService.connected$.subscribe(connect => {
+      this.connected = connect;
+
+      localStorage.setItem('videoPlay' , '0');
+      // if (this.connected == true) {
+      //   setTimeout(() => {
+      //     this.vid1.currentTime(this.vid1.cache_.currentTime)
+
+      //   }, 1000);
+      // }
+    })
+    this.subscribedButton= localStorage.getItem('faqData');
+    this.getFaqData=JSON.parse(this.subscribedButton)
+    this.subscribedButtonshow=JSON.parse(this.subscribedButton).Website[0].subscription_btn
+    this.getBrowserName = this.detectBrowserName()
+
     this.defaultImages = localStorage.getItem("defaultImages")
     this.DefaultBanner = JSON.parse(this.defaultImages).rectangle.path
-    $('#ageRestrict').hide()
     setTimeout(() => {
-      this.ebookData()
+      $('#ageRestrict').hide()
     }, 1000);
-  
+
+
     window.scroll(0, 0);
     if (Object.keys(this.taploginInfo).length) {
       this.isOttLoggedIn = true;
@@ -127,96 +157,237 @@ export class MoviesComponent implements OnInit, OnDestroy {
     }
     this.windowSize = window.innerWidth;
     this.homeservice.castUser.subscribe(user => this.user = user);
-    console.log(this.user)
+
     if (this.isSubsInfo == 1) {
       this.isSubscribed = true;
     } else {
       this.isSubscribed = false;
     }
-    this._FPS.getFingerPrintDeviceId();
-    this._FPS.visitorId.subscribe(r => this.visitorId = r);
-    console.log(this.user,"aaa")
-
-    
-    
-    this.timeZoneOffset = new Date();
-    
-  }
-  ebookData(){
-    
-    this._ar.paramMap.subscribe((params) => {
-      this.cat_id = params.get("id");
-      this.category_id = params.get("id");
-      console.log(this.cat_id)
-      this.ds
-        .getHomeData(this.display_offset, this.display_limit, this.cat_id)
-        .subscribe((res: any) => {
-          this.dep_ser.getDecryptedData(res?.result);
-          let decryptData = JSON.parse(this.dep_ser.decryptData);
-          console.log(decryptData);
-
-          this.homeData = decryptData;
-          console.log(this.homeData);
-          
-          this.homeservice.sendDataToComponent(this.homeData);
-          this.mainData = this.homeData.dashboard.home_category
-          console.log(this.mainData)
-          const taplogininfo: any = localStorage.getItem("taploginInfo");
-          const USER_ACCOUNT: any = JSON.parse(taplogininfo);
+    if (this.user == 0) {
+      this._ar.paramMap.subscribe((params) => {
+        this.cat_id = params.get("id");
+        this.category_id = params.get("id");
+        this.ds
+          .getHomeData(this.display_offset, this.display_limit, this.cat_id)
+          .subscribe((res: any) => {
+            this.dep_ser.getDecryptedData(res?.result);
+            let decryptData = JSON.parse(this.dep_ser.decryptData);
 
 
-          console.log(this.mainData);
-          this.hellData = []
-          this.mainData[0].cat_cntn.map((category: any) => {
-            console.log();
+            this.homeData = decryptData;
+            this.homeservice.sendDataToComponent(this.homeData);
+            this.mainData = this.homeData.dashboard.home_category
+            const taplogininfo: any = localStorage.getItem("taploginInfo");
+            const USER_ACCOUNT: any = JSON.parse(taplogininfo);
+            if (USER_ACCOUNT) {
+              this._dd.getHomeFavorites(USER_ACCOUNT.id).subscribe((res: any) => {
+                if (res.code == 1) {
+                  this.DEC_SER.getDecryptedData(res?.result);
+                  let decryptData = JSON.parse(this.DEC_SER.decryptData);
+                  this.FavoriteData = decryptData.content_id
+                  this.mainData.forEach((ele: any) => {
+                    ele.cat_cntn.forEach((data: any) => {
+                      for (let i in this.FavoriteData) {
+                        if (data.id == this.FavoriteData[i]) {
+                          data.is_favourite = 1
+                        }
+                      }
+                    })
+                  })
+                }
+              });
+            }
 
-            this.hellData.push({ 'content_id': category.id, 'is_favourite': category.is_favourite })
+            const ipDetail: any = localStorage.getItem("ipSaveData");
+            const detail = JSON.parse(ipDetail);
+            this.hellData = []
+            this.mainData[0].cat_cntn.map((category: any) => {
+
+
+              this.hellData.push({ 'content_id': category.id, 'is_favourite': category.is_favourite })
+
+              if (category.content_publish.length) {
+                for (let i in category.content_publish) {
+                  this.countryAllowed.push(category.content_publish[i].country_code);
+                }
+                var a = this.countryAllowed.indexOf(detail.countryCode);
+                if (a == -1 && category.content_publish[0].country_code != "A") {
+                  category.trailer_url = ''
+                }
+              }
+            });
+            this.getMoviesData();
+            this._dd
+              .getDescriptionDataList(0, this.category_id)
+              .pipe(
+                map((res: any) => {
+                  this.DEC_SER.getDecryptedData(res?.result);
+                  let decryptData = JSON.parse(this.DEC_SER.decryptData);
+                  this.totalCount = decryptData.totalCount
+
+                })
+              )
+              .subscribe();
           });
-          this.getMoviesData();
+      });
+    } else {
+      this.mainData = this.user.dashboard.home_category
+
+      this.mainData.filter((data: any) => {
+        if (data.category_type == 'list') {
+          this.category_id = data.cat_id
+        }
+      });
+
+      const taplogininfo: any = localStorage.getItem("taploginInfo");
+      const USER_ACCOUNT: any = JSON.parse(taplogininfo);
+      if (USER_ACCOUNT) {
+        this._dd.getHomeFavorites(USER_ACCOUNT.id).subscribe((res: any) => {
+          if (res.code == 1) {
+            this.DEC_SER.getDecryptedData(res?.result);
+            let decryptData = JSON.parse(this.DEC_SER.decryptData);
+            this.FavoriteData = decryptData.content_id
+            this.mainData.forEach((ele: any) => {
+              ele.cat_cntn.forEach((data: any) => {
+                for (let i in this.FavoriteData) {
+                  if (data.id == this.FavoriteData[i]) {
+                    data.is_favourite = 1
+                  }
+                }
+              })
+            })
+          }
         });
-    });
+      }
+      this.hellData = []
+      this.mainData[0].cat_cntn.map((category: any) => {
+        this.hellData.push({ 'content_id': category.id, 'is_favourite': category.is_favourite })
+      });
+      this.getMoviesData();
+      this._dd
+        .getDescriptionDataList(0, this.category_id)
+        .pipe(
+          map((res: any) => {
+            this.DEC_SER.getDecryptedData(res?.result);
+            let decryptData = JSON.parse(this.DEC_SER.decryptData);
+            this.totalCount = decryptData.totalCount
+
+          })
+        )
+        .subscribe();
+    }
+    this.timeZoneOffset = new Date();
+    this.app_version= localStorage.getItem('appVersion')
   }
-  onScroll() {  
+
+  detectBrowserName() {
+    const agent = window.navigator.userAgent.toLowerCase()
+    switch (true) {
+      case agent.indexOf('edge') > -1:
+        return 'edge';
+      case agent.indexOf('opr') > -1 && !!(<any>window).opr:
+        return 'opera';
+      case agent.indexOf('chrome') > -1 && !!(<any>window).chrome:
+        return 'chrome';
+      case agent.indexOf('trident') > -1:
+        return 'ie';
+      case agent.indexOf('firefox') > -1:
+        return 'firefox';
+      case agent.indexOf('safari') > -1:
+        return 'safari';
+      default:
+        return 'other';
+    }
+  }
+
+  onScroll() {
     if (this.busyGettingData) {
       return
     }
     this.busyGettingData = true
-    this._dd
-      .getDescriptionDataList(this.new_offset, this.category_id)
-      .pipe(
-        map((res: any) => {
-          this.DEC_SER.getDecryptedData(res?.result);
-          let decryptData = JSON.parse(this.DEC_SER.decryptData);
-          console.log(decryptData);
-          this.new_offset = decryptData.offset
-          this.display_offset = decryptData.offset;
-          this.busyGettingData = false
-          this.mainData.filter((data: any) => {
-            if (data.category_type == 'list') {
-              decryptData.content.forEach((ele: any) => {
-                data.cat_cntn.push(ele)
-              });
-              // console.log(this.mainData);
-              this.getMoviesData()
+    let dataCount = 0;
+    this.mainData.filter((data: any) => {
+      if (data.category_type == 'list') {
+        data.cat_cntn.forEach((element: any) => {
+          if ("id" in element) {
+            dataCount++;
+          }
+        });
+      }
+    });
+    if (this.totalCount == 0) {
+      this._dd
+        .getDescriptionDataList(0, this.category_id)
+        .pipe(
+          map((res: any) => {
+            this.DEC_SER.getDecryptedData(res?.result);
+            let decryptData = JSON.parse(this.DEC_SER.decryptData);
+            this.totalCount = decryptData.totalCount
+            if (this.totalCount > dataCount) {
+              this._dd
+                .getDescriptionDataList(this.new_offset, this.category_id)
+                .pipe(
+                  map((res: any) => {
+                    this.DEC_SER.getDecryptedData(res?.result);
+                    let decryptData = JSON.parse(this.DEC_SER.decryptData);
+
+                    this.new_offset = decryptData.offset
+                    this.display_offset = decryptData.offset;
+                    this.busyGettingData = false
+                    this.mainData.filter((data: any) => {
+                      if (data.category_type == 'list') {
+                        decryptData.content.forEach((ele: any) => {
+                          data.cat_cntn.push(ele)
+                        });
+                        this.getMoviesData()
+                      }
+                    });
+
+                  })
+                )
+                .subscribe();
             }
-          });
-          // console.log(this.mainData);
-        })
-      )
-      .subscribe();
+
+          })
+        )
+        .subscribe();
+
+    }
+    if (this.totalCount > dataCount) {
+      this._dd
+        .getDescriptionDataList(this.new_offset, this.category_id)
+        .pipe(
+          map((res: any) => {
+            this.DEC_SER.getDecryptedData(res?.result);
+            let decryptData = JSON.parse(this.DEC_SER.decryptData);
+
+            this.new_offset = decryptData.offset
+            this.display_offset = decryptData.offset;
+            this.busyGettingData = false
+            this.mainData.filter((data: any) => {
+              if (data.category_type == 'list') {
+                decryptData.content.forEach((ele: any) => {
+                  data.cat_cntn.push(ele)
+                });
+
+                this.getMoviesData()
+              }
+            });
+
+          })
+        )
+        .subscribe();
+    }
+
   }
+
+  onAnchorClick(event:any) {
+    event.preventDefault();
+  }
+
   navigate(event: any) {
-    const eventParams = {
-      item_id: event.id,
-      item_name: event.title,
-      item_type: event.content_type,
-      item_value: event.access_type,
-      page_name: 'ebook',
-      season_id: event.season_id,
-      series_id: event.series_id
-    };
-    this.analyticsService.logEvent('select_item', eventParams);
     const ipDetail: any = localStorage.getItem("ipSaveData")
+    localStorage.setItem('CreatOrderC_id' , event.id);
     const detail = JSON.parse(ipDetail)
     const subs = localStorage.getItem('ott_subscriptionPlan')
     const userInfo: any = localStorage.getItem('taploginInfo') || {};
@@ -224,16 +395,15 @@ export class MoviesComponent implements OnInit, OnDestroy {
       if (subs != null && JSON.parse(subs).packages_list.length) {
         const formData: any = new FormData();
         const userInfo: any = localStorage.getItem('taploginInfo') || {};
+        const visitorIds : any = localStorage.getItem('device_id')
         formData.append('customer_id', JSON.parse(userInfo).id);
-        formData.append('device_unique_id', this.visitorId);
+        formData.append('device_unique_id', visitorIds);
         formData.append('session_status', 1);
         formData.append('device', 'web');
-        formData.append('country_code', detail.countryCode);
-        formData.append('content_id', event.id);
         formData.append('device_count', JSON.parse(subs).packages_list[0].device_restriction);
         formData.append('type', JSON.parse(subs).packages_list[0].restriction_type);
         this.auth.isAllowed(formData).subscribe(res => {
-          console.log(res);
+
           if (res.code == 0 && res.error == 'Device limit exceeded') {
             this.fcs.logoutProfile.next(true)
           }
@@ -241,7 +411,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
             if (event.content_publish.length) {
               for (let i in event.content_publish) {
                 this.countryAllowed.push(event.content_publish[i].country_code)
-                console.log(this.countryAllowed);
+
 
               }
               var a = this.countryAllowed.indexOf(detail.countryCode)
@@ -254,11 +424,9 @@ export class MoviesComponent implements OnInit, OnDestroy {
                 });
               } else {
                 this.router.navigate(["/" + event.permalink]);
-                localStorage.setItem('prevUrl',this.router.url)
               }
             } else {
               this.router.navigate(["/" + event.permalink]);
-              localStorage.setItem('prevUrl',this.router.url)
             }
           }
           else if (res.code == 2) {
@@ -268,7 +436,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
             if (event.content_publish.length) {
               for (let i in event.content_publish) {
                 this.countryAllowed.push(event.content_publish[i].country_code)
-                console.log(this.countryAllowed);
+
 
               }
               var a = this.countryAllowed.indexOf(detail.countryCode)
@@ -281,11 +449,9 @@ export class MoviesComponent implements OnInit, OnDestroy {
                 });
               } else {
                 this.router.navigate(["/" + event.permalink]);
-                localStorage.setItem('prevUrl',this.router.url)
               }
             } else {
               this.router.navigate(["/" + event.permalink]);
-              localStorage.setItem('prevUrl',this.router.url)
             }
           }
         })
@@ -300,10 +466,8 @@ export class MoviesComponent implements OnInit, OnDestroy {
         formData.append('device', '');
         formData.append('device_count', '');
         formData.append('type', '');
-        formData.append('country_code', detail.countryCode);
-        formData.append('content_id', event.id);
         this.auth.isAllowed(formData).subscribe(res => {
-          console.log(res);
+
           if (res.code == 0 && res.error == 'Device limit exceeded') {
             this.fcs.logoutProfile.next(true)
           }
@@ -311,7 +475,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
             if (event.content_publish.length) {
               for (let i in event.content_publish) {
                 this.countryAllowed.push(event.content_publish[i].country_code)
-                console.log(this.countryAllowed);
+
 
               }
               var a = this.countryAllowed.indexOf(detail.countryCode)
@@ -324,11 +488,9 @@ export class MoviesComponent implements OnInit, OnDestroy {
                 });
               } else {
                 this.router.navigate(["/" + event.permalink]);
-                localStorage.setItem('prevUrl',this.router.url)
               }
             } else {
               this.router.navigate(["/" + event.permalink]);
-              localStorage.setItem('prevUrl',this.router.url)
             }
           }
           else if (res.code == 2) {
@@ -338,7 +500,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
             if (event.content_publish.length) {
               for (let i in event.content_publish) {
                 this.countryAllowed.push(event.content_publish[i].country_code)
-                console.log(this.countryAllowed);
+
 
               }
               var a = this.countryAllowed.indexOf(detail.countryCode)
@@ -351,17 +513,15 @@ export class MoviesComponent implements OnInit, OnDestroy {
                 });
               } else {
                 this.router.navigate(["/" + event.permalink]);
-                localStorage.setItem('prevUrl',this.router.url)
               }
             } else {
               this.router.navigate(["/" + event.permalink]);
-              localStorage.setItem('prevUrl',this.router.url)
             }
           } else if (res.code == 3) {
             this._dd.getUserSubscriptionDetails(JSON.parse(userInfo).id).subscribe(res => {
               this.DEC_SER.getDecryptedData(res.result);
               const data: any = JSON.parse(this.DEC_SER.decryptData);
-              console.log((data));
+
               if (data.is_subscriber == 1) {
                 this.ed.isSubscribe.next(true);
                 this.ed.alreadySubscriber.next(true)
@@ -375,7 +535,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
               if (event.content_publish.length) {
                 for (let i in event.content_publish) {
                   this.countryAllowed.push(event.content_publish[i].country_code)
-                  console.log(this.countryAllowed);
+
 
                 }
                 var a = this.countryAllowed.indexOf(detail.countryCode)
@@ -388,11 +548,9 @@ export class MoviesComponent implements OnInit, OnDestroy {
                   });
                 } else {
                   this.router.navigate(["/" + event.permalink]);
-                  localStorage.setItem('prevUrl',this.router.url)
                 }
               } else {
                 this.router.navigate(["/" + event.permalink]);
-                localStorage.setItem('prevUrl',this.router.url)
               }
             })
           }
@@ -403,7 +561,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
       if (event.content_publish.length) {
         for (let i in event.content_publish) {
           this.countryAllowed.push(event.content_publish[i].country_code)
-          console.log(this.countryAllowed);
+
 
         }
         var a = this.countryAllowed.indexOf(detail.countryCode)
@@ -416,14 +574,11 @@ export class MoviesComponent implements OnInit, OnDestroy {
           });
         } else {
           this.router.navigate(["/" + event.permalink]);
-          localStorage.setItem('prevUrl',this.router.url)
         }
       } else {
         this.router.navigate(["/" + event.permalink]);
-        localStorage.setItem('prevUrl',this.router.url)
       }
     }
-
   }
   addEpisodeToWatchlist(watcher: any, cat_id: any, content_id: any) {
 
@@ -435,15 +590,15 @@ export class MoviesComponent implements OnInit, OnDestroy {
         }
 
       })
-      // console.log(this.hellData);
+
       const userInfo: any = localStorage.getItem('taploginInfo') || {};
       if (Object.keys(userInfo).length) {
         const formData = new FormData();
         formData.append('user_id', JSON.parse(userInfo).id);
         formData.append('content_id', content_id)
-        formData.append('favourite', watcher)
-        // formData.append('content_type', 'video');
-        // formData.append('cat_id', cat_id);
+        formData.append('watchlist', watcher)
+        formData.append('content_type', 'video');
+        formData.append('cat_id', cat_id);
         this._dd.addRemoveToWatchList(formData).subscribe(res => {
           // this.getWatchlistData();
         });
@@ -458,24 +613,25 @@ export class MoviesComponent implements OnInit, OnDestroy {
       });
     }
   }
-  add(add: any, id: any, cat_id: any) {
+  add(add: any, id: any, cat_id: any, category: any, title: any) {
     if (id.is_favourite == 1 && this.isOttLoggedIn) {
       id.is_favourite = 0;
+
     } else if (this.isOttLoggedIn) {
       id.is_favourite = 1;
+  
     }
-
     const userIsLoggedIn: any = localStorage.getItem("ott_isLoggedIn");
     if (userIsLoggedIn == "1") {
-      // console.log(this.hellData);
+
       const userInfo: any = localStorage.getItem("taploginInfo") || {};
       if (Object.keys(userInfo).length) {
         const formData = new FormData();
         formData.append("user_id", JSON.parse(userInfo).id);
         formData.append("content_id", id.id);
-        formData.append("favourite", id.is_favourite);
-        // formData.append("content_type", "video");
-        // formData.append("cat_id", cat_id);
+        formData.append("watchlist", id.is_favourite);
+        formData.append("content_type", "video");
+        formData.append("cat_id", id.category_ids[0]);
         this._dd.addRemoveToWatchList(formData).subscribe((res) => { });
       }
     } else if (!userIsLoggedIn) {
@@ -488,22 +644,19 @@ export class MoviesComponent implements OnInit, OnDestroy {
     }
   }
   agepopup() {
-    if(this.dialog.openDialogs.length==0){
-      const dialogRef = this.dialog.open(AdultAgePopupComponent, {
-        panelClass: "adultAgePopup",
-        width: "500px",
-        data: { dat: event },
-      });
-  
-      const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
-        this.agehide = false
-        $(`#${this.idd}`).find(".iconlayout").show();
-        $(`#${this.idd1}`).find(".iconlayout").show();
-        $(".iconage").hide();
-        this.vid1.play();
-      })
-    }
- 
+    const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+      panelClass: "adultAgePopup",
+      width: "500px",
+      data: { dat: event },
+    });
+
+    const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+      this.agehide = false
+      $(`#${this.idd}`).find(".iconlayout").show();
+      $(`#${this.idd1}`).find(".iconlayout").show();
+      $(".iconage").hide();
+      this.vid1.play();
+    })
 
     // var btnn = document.getElementsByClassName("btn-two")[0];
     // btnn.addEventListener("click", () => {
@@ -513,12 +666,14 @@ export class MoviesComponent implements OnInit, OnDestroy {
 
   changeVideoAndBanner(v111: any, v222: any) {
     this.vid = videoJs(v111);
+    this.agehide = false;
     // for (let key in videoJs.getPlayers()) {
-    //   console.log(key);
+
     //   delete videoJs.getPlayers()[key];
     // }
-    // console.log("destroy called");
+
     this.vid.load();
+    this.vid1.load();
 
     this.vid.src({
       src: this.vid.cache_.source.src,
@@ -581,12 +736,15 @@ export class MoviesComponent implements OnInit, OnDestroy {
 
     this.vid1.on("play", () => {
       this.playing = false;
+      $(".lock6").hide();
     });
     $(".vjs-mute-control").on("click", () => {
       if (this.muted == true) {
-        this.muted = false;
+        this.unmutebtn()
+        this.muted == true;
       } else {
-        this.muted = true;
+        this.mutebtn()
+        this.muted == false;
       }
     });
 
@@ -598,7 +756,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
         this.muted = false;
       }
     });
-    // console.log(this.vid1);
+
     // if(this.isSubscribed){
     //   this.vid1.attr('loop');
     // }
@@ -622,7 +780,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
         this.agehide = false;
         setTimeout(() => {
           this.vid1.play();
-        }, 1000);
+        }, 500);
 
         this.vid1.volume(0)
 
@@ -672,17 +830,18 @@ export class MoviesComponent implements OnInit, OnDestroy {
         } else {
           let xc = window.innerWidth
           if (xc < 576) {
-            $(`#${this.idd1}`).find(".iconlayout").show();
+            $(`#${this.idd}`).find(".iconlayout").show();
             setTimeout(() => {
               this.vid1.play();
             }, 1000);
             this.vid1.volume(0);
           } else {
-            $(`#${this.idd1}`).find(".iconlayout").show();
+            $('.iconage').hide()
+            $(`#${this.idd}`).find(".iconlayout").show();
 
             setTimeout(() => {
               this.vid1.play();
-            }, 100);
+            }, 500);
 
             this.vid1.volume(0);
           }
@@ -716,8 +875,6 @@ export class MoviesComponent implements OnInit, OnDestroy {
     this.vid1.muted(true);
     this.muted = true;
     this.vid1.on("play", () => {
-      // this.vid1.hlsQualitySelector();
-
       this.lock = true;
       this.lock1 = true;
       $(this.vid1.posterImage.contentEl()).hide();
@@ -736,6 +893,30 @@ export class MoviesComponent implements OnInit, OnDestroy {
       $('.iconage').hide()
       this.lock1 = false;
     });
+
+    let xc = window.innerWidth
+    if (xc < 920) {
+      this.vid1 = videoJs(v222)
+      this.vid1.src({
+        type: this.vid1.cache_.source.type,
+        src: this.vid1.cache_.source.src,
+      });
+      this.vid1.hlsQualitySelector()
+    } else {
+      if (this.getBrowserName == 'firefox') {
+        if (this.vid1) {
+          this.vid1.qualityMenu();
+        }
+      } else if (this.getBrowserName == 'safari') {
+        if (this.vid1) {
+          this.vid1.qualityMenu();
+        }
+      } else {
+        if (this.vid1) {
+          this.vid1.hlsQualitySelector();
+        }
+      }
+    }
   }
 
 
@@ -745,10 +926,12 @@ export class MoviesComponent implements OnInit, OnDestroy {
     const share_url = url;
     if (type === "fb") {
 
-      let link = `https://www.facebook.com/sharer/sharer.php?app_id=2407604909394715&sdk=joey&u=${share_url}`;
+      // let link = `https://www.facebook.com/sharer/sharer.php?app_id=2407604909394715&sdk=joey&u=${share_url}`;
+      let link = `https://www.facebook.com/sharer/sharer.php?&u=${share_url}`;
       window.open(link, "Facebook", newLocal);
     } else if (type === "tweet") {
-      let urls = `https://twitter.com/intent/tweet?original_referer=${window.location.host}tw_p=tweetbutton&text=ALTBalaji%0Aaltp.faste.tv/${url}`;
+      // let urls = `https://twitter.com/intent/tweet?original_referer=${window.location.host}tw_p=tweetbutton&text=ALTBalaji%0Aaltp.faste.tv/${url}`;
+      let urls = `https://twitter.com/intent/tweet?original_referer=${window.location.host}tw_p=tweetbutton&text=Altt%0A${url}`;
 
       window.open(urls, "TwitterWindow", newLocal);
     } else if (type === "copy") {
@@ -769,9 +952,9 @@ export class MoviesComponent implements OnInit, OnDestroy {
         const formData = new FormData();
         formData.append("user_id", JSON.parse(userInfo).id);
         formData.append("content_id", content_id);
-        formData.append("favourite", watcher);
-        // formData.append("content_type", "video");
-        // formData.append("cat_id", cat_id);
+        formData.append("watchlist", watcher);
+        formData.append("content_type", "video");
+        formData.append("cat_id", cat_id);
         this._dd.addRemoveToWatchList(formData).subscribe((res) => {
 
         });
@@ -830,20 +1013,22 @@ export class MoviesComponent implements OnInit, OnDestroy {
       $('.vjs-notes-btn').attr('title', 'Season-Selector');
       $('.vjs-icon-hd').attr('title', 'Settings');
     }, 1000);
-    $('#ageRestrict').show()
-    $('.getre').show()
-    this.vid1.requestFullscreen();
-    this.vid1.landscapeFullscreen();
+    setTimeout(() => {
+      $('#ageRestrict').show()
+      $('.getre').show()
+    }, 1000);
+
+    setTimeout(() => {
+      this.vid1.requestFullscreen();
+      this.vid1.landscapeFullscreen();
+    }, 300);
 
     this.vid1.on("fullscreenchange", (e: any) => {
 
 
       if (this.vid1.isFullscreen()) {
-        var gettime: any = localStorage.getItem('jsonPlayer')
-        this.getAgeDuration = JSON.parse(gettime).Player[0].UA_setting
-        setTimeout(() => {
-          $('.getre').hide()
-        }, this.getAgeDuration.duration_in_sec * 1000);
+
+
         this.vid1.on('timeupdate', () => {
           if (this.vid1.userActive() == false) {
             $(".vjs-overlay").hide();
@@ -857,7 +1042,13 @@ export class MoviesComponent implements OnInit, OnDestroy {
         this.vid1.addClass("video-js");
         this.vid1.addClass("vjs-hls-quality-selector");
         this.vid1.controls(true);
-
+        var gettime: any = localStorage.getItem('jsonPlayer')
+        if (gettime != '') {
+          this.getAgeDuration = JSON.parse(gettime).Player[0].UA_setting;
+        }
+        setTimeout(() => {
+          $('.getre').hide()
+        }, this.getAgeDuration.duration_in_sec * 1000);
       } else {
         $('.getre').hide()
         $(".vjs-overlay").hide();
@@ -873,24 +1064,90 @@ export class MoviesComponent implements OnInit, OnDestroy {
       }
     });
   }
+  getm3u8Url(id: any) {
+    if (this.getBrowserName == 'safari') {
+      this.userId = localStorage.getItem("taploginInfo");
+      this.user = JSON.parse(this.userId);
+
+      if (this.user) {
+        this._dd.getMainUrl(id, this.user.id).subscribe((res: any) => {
+
+          if (res.code == 1) {
+            this.DEC_SCR_IOS.getDecryptedDataIos(res?.result);
+            let decryptData = JSON.parse(this.DEC_SCR_IOS.decryptData);
+
+            this.m3u8Main = decryptData.url;
+          }
+        })
+      } else {
+        this._dd.getMainUrl(id, "").subscribe((res: any) => {
+
+          if (res.code == 1) {
+            this.DEC_SCR_IOS.getDecryptedDataIos(res?.result);
+            let decryptData = JSON.parse(this.DEC_SCR_IOS.decryptData);
+
+            this.m3u8Main = decryptData.url;
+          }
+        })
+      }
+    } else {
+      this.userId = localStorage.getItem("taploginInfo");
+      this.user = JSON.parse(this.userId);
+
+      if (this.user) {
+        this._dd.getMainUrl(id, this.user.id).subscribe((res: any) => {
+
+          if (res.code == 1) {
+            this.DEC_SER.getDecryptedData(res?.result);
+            let decryptData = JSON.parse(this.DEC_SER.decryptData);
+
+            this.m3u8Main = decryptData.url;
+          }
+        })
+      } else {
+        this._dd.getMainUrl(id, "").subscribe((res: any) => {
+
+          if (res.code == 1) {
+            this.DEC_SER.getDecryptedData(res?.result);
+            let decryptData = JSON.parse(this.DEC_SER.decryptData);
+
+            this.m3u8Main = decryptData.url;
+          }
+        })
+      }
+    }
+
+  }
+
+
+
   videoJsPopup() {
-    const alertRef = this.dialog.open(VideojsDialogComponent, {
-      maxWidth: "100vw",
-      panelClass: 'videojsplayer',
-      maxHeight: "100vh",
-      height: "calc(100% - 100px)",
-      width: "100%",
-      data: { url: this.videoJsData },
-    });
-    alertRef.afterClosed().subscribe((result: any) => {
-      console.log("The dialog was closed", result);
-    });
+    localStorage.setItem('CreatOrderC_id',this.videoJsData.id)
+    this.getm3u8Url(this.videoJsData.id)
+    setTimeout(() => {
+      this.videoJsData.url = this.m3u8Main
+    }, 600);
+    setTimeout(() => {
+      if (this.dialog.openDialogs.length == 0) {
+        const alertRef = this.dialog.open(VideojsDialogComponent, {
+          maxWidth: "100vw",
+          panelClass: "videojsplayer",
+          maxHeight: "100vh",
+          height: "calc(100% - 100px)",
+          width: "100%",
+          data: { url: this.videoJsData },
+        });
+        alertRef.afterClosed().subscribe(result => {
+
+
+        });
+      };
+    }, 1000);
+
   }
 
   playCarousel(data: any) {
     this.vid1.pause()
-    // this.appsflyer = data;
-    // this.appsflyerData();
     const event = data;
     const aged = data.age_group;
     this.videoJsData = data;
@@ -909,12 +1166,10 @@ export class MoviesComponent implements OnInit, OnDestroy {
         formData.append('device_unique_id', visitorIds);
         formData.append('session_status', 1);
         formData.append('device', 'web');
-        formData.append('country_code', detail.countryCode);
-        formData.append('content_id', data.id);
         formData.append('device_count', JSON.parse(subs).packages_list[0].device_restriction);
         formData.append('type', JSON.parse(subs).packages_list[0].restriction_type);
         this.auth.isAllowed(formData).subscribe(res => {
-          console.log(res);
+
           if (res.code == 0 && res.error == 'Device limit exceeded') {
             this.fcs.logoutProfile.next(true)
           }
@@ -972,10 +1227,8 @@ export class MoviesComponent implements OnInit, OnDestroy {
         formData.append('device', '');
         formData.append('device_count', '');
         formData.append('type', '');
-        formData.append('country_code', detail.countryCode);
-        formData.append('content_id', data.id);
         this.auth.isAllowed(formData).subscribe(res => {
-          console.log(res);
+
           if (res.code == 0 && res.error == 'Device limit exceeded') {
             this.fcs.logoutProfile.next(true)
           }
@@ -1023,7 +1276,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
             this._dd.getUserSubscriptionDetails(JSON.parse(userInfo).id).subscribe(res => {
               this.DEC_SER.getDecryptedData(res.result);
               const data: any = JSON.parse(this.DEC_SER.decryptData);
-              console.log((data));
+
               if (data.is_subscriber == 1) {
                 this.ed.isSubscribe.next(true);
                 this.ed.alreadySubscriber.next(true)
@@ -1118,18 +1371,36 @@ export class MoviesComponent implements OnInit, OnDestroy {
             this.videoJsPopup();
           } else {
             if (parental_read.is_parental == 1 && isSubscriberUser == "1") {
+              // if (Number(parental_read.restriction_level) == -1) {
+              //   this.showPin()
+              // } else if (Number(parental_read.restriction_level) == 999) {
+              //   this.videoJsPopup();
+              // } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999 || Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 16) {
+              //   this.videoJsPopup();
+              // } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999) {
+              //   this.showPin()
+              // } else if (Number(parental_read.restriction_level) >= 16 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999) {
+              //   this.videoJsPopup();
+              // } else {
+              //   this.showPin()
+              // }
               if (Number(parental_read.restriction_level) == -1) {
-                this.showPin()
+           
+                this.showPin();
               } else if (Number(parental_read.restriction_level) == 999) {
+               
                 this.videoJsPopup();
-              } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999 || Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 16) {
-                this.videoJsPopup();
-              } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999) {
-                this.showPin()
-              } else if (Number(parental_read.restriction_level) >= 16 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999) {
-                this.videoJsPopup();
-              } else {
-                this.showPin()
+              } else if (Number(parental_read.restriction_level) < 999) {
+                if (Number(aged) == 999) {
+                  
+                  this.videoJsPopup();
+                } else if (Number(aged) >= Number(parental_read.restriction_level) || Number(aged) == -1) {
+                
+                  this.showPin();
+                } else {
+                 
+                  this.videoJsPopup();
+                }
               }
 
             } else {
@@ -1152,18 +1423,36 @@ export class MoviesComponent implements OnInit, OnDestroy {
           this.videoJsPopup();
         } else {
           if (parental_read.is_parental == 1 && isSubscriberUser == "1") {
+            // if (Number(parental_read.restriction_level) == -1) {
+            //   this.showPin()
+            // } else if (Number(parental_read.restriction_level) == 999) {
+            //   this.videoJsPopup();
+            // } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999 || Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 16) {
+            //   this.videoJsPopup();
+            // } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999) {
+            //   this.showPin()
+            // } else if (Number(parental_read.restriction_level) >= 16 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999) {
+            //   this.videoJsPopup();
+            // } else {
+            //   this.showPin()
+            // }
             if (Number(parental_read.restriction_level) == -1) {
-              this.showPin()
+             
+              this.showPin();
             } else if (Number(parental_read.restriction_level) == 999) {
+            
               this.videoJsPopup();
-            } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999 || Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(aged) == 16) {
-              this.videoJsPopup();
-            } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999) {
-              this.showPin()
-            } else if (Number(parental_read.restriction_level) >= 16 && Number(parental_read.restriction_level) < 999 && Number(aged) == 999) {
-              this.videoJsPopup();
-            } else {
-              this.showPin()
+            } else if (Number(parental_read.restriction_level) < 999) {
+              if (Number(aged) == 999) {
+                
+                this.videoJsPopup();
+              } else if (Number(aged) >= Number(parental_read.restriction_level) || Number(aged) == -1) {
+               
+                this.showPin();
+              } else {
+               
+                this.videoJsPopup();
+              }
             }
 
           } else {
@@ -1181,7 +1470,9 @@ export class MoviesComponent implements OnInit, OnDestroy {
       width: "390px",
     });
 
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {
+      document.body.style.overflow='auto'
+    });
     const sub = dialogRef.componentInstance.isSuccess.subscribe(
       (e: any) => {
         this.successs = e;
@@ -1192,23 +1483,26 @@ export class MoviesComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+
   newUsers(user: any) {
     this.homeservice.sendDataToComponent(this.newUser);
   }
   getMoviesData() {
     this.mainData.map((category: any) => {
       if (category.multiple_layout != null) {
-        if (category.multiple_layout.platform==="web") {
-          category.totalSlides = category.multiple_layout.slider;
-          category.type = category.multiple_layout.layout;
+        let selectedLayout: any = {};
+
+        selectedLayout = category.multiple_layout.find(
+          (multi: any) => multi.platform === "web"
+        );
+        if (selectedLayout !== undefined) {
+          category.layout = selectedLayout.layout
           category.cat_cntn.forEach((cat: any) => {
-            var hms = cat.duration; // your input string
-            var a = hms.split(":"); // split it at the colons
-            var seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
-            cat.result = Math.round((cat.play_duration / seconds) * 100);
             cat.sliderImg = "";
             cat.sliderIdentifier = "";
             if (cat.is_group == 1 && cat.groupInfo != null) {
+
               if (category.category_type == "feature_banner") {
                 if (cat.groupInfo.global_thumb != null) {
                   cat.groupInfo.global_thumb.forEach((thumb: any) => {
@@ -1216,182 +1510,122 @@ export class MoviesComponent implements OnInit, OnDestroy {
                       if (thumb.layout == "square") {
                         thumb.layout = "circle";
                       }
-                      if (thumb.layout == category.multiple_layout.layout) {
+                      if (thumb.layout == selectedLayout.layout) {
                         thumb?.image_size.filter((img: any) => {
-                          if (
-                            Number(img.width) == 360 ||
-                            Number(img.width) == 854
-                          ) {
+                          if (Number(img.width) == 360 || Number(img.width) == 854) {
                             cat.sliderImg = img.url;
                             cat.sliderIdentifier = img.identifier;
                           } else if (cat.sliderImg == "") {
                             cat.sliderImg = thumb?.image_size[0].url;
-                            cat.sliderIdentifier =
-                              thumb?.image_size[0].identifier;
-                          }
-                        });
-                      }
-                    }
-                  });
-                } else if (cat.groupInfo.season_banner != null) {
-                  cat.groupInfo.season_banner.forEach((thumb: any) => {
-                    if (thumb != null) {
-                      if (thumb.layout == category.multiple_layout.layout) {
-                        thumb?.image_size.filter((img: any) => {
-                          if (Number(img.width) == 854) {
-                            cat.sliderImg = img.url;
-                            cat.sliderIdentifier = img.identifier;
-                          } else if (cat.sliderImg == "") {
-                            cat.sliderImg = thumb?.image_size[0].url;
-                            cat.sliderIdentifier =
-                              thumb?.image_size[0].identifier;
+                            cat.sliderIdentifier = thumb?.image_size[0].identifier;
                           }
                         });
                       }
                     }
                   });
                 }
-              } else if (
-                category.category_type == "default" ||
-                category.category_type == "language" ||
-                category.category_type == "Binge_it_all" ||
-                category.category_type == "ebook"
-              ) {
+                else if (cat.groupInfo.season_banner != null) {
+                  cat.groupInfo.season_banner.forEach((thumb: any) => {
+                    if (thumb != null) {
+                      if (thumb.layout == selectedLayout.layout) {
+                        thumb?.image_size.filter((img: any) => {
+                          if (Number(img.width) == 1280) {
+                            cat.sliderImg = img.url;
+                            cat.sliderIdentifier = img.identifier;
+                          } else if (cat.sliderImg == "") {
+                            cat.sliderImg = thumb?.image_size[0].url;
+                            cat.sliderIdentifier = thumb?.image_size[0].identifier;
+                          }
+                        });
+                      }
+                    }
+                  });
+                }
+              }
+              else if (category.category_type == "list") {
                 if (cat.groupInfo.global_thumb != null) {
                   cat.groupInfo.global_thumb.forEach((thumb: any) => {
                     if (thumb != null) {
                       if (thumb.layout == "square") {
                         thumb.layout = "circle";
                       }
-                      if (thumb.layout == category.multiple_layout.layout) {
+                      if (thumb.layout == selectedLayout.layout) {
                         thumb?.image_size.filter((img: any) => {
-                          if (
-                            Number(img.width) == 360 ||
-                            Number(img.width) == 854
-                          ) {
+                          if (Number(img.width) == 360 || Number(img.width) == 854) {
                             cat.sliderImg = img.url;
                             cat.sliderIdentifier = img.identifier;
                           } else if (cat.sliderImg == "") {
                             cat.sliderImg = thumb?.image_size[0].url;
-                            cat.sliderIdentifier =
-                              thumb?.image_size[0].identifier;
-                          }
-                        });
-                      }
-                    }
-                  });
-                } else if (cat.groupInfo.thumbs != null) {
-                  cat.groupInfo.thumbs.forEach((thumb: any) => {
-                    if (thumb != null) {
-                      if (thumb.layout == "square") {
-                        thumb.layout = "circle";
-                      }
-                      if (thumb.layout == category.multiple_layout.layout) {
-                        thumb?.image_size.filter((img: any) => {
-                          if (
-                            Number(img.width) == 360 ||
-                            Number(img.width) == 854
-                          ) {
-                            cat.sliderImg = img.url;
-                            cat.sliderIdentifier = img.identifier;
-                          } else if (cat.sliderImg == "") {
-                            cat.sliderImg = thumb?.image_size[0].url;
-                            cat.sliderIdentifier =
-                              thumb?.image_size[0].identifier;
+                            cat.sliderIdentifier = thumb?.image_size[0].identifier;
                           }
                         });
                       }
                     }
                   });
                 }
-              } else if (category.category_type == "continue_watching") {
+                else if (cat.groupInfo.thumbs != null) {
+                  cat.groupInfo.thumbs.forEach((thumb: any) => {
+                    if (thumb != null) {
+                      if (thumb.layout == "square") {
+                        thumb.layout = "circle";
+                      }
+                      if (thumb.layout == selectedLayout.layout) {
+                        thumb?.image_size.filter((img: any) => {
+                          if (Number(img.width) == 360 || Number(img.width) == 854) {
+                            cat.sliderImg = img.url;
+                            cat.sliderIdentifier = img.identifier;
+                          } else if (cat.sliderImg == "") {
+                            cat.sliderImg = thumb?.image_size[0].url;
+                            cat.sliderIdentifier = thumb?.image_size[0].identifier;
+                          }
+                        });
+                      }
+                    }
+                  });
+                }
+              }
+
+            }
+            else if (cat.is_group == 0) {
+              if (cat.layout_thumbs != null) {
                 cat.layout_thumbs.forEach((thumb: any) => {
                   if (thumb.layout == "square") {
                     thumb.layout = "circle";
                   }
-                  if (thumb.layout == category.multiple_layout.layout) {
+                  if (thumb.layout == selectedLayout.layout) {
                     thumb?.image_size.filter((img: any) => {
-                      if (
-                        Number(img.width) == 360 ||
-                        Number(img.width) == 854
-                      ) {
-                        cat.sliderImg = img.url;
-                        cat.sliderIdentifier = img.identifier;
-                      } else if (cat.sliderImg == "") {
-                        cat.sliderImg = thumb?.image_size[0].url;
-                        cat.sliderIdentifier = thumb?.image_size[0].identifier;
-                      }
-                    });
-                  }
-                });
-              }
-            } else if (cat.is_group == 0) {
-              
-              if (cat.layout_thumbs != null) {
-                cat.layout_thumbs.forEach((thumb: any) => {
-                  if (thumb.layout == "vertical_9x16") {
-                    thumb.layout = "vertical_9x16";
-                  }
-                  if (thumb.layout == category.multiple_layout.layout) {
-                   
-                    thumb?.image_size.filter((img: any) => {
-                      if (category.category_type == "ebook") {
+                      if (category.category_type == "feature_banner") {
                         if (Number(img.width) == 854) {
                           cat.sliderImg = img.url;
                           cat.sliderIdentifier = img.identifier;
                         } else if (cat.sliderImg == "") {
                           cat.sliderImg = thumb?.image_size[0].url;
-                          cat.sliderIdentifier =
-                            thumb?.image_size[0].identifier;
+                          cat.sliderIdentifier = thumb?.image_size[0].identifier;
                         }
-                      } else if (
-                        category.category_type == "default" ||
-                        category.category_type == "continue_watching" ||
-                        category.category_type == "language" ||
-                        category.category_type == "Binge_it_all" ||
-                        category.category_type == "ebook"
-                      ) {
-                        if (
-                          Number(img.width) == 360 ||
-                          Number(img.width) == 854
-                        ) {
+                      } else if (category.category_type == "list") {
+                        if (Number(img.width) == 360 || Number(img.width) == 854) {
                           cat.sliderImg = img.url;
                           cat.sliderIdentifier = img.identifier;
                         } else if (cat.sliderImg == "") {
                           cat.sliderImg = thumb?.image_size[0].url;
-                          cat.sliderIdentifier =
-                            thumb?.image_size[0].identifier;
+                          cat.sliderIdentifier = thumb?.image_size[0].identifier;
                         }
                       }
                     });
                   }
                 });
               }
+
             }
-            if (category.category_type == "genre") {
-              if (cat.layout_thumbs != null) {
-                cat.layout_thumbs.forEach((thumb: any) => {
-                  if (thumb.layout == category.multiple_layout.layout) {
-                    thumb?.image_size.filter((img: any) => {
-                      if (
-                        Number(img.width) == 360 ||
-                        Number(img.width) == 854
-                      ) {
-                        cat.sliderImg = img.url;
-                        cat.sliderIdentifier = img.identifier;
-                      } else if (cat.sliderImg == "") {
-                        cat.sliderImg = thumb?.image_size[0].url;
-                        cat.sliderIdentifier = thumb?.image_size[0].identifier;
-                      }
-                    });
-                  }
-                });
-              }
-            }
+
           });
         }
       }
+
+
     });
+
+
   }
   slideConfig = {
     "slidesToShow": 1,
@@ -1425,6 +1659,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
 
   setpin(getid: any) {
     this.parentaltest = true;
+    $(`#${this.idd1}`).find(".iconage").show();
     $(`#${getid}`).find(".iconlayout").hide();
     if (this.mainData[0]['auto_play'] == 1) {
       $(`#${getid}`).find(".iconage").show();
@@ -1436,22 +1671,25 @@ export class MoviesComponent implements OnInit, OnDestroy {
       width: "390px",
     });
 
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {
+      document.body.style.overflow='auto'
+    });
     const sub = dialogRef.componentInstance.isSuccess.subscribe((e: any) => {
       this.successs = e;
 
       if (this.successs) {
         if (this.mainData[0]['auto_play'] == 0) {
           $(`#${this.idd1}`).find(".iconlayout").show();
-
           $(`#${this.idd}`).find(".iconlayout").show();
           $('.iconage').hide()
         }
+
         this.parentaltest = false;
         $(".iconage").hide();
         $(`#${getid}`).find(".iconlayout").show();
         $(`#${getid}`).find(".iconage").hide();
         this.vid1.play();
+
         this.vid1.volume(0);
       }
     });
@@ -1476,6 +1714,75 @@ export class MoviesComponent implements OnInit, OnDestroy {
     var parental_read = JSON.parse(parental);
     this.parentaltest = parental_read.is_parental
     if (parental_read.is_parental == 1 && isSubscriberUser == "1") {
+      // if (Number(parental_read.restriction_level) == -1) {
+      //   this.setpin(pinsetid)
+      // } else if (Number(parental_read.restriction_level) == 999) {
+      //   var xc = window.innerWidth
+      //   if (xc < 576) {
+      //     setTimeout(() => {
+      //       this.vid1.play()
+      //     }, 100);
+      //   } else {
+      //     setTimeout(() => {
+      //       this.vid1.play()
+      //     }, 1000);
+
+      //   }
+
+      //   this.vid1.volume(0);
+      //   this.agehide = false;
+      //   this.parentaltest = false
+      //   if (this.mainData[0]['auto_play'] == 0) {
+      //     $(`#${this.idd1}`).find(".iconlayout").show();
+
+      //     $(`#${this.idd}`).find(".iconlayout").show();
+      //     $('.iconage').hide()
+      //   }
+      // } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(ageget.slice(3)) == 999 || Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(ageget.slice(3)) == 16) {
+      //   var xc = window.innerWidth
+      //   if (xc < 576) {
+      //     setTimeout(() => {
+      //       this.vid1.play()
+      //     }, 100);
+      //   } else {
+      //     setTimeout(() => {
+      //       this.vid1.play()
+      //     }, 1000);
+      //   }
+      //   this.vid1.volume(0);
+      //   this.agehide = false;
+      //   this.parentaltest = false
+      //   if (this.mainData[0]['auto_play'] == 0) {
+      //     $(`#${this.idd1}`).find(".iconlayout").show();
+
+      //     $(`#${this.idd}`).find(".iconlayout").show();
+      //     $('.iconage').hide()
+      //   }
+      // } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999) {
+      //   this.setpin(pinsetid)
+      // } else if (Number(parental_read.restriction_level) >= 16 && Number(parental_read.restriction_level) < 999 && Number(ageget.slice(3)) == 999) {
+      //   var xc = window.innerWidth
+      //   if (xc < 576) {
+      //     setTimeout(() => {
+      //       this.vid1.play()
+      //     }, 100);
+      //   } else {
+      //     setTimeout(() => {
+      //       this.vid1.play()
+      //     }, 1000);
+      //   }
+      //   this.vid1.volume(0);
+      //   this.agehide = false;
+      //   this.parentaltest = false
+      //   if (this.mainData[0]['auto_play'] == 0) {
+      //     $(`#${this.idd1}`).find(".iconlayout").show();
+
+      //     $(`#${this.idd}`).find(".iconlayout").show();
+      //     $('.iconage').hide()
+      //   }
+      // } else {
+      //   this.setpin(pinsetid)
+      // }
       if (Number(parental_read.restriction_level) == -1) {
         this.setpin(pinsetid)
       } else if (Number(parental_read.restriction_level) == 999) {
@@ -1483,29 +1790,18 @@ export class MoviesComponent implements OnInit, OnDestroy {
         if (xc < 576) {
           setTimeout(() => {
             this.vid1.play()
-          }, 100);
+          }, 1000);
         } else {
-          this.vid1.play()
-        }
-
-        this.vid1.volume(0);
-        this.agehide = false;
-        this.parentaltest = false
-        if (this.mainData[0]['auto_play'] == 0) {
-          $(`#${this.idd1}`).find(".iconlayout").show();
-
-          $(`#${this.idd}`).find(".iconlayout").show();
-          $('.iconage').hide()
-        }
-      } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(ageget.slice(3)) == 999 || Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999 && Number(ageget.slice(3)) == 16) {
-        var xc = window.innerWidth
-        if (xc < 576) {
           setTimeout(() => {
             this.vid1.play()
-          }, 100);
-        } else {
-          this.vid1.play()
+          }, 1000);
+
         }
+
+        setTimeout(() => {
+          $('.iconage').hide()
+        }, 500);
+
         this.vid1.volume(0);
         this.agehide = false;
         this.parentaltest = false
@@ -1515,28 +1811,62 @@ export class MoviesComponent implements OnInit, OnDestroy {
           $(`#${this.idd}`).find(".iconlayout").show();
           $('.iconage').hide()
         }
-      } else if (Number(parental_read.restriction_level) >= 18 && Number(parental_read.restriction_level) < 999) {
-        this.setpin(pinsetid)
-      } else if (Number(parental_read.restriction_level) >= 16 && Number(parental_read.restriction_level) < 999 && Number(ageget.slice(3)) == 999) {
-        var xc = window.innerWidth
-        if (xc < 576) {
+      } else if (Number(parental_read.restriction_level) < 999) {
+        if (Number(ageget.slice(3)) == 999) {
+          var xc = window.innerWidth
+          if (xc < 576) {
+            setTimeout(() => {
+              this.vid1.play()
+            }, 1000);
+          } else {
+            setTimeout(() => {
+              this.vid1.play()
+            }, 1000);
+
+          }
+
           setTimeout(() => {
-            this.vid1.play()
-          }, 100);
-        } else {
-          this.vid1.play()
-        }
-        this.vid1.volume(0);
-        this.agehide = false;
-        this.parentaltest = false
-        if (this.mainData[0]['auto_play'] == 0) {
-          $(`#${this.idd1}`).find(".iconlayout").show();
+            $('.iconage').hide()
+          }, 500);
 
-          $(`#${this.idd}`).find(".iconlayout").show();
-          $('.iconage').hide()
+          this.vid1.volume(0);
+          this.agehide = false;
+          this.parentaltest = false
+          if (this.mainData[0]['auto_play'] == 0) {
+            $(`#${this.idd1}`).find(".iconlayout").show();
+
+            $(`#${this.idd}`).find(".iconlayout").show();
+            $('.iconage').hide()
+          }
+        } else if (Number(ageget.slice(3)) >= Number(parental_read.restriction_level) || Number(ageget.slice(3)) == -1) {
+          this.setpin(pinsetid)
+        } else {
+          var xc = window.innerWidth
+          if (xc < 576) {
+            setTimeout(() => {
+              this.vid1.play()
+            }, 1000);
+          } else {
+            setTimeout(() => {
+              this.vid1.play()
+            }, 1000);
+
+          }
+
+          setTimeout(() => {
+            $('.iconage').hide()
+          }, 500);
+
+          this.vid1.volume(0);
+          this.agehide = false;
+          this.parentaltest = false
+          if (this.mainData[0]['auto_play'] == 0) {
+            $(`#${this.idd1}`).find(".iconlayout").show();
+
+            $(`#${this.idd}`).find(".iconlayout").show();
+            $('.iconage').hide()
+          }
         }
-      } else {
-        this.setpin(pinsetid)
       }
     } else {
       var xc = window.innerWidth
@@ -1567,190 +1897,251 @@ export class MoviesComponent implements OnInit, OnDestroy {
   }
 
   slickInit(_e: any, id: any) {
+    for (let key in videoJs.getPlayers()) {
 
-    
+      delete videoJs.getPlayers()[key];
+    }
+    $('.iconage').hide()
+    setTimeout(() => {
+      var title = $(`#${this.idd1}`).find("#titleget")[0].className;
+      let ip: any = localStorage.getItem("ipSaveData");
+
+    }, 1000);
 
     let xc = window.innerWidth
     if (xc < 576) {
-      setTimeout(() => {
-        $('.getre').hide()
-        if (id == 0) {
+      // setTimeout(() => {
+      $('.getre').hide()
+      if (id == 0) {
 
-        
+        // setTimeout(() => {
+        //   var options1 = {
+        //     seekLeft: {
+        //       handleClick: () => {
+        //         const time = Number(this.vid1.currentTime()) - 10;
+
+        //         this.vid1.currentTime(time);
+        //       },
+        //       doubleTap: true,
+        //     },
+        //     // play: {
+        //     //   handleClick: () => {
+        //     //     if (this.player.paused()) {
+        //     //       this.player.play();
+        //     //     } else {
+        //     //       this.player.pause();
+        //     //     }
+        //     //   },
+        //     // },
+        //     seekRight: {
+        //       handleClick: () => {
+        //         const time = Number(this.vid1.currentTime()) + 10;
+
+        //         this.vid1.currentTime(time);
+        //       },
+        //       doubleTap: true,
+        //     },
+        //     lockButton: false
+        //   }
+
+        //    this.vid1.touchOverlay(options1)
+
+        // }, 100);
+
+        // setTimeout(() => {
+        //   $('.vjs-overlay').hide() 
+        // }, 130);
+        setTimeout(() => {
+          this.vid1.seekButtons({
+            forward: 10,
+            back: 10
+          });
+
+          var title = $(`#${this.idd1}`).find("#titleget")[0].className;
+          var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
+          this.getlive = $(`#${this.idd1}`).find("#liveget")[0].className;
+          this.seaonGet = $(`#${this.idd1}`).find("#saesonGet")[0].className;
+          this.getSeason = $(`#${this.idd1}`).find("#saesonSend")[0].className;
+          this.getres = ageget.slice(3)
           setTimeout(() => {
-            this.vid1.seekButtons({
-              forward: 10,
-              back: 10
-            });
+            $("#ageRestrict")
+              .appendTo($(`#movie${this.idd1.slice(9)}`));
+          }, 1000);
 
-            var title = $(`#${this.idd1}`).find("#titleget")[0].className;
-            var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
-            this.getlive = $(`#${this.idd1}`).find("#liveget")[0].className;
-            this.getres = ageget.slice(3)
-            setTimeout(() => {
-              $("#ageRestrict")
-                .appendTo($(`#shows${this.idd1.slice(9)}`));
-            }, 1000);
+          this.vid1.overlay({
+            overlays: [
+              {
+                start: "playing",
+                content: title.split('/').join(' ') + ' ' + 'Trailer',
+                align: "center",
+              },
+            ],
+          });
 
-            this.vid1.overlay({
-              overlays: [
-                {
-                  start: "playing",
-                  content: title.split('/').join(' ') + ' ' + 'Trailer',
-                  align: "center",
-                },
-              ],
-            });
+          $(".vjs-overlay-center").hide();
 
-            $(".vjs-overlay-center").hide();
+          this.vid1.on("pause", () => {
+            this.playing = true;
+          });
 
-            this.vid1.on("pause", () => {
-              this.playing = true;
-            });
+          this.vid1.on("play", () => {
+            this.playing = false;
+            $(".lock6").hide();
+          });
+        }, 500);
 
-            this.vid1.on("play", () => {
-              this.playing = false;
-            });
+
+
+        let isLoggedInfound = localStorage.getItem("ott_isLoggedIn");
+        if (!this.isSubscribed && !isLoggedInfound) {
+          setTimeout(() => {
+            var nPlayer = _e.slick.currentSlide + 1
+            var videoParentId = $(".carousel").find(".cardvideo")[nPlayer].id;
+            var icc = $(`#${videoParentId}`).parent().attr("id");
+
+            if (icc && ageget.slice(3) != 16 && ageget.slice(3) != 999) {
+              $(`#${icc}`).find(".iconage").show();
+            }
+
           }, 500);
 
+        }
+
+        $('.iconage').hide()
+        this.video = $(".carousel .slick-active").find("video")[0].id;
 
 
-          let isLoggedInfound = localStorage.getItem("ott_isLoggedIn");
-          if (!this.isSubscribed && !isLoggedInfound) {
-            setTimeout(() => {
-              var nPlayer = _e.slick.currentSlide + 1
-              var videoParentId = $(".carousel").find(".cardvideo")[nPlayer].id;
-              var icc = $(`#${videoParentId}`).parent().attr("id");
+        this.idd1 = $(`#${this.video}`).parent().attr("id");
 
-              if (icc) {
-                $(`#${icc}`).find(".iconage").show();
-              }
+        $(`#${this.idd1}`).find(".iconlayout").show();
+        this.vid1 = videoJs(this.video);
+        // if(this.isSubscribed){
+        //   this.vid1.attr('loop');
+        // }
+        // $('video').attr(attribute)
 
-            }, 500);
 
+        $(".vjs-mute-control").on("touchend", () => {
+          if (this.muted == true) {
+            this.unmutebtn()
+            this.muted == true;
+          } else {
+            this.mutebtn()
+            this.muted == false;
           }
+        });
+        if (this.getBrowserName == 'firefox') {
+          if (this.vid1) {
+            this.vid1.qualityMenu();
+          }
+        } else if (this.getBrowserName == 'safari') {
+          if (this.vid1) {
+            this.vid1.qualityMenu();
+          }
+        } else {
+          if (this.vid1) {
+            this.vid1.hlsQualitySelector();
+          }
+        }
+        this.vid1.on("volumechange", () => {
+          var vol = this.vid1.volume();
+          if (vol == 0) {
+            this.muted = true;
+          } else {
+            this.muted = false;
+          }
+        });
+
+
+        let isLoggedIn = localStorage.getItem("ott_isLoggedIn");
+        if (this.isSubscribed && isLoggedIn) {
+
+          this.agehide = false;
+          var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
+          $('.iconage').hide()
+          this.agehide = false;
+          this.parentalset(ageget, this.idd1)
+          // var replay = $("video");
+          // for (let reloop of replay) $(reloop).attr("loop", "true");
+
+        } else if (!this.isSubscribed && isLoggedIn) {
 
           $('.iconage').hide()
-          this.video = $(".carousel .slick-active").find("video")[0].id;
-          // console.log(this.video);
-          // console.log($(`#${this.video}`).parent().attr("id"));
-          this.idd1 = $(`#${this.video}`).parent().attr("id");
-          // console.log(this.idd1);
-          $(`#${this.idd1}`).find(".iconlayout").show();
-          this.vid1 = videoJs(this.video);
-          // if(this.isSubscribed){
-          //   this.vid1.attr('loop');
-          // }
-          // $('video').attr(attribute)
+          this.agehide = false;
+          setTimeout(() => {
+            this.vid1.play()
+          }, 2000);
+          this.vid1.volume(0)
+        } else {
+          var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
+          if (ageget.slice(3) >= 18 && ageget.slice(3) != 999) {
+            this.agehide = true;
+            $(`#${this.idd1}`).find(".iconlayout").hide();
+            this.vid1.pause();
+            const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+              panelClass: "adultAgePopup",
+              width: "500px",
+              data: { dat: event },
+            });
 
+            const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+              $(`#${this.idd1}`).find(".iconlayout").show();
+              $('.iconage').hide()
+              this.agehide = false;
+              this.vid1.play();
+              this.vid1.volume(0)
+            })
+            // var btnn = document.getElementsByClassName("btn-two")[0];
+            // btnn.addEventListener("click", () => {
 
-          $(".vjs-mute-control").on("click", () => {
-            if (this.muted == true) {
-              this.muted = false;
-            } else {
-              this.muted = true;
-            }
-          });
+            // });
+          } else if (ageget.slice(3) == -1) {
+            this.agehide = true;
+            $(`#${this.idd1}`).find(".iconlayout").hide();
+            this.vid1.pause();
+            const dialogRef = this.dialog.open(AdultAgePopupComponent, {
+              panelClass: "adultAgePopup",
+              width: "500px",
+              data: { dat: event },
+            });
 
-          this.vid1.on("volumechange", () => {
-            var vol = this.vid1.volume();
-            if (vol == 0) {
-              this.muted = true;
-            } else {
-              this.muted = false;
-            }
-          });
+            const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
+              $(`#${this.idd1}`).find(".iconlayout").show();
+              $('.iconage').hide()
+              this.agehide = false;
+              this.vid1.play();
+              this.vid1.volume(0)
+            })
+            // var btnn = document.getElementsByClassName("btn-two")[0];
+            // btnn.addEventListener("click", () => {
 
-
-          let isLoggedIn = localStorage.getItem("ott_isLoggedIn");
-          if (this.isSubscribed && isLoggedIn) {
-
-            this.agehide = false;
-            var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
+            // });
+          } else {
+            $(`#${this.idd1}`).find(".iconlayout").show();
             $('.iconage').hide()
-            this.agehide = false;
-            this.parentalset(ageget, this.idd1)
-            // var replay = $("video");
-            // for (let reloop of replay) $(reloop).attr("loop", "true");
-
-          } else if (!this.isSubscribed && isLoggedIn) {
-
-            $('.iconage').hide()
-            this.agehide = false;
             setTimeout(() => {
               this.vid1.play()
             }, 2000);
             this.vid1.volume(0)
-          } else {
-            var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
-            if (ageget.slice(3) >= 18 && ageget.slice(3) != 999) {
-              this.agehide = true;
-              $(`#${this.idd1}`).find(".iconlayout").hide();
-              this.vid1.pause();
-              const dialogRef = this.dialog.open(AdultAgePopupComponent, {
-                panelClass: "adultAgePopup",
-                width: "500px",
-                data: { dat: event },
-              });
-
-              const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
-                $(`#${this.idd1}`).find(".iconlayout").show();
-                $('.iconage').hide()
-                this.agehide = false;
-                this.vid1.play();
-                this.vid1.volume(0)
-              })
-              // var btnn = document.getElementsByClassName("btn-two")[0];
-              // btnn.addEventListener("click", () => {
-
-              // });
-            } else if (ageget.slice(3) == -1) {
-              this.agehide = true;
-              $(`#${this.idd1}`).find(".iconlayout").hide();
-              this.vid1.pause();
-              const dialogRef = this.dialog.open(AdultAgePopupComponent, {
-                panelClass: "adultAgePopup",
-                width: "500px",
-                data: { dat: event },
-              });
-
-              const sub = dialogRef.componentInstance.sen.subscribe((data: any) => {
-                $(`#${this.idd1}`).find(".iconlayout").show();
-                $('.iconage').hide()
-                this.agehide = false;
-                this.vid1.play();
-                this.vid1.volume(0)
-              })
-              // var btnn = document.getElementsByClassName("btn-two")[0];
-              // btnn.addEventListener("click", () => {
-
-              // });
-            } else {
-              $(`#${this.idd1}`).find(".iconlayout").show();
-              $('.iconage').hide()
-              setTimeout(() => {
-                this.vid1.play()
-              }, 2000);
-              this.vid1.volume(0)
-            }
           }
-
-          // this.vid1.play();
-
-          this.vid1.on("ended", () => {
-            if (this.isSubscribed) {
-              this.replay = false
-            }
-            // this.replay  = false
-            $(this.vid1.posterImage.contentEl()).css("filter", "brightness(20%)");
-            this.vid1.exitFullscreen();
-            this.lock1 = false;
-            $(this.vid1.posterImage.contentEl()).show();
-            $(`#${this.idd1}`).find(".iconlayout").hide();
-            $('.iconage').hide()
-          });
         }
-      }, 2000);
+
+        // this.vid1.play();
+
+        this.vid1.on("ended", () => {
+          if (this.isSubscribed) {
+            this.replay = false
+          }
+          // this.replay  = false
+          $(this.vid1.posterImage.contentEl()).css("filter", "brightness(20%)");
+          this.vid1.exitFullscreen();
+          this.lock1 = false;
+          $(this.vid1.posterImage.contentEl()).show();
+          $(`#${this.idd1}`).find(".iconlayout").hide();
+          $('.iconage').hide()
+        });
+      }
+      // }, 2000);
     } else {
       $('.getre').hide()
       if (id == 0) {
@@ -1801,10 +2192,14 @@ export class MoviesComponent implements OnInit, OnDestroy {
           var title = $(`#${this.idd1}`).find("#titleget")[0].className;
           var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
           this.getlive = $(`#${this.idd1}`).find("#liveget")[0].className;
+          this.seaonGet = $(`#${this.idd1}`).find("#saesonGet")[0].className;
+          this.getSeason = $(`#${this.idd1}`).find("#saesonSend")[0].className;
           this.getres = ageget.slice(3)
           setTimeout(() => {
             $("#ageRestrict")
-              .appendTo($(`#shows${this.idd1.slice(9)}`));
+              .appendTo($(`#movie${this.idd1.slice(9)}`));
+              if(this.mainData[0]['auto_play'] == 1){
+                 }
           }, 1000);
 
           this.vid1.overlay({
@@ -1825,6 +2220,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
 
           this.vid1.on("play", () => {
             this.playing = false;
+            $(".lock6").hide();
           });
         }, 500);
 
@@ -1837,7 +2233,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
             var videoParentId = $(".carousel").find(".cardvideo")[nPlayer].id;
             var icc = $(`#${videoParentId}`).parent().attr("id");
 
-            if (icc) {
+            if (icc && ageget.slice(3) != 16 && ageget.slice(3) != 999) {
               $(`#${icc}`).find(".iconage").show();
             }
 
@@ -1847,10 +2243,10 @@ export class MoviesComponent implements OnInit, OnDestroy {
 
         $('.iconage').hide()
         this.video = $(".carousel .slick-active").find("video")[0].id;
-        // console.log(this.video);
-        // console.log($(`#${this.video}`).parent().attr("id"));
+
+
         this.idd1 = $(`#${this.video}`).parent().attr("id");
-        // console.log(this.idd1);
+
         $(`#${this.idd1}`).find(".iconlayout").show();
         this.vid1 = videoJs(this.video);
         // if(this.isSubscribed){
@@ -1861,12 +2257,26 @@ export class MoviesComponent implements OnInit, OnDestroy {
 
         $(".vjs-mute-control").on("click", () => {
           if (this.muted == true) {
-            this.muted = false;
+            this.unmutebtn()
+            this.muted == true;
           } else {
-            this.muted = true;
+            this.mutebtn()
+            this.muted == false;
           }
         });
-
+        if (this.getBrowserName == 'firefox') {
+          if (this.vid1) {
+            this.vid1.qualityMenu();
+          }
+        } else if (this.getBrowserName == 'safari') {
+          if (this.vid1) {
+            this.vid1.qualityMenu();
+          }
+        } else {
+          if (this.vid1) {
+            this.vid1.hlsQualitySelector();
+          }
+        }
         this.vid1.on("volumechange", () => {
           var vol = this.vid1.volume();
           if (vol == 0) {
@@ -1897,7 +2307,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
             this.vid1.volume(0)
           } else {
             var ageget = $(`#${this.idd1}`).find("#agegroup")[0].className;
-            if (ageget.slice(3) >= 18 && ageget.slice(3) != 999) {
+            if (ageget.slice(3) == 18 && ageget.slice(3) != 999) {
               this.agehide = true;
               $(`#${this.idd1}`).find(".iconlayout").hide();
               this.vid1.pause();
@@ -1989,6 +2399,8 @@ export class MoviesComponent implements OnInit, OnDestroy {
       }
     }
 
+    var title = $(`#${this.idd1}`).find("#titleget")[0].className;
+ 
 
   }
 
@@ -2002,7 +2414,10 @@ export class MoviesComponent implements OnInit, OnDestroy {
   breakpoint(_e: any) {
   }
 
-  afterChange(_e: any, id: any) { }
+  afterChange(_e: any, id: any) {
+    if(this.mainData[0]['auto_play'] == 1){
+    }
+   }
 
 
   beforeChange(_e: any, id: any) {
@@ -2011,13 +2426,14 @@ export class MoviesComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       var title = $(`#${this.idd1}`).find("#titleget")[0].className;
       let ip: any = localStorage.getItem("ipSaveData");
-
+ 
     }, 1000);
 
 
     $('#ageRestrict').hide()
     $('.getre').hide()
     $('.iconage').hide()
+    $(".lock6").show();
     // setTimeout(() => {
     //   $('.vjs-overlay').hide() 
     // }, 100);
@@ -2026,28 +2442,29 @@ export class MoviesComponent implements OnInit, OnDestroy {
       var cPlayer = _e.currentSlide + 1;
       var nPlayer = _e.nextSlide + 1;
 
-      // console.log(cPlayer);
-      // console.log(nPlayer);
+
       // var video1 = document.getElementById("home"+cPlayer);
       // var video2 = document.getElementById("home"+nPlayer);
       var videoID = $(".carousel").find("video");
-      // console.log(videoID);
+
       this.video1 = $(".carousel").find("video")[cPlayer].id;
       this.video2 = $(".carousel").find("video")[nPlayer].id;
 
       // var videoParentId = $('.carousel').find('.cardvideo')[cPlayer].id;
       var videoParentId = $(".carousel").find(".cardvideo")[nPlayer].id;
 
-      // console.log(videoParentId);
-      // console.log(this.video2);
 
-      // console.log($(`#${videoParentId}`).parent().attr("id"));
+
       this.idd = $(`#${videoParentId}`).parent().attr("id");
       this.agefound = $(`#${this.idd}`).find("#agegroup")[0].className;
       this.gettitle = $(`#${this.idd}`).find("#titleget")[0].className;
       this.getlive = $(`#${this.idd}`).find("#liveget")[0].className;
+      this.seaonGet = $(`#${this.idd}`).find("#saesonGet")[0].className;
+      this.getSeason = $(`#${this.idd}`).find("#saesonSend")[0].className;
+      
       $(".iconlayout").hide();
       $('.iconage').hide()
+
       if (this.idd) {
         $(`#${this.idd}`).find(".iconlayout").show();
         if (this.agefound.slice(3) != 999 && this.agefound.slice(3) != 16) {
@@ -2067,16 +2484,14 @@ export class MoviesComponent implements OnInit, OnDestroy {
       }, 1000);
 
       this.getres = this.agefound.slice(3)
-      // console.log($(this.video2).parent().attr("id"));
 
-      // console.log(this.video2);
 
       this.changeVideoAndBanner(this.video1, this.video2);
     }
   }
 
   onImgError(event: any, type: any) {
-    console.log(type);
+
     if (type == 'circle') {
       event.target.src = JSON.parse(this.defaultImages).square.path
     }
@@ -2086,13 +2501,19 @@ export class MoviesComponent implements OnInit, OnDestroy {
     else if (type == 'vertical_9x16') {
       event.target.src = JSON.parse(this.defaultImages).vertical.path
     }
+
+
   }
+
+  userInfo: any;
+  userDetails: any;
+ 
 
   ngOnDestroy(): void {
     // delete videoJs.getPlayers()[`video-ls`];
-    console.log(videoJs.getPlayers());
+
     for (let key in videoJs.getPlayers()) {
-      console.log(key);
+
       delete videoJs.getPlayers()[key];
     }
   }
@@ -2127,18 +2548,21 @@ export class MoviesComponent implements OnInit, OnDestroy {
     $('.shareaddMain').show()
     $('.shareremoveMain').hide()
   }
-  openebook(permalink:any){
-    if(this.isOttLoggedIn){
-      this.router.navigate(["/aol/ebook/"+permalink]);
-    } else{
-      const dialogRef = this.dialog.open(LoginModalDialogComponent, {
-        backdropClass: 'popupBackdropClass',
-        panelClass: 'logindialog',
-        width: "390px",
-        data: { name: "login" },
-      });
+
+
+
+  gotoSubscribePage(content:any,title:any){
+    localStorage.removeItem("packcheking")
+    if (localStorage.getItem("taploginInfo") === null) {
+      
+    } else {
+      const taplogininfo: any = localStorage.getItem("taploginInfo")||{};
+      this.USER_ACCOUNT_id = JSON.parse(taplogininfo)||{};
+      var userage:any=new Date(this.USER_ACCOUNT_id.dob)||{};
+            var currentage:any=new Date()||{};
+            var newage:any=new Date(currentage)||{}
+            var age:any=newage-userage||{};
     }
-   
+  
   }
 }
-

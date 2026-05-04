@@ -1,0 +1,21 @@
+<div fxLayout="column" fxLayoutGap="10px" class="alert-modal">
+    <div class="alt-login-content">
+        <div class="alt-login-img" *ngIf="baseLine?.logo?.is_allow == 1">
+            <img [src]="baseLine?.logo?.web" alt="vive" class="vive-img">
+        </div>
+        <button (click)="close()"  class="close-btn">
+          <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </button>
+      <div>
+       <p class="cancel-text" *ngIf="baseLine?.description?.is_allow == 1">{{baseLine?.description?.text}}</p>
+      </div>
+      <div class="row d-flexi">
+        <div class="col-12">
+            <button type="button" class="btn-one-1" *ngIf="baseLine?.yes_btn?.is_allow == 1" (click)="cancelSubscription()" >{{baseLine?.yes_btn?.text}}</button>
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn-two-2" *ngIf="baseLine?.no_btn?.is_allow == 1" (click)="close()">{{baseLine?.no_btn?.text}}</button>
+        </div>
+    </div>
+    </div>
+</div>

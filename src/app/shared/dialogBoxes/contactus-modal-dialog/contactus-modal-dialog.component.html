@@ -1,27 +1,57 @@
+<!-- <div fxLayout="column" fxLayoutGap="5px">
+    
+   
+    <div class="alt-login-content" >
+        <div class="alt-login-img" *ngIf="queryForm.logo?.is_allow==1">
+            <img [src]="queryForm.logo.web" alt="vive">
+        </div>
+       
+        <button (click)="onNoClick()" class="close-btn">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </button>
+        <div class="title" *ngIf="queryForm?.heading1?.is_allow==1">
+            <h2>{{queryForm.heading1.text}}</h2>
+         </div>
+         <div class="heading" *ngIf="queryForm?.heading2?.is_allow==1">
+            <p class="chopic">{{queryForm.heading2.text}}</p>
+         </div> -->
+
+
+        <!-- <hr style="color:grey; width: 100%; "> -->
+
+        <!-- <div class="Contact">
+            <div class="" *ngIf="queryForm.payment_subscription?.is_allow==1">
+                <div class="mr-2" (click)="openDialog()">{{queryForm.payment_subscription.text}}</div>
+            </div>
+            <div class="text-white" *ngIf="queryForm.other?.is_allow==1">
+                <div class="mr-2" (click)="openDialogOtherQuery()">{{queryForm.other.text}}</div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
 <div fxLayout="column" fxLayoutGap="5px">
    
     <div class="alt-login-content" >
         <div class="alt-login-img">
-            <img src="assets/svgs/Group.png" alt="AOL">
+            <img src="https://static.creatorott.com/configration/5006/5006_683021cf06eb2.png" alt="AOL" class="vive-img">
         </div>
        
-        <div (click)="onNoClick()" class="close-btn">
-           <img src="assets/svgs/Vector.svg" alt="">
-        </div>
+        <!-- <div (click)="onNoClick()" class="close-btn">
+           <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </div> -->
   
          <div class="heading" >
-            <p class="chopic">
-                <!-- This Feature is Only for Premium Members   (key added to the translation service) -->
-{{'This_feature_is_only_for_premium_members'|translate}}
-            </p>
+            <p class="chopic">This Feature is Only for Premium Members</p>
          </div>
 
          <div class="btns-pre">
             <div class="ok-btn col-6 p-0">
-                <button (click)="subscribe()">{{'subscribe_now' |translate}}</button>
+                <button (click)="subscribe()">Subscribe Now</button>
             </div>
             <div class="ok-btn col-6 pr-0">
-                <button (click)="close()">{{'cancel' |translate}}</button>
+                <button (click)="close()">Cancel</button>
             </div>
          </div>
     </div>

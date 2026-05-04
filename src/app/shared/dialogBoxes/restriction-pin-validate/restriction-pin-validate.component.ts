@@ -24,26 +24,39 @@ export class RestrictionPinValidateComponent implements OnInit {
   config = {
     allowNumbersOnly: true,
     length: 4,
-    isPasswordInput: true,
-    disableAutoFocus: false,
+    // isPasswordInput: true,
+    // disableAutoFocus: false,
     timer: 1,
-    placeholder: '',
+    // placeholder: '',
 
     inputStyles: {
    
+      'width': '55px',
       'color': 'white',
-      'width': '65px',
-      'height': '85px',
-   
-      'border':'none',
-      'outline':'none',
-      'font-size':'40px',
-      'background-color':'#3D3D3D'
+      'background-color': 'transparent',
+      'border-top': 'none',
+      'border-left': 'none',
+      'border-right': 'none',
+      'border-bottom': '2px solid #AAAAAA',
+      'outline': 'none',
+      'border-radius': '0px'
     },
     inputClass: "dfg"
   };
   onOtpChange(otp: any) {
   }
+    ngAfterViewInit() {
+   
+  const otpInputs = document.querySelectorAll('ng-otp-input input');
+  otpInputs.forEach((input: any) => {
+    // input.setAttribute('type', 'text');
+    input.setAttribute('inputmode', 'numeric');
+    input.setAttribute('pattern', '[0-9]*');
+    input.setAttribute('autocomplete', 'one-time-code');
+    input.setAttribute('autocorrect', 'off');
+    input.setAttribute('autocapitalize', 'off');
+  });
+}
   close(){
    
     this.dialogRef.close();

@@ -1,77 +1,142 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
-} from '@angular/common/http';
-import {
-  BehaviorSubject,
-  catchError,
-  filter,
-  switchMap,
-  take,
-  throwError,
-  Observable
-} from 'rxjs';
-import { TokenService } from './token.service';
-import { AppVersionService } from '../app-version.service';
-
+  HttpErrorResponse,
+  HttpClient,
+} from "@angular/common/http";
+import { BehaviorSubject, Observable, throwError } from "rxjs";
+import { catchError, filter, switchMap, take } from "rxjs/operators";
+import { DecryptService } from "../decrypt.service";
+import { TokenService } from "./token.service";
+import { CountryRestrictionComponent } from "src/app/shared/dialogBoxes/country-restriction/country-restriction.component";
+import { MatDialog } from "@angular/material/dialog";
+import { Injector } from '@angular/core';
+import { ConfigService } from "../config.service";
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private isFetchingLocation = false;
+  private ipFetchSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(
     private tokenService: TokenService,
-    private appVersionService: AppVersionService
-  ) {}
+    private dep_ser: DecryptService,
+    public dialog: MatDialog,
+    private injector: Injector,
+    private configService: ConfigService,
+  private http: HttpClient,
+  ) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<Object>> {
-    let authReq = req;
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const ipApiUrl = this.configService.getIpLocationUrl();
+    if (req.url === ipApiUrl) {
+      return next.handle(req);
+    }
     const token = this.tokenService.getToken();
 
-    const shouldSkip = [
-      'freshdesk/contactus',
-      'bigboyget',
-      'get/attendees',
-      '/master_prod.json',
-      'access/token',
-      'multitv/configration',
-      'checkoutjs/merchants',
-      'api/check',
-      'test.payu.in/_payment',
-      '/lazypay/pay',
-      '/payment',
-      '/paytm/validate/otp',
-      '.json'
-    ].some(skipUrl => req.url.includes(skipUrl));
+    if (!this.isFetchingLocation) {
+      this.isFetchingLocation = true;
+      return this.http.get(this.configService.getIpLocationUrl()).pipe(
+        switchMap((res: any) => {
+          this.isFetchingLocation = false;
 
-    // Add token if needed
-    if (token && !shouldSkip) {
-      authReq = this.addTokenHeader(authReq, token);
+          if (res.code === 1) {
+            this.dep_ser.getDecryptedData(res.result);
+            const decrypted = JSON.parse(this.dep_ser.decryptData);
+            localStorage.setItem("ipSaveData", JSON.stringify(decrypted));
+            this.ipFetchSubject.next(decrypted);
+
+            if (decrypted.countryCode !== "IN") {
+              this.dialog.open(CountryRestrictionComponent, {
+                backdropClass: "countryBackdropClass",
+                panelClass: "adultAgePopup",
+                width: "390px",
+                disableClose: true,
+              });
+              return throwError(() =>
+                new HttpErrorResponse({
+                  status: 403,
+                  statusText: "Access Forbidden: Not allowed from your country",
+                  url: req.url,
+                })
+              );
+            }
+          }
+
+          return this.handleRequestWithToken(req, token, next);
+        }),
+        catchError(() => {
+          this.isFetchingLocation = false;
+          return this.handleRequestWithToken(req, token, next);
+        })
+      );
+    } else {
+      return this.ipFetchSubject.pipe(
+        filter((data) => data !== null),
+        take(1),
+        switchMap((decrypted) => {
+          if (decrypted.countryCode !== "IN") {
+            this.dialog.open(CountryRestrictionComponent, {
+              backdropClass: "countryBackdropClass",
+              panelClass: "adultAgePopup",
+              width: "390px",
+              disableClose: true,
+            });
+            return throwError(() =>
+              new HttpErrorResponse({
+                status: 403,
+                statusText: "Access Forbidden: Not allowed from your country",
+                url: req.url,
+              })
+            );
+          }
+          return this.handleRequestWithToken(req, token, next);
+        })
+      );
     }
 
-    // Append version instead of timestamp to avoid caching
-    if (req.url.startsWith('https')) {
-      const version = this.appVersionService.getVersion();
-      const url = authReq.url.includes('?')
-        ? `${authReq.url}&v=${version}`
-        : `${authReq.url}?v=${version}`;
-      authReq = authReq.clone({ url });
+  }
+
+  private handleRequestWithToken(
+    req: HttpRequest<any>,
+    token: string | null,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    let authReq = req;
+
+    const excludedUrls = [
+      "freshdesk/contactus",
+      "get/attendees",
+      "/master_prod.json",
+      "access/token",
+      "multitv/configration",
+      "checkoutjs/merchants",
+      "api/check",
+      "test.payu.in/_payment",
+      "/lazypay/pay",
+      "/payment",
+      "/paytm/validate/otp",
+      ".json",
+    ];
+
+    const isExcluded = excludedUrls.some((urlPart) =>
+      authReq.url.includes(urlPart)
+    );
+
+    if (token && !isExcluded) {
+      authReq = this.addTokenHeader(req, token);
     }
 
     return next.handle(authReq).pipe(
-      catchError(error => {
-        if (
-          error instanceof HttpErrorResponse &&
-          !authReq.url.includes('api.db-ip.com') &&
-          error.status === 401
-        ) {
+      catchError((error) => {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
           return this.handle401Error(authReq, next);
         }
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }
@@ -83,9 +148,9 @@ export class AuthInterceptor implements HttpInterceptor {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
 
-      const token = this.tokenService.getRefreshToken();
+      const refreshToken = this.tokenService.getRefreshToken();
+      if ((refreshToken === null) || (refreshToken === undefined)) {
 
-      if (!token) {
         return this.tokenService.refreshToken().pipe(
           switchMap((token: any) => {
             this.isRefreshing = false;
@@ -93,27 +158,25 @@ export class AuthInterceptor implements HttpInterceptor {
             this.refreshTokenSubject.next(token.result);
             return next.handle(this.addTokenHeader(request, token.result));
           }),
-          catchError(err => {
+          catchError((err) => {
             this.isRefreshing = false;
             this.tokenService.removeToken();
-            return throwError(err);
+            return throwError(() => err);
           })
         );
       }
     }
 
     return this.refreshTokenSubject.pipe(
-      filter(token => token !== null),
+      filter((token) => token !== null),
       take(1),
-      switchMap(token =>
-        next.handle(this.addTokenHeader(request, token))
-      )
+      switchMap((token) => next.handle(this.addTokenHeader(request, token)))
     );
   }
 
   private addTokenHeader(request: HttpRequest<any>, token: string) {
     return request.clone({
-      headers: request.headers.set('Authorization', token)
+      headers: request.headers.set("Authorization", token),
     });
   }
 }

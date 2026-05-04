@@ -20,12 +20,11 @@ import { StartWatchingComponent } from 'src/app/shared/start-watching/start-watc
 import { PayuSuccessComponent } from './payu-success/payu-success.component';
 import { PayuFailureComponent } from './payu-failure/payu-failure.component';
 import { PayuCancelComponent } from './payu-cancel/payu-cancel.component';
-import { PromotionComponent } from 'src/app/layout/promotion/promotion.component';
-import { TranslatePipe8 } from "src/app/services/pipes/translate.pipe";
+
 
 @NgModule({
   declarations: [
-    SubscribeComponent,StartWatchingComponent, PayuSuccessComponent, PayuFailureComponent, PayuCancelComponent, PromotionComponent,TranslatePipe8
+    SubscribeComponent,StartWatchingComponent, PayuSuccessComponent, PayuFailureComponent, PayuCancelComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +45,7 @@ import { TranslatePipe8 } from "src/app/services/pipes/translate.pipe";
     MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
-  ],
+ 
+  ]
 })
-export class SubscribeModule {}
+export class SubscribeModule { }

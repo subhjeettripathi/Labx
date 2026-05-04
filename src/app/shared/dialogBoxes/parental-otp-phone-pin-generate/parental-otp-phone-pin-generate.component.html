@@ -1,11 +1,11 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
         <span class="img-logo"  *ngIf="basesignin.parentalOtpVerify.logo.is_allow == 1">
-            <img width="126%" src="{{basesignin.parentalOtpVerify.logo.web}}" alt="AOL">
+            <img  src="{{basesignin.parentalOtpVerify.logo.web}}" alt="vive" class="vive-img">
         </span>
         
         <button (click)="close()" class="close-btn">
-            <mat-icon>Close</mat-icon>
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
         </button>
         <br><br>
   
@@ -16,10 +16,10 @@
             <p class="email_head" *ngIf="basesignin.parentalOtpVerify.description.is_allow == 1">
                 {{basesignin.parentalOtpVerify.description.text}}
             </p>
-             <p style="color: #FF8787 !important;" *ngIf="msg">{{'invalid_otp' |translate}}</p>
+             <p style="color: #FF8787 !important;" *ngIf="msg">Invalid Otp pin</p>
             
               <div class="otpInput">  
-            <ng-otp-input #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event)" [config]="config">
+            <ng-otp-input class="parental-otp-phone" type="tel" inputmode="numeric" #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event)" [config]="config">
             </ng-otp-input>
             </div>
             <br>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="33" height="33" viewBox="0 0 33 33">
+  <defs>
+    <filter id="Rectangle_901" x="0" y="0" width="33" height="33" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="0.5" result="blur"/>
+      <feFlood flood-opacity="0.239"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="0.058" y1="0.195" x2="0.892" y2="1.288" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ffd77e"/>
+      <stop offset="0.291" stop-color="#aa6f33"/>
+      <stop offset="0.567" stop-color="#f4af40"/>
+      <stop offset="0.798" stop-color="#bf783a"/>
+      <stop offset="1" stop-color="#fdc272"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_5155" data-name="Group 5155" transform="translate(-23.314 -1592.991)">
+    <g transform="matrix(1, 0, 0, 1, 23.31, 1592.99)" filter="url(#Rectangle_901)">
+      <rect id="Rectangle_901-2" data-name="Rectangle 901" width="30" height="30" rx="3" transform="translate(1.5 0.5)" fill="#fff"/>
+    </g>
+    <path id="Union_39" data-name="Union 39" d="M3.051,17.794a1,1,0,0,1-1-1V15.789a1,1,0,0,1,1-1H19.442a1,1,0,0,1,1,1v1.005a1,1,0,0,1-1,1ZM11.337,13.5H2.446a.384.384,0,0,1-.372-.291c-.448-6.417-.609-7.068-.687-7.381-.008-.028-.014-.058-.022-.086s-.014-.064-.023-.094a1.625,1.625,0,0,1,.282-3.226H1.65a1.63,1.63,0,0,1,1.6,1.636,1.613,1.613,0,0,1-.514,1.174,2.1,2.1,0,0,1,.178.426,4.338,4.338,0,0,0,.7,1.4,1.778,1.778,0,0,0,1.463.826,2.447,2.447,0,0,0,.851-.178l.106-.036A14.4,14.4,0,0,0,9.178,4.314l.67-.888.384-.508a.02.02,0,0,1,0-.007l0-.006a1.626,1.626,0,0,1,1-2.9h.1a1.626,1.626,0,0,1,1,2.9l0,.006a.032.032,0,0,1,0,.007l.385.509q.335.443.669.887A14.418,14.418,0,0,0,16.55,7.673c.028.008.063.021.106.036a2.456,2.456,0,0,0,.852.177,1.777,1.777,0,0,0,1.462-.825,4.338,4.338,0,0,0,.7-1.4,2.1,2.1,0,0,1,.178-.426,1.611,1.611,0,0,1-.514-1.174,1.63,1.63,0,0,1,1.6-1.636h.025a1.625,1.625,0,0,1,.282,3.226l-.022.094c-.008.029-.014.058-.022.086-.078.313-.239.964-.688,7.379a.382.382,0,0,1-.372.292h-8.8Z" transform="translate(28.492 1599.885)" stroke="rgba(0,0,0,0)" stroke-width="1" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

@@ -1,5 +1,5 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DataService } from 'src/app/services/data.service';
 import { FunctionCallingService } from 'src/app/services/function-calling.service';
 
@@ -14,10 +14,13 @@ export class StatePopupComponent implements OnInit {
   // countryAll=country
   searchText: any
   countryAll: any = [];
-  baseSignin: any = []
-  constructor(public dialogRef: MatDialogRef<StatePopupComponent>,private _DS:DataService,private fcs:FunctionCallingService) { }
+  baseSignin: any = [];
+  stateValueCheck:any
+  constructor(public dialogRef: MatDialogRef<StatePopupComponent>, @Inject(MAT_DIALOG_DATA) public data: any,private _DS:DataService,private fcs:FunctionCallingService) { }
 
   ngOnInit(): void {
+    this.stateValueCheck = this.data.stateValue;
+   
     this.getConfigData()
     this. getCountryStatesList()
   }
@@ -25,26 +28,25 @@ export class StatePopupComponent implements OnInit {
     this.dialogRef.close();
   }
   getConfigData() {
-    var res:any=localStorage.getItem('faqData')
-    res=JSON.parse(res)
-    // this._DS.faqData().subscribe((res: any) => {
+    this._DS.faqData().subscribe((res: any) => {
       this.baseSignin = res.Form[0].signin
       this.baseSignup = res.Form[0].signup
-      console.log(this.baseSignin)
-      console.log(this.baseSignup);
-      console.log(this.baseSignup.term_condition); 
-    // })
+   
+
+    
+    })
   }
   getCountryStatesList() {
     this._DS.getCountryStateList().subscribe((res: any) => {
-      console.log(res)
-      this.states = res.state;
-      this.countryAll = res.country;
-
-    });
+      if(this.stateValueCheck==1){
+        this.states = res.state;
+      }else{
+        this.states = res.country;
+      }
+     });
   }
   stateSelected(state: any) {
-    console.log(state);
+  
     if (state != '') {
       this.dialogRef.close();
       this.fcs.statePopup.next(state)

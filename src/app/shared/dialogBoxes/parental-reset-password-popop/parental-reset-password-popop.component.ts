@@ -38,22 +38,36 @@ export class ParentalResetPasswordPopopComponent implements OnInit {
   config = {
     allowNumbersOnly: true,
     length: 4,
-    isPasswordInput: true,
-    disableAutoFocus: false,
+    // isPasswordInput: true,
+    // disableAutoFocus: false,
     timer: 1,
-    placeholder: '',
+    // placeholder: '',
 
     inputStyles: {
-      'width': '65px',
-      'height': '85px',
+      'width': '45px',
       'color': 'white',
-      'border':'none',
-      'outline':'none',
-      'font-size':'40px',
-      'background-color':'#3D3D3D'
+      'background-color': 'transparent',
+      'border-top': 'none',
+      'border-left': 'none',
+      'border-right': 'none',
+      'border-bottom': '2px solid #AAAAAA',
+      'outline': 'none',
+      'border-radius': '0px'
     },
     inputClass: "dfg"
   };
+    ngAfterViewInit() {
+   
+  const otpInputs = document.querySelectorAll('ng-otp-input input');
+  otpInputs.forEach((input: any) => {
+    // input.setAttribute('type', 'text');
+    input.setAttribute('inputmode', 'numeric');
+    input.setAttribute('pattern', '[0-9]*');
+    input.setAttribute('autocomplete', 'one-time-code');
+    input.setAttribute('autocorrect', 'off');
+    input.setAttribute('autocapitalize', 'off');
+  });
+}
   close() {
 
     this.dialogRef.close();
@@ -61,7 +75,7 @@ export class ParentalResetPasswordPopopComponent implements OnInit {
   }
   restrict(value: any) {
     // this.restriction = value;
-    console.log();
+  
 
   }
   getData() {
@@ -69,7 +83,7 @@ export class ParentalResetPasswordPopopComponent implements OnInit {
       // this.dep_ser.getDecryptedData(res?.result);
       // let decryptData = JSON.parse(this.dep_ser.decryptData);
       // this.parentalData = decryptData;
-      // console.log(this.parentalData.agegp_list);
+    
       // this.ageGrp = this.parentalData.agegp_list;
 
     })
@@ -85,16 +99,15 @@ export class ParentalResetPasswordPopopComponent implements OnInit {
 
         this.otpValue = this.otpInput.value
         this.confirmValue = this.otpInput1.value
-        console.log(this.otpValue);
-        console.log(this.confirmValue);
+      
 
         if (this.otpValue == this.confirmValue) {
           this.final_pin = this.confirmValue;
-          console.log(this.final_pin);
+        
 
         }
         else {
-          console.log("pin not matched");
+         
         }
 
         const formData1 = new FormData()
@@ -114,7 +127,6 @@ export class ParentalResetPasswordPopopComponent implements OnInit {
         else { this.pinMatch = true }
 
       } else {
-        
         const dialogRef = this.dialog.open(WrongOtpPopupComponent, {
           backdropClass: 'popupBackdropClass',
           panelClass: 'logindialog',

@@ -1,38 +1,8 @@
-.parental-control-content {
-    position: relative;
-    text-align: center;
-    padding: 35px;
 
-    .img-logo {
-        position: absolute;
-        top: -54px;
-        right: 40%;
-        margin-bottom: 5px;
-    }
-
-    // .img-logo img{width: 24%;}
-
-}
-
-.adulttHeading {
-    color: white;
-    font-size: 18px;
-    font-family: "GothamBold" !important;
-}
-
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-}
+.adulttHeading{color: white;font-size: 18px;font-family: var(--theme-font-style) !important;}
 
 .btn-one {
-    color: #fff !important;
+    color: #fff !important; 
     background-color: none !important;
     /* border-color: #858585 !important; */
     border: 1px solid #858585;
@@ -44,24 +14,23 @@
     width: 100%;
 }
 
-label {
-    display: inline-block;
-    margin-bottom: 0.5rem;
-    color: white;
-    margin-left: 10px;
-    font-size: 16px;
-    margin-bottom: 12px;
-    font-weight: 600;
-}
+    label {
+        display: inline-block;
+        margin-bottom: 0.5rem;
+        color: white;
+        margin-left: 10px;
+        font-size: 16px;
+        margin-bottom: 12px;
 
-.updateBtn {
-    border: none;
+}
+.updateBtn{
+border: none;
     width: 100%;
     padding: 13px;
-    background-color: #FB0000;
+    background-color: var(--theme-secondary-color);
     border-radius: 4px;
     color: #FFFFFF;
-    font-weight: 600;
+
     font-size: 18px;
 }
 
@@ -76,7 +45,6 @@ hr {
     box-shadow: 0px 0.3px white;
     width: 100%;
 }
-
 // input[type='radio'] {
 //     -webkit-appearance:none;
 //     width: 12px;
@@ -89,7 +57,7 @@ hr {
 //   input[type='radio']:checked:before {
 //     background:white ;
 //   }
-
+  
 // input[type='radio']:after {
 //     width: 15px;
 //     height: 15px;
@@ -125,26 +93,25 @@ input[type='radio'] {
     border: 1px solid #B4B4B4;
     border-radius: 50%;
     outline: none;
-}
+  }
+  
+  
+  
+  input[type='radio']:before {
+    content:'';
+    display:block;
+    width:60%;
+    height:60%;
+    margin: 20% auto;    
+    border-radius:50%;    
+  }
+  input[type='radio']:checked:before {
+    background:white;
+  }
 
-
-
-input[type='radio']:before {
-    content: '';
-    display: block;
-    width: 60%;
-    height: 60%;
-    margin: 20% auto;
-    border-radius: 50%;
-}
-
-input[type='radio']:checked:before {
-    background: white;
-}
-
-@media screen and (max-width: 992px) {
+  @media screen and (max-width: 992px) {
     .parental-control-content {
         padding: 20px !important;
     }
 
-}
+  }

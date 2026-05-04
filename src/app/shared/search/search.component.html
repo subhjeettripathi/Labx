@@ -4,106 +4,87 @@
     <div class="col-xl-6 col-md-6 col-8">
       <div class="search-header">
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <h1 class="f-size_aol m-0" *ngIf="viewSearchFilter"><span class="mr-3 arrow-right">
-              <img src="assets/svgs/Vector (4).png" style="cursor: pointer;" class="arr-icon" (click)="backSearch()"
-                alt="artofliving" aria-hidden="false" class="f-size">
+          <h1 class="font-36" *ngIf="!viewSearchFilter"><span class="mr-3 arrow-right">
+              <img src="assets/svgs/Vector-back.svg" style="cursor: pointer;" class="arr-icon" (click)="back()"
+                alt="vive" aria-hidden="false" class="f-size">
+            </span>Search</h1>
+          <h1 class="font-36" *ngIf="viewSearchFilter"><span class="mr-3 arrow-right">
+              <img src="assets/svgs/Vector-back.svg" style="cursor: pointer;" class="arr-icon" (click)="backSearch()"
+                alt="vive" aria-hidden="false" class="f-size">
             </span><span>{{searchDataShow}}</span></h1>
         </div>
       </div>
     </div>
 
-    <div class="col-xl-6 col-md-6 col-4">
-      <ng-container *ngIf="viewSearchFilter">
-        <img src="assets/icons/filter.png" alt="artofliving" class="filterCLoseButton"
-          (click)="openCompanyDetailsDialog()">
-      </ng-container>
-    </div>
+
     <!-- MOBILE VIEW SEARCH-START -->
     <div class="col-lg-12" *ngIf="!viewSearchFilter">
       <div class="search-hide">
         <div class="ser-icon">
-          <img src="assets/svgs/originalsearchicon.svg" alt="artofliving" class="ser-mob-img">
+          <img src="assets/svgs/originalsearchicon.svg" alt="vive" class="ser-mob-img">
         </div>
-        <form [formGroup]="searchDataFormMobile" autocomplete="off">
-          <input type="text" class="Search-Input" id="myInput" autocomplete="off"
-            placeholder="{{'search_here'|translate}}" (input)="autoSuggest($event)" (keyup.enter)="search_data($event)"
-            formControlName="searchMobile" [(ngModel)]="voiceSearch">
-          <div class="mic-mobile-icon">
-            <img src="assets/svgs/close-search.svg" alt="artofliving" class="srch-icn"
-              *ngIf="searchDataFormMobile.value.searchMobile" (click)="clickMObile()">
-          </div>
-          <div class="mic-mobile-icon-1" *ngIf="btnDisable"><img src="assets/svgs/microphone.svg" alt="artofliving"
-              (click)="startService()" *ngIf="btnStyle">
-            <img src="assets/svgs/Componentred.svg" alt="artofliving" *ngIf="!btnStyle" width="30px"
-              class="filled-icon">
-          </div>
+        <form [formGroup]="searchDataFormMobile">
+          <input type="text" *ngIf="searchMobileHIde" class="Search-Input" placeholder="Type here to search"
+            (input)="autoSuggest($event)" (keyup.enter)="search_data($event)" formControlName="searchMobile"
+            [(ngModel)]="voiceSearch">
+          <input type="text" *ngIf="!searchMobileHIde" class="Search-Input" placeholder="Type here to search"
+            (input)="autoSuggest($event)" (keydown.enter)="search_data($event)" formControlName="searchMobile"
+            [(ngModel)]="voiceSearch">
+
 
         </form>
+        <div class="mices">
+          <div class="mic-mobile-icon">
+            <img src="assets/svgs/close-search.svg" alt="vive" class="srch-icn"
+              *ngIf="searchDataFormMobile.value.searchMobile" (click)="clickMObile()">
+          </div>
+          <div class="mic-mobile-icon-1" *ngIf="btnDisable"><img src="assets/svgs/microphone.svg" alt="vive"
+              (click)="startService()" *ngIf="btnStyle">
+            <img src="assets/svgs/Componentblue.svg" alt="vive" *ngIf="!btnStyle" width="30px" class="filled-icon">
+          </div>
+        </div>
+
 
       </div>
     </div>
     <!-- MOBILE VIEW SEARCH-END -->
   </div>
 
-  <!-- <div class="searchBar">
-    <form [formGroup]="searchDataForm" #searchDataFormDir="ngForm" class="form-width" autocomplete="off">
-      <div class="searchInput" *ngIf="!viewSearchFilter">
-        <div class="search-box">
-          <div fxLayoutAlign="center center">
-            <div (click)="search_data($event)" type="submit" class="searchIcon" matTooltip="Buscar">
-              <img src="assets/svgs/Group 31.svg" alt="">
-            </div>
-
-            <input (input)="autoSuggest($event)" (keyup.enter)="search_data($event)"  name="search"
-              placeholder="Search result for Videos, Audios and E-Book " autocomplete="off"
-              formControlName="search" [(ngModel)]="voiceSearch" class="new_search" >
-
-   
-            <div class="mic-clear">
-              <ng-container *ngIf="searchDataForm.value.search">
-                <div (click)="clear()">
-                  <span><img src="assets/svgs/Vector.svg" alt="" width="25px" style="cursor: pointer;"></span>
-                </div>
-              </ng-container>
-              <div class="mic-mobile-icon-1" *ngIf="btnDisable"><img src="assets/img/microphone_unactive.svg"
-                  alt="artofliving" (click)="startService()" *ngIf="btnStyle" width="30px" style="cursor: pointer;">
-                <img src="assets/img/microphone-_active.svg" alt="artofliving" *ngIf="!btnStyle" width="30px"
-                  class="filled-icon" width="30px">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </form>
-  </div> -->
-
   <div class="searchBar">
-
+    <!-- <div *ngIf="!viewSearchFilter && btnDisable" class="recorder" fxLayoutAlign="flex-start center" fxHide.xs="true"
+      fxHide.sm="true">
+      <a (click)="startService()" *ngIf="btnStyle" class="btn-default">
+        <img src="assets/svgs/mic.svg" class="voice-search">
+      </a>
+      <a *ngIf="!btnStyle" class="btn-default">
+        <img src="assets/svgs/Componentred.svg">
+      </a>
+    </div> -->
     <form [formGroup]="searchDataForm" #searchDataFormDir="ngForm" class="form-width">
       <div class="searchInput" *ngIf="!viewSearchFilter">
         <div class="search-box">
-          <div fxLayoutAlign="center center">
+          <div fxLayoutAlign="center center" style="position: relative;">
             <button (click)="search_data($event)" type="submit" mat-button mat-icon-button class="searchIcon"
               matTooltip="Buscar">
-              <img src="assets/svgs/noun-search-1166289.svg" alt="">
+              <img src="/assets/search/searcg-icon.svg" alt="">
             </button>
             <mat-form-field class="searchField" appearance="standard" fxFlex="100">
               <input (input)="autoSuggest($event)" (keyup.enter)="search_data($event)" #myInput matInput name="search"
-                placeholder="{{'Search_result'|translate}}" formControlName="search" [(ngModel)]="voiceSearch"
-                class="mat-elevation-z0" autocomplete="anyrandomstring">
+                placeholder="Type here to search" formControlName="search" class="search-input"
+                [(ngModel)]="voiceSearch" class="mat-elevation-z0" autocomplete="off">
 
             </mat-form-field>
-
             <div class="mic-clear">
               <ng-container *ngIf="searchDataForm.value.search">
                 <div (click)="clear()">
-                  <span><img src="assets/svgs/Vector.svg" alt="" width="25px" style="cursor: pointer;"></span>
+                  <span><img src="assets/arrows_icons/VectorClose.svg" alt="" width="25px"
+                      style="cursor: pointer;"></span>
                 </div>
               </ng-container>
-              <div class="mic-mobile-icon-1" *ngIf="btnDisable"><img src="assets/img/microphone_unactive.svg"
-                  alt="artofliving" (click)="startService()" *ngIf="btnStyle" width="30px" style="cursor: pointer;">
-                <img src="assets/img/microphone-_active.svg" alt="artofliving" *ngIf="!btnStyle" width="30px"
+              <div class="mic-mobile-icon-1" *ngIf="btnDisable">
+                <img src="assets/img/microphone_unactive.svg" alt="artofliving" (click)="startService()"
+                  *ngIf="btnStyle" width="30px" style="cursor: pointer;">
+                <img src="assets/img/microphone-_active blue.svg" alt="artofliving" *ngIf="!btnStyle" width="30px"
                   class="filled-icon" width="30px">
               </div>
             </div>
@@ -117,24 +98,21 @@
   <div *ngIf="show" class="row noSearchResult">
     <ng-container>
       <div class=" searchText">
-        {{'No_Search_results'|translate}}
+        No Search results found Try again!
       </div>
     </ng-container>
   </div>
   <ng-container *ngIf="searchRes">
     <div class="search-content" fxLayout="row" fxLayoutAlign="space-between">
       <div class="popularSearch" fxLayout="row" fxLayoutGap="20px">
-
-        <p class="recentSearch" *ngIf="recentSearch ">
-          <a class="font-20" [ngStyle]="{'color':popularSearch ? 'white' : '#9B9B9B' }"
-            (click)="recent()">{{'RECENT_SEARCHES'|translate}}</a>
-        </p>
-
         <p class="popular-search">
-          <a [ngStyle]="{'color':popularSearch ? '#9B9B9B' : 'white' }" class="font-20"
-            (click)="popular()">{{'POPULAR_SEARCHES'|translate}}</a>
+          <a [ngStyle]="{'color':popularSearch ? 'white' : '#9B9B9B' }" class="font-20" (click)="popular()">POPULAR
+            SEARCHES</a>
         </p>
-
+        <p class="recentSearch">
+          <a class="font-20" [ngStyle]="{'color':popularSearch ? '#9B9B9B' : 'white' }" (click)="recent()">RECENT
+            SEARCHES</a>
+        </p>
       </div>
 
       <!-- <div class="setting-option">
@@ -142,63 +120,85 @@
           </div> -->
     </div>
 
-    <div *ngIf="!popularSearch">
-
+    <div *ngIf="popularSearch">
       <app-popular-search></app-popular-search>
     </div>
-    <div *ngIf="popularSearch">
-
+    <div *ngIf="!popularSearch">
       <app-recent-search></app-recent-search>
     </div>
   </ng-container>
 
   <ng-container *ngIf="!searchRes">
-    <div id="searchDiv" layout-xs="column" fxLayout="row wrap" flexLayoutAlign="flex-start">
-      <ng-container *ngFor="let data of searchData">
-        <div fxFlex="16.66%" fxFlex.xs="33.30%" fxFlex.sm="33.30%" fxFlex.md="20%" class="alt-brr-10 alt-p-3 "
-          (click)="addRecentSearchData(data.id);navigate(data)">
-          <img [src]="data.sliderImg || defaultThumb" [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}"
-            class="alt-brr-10" [alt]="data.is_group == 0 ? data.title : data.season_title"
-            [title]="data.is_group == 0 ? data.title : data.season_title" />
+    <!-- <div id="searchDiv" *ngFor="let category of getUniqueCategories()">
+      <h3>{{category}}</h3> -->
+    <div class="search" fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start" style="margin-top: 20px;">
+      <div *ngFor="let data of searchData" fxFlex="16.66%" fxFlex.xs="50%" fxFlex.sm="33.30%" fxFlex.md="20%"
+        class="alt-brr-10 alt-p-3 ">
 
-          <div *ngIf="data.is_ad != 1">
-            <div class="icons_art" [ngStyle]="{display: data?.content_type == 'audio' ? 'flex' : 'none'}">
-              <img src="assets/svgs/headphone.svg" class="music_art" alt="">
+        <!-- <div class="free-icon" *ngIf="data.access_type=='free' "
+            [ngStyle]="{'display':data.type=='circle'?'none':'block'}"> <img src="assets/svgs/free.svg" alt="abc">
+          </div>
+          <div class="crown" *ngIf="data.access_type=='paid' "
+            [ngStyle]="{'display':data.type=='circle'?'none':'block'}"> <img src="assets/svgs/crown.svg" alt="abc">
+          </div> -->
+        <div class="">
+
+
+          <div class="img-container" (click)="addRecentSearchData(data)">
+            <div *ngIf="data.access_type == 'paid'  && !isSubscribed" class="crown">
+              <img [src]="this.crownImg" alt="vive" loading="lazy" />
             </div>
-            <div class="icons_art" [ngStyle]="{display: data?.content_type == 'ebook' ? 'flex' : 'none'}">
-              <img src="assets/svgs/e-book.svg" class="music_art" alt="">
-
-
+            <div class="free-icon" *ngIf="data.access_type == 'free'  && !isSubscribed">
+              <img [src]="freeImg" alt="vive" loading="lazy" />
             </div>
-            <div class="icons_art" [ngStyle]="{display: data?.content_type == 'video' ? 'flex' : 'none'}">
-              <img src="assets/svgs/video_icon.svg" class="music_art" alt="">
-
-
+            <div *ngIf="data.is_live == '1' && data?.type != 'circle'" class="live-icon">
+              <img [src]="liveImg" alt="">
             </div>
-            <div class="icon-crown"
-              *ngIf="data.access_type == 'paid'   && data.package_mode !== 'Prime'  && !isSubscribed">
-              <img src="assets/svgs/aol_crown.svg" class="aol_crown" alt="AOL">
+            <div *ngIf="data.is_group == 1">
+              <img [src]="data.sliderImg || defaultThumb"
+                [alt]="data.series_title + ' ' + data.season_title + ' - '+data.title"
+                [title]="data.series_title + ' ' + data.season_title + ' - '+data.title"
+                [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}" class=" alt-brr-10" />
             </div>
 
-            <div class=" free-icon "
-              *ngIf="data.access_type == 'free'  && data.package_mode !== 'Prime'  && !isSubscribed">
-              <img src="assets/svgs/free-v1.svg" class="free_aol-icon" alt="AOL" />
-            </div>
-            <div class="prime-icon" *ngIf="data.package_mode == 'Prime'  ">
-              <img src="assets/svgs/lock-prime-v2.svg" class="free_aol" alt="AOL" />
+            <div *ngIf="data.is_group == 0">
+              <img [src]="data.sliderImg || defaultThumb" [alt]="data.title" [title]="data.title"
+                [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}" class=" alt-brr-10" />
             </div>
           </div>
-
-          <div>
-            <p *ngIf="data.is_group==0" class="title_case">{{data.title}}</p>
-            <p *ngIf="data.is_group==1" class="title_case">{{data.season_title}} - (Season)</p>
-
+          <div class="title-cont" [ngClass]="{ 'ellipsis': data.title?.length > 20 }">
+            {{ data.title }}
           </div>
+
         </div>
-
-      </ng-container>
+      </div>
 
     </div>
+
+    <!-- <div fxFlex="16.66%" fxFlex.xs="33.30%" fxFlex.sm="33.30%" fxFlex.md="20%" class="alt-brr-10 alt-p-3 "
+          (click)="addRecentSearchData(data)">
+          <mat-icon *ngIf="data.access_type=='paid' " class="crown" aria-hidden="false" svgIcon="crown"
+            [ngStyle]="{'display':data.type=='circle'?'none':'block'}"></mat-icon>
+          <div class="free-icon" *ngIf="data.access_type=='free' "
+            [ngStyle]="{'display':data.type=='circle'?'none':'block'}"> <img src="assets/svgs/free.svg" alt="abc">
+          </div>
+          <div *ngIf="data.is_group == 1">
+            <img [src]="data.sliderImg || defaultThumb"
+              [alt]="data.title + ' ' + data.series_title + ' ' + data.season_title"
+              [title]="data.title + ' ' + data.series_title + ' ' + data.season_title"
+              [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}" class="alt-brr-10" />
+          </div>
+
+          <div *ngIf="data.is_group == 0">
+            <img [src]="data.sliderImg || defaultThumb" [alt]="data.title" [title]="data.title"
+              [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}" class="alt-brr-10" />
+          </div>
+
+        </div> -->
+
+
+
+    <!-- </div> -->
   </ng-container>
 
 
@@ -209,132 +209,53 @@
 <ng-template #editCompanyModal>
   <div class="filterData">
     <div class="modal-container">
-      <div fxLayout="column" fxLayoutGap="10px" fxLayoutGap.xs="0">
-        <div class="filter-aol">
-          <div class="filter-title">
-            {{'menu_item_filter'|translate}}
-          </div>
-          <div fxLayoutAlign="flex-end">
-            <img src="/assets/svgs/Vector.svg" alt="" (click)="close()" style="cursor: pointer; width : 25px">
-          </div>
-        </div>
+      <div fxLayout="column" fxLayoutGap="10px">
+        <div fxLayoutAlign="flex-end">
 
+          <img src="assets/arrows_icons/VectorClose.svg" (click)="close()" alt="">
+
+        </div>
         <form [formGroup]="searchForm" #searchFormDir="ngForm" (ngSubmit)="onFilterFOrmSubmit()">
 
           <div class="example-container filters-mar">
-
-
-            <!-- <mat-form-field appearance="outline" class="filters-mar">
-
-
-              <mat-select formControlName="type" multiple placeholder="Type" [disableOptionCentering]="true">
-
-                <mat-option *ngFor="let  c of content_type" [value]="c">{{c}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-
+            <mat-label>Year</mat-label>
             <mat-form-field appearance="outline">
-              <mat-select formControlName="year" multiple placeholder="Year" [disableOptionCentering]="true">
+              <mat-select formControlName="year" multiple placeholder="Choose Year" [disableOptionCentering]="true">
+
                 <mat-option *ngFor="let x of year" [value]="x">{{x}}</mat-option>
               </mat-select>
-            </mat-form-field> -->
+            </mat-form-field>
 
 
+            <mat-label>Genre</mat-label>
             <mat-form-field appearance="outline" class="filters-mar">
 
-              <mat-select formControlName="category" multiple placeholder="Category" [disableOptionCentering]="true">
+              <mat-select formControlName="genre" multiple placeholder="Choose Genre" [disableOptionCentering]="true">
 
-                <mat-option *ngFor="let x of returncategory" [value]="x">{{x}}</mat-option>
+                <mat-option *ngFor="let x of genre" [value]="x">{{x}}</mat-option>
               </mat-select>
             </mat-form-field>
+            <mat-label>Language</mat-label>
             <mat-form-field appearance="outline" class="filters-mar">
 
-              <mat-select formControlName="language" multiple placeholder="Language" [disableOptionCentering]="true">
+              <mat-select formControlName="language" multiple placeholder="Choose Language"
+                [disableOptionCentering]="true">
 
                 <mat-option *ngFor="let l of languageData" [value]="l">{{l}}</mat-option>
               </mat-select>
             </mat-form-field>
+            <mat-label>Category</mat-label>
+            <mat-form-field appearance="outline" class="filters-mar">
 
-            <!-- <mat-form-field appearance="outline" class="filters-mar">
 
-              <mat-select formControlName="genre" multiple placeholder="Genre" [disableOptionCentering]="true">
+              <mat-select formControlName="category" multiple placeholder="Choose Category"
+                [disableOptionCentering]="true">
 
-                <mat-option *ngFor="let x of genre" [value]="x">{{x}}</mat-option>
+                <mat-option *ngFor="let  c of returncategory" [value]="c">{{c}}</mat-option>
               </mat-select>
-            </mat-form-field> -->
-            <!-- <mat-label>Language</mat-label> -->
+            </mat-form-field>
 
           </div>
-
-          <!-- <div class="accordion" id="accordionExample"> -->
-          <!-- <div class="card typeSection mb-2"> -->
-          <!-- <div class="card-header typeHeading" id="headingOne"> -->
-          <!-- <ng-select [items]="returncategory" appendTo="body" [hideSelected]="true"
-            [multiple]="true" bindLabel="name" formControlName="category"
-            placeholder="Select Type">
-        </ng-select> -->
-          <!-- <button class="btn btn-block text-left" type="button" data-toggle="collapse"
-                    data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Type
-                  </button> -->
-
-          <!-- </div> -->
-
-          <!-- <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                  <div class="card-body typeContent">
-
-                    <ul>
-                      <li *ngFor="let x of returncategory" formControlName="category">
-                        <button>{{x}}</button>
-                      </li>
-
-                    </ul>
-                  </div>
-                </div> -->
-          <!-- </div> -->
-          <!-- <div class="card typeSection mb-2"> -->
-          <!-- <div class="card-header typeHeading" id="headingTwo">
-
-                  <button class="btn btn-block text-left" type="button" data-toggle="collapse"
-                    data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    Language
-                  </button>
-
-                </div> -->
-          <!-- 
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                  <div class="card-body typeContent">
-                    <ul>
-                      <li *ngFor="let x of languageData" formControlName="language"><button>{{x}}</button></li>
-                      <li><button>Audio</button></li>
-                      <li><button>Ebook</button></li>
-                    </ul>
-                  </div>
-                </div> -->
-          <!-- </div> -->
-          <!-- <div class="card typeSection"> -->
-          <!-- <div class="card-header typeHeading" id="headingThree">
-
-                  <button class="btn btn-block text-left" type="button" data-toggle="collapse"
-                    data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                    Category
-                  </button>
-
-                </div> -->
-          <!-- 
-                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                  <div class="card-body typeContent">
-                    <ul>
-                      <li *ngFor="let x of genre" formControlName="genre"><button>{{x}}</button></li>
-                      <li><button>Audio</button></li>
-                      <li><button>Ebook</button></li>
-                    </ul>
-                  </div>
-                </div> -->
-          <!-- </div> -->
-          <!-- </div> -->
-
-
           <!-- <div class="form-group">
             <label>Year</label>
             <select class="form-control" formControlName="year">
@@ -350,7 +271,7 @@
             placeholder="Select Regions">
         </ng-select> -->
 
-          <!-- <div class="form-group">
+          <!-- <div c1166289lass="form-group">
             <label>Genre</label>
             <select class="form-control" formControlName="genre">
               <option [ngValue]="null" disabled>Choose Genre</option>
@@ -386,17 +307,16 @@
           </div> -->
           <!-- <h3>Category</h3> -->
 
-
-
+          <br>
           <div class="row btnsFilter">
             <div class="col-md-6 clearFilter">
               <button type="reset" (click)="clearFIlters()">
-                {{'Clear_Filters'|translate}}
+                Clear Filters
               </button>
             </div>
             <div class="col-md-6 submitFilter">
               <button type="submit">
-                {{'submit'|translate}}
+                Submit
               </button>
             </div>
           </div>

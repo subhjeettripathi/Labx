@@ -1,7 +1,8 @@
 $ott-white: #fff;
 $layout-bg: #F6F7F8;
 $text-color: #525A6B;
-$bg-p:#4A4A4A;
+$bg-p: var(--theme-pop-color);
+$bg-r:10px;
 $bg-s:#5A5A5A;
 $lightprimary: #FFD2BD;
 $ga-black: #000;
@@ -12,15 +13,15 @@ $ga-bg-tb-lt: #FFEFE8;
 $t-s:#676767;
 $bg-payment-card:#8E8E8E;
 $primary: (
-  100: #FFF2F0,
-  200: #FFC7BD,
-  300: #FF9D8A,
-  400: #FF7257,
-  500: #FF4724,
-  600: #F02700,
-  700: #BD1F00,
-  act:#FF6924,
-  hov:#FF8C57
+  100: var(--theme-secondary-color),
+  200: var(--theme-secondary-color),
+  300: var(--theme-secondary-color),
+  400: var(--theme-secondary-color),
+  500: var(--theme-secondary-color),
+  600: var(--theme-secondary-color),
+  700:var(--theme-secondary-color),
+  act:var(--theme-secondary-color),
+  hov:var(--theme-secondary-color)7
 );
 $secondary: (
   100: #F6F7F8,
@@ -70,3 +71,4 @@ $rgb-yellow: (
   700: #BD9300,
   temp: #F9CE37,
 );
+

@@ -1,209 +1,381 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ExchangeDataService } from 'src/app/services/exchange-data.service';
 import { DataService } from 'src/app/services/data.service';
 import { DecryptService } from 'src/app/services/decrypt.service';
 import { Meta } from '@angular/platform-browser';
 import { first } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
-import { ConsentDeleteAccountComponent } from 'src/app/shared/dialogBoxes/consent-delete-account/consent-delete-account.component';
-import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 import { SwalMsgService } from 'src/app/services/swal-msg.service';
-import { ParentalCreatePinCheckComponent } from 'src/app/shared/dialogBoxes/parental-create-pin-check/parental-create-pin-check.component';
-import { AnalyticsService } from 'src/app/services/analytics.service';
+import Swal from 'sweetalert2';
+import { DeleteAccountPopupComponent } from 'src/app/shared/dialogBoxes/delete-account-popup/delete-account-popup.component';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+//import * as amplitude from '@amplitude/analytics-browser';
 import { Router } from '@angular/router';
-declare var $: any;
+import { LoginModalDialogComponent } from 'src/app/shared/dialogBoxes/login-modal-dialog/login-modal-dialog.component';
+import { FunctionCallingService } from 'src/app/services/function-calling.service';
 @Component({
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
   styleUrls: ['./my-account.component.scss']
 })
 export class MyAccountComponent implements OnInit {
-  showMsg: boolean = false
+  activeSection: string = 'account';
+  innerTab: string = 'profile';
+  activeTab: string = 'home'; // Default tab
+  data: any = null; // Store data for the current tab
   isOpenSetting = false
   update_Mail: any;
   val: any;
   panelOpenState: boolean = false
   sendTosettingSubtitle: any;
-  hideDeactivetButton: boolean = false
   sendToSetting: any;
   accoutSection: any;
-  displayedColumns = ['package_title', 'order_id', 'payment_mode', 'start_date', 'exp_date', "payment_status", "invoice_link"];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
-  public purchaseData = new MatTableDataSource<any>();
-  totalData: any = []
-  uid: any;
-  loginId: any;
-  private _ds: any;
-  constructor(private location: Location, private ed: ExchangeDataService, private _SWAL: SwalMsgService, private metaService: Meta, private ds: DataService, private DEC_SER: DecryptService, private dialog: MatDialog, private analyticsService: AnalyticsService,public router: Router) {
-
-    const loginId = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
+  showMsg: boolean = false;
+  rot: any
+  isOttLoggedIn: boolean = false
+  isSubsInfo: any = localStorage.getItem("is_subscriber") || {};
+  isSubscribed: boolean = false;
+  user_id: any;
+  basesignin: any;
+  login_first: any;
+  ipSaveData: any
+  @ViewChild("signoutConfirmationModal")
+  signoutConfirmationModal!: TemplateRef<any>;
+  private signoutConfirmationDialogRef!: MatDialogRef<TemplateRef<any>>;                
+  baseJson: any = [];
+  constructor(private location: Location, private ed: ExchangeDataService, private metaService: Meta, private ds: DataService, private DEC_SER: DecryptService, private SWAL: SwalMsgService, private dialog: MatDialog, private router: Router,    private fc: FunctionCallingService,) {
     this.ed.openSettingAccount.pipe(first()).subscribe(value => {
       if (value == true) {
+        this.innerTab = 'settings';
         this.isOpenSetting = value;
       }
       this.ed.openSettingAccount.next(false);
     });
     // this.addTag();
+    this.ed.isUserLoggedIn.subscribe((value) => {
+      if (value == true) {
+        this.isOttLoggedIn = value;
+
+      }
+    });
+    this.ed.isSubscribe.subscribe((value) => {
+      this.isSubscribed = value;
+    });
+
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
   }
   ngOnInit(): void {
-    // let ott_userid: any = localStorage.getItem("taploginInfo");
-    // const userInfo: any = JSON.parse(ott_userid)
-    // const formData: any = new FormData();
-    // formData.append('user_id',userInfo.id );
-    // if(data=='delete'){
-    //   formData.append('flag', '-1');
-    // }else{
-    //   formData.append('flag', '1');
-    // } 
-    //   this.ds.deleteLookup(formData).subscribe((res:any)=>{
-    // console.log(res)
-    // if(res.code ==1){
-    // this.hideDeactivetButton=true
-    // }else if(res.code ==2){
-    //   this.hideDeactivetButton=true
-    // }
-    //   })
     window.scroll(0, 0)
-    this.getConfigData()
-    // this.addTag();
-    var emalid: any = localStorage.getItem('taploginInfo')
-    var id = JSON.parse(emalid)
-    if (id.email == "") {
-      var emailValueGet = localStorage.getItem("emailSavedCaseMobile")
-      this.update_Mail = emailValueGet
-      this.val = true
-      // this.mobileHide=true
-      this.getViewTransactionHistory()
+    this.login_first = localStorage.getItem('taploginInfo')
+    this.ds.apipip().subscribe((res: any) => {
+      if (res.code == 1) {
+        this.DEC_SER.getDecryptedData(res?.result);
+        let ipSaveData = JSON.parse(this.DEC_SER.decryptData);
+        localStorage.setItem("ipSaveData", JSON.stringify(ipSaveData));
+        console.log(ipSaveData)
+        this.getConfigData();
 
+      }
+      // localStorage.setItem("ipSaveData", JSON.stringify(res));
+    });
+    // this.rot = this.router.navigate(['/delete-account'])
+    if (this.isSubsInfo == 1) {
+      this.isSubscribed = true;
+    } else {
+      this.isSubscribed = false;
     }
+
+
+
+
+
+
+    const currentRoute = this.router.url;
+
+    if (currentRoute.includes('/delete-account')) {
+      this.innerTab = 'management'; // Select "Account Management" tab
+    }
+    if (currentRoute.includes('/watchlist')) {
+      this.activeSection = 'list'; // Select "Account Management" tab
+    }
+
+    if (currentRoute.includes('/my-subscription')) {
+      this.activeSection = 'plans'; // Select "Account Management" tab
+    }
+
+    if (currentRoute.includes('/activation')) {
+      this.activeSection = 'tv'; // Select "Account Management" tab
+    }
+    this.loadTabData(this.activeTab); // Load initial data
+
+
+
+
   }
+
+
+
+
+
+
+  onTabChange(tab: string): void {
+    this.activeTab = tab;
+    this.loadTabData(tab); // Fetch data for the selected tab
+  }
+
+
+  loadTabData(tab: string): void {
+    // Mock data fetch based on tab
+    switch (tab) {
+      case 'home':
+        this.data = { message: 'Profile Data Loaded' };
+        break;
+      case 'blog':
+        this.data = { message: 'Account Management Data Loaded' };
+        break;
+      case 'setting':
+        this.data = { message: 'Settings Data Loaded' };
+        break;
+      case 'myPlans':
+        this.data = { message: 'myPlans Data Loaded' };
+        break;
+      case 'myList':
+        this.data = { message: 'myList Data Loaded' };
+        break;
+      case 'activateTV':
+        this.data = { message: 'activateTV Data Loaded' };
+        break;
+      case 'code':
+        this.data = { message: 'Code Data Loaded' };
+        break;
+      case 'about':
+        this.data = { message: 'About Data Loaded' };
+        break;
+      default:
+        this.data = null;
+    }
+    console.log(this.data); // Debugging data loading
+  }
+
+
+  // getConfigData1() {
+  //   this.ds.faqData().subscribe((res: any) => {
+
+  //     this.baseSignin = res.Form[0].signin;
+  //     this.baseSignup = res.Form[0].signup;
+
+  //   });
+  // }
+
+  openSection(section: string) {
+    this.activeSection = section;
+    this.innerTab = 'profile'; // reset inner tab when switching main section
+  }
+
+
+  openSignoutConfirmationDialog(): void {
+    this.ed.pauseDetailVideo.next(true);
+    localStorage.setItem("videoCarousel", "1");
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.restoreFocus = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.role = "dialog";
+    dialogConfig.panelClass = "signoutConfirmation";
+    dialogConfig.backdropClass = "popupBackdropClass";
+    dialogConfig.width = "390px";
+    this.signoutConfirmationDialogRef = this.dialog.open(
+      this.signoutConfirmationModal,
+      dialogConfig
+    );
+    this.router.events.subscribe(() => {
+      this.signoutConfirmationDialogRef.close();
+    });
+  }
+  signoutConfirmationclose() {
+    this.signoutConfirmationDialogRef.close();
+    if (localStorage.getItem("VideoAutoPlay") == "0") {
+      this.ed.pauseDetailVideo.next(false);
+    }
+    localStorage.setItem("videoCarousel", "0");
+  }
+
+
   getConfigData() {
     this.ds.popupJson().subscribe((res: any) => {
-      console.log(res)
-      localStorage.setItem("popupJson", JSON.stringify(res))
+      this.basesignin = res.PopupList[0]
+      console.log(this.basesignin, "hjklkjh");
     })
-    const popup: any = localStorage.getItem('faqData');
+    const popup1: any = localStorage.getItem("popUpForm");
+    const dataPopup1: any = JSON.parse(popup1);
+    this.baseJson = dataPopup1;
+    const popup: any = localStorage.getItem('allJsonPopupData');
     const dataPopup: any = JSON.parse(popup);
-    this.accoutSection = dataPopup.App[0].account[0].main_section
-    console.log(this.accoutSection)
+    this.basesignin = dataPopup.PopupList[0]
+    setTimeout(() => {
 
+      if (localStorage.getItem('taploginInfo')) {
+        var data: any = localStorage.getItem('taploginInfo') || {}
+        var data_read = JSON.parse(data)
+        this.user_id = data_read.id
+      } else {
+
+        this.openLoginDialog()
+      }
+    }, 500);
+    // this.ds.popupJson().subscribe((res: any) => {
+    //   this.basesignin=res.PopupList[0]
+
+
+    // })
+  }
+  // addTag() {
+  //   this.metaService.updateTag({ property: 'og:title', content: 'YOUR_TITLE' });
+  //   this.metaService.updateTag({ property: 'og:image', content: 'YOUR_IMAGE' });
+  //   this.metaService.updateTag({ property: 'og:description', content: 'YOUR_URL' })
+  // }
+
+  getSwalmsg(msg: string, icon: any) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+
+
+    })
+
+    Toast.fire({
+      icon: icon,
+      title: msg
+    })
   }
 
   back() {
-    if (window.history.length > 1) {
-      this.location.back();
-    } else {
-     this.router.navigate(['/'])
-    }
+    this.location.back();
   }
 
+  deleteCustom() {
+    this.showMsg = true
+  }
+
+  userInfo: any;
+  userDetails: any;
   delete(data: any) {
-    if (data == 'delete') {
-      const eventParams = {};
-      this.analyticsService.logEvent('delete_interaction', eventParams);
-    } else {
-      const eventParams = {};
-      this.analyticsService.logEvent('deactivate_interaction', eventParams);
-    }
-    let ott_userid: any = localStorage.getItem("taploginInfo");
-    const userInfo: any = JSON.parse(ott_userid)
-    if (userInfo.email != '') {
-      const formData: any = new FormData();
-      formData.append('user_id', userInfo.id);
+    const taplogininfo: any = localStorage.getItem("taploginInfo");
+    const USER_ACCOUNT: any = JSON.parse(taplogininfo);
 
-      this.ds.deleteLookup(formData).subscribe((res: any) => {
-        console.log(res)
-        if (res.code == 0) {
-          if(this.dialog.openDialogs.length==0){
-            const dialogRef = this.dialog.open(ConsentDeleteAccountComponent, {
-              backdropClass: 'popupBackdropClass',
-              panelClass: 'adultAgePopup',
-              width: "390px",
-              data: { data: data }
-            });
-          }
-      
-        }
-        else if (res.code == 1) {
-          this._SWAL.getSwalmsg(res.result, 'error');
-
-        }
-        else if (res.code == 2) {
-          if (data == 'delete') {
-            if(this.dialog.openDialogs.length==0){
-              const dialogRef = this.dialog.open(ConsentDeleteAccountComponent, {
-                backdropClass: 'popupBackdropClass',
-                panelClass: 'adultAgePopup',
-                width: "390px",
-                data: { data: data }
-              });
-            }
-          
-          } else {
-            this._SWAL.getSwalmsg(res.result, 'error');
-          }
-
-        }
-        else {
-          this._SWAL.getSwalmsg(res.result, 'error');
-        }
-      })
-    } else {
-      const dialogRef = this.dialog.open(ParentalCreatePinCheckComponent, {
+    if (USER_ACCOUNT.is_mail_verify == 0) {
+      const dialogRef = this.dialog.open(DeleteAccountPopupComponent, {
         backdropClass: 'popupBackdropClass',
         panelClass: 'adultAgePopup',
         width: "390px",
-        data: { data: data }
-      });
+        data: { val: false }
+      })
+    } else {
+      if (USER_ACCOUNT.email == "") {
+        const formData = new FormData();
+        formData.append('subject', 'test');
+        formData.append('message', 'test')
+        formData.append('email', USER_ACCOUNT.contact_no)
+        formData.append('uid', USER_ACCOUNT.id);
+        this.ds.delete_account(formData).subscribe(res => {
+          if (res.code == 1) {
+            this.getSwalmsg(res.result, 'success');
+          } else {
+            this.getSwalmsg(res.result, 'error');
+          }
+        });
+        this.showMsg = true
+      } else {
+        const formData = new FormData();
+        formData.append('subject', 'test');
+        formData.append('message', 'test')
+        formData.append('email', USER_ACCOUNT.email)
+        formData.append('uid', USER_ACCOUNT.id);
+        this.ds.delete_account(formData).subscribe(res => {
+          if (res.code == 1) {
+            this.getSwalmsg(res.result, 'success');
+          } else {
+            this.getSwalmsg(res.result, 'error');
+          }
+        });
+      }
     }
 
+    
 
 
+
+    // if (USER_ACCOUNT.email == "") {
+    //   const formData = new FormData();
+    //   formData.append('subject', 'test');
+    //   formData.append('message', 'test')
+    //   formData.append('email', USER_ACCOUNT.contact_no)
+    //   formData.append('uid', USER_ACCOUNT.id);
+    //   this.ds.DeleteUserAcc(formData).subscribe(res => {
+    //     if (res.code == 1) {
+    //       this.getSwalmsg(res.result, 'success');
+    //     } else {
+    //       this.getSwalmsg(res.result, 'error');
+    //     }
+    //   });
+    //   this.showMsg = true
+    // } else {
+    //   const formData = new FormData();
+    //   formData.append('subject', 'test');
+    //   formData.append('message', 'test')
+    //   formData.append('email', USER_ACCOUNT.mail)
+    //   formData.append('uid', USER_ACCOUNT.id);
+    //   this.ds.DeleteUserAcc(formData).subscribe(res => {
+    //     if (res.code == 1) {
+    //       this.getSwalmsg(res.result, 'success');
+    //     } else {
+    //       this.getSwalmsg(res.result, 'error');
+    //     }
+    //   });
+    // }
   }
-  // download(data:any){
-  //   const link = document.createElement('a');
-  //   link.setAttribute('target', '_blank');
-  //   link.setAttribute('href', data);
-  //   link.setAttribute('download', data);
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   link.remove();
-  // }
-  getViewTransactionHistory() {
-    this.uid = this.loginId.id;
-    console.log(this.uid);
-    this._ds.getBillingHistory().subscribe((res: any) => {
-      this.DEC_SER.getDecryptedData(res?.result);
-      let decryptData = JSON.parse(this.DEC_SER.decryptData);
-      this.purchaseData = decryptData.billing_history;
-      this.totalData = decryptData.billing_history
-      console.log(decryptData);
-    })
+
+  logout() {
+    this.fc.logoutProfile.next(true);
   }
 
+  openLoginDialog(): void {
+    const dialogRef = this.dialog.open(LoginModalDialogComponent, {
+      backdropClass: 'popupBackdropClass',
+      panelClass: 'logindialog',
+      width: "390px",
+      data: { name: "login" },
+    });
+    const sub = dialogRef.componentInstance.isLoggedIn.subscribe((data: any) => {
 
+      // this.is_loginInfo = data;
+      // this.isLoggedInforLayout.emit(data);
+    });
+    dialogRef.afterClosed().subscribe((result) => {
 
+    });
+  }
+
+  navigate(items: any) {
+    window.scroll(0, 0);
+    localStorage.setItem("active", "account");
+    var item = localStorage.getItem("active");
+    // this.selectedItem = item;
+  }
+
+  close() {
+    this.signoutConfirmationDialogRef.close();
+  }
 
 
 }
-export interface Element {
-  order: number;
-  position: string;
-  payment: string;
-  expiry: string;
-  purchase: string;
-  status: string;
-  invoice: string;
-}
-
-
-const ELEMENT_DATA: Element[] =
-  [
-    { position: 'ALTBalaji Yearly (IN) ₹300', order: 1235365465, payment: 'Wallet', purchase: '12-02-2023 15:13', expiry: '12-02-2023 15:13', status: 'Active', invoice: 'Download' },
-    { position: 'ALTBalaji Yearly (IN) ₹300', order: 2238763464, payment: 'Credit Card', purchase: '12-02-2023 15:13', expiry: '12-02-2023 15:13', status: 'Expired', invoice: 'Download' },
-  ];
-
-
-
-

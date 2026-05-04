@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'app-payu-failure',
   templateUrl: './payu-failure.component.html',
@@ -8,8 +7,9 @@ import { Component, OnInit } from '@angular/core';
 export class PayuFailureComponent implements OnInit {
 
   constructor() { }
-
+  USER_ACCOUNT_id:any
   ngOnInit(): void {
+   
   }
 
 }

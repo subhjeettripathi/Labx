@@ -1,37 +1,90 @@
 <div fxLayout="column">
     <div class="parental-control-content">
-        <span class="img-logo" >
-            <img src="assets/svgs/Group.png" class="Logo" alt="AOL">
+        <span class="img-logo-1" *ngIf="basesignin.create_parental.logo.is_allow == 1">
+            <img src="{{basesignin.create_parental.logo.web}}" class="Logo" alt="vive" class="vive-img">
         </span>
         <button class="close-btn">
-           <img src="assets/svgs/Vector.svg" alt="" (click)="close()">
+            <img src="assets/arrows_icons/VectorClose.svg" (click)="close()" alt="">
         </button>
-        
-        <div class="feedback-form">
-            <form [formGroup]="profileForm" #feedbackFormDir="ngForm" (ngSubmit)="onSubmitfeedback()">
-                <label for="">
-                 {{'please_select_an_option_to_share_a_feedback_or_convey_a_botheration' |translate}}
-                    <!-- Please type your feedback or convey a botheration here -->
-                </label>
-                <input type="text" placeholder="{{'Enter_name' |translate}}" id="myText" formControlName="name">
-                <input type="email" placeholder="{{'enter_email_address' |translate}}" id="myText" formControlName="email">
-                <input type="phone" placeholder="{{'enter_mobile_number' |translate}}" id="myText" formControlName="phone">
-                <textarea name="" id="myText" placeholder="{{'your_msg' |translate}}" formControlName="description"></textarea>
-                <div style="color:#FF8787;font-size:13px;position: relative; text-align: left;"
-                *ngIf="profileForm.controls['description'].invalid && feedbackFormDir.submitted">
-                <!-- Please enter your message -->
-                 {{'your_msg' |translate}}
+        <div>
+            <p style="color: #FF8787 !important;margin-top: 4px;" class="mm">{{vaidationForm}}</p>
+            <p style="color: #FF8787 !important;margin-top: 4px;" class="mm" *ngIf="VaidatePinMsg">{{VaidatePinMsg}}</p>
+            <p style="color: #FF8787 !important;" *ngIf="alreadySetMsg">{{alreadySetMsg}}</p>
+            <div *ngIf="basesignin.create_parental.heading.is_allow == 1">
+                <p *ngIf="!heading " class="heading-pin">
+                    {{basesignin.create_parental.heading.text}}
+                </p>
             </div>
-                <button class="alt-btn-red">{{'Send' |translate}}</button>
+            <p *ngIf="heading" class="heading-pin">
+                Update Pin
+            </p>
+        </div>
 
+
+
+        <div>
+            <p class="email_head-pin" *ngIf="basesignin.create_parental.enter_key.is_allow ==1">{{basesignin.create_parental.enter_key.text}}
+            </p>
+            <div>
+                <ng-otp-input class="parental-control" type="tel" inputmode="numeric" id="password" autocomplete="off"
+                    (keydown)="mobileOnly($event)" [formCtrl]="otpInput" (onInputChange)="onOtpChange($event, 'otp1')"
+                    [config]="config">
+                </ng-otp-input>
+
+            </div>
+
+        </div>
+        <br>
+        <div>
+            <p class="email_head-pin" *ngIf="basesignin.create_parental.confirm_key.is_allow ==1">
+                {{basesignin.create_parental.confirm_key.text}}</p>
+            <div>
+                <ng-otp-input type="tel" inputmode="numeric" id="password" autocomplete="off"
+                    (keydown)="mobileOnly($event)" [formCtrl]="otpInput1" (onInputChange)="onOtpChange($event, 'otp2')"
+                    [config]="config">
+                </ng-otp-input>
+
+                <br>
+                <div style="color: #FF8787 !important">{{msg}}</div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="radio-wrapper">
+        <hr class="prnt-hr">
+        <div style="color: #FF8787 !important;" *ngIf="mandotoryRestrict">Please Enter a Restrict Level</div>
+        <div class="radio-title" *ngIf="basesignin.create_parental.set_restrictions.is_allow ==1">
+            <p>{{basesignin.create_parental.set_restrictions.text}}</p>
+        </div>
+        <div class="radio-btn">
+            <form class="optionlist" [formGroup]="profileForm" #profileFormDir="ngForm" novalidate="" name="form">
+
+                <ng-container *ngFor="let v of ageGrp;let i=index">
+                    <div class="parental-site"> <input formControlName="gender"
+                            (click)="restrict($any($event.target).value,v.title,v)" name="gender"
+                            value="{{v.age_group}}" type="radio" id="{{i}}">
+                        <label for="{{i}}"> {{v.title}}</label>
+                    </div>
+
+                </ng-container>
+  
+                <div class="confirm" *ngIf="basesignin.create_parental.description.is_allow ==1">
+                    <p>{{basesignin.create_parental.description.text}}</p>
+                </div>
+                <div *ngIf="basesignin.create_parental.submit_btn.is_allow ==1">
+                    <div class="lock-btn" *ngIf="!currentPin">
+                        <h2 (click)="setLock()">{{basesignin.create_parental.submit_btn.text}}</h2>
+                    </div>
+                </div>
+                <div class="lock-btn" (click)="updatePin()" *ngIf="currentPin">
+                    <h2>Update Parental Lock</h2>
+                </div>
 
             </form>
-    
         </div>
-       
-     
-        
-
 
     </div>
 </div>

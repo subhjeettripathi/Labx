@@ -1,110 +1,54 @@
-<div class="aol-rental" *ngIf="subscribeInfo1.price != 0">
-  <!-- <span class="img-logo ">
-    <img src="assets/svgs/aol.png" alt="AOL">
-  </span> -->
-  <div class="aol_head">
-    <div class="rental_head">
-      <h3 class="text-center" [innerHTML]="subscribeInfo1.package_name"></h3>
-      <h6 style="color: #333054;">{{'*this_is_a_prime_content' |translate}}. {{'Pay_to_watch' |translate}}</h6>
-    </div>
-
-    <div (click)="close()" class="close-btn">
-      <img src="assets/new_icons/Rental_close.svg" alt="">
-    </div>
-
-  </div>
-
-  <div class="rental">
-    <div class="rental-details row m-0">
-      <!-- <h3>ANNUALLY</h3> -->
-      <div class="single col-3 p-0">
-        <h5>{{'Single_Device' |translate}}</h5>
-        <h2>{{subscribeInfo1.currency}} {{subscribeInfo1.price}}</h2>
-      </div>
-      <div class="rental_para col-9">
-        <p [innerHTML]="subscribeInfo1.description"></p>
-        <div class="terms">
-          <!-- *Terms and Conditions applicable (key added to translation service) -->
-          *{{'T&C'|translate}}
-        </div>
-      </div>
-
-    </div>
-    <div class="coupon_apply">
-      <form [formGroup]="RedeemForm" #FormDir="ngForm" (ngSubmit)="redeemSubmit()">
-        <div class="input-coupon row mx-0">
-          <div class="col-lg-5 col-md-5 p-0">
-            <input type="text" name="" id="" formControlName="redeem" class="input-coupon-aol" *ngIf="!couponHide"
-              (input)="onOtpChange($event)" placeholder="{{'Have_coupon_code?' |translate}}">
-            <div class="discountMsgZError-rental" *ngIf="showMsgError">*{{'invalid_code'}}</div>
-            <div class="discountMsgZError-rental" *ngIf="(RedeemForm.get('redeem')?.invalid && FormDir.submitted)">
-              {{'please_enter_coupon_code' |translate}}!
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="basesignin.parentalOtpVerify.logo.is_allow == 1">
+            <img  src="{{basesignin.parentalOtpVerify.logo.web}}" alt="vive" class="vive-img">
+        </span>
+        
+        <button (click)="close()" class="close-btn">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </button>
+  
+   
+          <div>
+            <p class="heading" *ngIf="basesignin.parentalOtpVerify.heading.is_allow == 1"> {{basesignin.parentalOtpVerify.heading.text}}</p>
+           
+            <p class="email_head" *ngIf="basesignin.parentalOtpVerify.description.is_allow == 1">
+                {{basesignin.parentalOtpVerify.description.text}}
+            </p>
+            <p style="color: #FF8787 !important;">{{msg}}</p> 
+            
+              <div class="otpInput">  
+            <ng-otp-input class="parental-otp-create" type="tel" inputmode="numeric" #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event)" [config]="config">
+            </ng-otp-input>
             </div>
-            <div class="coupon-validate" *ngIf="couponHide">
-              <div class="validate-text">
-                <div class="tick-icon">
-                  <img src="assets/img/check-contained.svg" alt="" width="25px">
+            <br>
+           
+                <div class="row">
+                    <button class="col-6 otpnumber"  [disabled]="clicked" *ngIf="basesignin.parentalOtpVerify.timer.is_allow == 1">
+                        {{display}}
+                    </button>
+                    <button class="col-6 resendOtp" (click)="resendOtp()"  [disabled]="clicked" *ngIf="basesignin.parentalOtpVerify.resend_btn.is_allow == 1">
+                        {{basesignin.parentalOtpVerify.resend_btn.text}}
+                    </button>
                 </div>
-                <div class="coupon-text">
-                  <div class="coupon">
-                    {{RedeemForm.value.redeem}} {{'Applied' |translate}}
-                  </div>
-                  <div class="discount-aol">
-                    <span class="line-through">{{subscribeInfo1.currency}} {{subscribeInfo1.price}}</span> <span>
-                      {{subscribeInfo1.currency}}
-                      {{subscribeInfo1.price-discountedCouponCode.value}}</span>
-
-                  </div>
+            
+           <br>
+            <button (click)="submit()" class="verify_submit" *ngIf="basesignin.parentalOtpVerify.submit_btn.is_allow == 1">{{basesignin.parentalOtpVerify.submit_btn.text}}</button>
+          
+          </div>
+            
+           
+         
+            <!-- <div class="row">
+                <div class="col-6">
+                    <button type="button"  class="btn-one">Yes</button>
                 </div>
-                <div class="remove-aol" (click)="removeCode()">
-                  <a type="button">{{'remove' |translate}}</a>
+                <div class="col-6">
+                    <button (click)="close()" type="button" class="btn-one">NO</button>
                 </div>
-              </div>
-            </div>
-            <div class="discountMsgZError-rental" *ngIf="couponHide">{{'coupon_applied' |translate}}</div>
+            </div> -->
 
-          </div>
-          <div class="col-lg-3 col-md-2 padd-rental">
-            <button class="btn_apply" type="submit" *ngIf="code"
-              [ngClass]="{'orange-btn': isInputNotEmpty, 'grey-btn': !isInputNotEmpty}">{{'check' |translate}}</button>
-            <button class="btn_process-1" (click)="gotoRazorpay(2)" type="button" *ngIf="!code">{{'Pay'
-              |translate}}</button>
-          </div>
-          <div class="col-lg-4 col-md-5 p-0">
-            <button class="btn_process" (click)="gotoRazorpay(1)" type="button" *ngIf="!couponHide"
-              [ngClass]="{'orange-btn': !isInputNotEmpty, 'grey-btn': isInputNotEmpty}">{{'proceed_without_coupon_code'|translate}}</button>
-          </div>
-
-        </div>
-        <div class="btns_coupon">
-
-
-        </div>
-      </form>
+       
     </div>
-  </div>
-
 </div>
-<div class="aol-rental" *ngIf="subscribeInfo1.price == 0">
-  <!-- <span class="img-logo ">
-    <img src="assets/svgs/aol.png" alt="AOL">
-  </span> -->
-  <div class="aol_head">
-    <div class="rental_head">
-     
-    </div>
 
-    <div (click)="close()" class="close-btn">
-      <img src="assets/new_icons/Rental_close.svg" alt="">
-    </div>
-
-  </div>
-
-  <div class="rental">
-    <h4 style="color: #fff;">
-   This Package is not available in your region
-    </h4>
- 
-  </div>
-
-</div>

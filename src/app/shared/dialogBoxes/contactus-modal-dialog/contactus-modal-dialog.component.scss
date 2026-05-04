@@ -11,35 +11,36 @@
 }
 
 .chopic {
-    font-family: "PoppinsRegular" !important;
+    // font-family: "PoppinsRegular" !important;
+    font-family: var(--theme-font-style);
     font-size: 16px;
-    font-weight: 900;
+    // font-weight: 900;
     line-height: 24px;
     letter-spacing: 0em;
     text-align: center;
-    margin: 20px 0px;
+    // margin: 20px 0px;
+    margin: 20px !important;
 }
 
 .btns-pre {
-       display: flex
-;
-    justify-content: center;
-    gap: 9px;
-    width: 100%;
+    display: flex;
+    // justify-content: center;
+    // gap: 20px;
 }
 
 .ok-btn button {
     width: 100%;
-    background: #FF7B31;
+    background:transparent;
     border: 0;
-    font-family: "PoppinsRegular";
+    // font-family: "PoppinsRegular";
+    font-family: var(--theme-font-style);
     font-size: 18px;
-    font-weight: 700;
+    // font-weight: 700;
     line-height: 38px;
     letter-spacing: 0em;
     text-align: center;
     color: #FFFFFF;
     border-radius: 4px;
     padding: 5px 10px;
-    height: 100%;
+    border: 1px solid grey;
 }

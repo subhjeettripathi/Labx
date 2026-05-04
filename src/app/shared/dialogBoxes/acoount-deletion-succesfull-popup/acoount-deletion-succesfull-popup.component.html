@@ -1,37 +1,33 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
         <span class="img-logo" *ngIf="basesignin.account_deletion_success.logo.is_allow == 1">
-            <img src="{{basesignin.account_deletion_success.logo.web}}" alt="AOL">
+            <img src="{{basesignin.account_deletion_success.logo.web}}" alt="vive" class="vive-img">
         </span>
 
-        <button (click)="close()" class="close-btn">
-            <!-- <mat-icon>close</mat-icon> -->
-            <img src="../../../../assets/svgs/Vector.svg" alt="">
-        </button>
-        <br><br><br>
+        <!-- <button (click)="close()" class="close-btn">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </button> -->
         <div class="alt-login-img" *ngIf="basesignin.account_deletion_success.success_icon.is_allow == 1">
-            <img src="{{basesignin.account_deletion_success.success_icon.web}}" alt="AOL">
+            <img src="{{basesignin.account_deletion_success.success_icon.web}}" alt="vive">
         </div>
-        <br>
-
-        <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
         <p class="deleteSuccess" *ngIf="showDeletion">
-            {{basesignin.account_deletion_success.description.text |translate}}
+            {{basesignin.account_deletion_success.description.text}}
         </p>
         <p class="deleteSuccess" *ngIf="alreadyDeletion">
-            {{basesignin.account_deletion_success.description.text2 | translate}}
+            {{basesignin.account_deletion_success.description.text2}}
         </p>
 
-        <br>
+        <div class="row mt-2" *ngIf="showDeletion">
+            <div class="col-12">
+                <button class="btn-one" (click)="close1()">Ok</button>
+            </div>
+        </div>
 
-        <!-- <div class="row">
-                <div class="col-6">
-                    <button type="button"  class="btn-one">Yes</button>
-                </div>
-                <div class="col-6">
-                    <button (click)="close()" type="button" class="btn-one">NO</button>
-                </div>
-            </div> -->
+        <div class="row mt-2" *ngIf="alreadyDeletion">
+            <div class="col-12">
+                <button class="btn-one" (click)="close()">Ok</button>
+            </div>
+        </div>
 
 
     </div>

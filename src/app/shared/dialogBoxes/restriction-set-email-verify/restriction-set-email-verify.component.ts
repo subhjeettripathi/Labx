@@ -24,12 +24,12 @@ export class RestrictionSetEmailVerifyComponent implements OnInit {
   ageGrp: any;
   showpass = false;
   showpassword1 = false;
-  // showRestriction:boolean | undefined
+  basesignin:any = []
+  visitorId: any=localStorage.getItem('device_id')
   @Output() checked1 = new EventEmitter<any>()
   @Output() socialCl = new EventEmitter<any>()
   @Output() ghjg = new EventEmitter<any>()
   restriction: any;
-  visitorId: any;
   loginId = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
   msg: boolean | undefined;
   otpForm!: FormGroup
@@ -37,29 +37,38 @@ export class RestrictionSetEmailVerifyComponent implements OnInit {
   ngOnInit(): void {
     this.otpForm = this._fb.group({
       email: [null]
+     
+      
     });
+
+    const popup1: any = localStorage.getItem('allJsonPopupData');
+    const dataPopup1: any = JSON.parse(popup1);
+    this.basesignin = dataPopup1.PopupList[0]
 
     var data: any = localStorage.getItem('taploginInfo')
     var data_read = JSON.parse(data)
     this.user_id = data_read.id
     this.getData();
-
-    this._FPS.getFingerPrintDeviceId();
-    this._FPS.visitorId.subscribe(r => this.visitorId = r);
   }
   otpInputCurrent = new FormControl('', Validators.compose([Validators.required, Validators.minLength(4)]));
   config = {
     allowNumbersOnly: true,
     length: 4,
-    isPasswordInput: true,
-    disableAutoFocus: false,
+    // isPasswordInput: true,
+    // disableAutoFocus: false,
     timer: 1,
-    placeholder: '',
+    // placeholder: '',
 
     inputStyles: {
-      'width': '46px',
-      'height': '46px',
-      'color': 'white'
+      'width': '55px',
+      'color': 'white',
+      'background-color': 'transparent',
+      'border-top': 'none',
+      'border-left': 'none',
+      'border-right': 'none',
+      'border-bottom': '2px solid #AAAAAA',
+      'outline': 'none',
+      'border-radius': '0px'
     },
     inputClass: "dfg"
   };
@@ -71,6 +80,18 @@ export class RestrictionSetEmailVerifyComponent implements OnInit {
     this.checked1.emit(true)
     this.socialCl.emit(true)
   }
+    ngAfterViewInit() {
+   
+  // const otpInputs = document.querySelectorAll('input');
+  // otpInputs.forEach((input: any) => {
+  //   input.setAttribute('type', 'text');
+  //   input.setAttribute('inputmode', 'numeric');
+  //   input.setAttribute('pattern', '[0-9]*');
+  //   input.setAttribute('autocomplete', 'one-time-code');
+  //   input.setAttribute('autocorrect', 'off');
+  //   input.setAttribute('autocapitalize', 'off');
+  // });
+}
   // submit() {
   //   const formData1: any = new FormData();
   //   formData1.append('u_id', this.user_id)
@@ -107,7 +128,7 @@ export class RestrictionSetEmailVerifyComponent implements OnInit {
   submitOtplogin() {
     const device_other_detail = {
       os_version: this.deviceDetection.os_version,
-      app_version: "26.04.024",
+      app_version: "v2_1",
       network_type: "others",
       network_provider: "others"
     }
@@ -117,7 +138,7 @@ export class RestrictionSetEmailVerifyComponent implements OnInit {
       screen_resolution: window.innerWidth + '*' + window.innerHeight,
       push_device_token: "others",
       device_type: 'web',
-      platform: 'web',
+      platform: this.deviceDetection.deviceType,
       device_unique_id: this.visitorId,
       onesignal_device_id: "fs95345jfddf",
     }
@@ -131,13 +152,14 @@ export class RestrictionSetEmailVerifyComponent implements OnInit {
       formData.append('devicedetail', JSON.stringify(devicedetail));
       formData.append('device', "web");
       this.auth.ottLogin(formData).subscribe((res: any) => {
-        console.log(res, 'login')
+    
         if (res.code == 1) {
           const formData2: any = new FormData();
           formData2.append('u_id',this.user_id )
           formData2.append('level',this.resp.res.level )
           formData2.append('title',this.resp.res.title  )
           formData2.append('pin', this.otpInputCurrent.value)
+          formData2.append('parental_id', this.resp.res.parental_id)
           this.ds.restrictionLevelSet(formData2).subscribe((pok:any)=>{
             if(pok.code==1){
              
@@ -168,13 +190,10 @@ export class RestrictionSetEmailVerifyComponent implements OnInit {
     input1.type = this.showpassword1 ? 'text' : 'password';
   }
   forgotPassword(){
-    //  this.dialogRef.close();
-
     const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
       panelClass: 'forgotPassword',
       width: "566px",
       height: "524px",
-      disableClose: true,
       data: { name: this.loginId.email }
     });
     }
@@ -183,7 +202,7 @@ export class RestrictionSetEmailVerifyComponent implements OnInit {
       this.dep_ser.getDecryptedData(res?.result);
       let decryptData = JSON.parse(this.dep_ser.decryptData);
       this.parentalData = decryptData;
-      console.log(this.parentalData.agegp_list);
+   
       this.ageGrp = this.parentalData.agegp_list;
 
     })

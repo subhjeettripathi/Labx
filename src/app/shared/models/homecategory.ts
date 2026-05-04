@@ -9,7 +9,7 @@ export interface IHomeCategory {
     multiple_layout: any[]
     partner_id: string | number;
     thumb: any;
-    config:any[];
+    config:any['slidesToShow'];
     type:string
     totalSlides:number;
     is_bingeit:string;

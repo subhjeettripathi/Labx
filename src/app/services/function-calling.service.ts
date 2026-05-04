@@ -40,7 +40,4 @@ export class FunctionCallingService {
    public removeCoupon: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
    public statePopup: BehaviorSubject<any> = new BehaviorSubject<any>("");
-   public sendValueToPayment: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-   public isRental: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-   
 }

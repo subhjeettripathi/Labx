@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ApiConstants } from '../api.constants';
+import { ConfigService } from '../config.service';
 const TOKEN_KEY = 'auth_token';
 // const REFRESHTOKEN_KEY = 'auth_token';
 const USER_KEY = 'auth-user';
@@ -13,22 +14,19 @@ export class TokenService {
   BASE_URL = environment.baseUrl;
   ACCESS_TOKEN = ApiConstants.ACCESS_TOKEN;
   tokenSubject = new Subject<any>();
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private configService:ConfigService) {
 
 
   }
   getTokenInfo() {
-    const auth = 'abd07061a3dd9851e3c9dd551e68e26838b29e87b2baa479c0eb53c95cac2e6bd701b5588ca7a85de55c6504e0c84c44edc468ae6fdb7a48cf170ee055cd7b3a5960795cf0c3d2989f1aedec0d93fd9d';
+    const auth = 'abd07061a3dd9851e3c9dd551e68e2689b1890d734f88a1e1b43e91e1dd529050606ed1ce0833455db1c2f9ec38243b56a66100fe22c7ac02658eeeb67345a6916ac6df57be52f8dae4316350db6c174';
     const headerDict = {
       'authorization': auth
     }
     const requestOptions = {
       headers: new HttpHeaders(headerDict),
     };
-    return this.http.get(`https://api.artofliving.app/artoflivingapi/v10/auth/access/token`, requestOptions);
-
-    // return this.http.get(`https://preprodapi.artofliving.app/artoflivingapi/v10/auth/access/token`, requestOptions);
-
+    return this.http.get(this.configService.getApiUrl('auth_access_token'), requestOptions);
 
   }
   sendMessage(token: any) {
@@ -40,16 +38,14 @@ export class TokenService {
 
   // refresh new 
   refreshToken() {
-    const auth = 'abd07061a3dd9851e3c9dd551e68e26838b29e87b2baa479c0eb53c95cac2e6bd701b5588ca7a85de55c6504e0c84c44edc468ae6fdb7a48cf170ee055cd7b3a5960795cf0c3d2989f1aedec0d93fd9d';
+    const auth = 'abd07061a3dd9851e3c9dd551e68e2689b1890d734f88a1e1b43e91e1dd529050606ed1ce0833455db1c2f9ec38243b56a66100fe22c7ac02658eeeb67345a6916ac6df57be52f8dae4316350db6c174';
     const headerDict = {
       'authorization': auth
     }
     const requestOptions = {
       headers: new HttpHeaders(headerDict),
     };
-    return this.http.get(`https://api.artofliving.app/artoflivingapi/v10/auth/access/token`, requestOptions);
-
-    // return this.http.get(`https://preprodapi.artofliving.app/artoflivingapi/v10/auth/access/token`, requestOptions);
+    return this.http.get(this.configService.getApiUrl('auth_access_token'), requestOptions);
   }
   removeToken(): void {
     window.localStorage.removeItem(TOKEN_KEY);
@@ -63,7 +59,6 @@ export class TokenService {
     return window.localStorage.getItem(TOKEN_KEY);
   }
   public saveRefreshToken(token: string): void {
-    // window.localStorage.removeItem(REFRESHTOKEN_KEY);
     window.localStorage.setItem(TOKEN_KEY, token);
   }
 

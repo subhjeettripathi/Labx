@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50.603" height="46.983" viewBox="0 0 50.603 46.983">
+  <defs>
+    <filter id="Union_51" x="0" y="0" width="50.603" height="46.983" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.471"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Union_51)">
+    <path id="Union_51-2" data-name="Union 51" d="M9.661,28.983A9.66,9.66,0,0,1,0,19.322V9.661A9.66,9.66,0,0,1,9.661,0H22.944A9.661,9.661,0,0,1,32.6,9.661v9.661a9.661,9.661,0,0,1-9.661,9.661ZM2.416,9.661v9.661a7.253,7.253,0,0,0,7.245,7.245H22.944a7.254,7.254,0,0,0,7.246-7.245V9.661a7.254,7.254,0,0,0-7.246-7.246H9.661A7.254,7.254,0,0,0,2.416,9.661Zm9.661,10.293V10.237A1,1,0,0,1,13.6,9.383l7.951,4.858a1,1,0,0,1,0,1.706L13.6,20.807a.99.99,0,0,1-.519.149A1,1,0,0,1,12.076,19.954Z" transform="translate(9 9)" fill="#fff"/>
+  </g>
+</svg>

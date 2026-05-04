@@ -1,32 +1,11 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
         <span class="img-logo" *ngIf="basesignin.parentalEmailVerify.logo.is_allow == 1">
-            <img src="{{basesignin.parentalEmailVerify.logo.web}}" alt="AOL">
+            <img src="{{basesignin.parentalEmailVerify.logo.web}}" alt="vive" class="vive-img">
         </span>
         <button class="close-btn">
             <mat-icon (click)="close()" >close</mat-icon>
         </button>
-     
-
-        <!-- <div class="parental-heading-1" >
-            <p>
-                Enter your parental lock PIN
-             </p>
-             <p style="color: red;" *ngIf="InvalidPin">Invalid Pin</p>
-            <div>
-              
-                <form>
-
-                    <ng-otp-input #ngOtpInput [formCtrl]="otpInputCurrent" 
-                        [config]="config"></ng-otp-input>
-                     <br>
-                        <button mat-button (click)="submit()" class="submitBtn">SUBMIT</button>
-                </form>
-
-            </div>
-
-        </div> -->
-      <br>
         <div>
             <p  class="heading" *ngIf="basesignin.parentalEmailVerify.heading.is_allow == 1"> {{basesignin.parentalEmailVerify.heading.text}}</p>
            
@@ -41,7 +20,7 @@
                         height="20px" src="{{basesignin.parentalEmailVerify.field_icon.invisible_web}}">
                     <img width="20px" height="20px" [hidden]="!showpassword1" src="{{basesignin.parentalEmailVerify.field_icon.visible_web}}">
                 </span>
-                    <input type="password" #input1 class="form-control verify-input" placeholder="{{basesignin.parentalEmailVerify.email_field.placeholder}}" formControlName="email">
+                    <input type="password" #input1 class="" id="myText" placeholder="{{basesignin.parentalEmailVerify.email_field.placeholder}}" formControlName="email">
                 </div>
             <br>
             <p class="verify_forgot" (click)="forgotPassword()" *ngIf="basesignin.parentalEmailVerify.forgot_password.is_allow == 1">{{basesignin.parentalEmailVerify.forgot_password.text}}</p>

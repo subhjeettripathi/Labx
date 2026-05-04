@@ -32,6 +32,7 @@ export class SwitchCouponComponent implements OnInit {
     // this.checked1.emit(true)
   }
   switchPack(){
+   
     this.userId = localStorage.getItem("taploginInfo");
     this.user = JSON.parse(this.userId);
     const formData = new FormData();
@@ -46,8 +47,7 @@ export class SwitchCouponComponent implements OnInit {
         this.DEC_SER.getDecryptedData(res?.result);
             let decryptData = JSON.parse(this.DEC_SER.decryptData);
             this.discountedCouponCode = decryptData;
-            console.log(this.discountedCouponCode);
-            console.log(this.discountedCouponCode.value);
+          
             this.sendToFirstTab.emit(this.discountedCouponCode.value)
             this.dialogRef.close();
         }

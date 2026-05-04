@@ -18,12 +18,11 @@ defaultImages:any=[]
   ngOnInit(): void {    
     this.defaultImages=localStorage.getItem("defaultImages")
     this.datas.push(this.data)
-    console.log(this.datas);
+//  console.log(this.datas,"aaaaaaaaaaaa");
    
     
   }
   onImgError(event: any) {
-    // console.log(event);
     event.target.src = JSON.parse(this.defaultImages).vertical.path
   }
   close(){

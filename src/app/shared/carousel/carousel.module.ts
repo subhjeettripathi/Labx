@@ -7,13 +7,13 @@ import { MatCardModule } from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { TranslatePipe11 } from 'src/app/services/pipes/translate.pipe';
-
+import { TimeDurationPipe } from 'src/app/time-duration.pipe';
+import {TruncateWordPipe} from 'src/app/time-duration.pipe'
 @NgModule({
   declarations: [
     CarouselComponent,
-    TranslatePipe11
-    
+    TimeDurationPipe,
+    TruncateWordPipe
   ],
   imports: [
     CommonModule,
@@ -22,7 +22,7 @@ import { TranslatePipe11 } from 'src/app/services/pipes/translate.pipe';
     MatCardModule,
     MatIconModule,
     FlexLayoutModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   exports:[CarouselComponent]
 })

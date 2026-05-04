@@ -29,8 +29,8 @@ const routes: Routes = [
     ogTitle: 'Description of Home Component for social media',
     ogDescrption: 'Description of Home Component for social media',
   }},
-  {path:'corporate',component:CorporateComponent,data: {
-    title: 'Corporate',
+  {path:'support',component:CorporateComponent,data: {
+    title: 'Support',
     descrption: 'Description of Home Component',
     ogTitle: 'Description of Home Component for social media',
     ogDescrption: 'Description of Home Component for social media',

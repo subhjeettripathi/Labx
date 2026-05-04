@@ -9,7 +9,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { ScrollDirectiveModule } from 'src/app/shared/directives/scroll-directive/scroll-directive.module';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -31,7 +32,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ReactiveFormsModule,
     MatCardModule,
     MatDialogModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ScrollDirectiveModule,
+    InfiniteScrollModule
    
   ]
 })

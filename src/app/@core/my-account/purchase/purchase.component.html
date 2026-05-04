@@ -1,129 +1,79 @@
 <div class="purchase">
     <div class="example-container mat-elevation-z8">
-
-
         <div class="sub-container">
             <input class="radio2" id="one2" name="group2" type="radio" checked />
             <input class="radio2" id="two2" name="group2" type="radio" />
-            <label class="tab tab-deact" id="one-tab2" for="one2">{{'MySubscription'|translate}}</label>
+            <!-- <label class="tab tab-deact" id="one-tab2" for="one2">My Subscription</label> -->
             <!-- <label class="tab tab-deact" id="two-tab2" for="two2">Event Purchases</label> -->
-            <label class="tab tab-deact" id="two-tab2" for="two2">{{'Event_Purchases'|translate}}</label>
-
             <div class="panels">
 
                 <div class="panel" id="one-panel2">
-                    <div class="issubs" *ngIf="OttData.length==0">
-                        <img src="assets/img/deleted-acc.png" alt="">
-                        <p class="Currently">{{'currently_you_do_not_have_any_event_packs' |translate}}</p>
-                        <a href="javascript:void(0)" id="subs-ott"
-                            routerLink="/subscribe">{{'subscribe_now'|translate}}</a>
+                    <div class="issubs" *ngIf="!isSubscribed">
+
+                        <!-- <img src="assets/img/deleted-acc.png" alt="">
+                        <p class="Currently">Currently You do not have
+                            any OTT Pack</p> -->
+
+                        <p class="Currently">Currently You do not have
+                            any Active Plan</p>
+                        <div class="plans-btn">
+                            <button class="theme-btn-1" style="cursor: pointer;" routerLink="/subscribe">SUBSCRIBE
+                                NOW</button>
+                            <button class="theme-btn-2" (click)="openTransactionHistory()">Transaction History</button>
+                        </div>
+            
+                        <div class="msg" *ngIf="isMsg" >
+                            No Transaction History
+                        </div>
+
                     </div>
-                    <mat-table [dataSource]="OttData" *ngIf="OttData.length">
+                    <mat-table [dataSource]="purchaseData" class="mat-elevation-z8" *ngIf="isSubscribed || isTransactionHistory" >
                         <ng-container *ngFor="let disp of displayedColumns">
                             <ng-container matColumnDef="{{disp}}">
                                 <mat-header-cell *matHeaderCellDef>
-                                    {{disp=='invoice_link'?'Payment Receipt':disp | translate}}
+                                    {{
+                                    disp=='package_title'?'Subscription Pack':
+                                    disp=='pg_ref_id'?'Order Id':
+                                    disp=='pg_mode'?'Payment Method':
+                                    disp=='start_date'?'Purchase Date':
+                                    disp=='exp_date'?'Expiry Date':
+                                    disp=='invoice_link'?'Invoice':
+                                    disp.split('_').join(' ') | titlecase
+                                    }}
                                 </mat-header-cell>
-                                <ng-container *ngIf="disp !== 'invoice_link' && disp !== 'status'">
+                                <ng-container *ngIf="disp !== 'invoice_link' && disp !== 'payment_status'">
 
                                     <mat-cell class="tableData" *matCellDef="let element ">
-                                        <span class="mobile-label" *ngIf="false"> {{disp=='package_title'?'Subscription
-                                            Pack':disp=='pg_ref_id'?'Order Id':disp=='start_date'?'Start
-                                            Date':disp=='end_date'?'Expiry Date':disp.split('_').join(' ') |
-                                            titlecase}}
-                                        </span>
-                                        <span class="mobile-label">
-                                            {{disp |translate}}</span>
+                                        <span class="mobile-label"> 
+                                            {{
+                                            disp=='package_title'?'Subscription Pack':
+                                            disp=='pg_ref_id'?'Order Id':
+                                            disp=='start_date'?'Purchase Date':
+                                            disp=='exp_date'?'Expiry Date':
+                                            disp.split('_').join(' ') | titlecase
+                                            }}</span>
                                         {{element[disp]}}
                                     </mat-cell>
                                 </ng-container>
                                 <ng-container *ngIf="disp=='invoice_link'">
-                                    <mat-cell *matCellDef="let element">
-                                        <span class="mobile-label">
-                                            {{'Payment Receipt' |translate}}
-
-                                        </span>
-
-                                        <button
-                                            *ngIf="element.package_id != '1' && element.package_id != '12' && element.package_id != '13' && element.package_id != '15' && element.payment_mode != 'manually assigned'"
-                                            class="download"><a [href]="element['invoice_link']" download><img
-                                                    src="assets/img/download-02.svg" alt="" style="margin-right: 6px;"
-                                                    width="20px">{{'download_video_str' |translate}}
-                                            </a></button>
-                                    </mat-cell>
-                                </ng-container>
-                                <ng-container *ngIf="disp=='status'">
 
                                     <mat-cell *matCellDef="let element">
-                                        <span class="mobile-label">
-                                         
-                                             <!-- {{disp.split('_').join(' ') |titlecase}} -->
-                                              {{ disp | translate }}
-                                            </span>
-                                        <div class="mbl">
-
-
-                                            <div id="active" *ngIf="element.status=='2'">{{'Active'|translate}}</div>
-                                            <div id="expired" *ngIf="element.status=='7'">{{'expired' |translate}}</div>
-                                            <div id="expired" *ngIf="element.status=='3'">{{'Cancelled'|translate}}
-                                            </div>
-                                        </div>
-                                    </mat-cell>
-                                </ng-container>
-
-                            </ng-container>
-                        </ng-container>
-
-                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                    </mat-table>
-                </div>
-                <div class="panel" id="two-panel2">
-                    <div class="issubs" *ngIf="PrimeData.length==0">
-                        <img src="assets/img/deleted-acc.png" alt="">
-                        <p class="Currently">{{'no_prime_package_is_active_for_you_currently'|translate}}</p>
-
-                    </div>
-                    <mat-table [dataSource]="PrimeData" *ngIf="PrimeData.length">
-                        <ng-container *ngFor="let disp of displayedColumns">
-                            <ng-container matColumnDef="{{disp}}">
-                                 <mat-header-cell *matHeaderCellDef>
-                                    {{disp=='invoice_link'?'Payment Receipt':disp | translate}}
-                                </mat-header-cell>
-                                <ng-container *ngIf="disp !== 'invoice_link' && disp !== 'status'">
-
-                                    <mat-cell class="tableData" *matCellDef="let element ">
-                                        <span class="mobile-label" *ngIf="false"> 
-                                              {{disp=='package_title'?'Subscription Pack':disp=='pg_ref_id'?'Order Id':disp=='start_date'?'Start Date':disp=='end_date'?'Expiry Date':disp.split('_').join(' ') |   titlecase }}
-                                                </span>
-                                                <span class="mobile-label">
-                                                    {{disp |translate}}
-                                                    </span>
-                                        {{element[disp]}}
-                                    </mat-cell>
-                                </ng-container>
-                                <ng-container *ngIf="disp=='invoice_link'">
-                                    <mat-cell *matCellDef="let element">
-                                        <span class="mobile-label"> {{'Payment Receipt'|translate}}</span>
-                                        <button *ngIf="element.payment_mode != 'manually assigned'" class="download"><a
+                                        <span class="mobile-label"> Invoice</span>
+                                        <div class="download" style="cursor: pointer;"><a
                                                 [href]="element['invoice_link']" download><img
-                                                    src="assets/img/download-02.svg" alt="" style="margin-right: 6px;"
-                                                    width="20px">{{'download_video_str'|translate}}
-                                            </a></button>
+                                                    src="assets/vive/si_file-download-duotone.svg" alt="vive">Download
+                                            </a>
+                                        </div>
                                     </mat-cell>
                                 </ng-container>
-                                <ng-container *ngIf="disp=='status'">
+                                <ng-container *ngIf="disp=='payment_status'">
 
                                     <mat-cell *matCellDef="let element">
-                                        <span class="mobile-label">
-                                          
-                                               {{ disp | translate }}
-                                             </span>
-                                        <div class="mbl">
-                                            <div id="active" *ngIf="element.status=='2'">{{'Active'|translate}}</div>
-                                            <div id="expired" *ngIf="element.status=='7'">{{'expired'|translate}}</div>
-                                            <div id="expired" *ngIf="element.status=='3'">{{'Cancelled'|translate}}
-                                            </div>
+                                        <span class="mobile-label"> {{disp.split('_').join(' ') |
+                                            titlecase}}</span>
+                                        <div class="mbl"><button id="active" *ngIf="element.status=='2'">Active</button>
+                                            <button id="expired" *ngIf="element.status=='7'">Expired</button>
+                                            <button id="cancelled" *ngIf="element.status=='3'">Cancelled</button>
                                         </div>
                                     </mat-cell>
                                 </ng-container>
@@ -135,6 +85,7 @@
                         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                     </mat-table>
                 </div>
+
             </div>
         </div>
 

@@ -1,159 +1,99 @@
-<div fxLayout="column" fxLayoutGap="10px" class="lop">
+<!-- <div fxLayout="column" fxLayoutGap="10px" class="lop">
     <div class="alt-login-content">
         <div class="alt-login-img" *ngIf="queryForm.logo.is_allow==1">
-            <img [src]="queryForm.logo.web" alt="AOL">
-        </div>
-        <div class="alt-login-img-1" *ngIf="queryForm.logo.is_allow==1">
-            <img [src]="queryForm.logo.web" alt="AOL">
+            <img [src]="queryForm.logo.web" alt="vive">
         </div>
         <button (click)="onNoClick()" class="close-btn">
-            <mat-icon class="close_btn">Close</mat-icon>
+          <img src="assets/arrows_icons/VectorClose.svg" alt="close">
         </button>
-        <!-- <h4 class="content_us title mb-3" *ngIf="queryForm.heading1.is_allow">{{queryForm.heading1.text}}</h4> -->
-        <h4 class="content_us title mb-3" *ngIf="queryForm.heading1.is_allow">{{'contactUs' |translate}}</h4>
-
-        <!-- <h6 class="content mb-3" *ngIf="queryForm.payment_subscription.is_allow">{{queryForm.payment_subscription.text}} -->
+        <h4 class="content_us title mb-3" *ngIf="queryForm.heading1.is_allow">{{queryForm.heading1.text}}</h4>
         <h6 class="content mb-3" *ngIf="queryForm.payment_subscription.is_allow">{{queryForm.payment_subscription.text}}
         </h6>
         <ng-container>
             <ng-container>
                 <form [formGroup]="emailLoginForm" #loginFormDir="ngForm" class="form-class" (ngSubmit)="onSubmit()">
                     <div class="alt-m-2 formField dataField  ">
-                        <div class="mt-3 mb-3">
+                        <mat-form-field appearance="outline" *ngIf="queryForm?.other?.email?.is_allow==1" >
+
+                            <input matInput [placeholder]="queryForm.other.email.placeholder" *ngIf="!queryEmail"
+                                formControlName="email" autocomplete="off" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required >
+                            <input matInput [(ngModel)]="queryEmail" *ngIf="queryEmail" readonly formControlName="email">
+                            <mat-error  style="text-align:left; font-size:11px; font-family: 'ManropeBook !important';"  *ngIf="(emailLoginForm.get('email')?.invalid && loginFormDir.submitted)">
+                                {{errorMsg?.messageSignupEmailError}} 
+                          
+                            </mat-error>
+                        </mat-form-field>
+                        <div class="mb-3">
                             <ng-select formControlName="query_type" type="select" (change)="selectCodeChange($event)"
-                                [searchable]="false" [clearable]="false"
-                                *ngIf="queryForm?.payment_subscription?.query_dropdown?.is_allow==1" class="custom"
-                                [placeholder]="queryForm.payment_subscription.query_dropdown.placeholder">
-                                <ng-option
-                                    *ngFor="let item of queryForm.payment_subscription.query_dropdown.dropdown.values"
+                                [searchable]="false" [clearable]="false" *ngIf="queryForm?.payment_subscription?.query_dropdown?.is_allow==1"
+                                class="custom" [placeholder]="queryForm.payment_subscription.query_dropdown.placeholder">
+                                <ng-option *ngFor="let item of queryForm.payment_subscription.query_dropdown.dropdown.values"
                                     [value]="item.text">{{item.text}}</ng-option>
                             </ng-select>
 
-                            <mat-error
-                                style="text-align:left; font-size:11px;margin-left:2.8%; font-family: 'GothamBook !important';"
+                            <mat-error style="text-align:left; font-size:11px;margin-left:2.8%; font-family: 'ManropeBook !important';"
                                 *ngIf="(emailLoginForm.get('query_type')?.invalid && loginFormDir.submitted)">
-                                <!-- {{errorMsg?.messageFAQSelectQueryType}} -->
-                                {{'messageFAQSelectQueryType' |translate}}
+                                {{errorMsg?.messageFAQSelectQueryType}}
 
                             </mat-error>
                         </div>
 
                         <div class="mt-3 mb-3">
                             <ng-select formControlName="payment_type" type="select" (change)="selectCodeChange($event)"
-                                [searchable]="false" [clearable]="false"
-                                *ngIf="queryForm?.payment_subscription?.payment_dropdown?.is_allow==1" class="custom"
-                                [placeholder]="queryForm.payment_subscription.payment_dropdown.placeholder">
-                                <ng-option
-                                    *ngFor="let item of queryForm.payment_subscription.payment_dropdown.dropdown.values"
+                                [searchable]="false" [clearable]="false" *ngIf="queryForm?.payment_subscription?.payment_dropdown?.is_allow==1"
+                                class="custom" [placeholder]="queryForm.payment_subscription.payment_dropdown.placeholder">
+                                <ng-option *ngFor="let item of queryForm.payment_subscription.payment_dropdown.dropdown.values"
                                     [value]="item.text">{{item.text}}</ng-option>
                             </ng-select>
 
-                            <mat-error
-                                style="text-align:left; font-size:11px;margin-left:2.8%; font-family: 'GothamBook !important';"
+                            <mat-error style="text-align:left; font-size:11px;margin-left:2.8%; font-family: 'ManropeBook !important';"
                                 *ngIf="(emailLoginForm.get('payment_type')?.invalid && loginFormDir.submitted)">
-                                <!-- {{errorMsg?.paymentQueryError}} -->
-                                {{'paymentQueryError' |translate}}
+                                {{errorMsg?.paymentQueryError}}
 
                             </mat-error>
                         </div>
-                        <!-- <mat-form-field appearance="outline" class="attchment " disableOptionCentering
-                            *ngIf="queryForm.payment_subscription.query_dropdown.is_allow==1" >
-                            <mat-select formControlName="query_type"   (selectionChange)="selectCodeChange()"
-                                [placeholder]="queryForm.payment_subscription.query_dropdown.placeholder"
-                                autocomplete="off">
-                                <mat-option 
-                                    *ngFor="let query of queryForm.payment_subscription.query_dropdown.dropdown.values"
-                                    [value]="query">
-                                    <span *ngIf="query.is_allow==1">{{query.text}}</span>
-                                </mat-option>
-                            </mat-select>
-                            <span class="reqSelect" *ngIf="!emailLoginForm.value.query_type">*</span>
-                           
-                            <mat-error
-                                *ngIf="emailLoginForm.controls['query_type']&& (emailLoginForm.controls['query_type'].dirty || emailLoginForm.controls['query_type'].touched)||(emailLoginForm.get('query_type')?.invalid && loginFormDir.submitted)">
-                                {{errorMsg.messageFAQSelectQueryType}}
 
-                            </mat-error>
-                        </mat-form-field> -->
-                        <!-- <mat-form-field appearance="outline"
-                            *ngIf="queryForm.payment_subscription.payment_dropdown.is_allow==1"
-                            class="emailInput attchment">
-                            <mat-select formControlName="payment_type" (selectionChange)="selectCodeChange($event)"
-                                [placeholder]="queryForm.payment_subscription.payment_dropdown.placeholder"
-                                autocomplete="off" required>
-                                <mat-option
-                                    *ngFor="let payment_query of queryForm.payment_subscription.payment_dropdown.dropdown.values"
-                                    [value]="payment_query">
-                                    <span *ngIf="payment_query.is_allow==1">{{payment_query.text}}</span>
-                                </mat-option>
-                            </mat-select>
-                            <span class="req" *ngIf="!emailLoginForm.value.payment_type">*</span>
-                          
-                            <mat-error
-                                *ngIf="emailLoginForm.controls['payment_type']&& (emailLoginForm.controls['payment_type'].dirty || emailLoginForm.controls['payment_type'].touched)||(emailLoginForm.get('payment_type')?.invalid && loginFormDir.submitted)">
-                                {{errorMsg.paymentQueryError}}
-
-                            </mat-error>
-                        </mat-form-field> -->
-                        <!-- <mat-form-field (click)="fileInput.click()" class="attachFile" appearance="outline" *ngIf="!selectedFiles;" >
-                            <button class="attach-file" mat-icon-button  >
-                                 <mat-icon style="transform: rotate(90deg); margin-right:10px;">attach_file</mat-icon>Attach Screenshot
-                             </button>
-                             <input matInput readonly  autocomplete="off" required >
-                             <input hidden (change)="selectFile($event)" #fileInput type="file" id="file">
-                         </mat-form-field> -->
-                        <mat-form-field class="attchmentFile attchment" appearance="outline" (click)="fileInput.click()"
-                            style="cursor: pointer;"
+                        <mat-form-field class="attchmentFile attchment" appearance="outline" (click)="fileInput.click()" style="cursor: pointer;"
                             *ngIf="attachmentButton && queryForm.payment_subscription.attach_screenshot.is_allow==1">
-                            <button mat-icon-button style="color:#DEDEDE ;" type="button">
+                            <button mat-icon-button  style="color:#DEDEDE ;" type="button">
                                 <mat-icon>attach_file</mat-icon>
                                 {{queryForm.payment_subscription.attach_screenshot.placeholder}}
                             </button>
-                            <input matInput readonly autocomplete="off" required>
+                            <input matInput readonly autocomplete="off" required >
                             <input hidden (change)="selectFile($event)" #fileInput type="file" id="file"
-                                accept="image/*">
+                            accept="image/*">
                         </mat-form-field>
                         <span class="chooseHelpTOpic"
-                            *ngIf="fileData.length==0 && queryForm.payment_subscription.attach_screenshot.is_allow==1">{{'Attachment' |translate}}
+                            *ngIf="fileData.length==0 && queryForm.payment_subscription.attach_screenshot.is_allow==1">Attachment
+                            should be lesser than
                             {{queryForm.payment_subscription.attach_screenshot.file_size}}MB</span>
                         <mat-form-field appearance="outline" *ngFor="let b of fileData;let i=index"
                             class="fileDataInput attchment mt-1">
-                            <input matInput readonly autocomplete="off" accept="image/*" required
-                                [placeholder]="b.name.length>=15?b.name.substr(0,15)+'...'+b.name.substr(-7):(b.name)">
+                            <input matInput readonly autocomplete="off" accept="image/*" required  [placeholder]="b.name.length>=15?b.name.substr(0,15)+'...'+b.name.substr(-7):(b.name)">
                             <button (click)="deleteFile(i)" class="close-btn" type="button">
-                                <mat-icon style="color:#ffffff; justify-content: center; margin-top:10px;">Close</mat-icon>
+                                <mat-icon
+                                    style="color:#ffffff; justify-content: center; margin-top:10px;">close</mat-icon>
                             </button>
                         </mat-form-field>
 
 
 
                         <mat-form-field appearance="outline"
-                            *ngIf="queryForm.payment_subscription.question.is_allow==1">
+                            *ngIf="queryForm.payment_subscription.question.is_allow==1" class="inputColor">
 
-                            <!-- <textarea class="write-texts" matInput
-                                [placeholder]="queryForm.payment_subscription.question.placeholder" 
-                                rows="3"
-                                [maxlength]="queryForm.payment_subscription.question.word_limit" [(ngModel)]="value"
-                                (ngModelChange)="valueChange(value)" formControlName="write_a_question"
-                                autocomplete="off" ></textarea> -->
                             <textarea class="write-texts" matInput
-                                 [attr.placeholder]="'Message' | translate" rows="3"
+                                [placeholder]="queryForm.payment_subscription.question.placeholder" rows="3"
                                 [maxlength]="queryForm.payment_subscription.question.word_limit" [(ngModel)]="value"
                                 (ngModelChange)="valueChange(value)" formControlName="write_a_question"
-                                autocomplete="off"></textarea>
+                                autocomplete="off" ></textarea>
                             <span
                                 class="remaning">{{remainingText}}/{{queryForm.payment_subscription.question.word_limit}}</span>
 
-                            <!-- <input matInput placeholder="Write a question "  formControlName="write_a_question" autocomplete="off" required> -->
-                            <!-- <mat-error
-                                *ngIf="(emailLoginForm.get('write_a_question')?.invalid && loginFormDir.submitted)">
-                                {{errorMsg.messageFAQWriteAQuestion}}
-                            </mat-error> -->
                         </mat-form-field>
                         <div *ngIf="fileData.length!=0 && queryForm?.payment_subscription?.disclaimer?.is_allow==1"
                             style="margin-top:8px;">
                             <p class="disclaimer">
-                                {{'Disclaimer' |translate}}-
+                                Disclaimer-
                             </p>
                             <p class="detailsDisclaimer">
                                 {{queryForm?.payment_subscription?.disclaimer?.text}}
@@ -161,29 +101,27 @@
                         </div>
 
                     </div>
-
-                    <div class="alt-m-2">
-                        <button type="submit" class="alt-btn-p alt-w-50">{{'submit' |translate}}</button>
-                    </div>
                 </form>
             </ng-container>
         </ng-container>
 
 
     </div>
-</div>
+</div> -->
 
 
-<ng-template #imageSizeALert>
+<!-- <ng-template #imageSizeALert>
     <div class="modal-container">
 
         <div fxLayout="column" fxLayoutGap="50px">
             <div class="parental-control-content">
-                <span class="img-logo">
-                    <img src="assets/svgs/altbalaji_logo.svg" alt="">
-                </span>
+                <span class="img-logo" *ngIf="queryForm.logo.is_allow==1">
+             
+                    <img [src]="queryForm.logo.web" alt="vive">
+             
+             </span>
                 <button (click)="imageSizeConfirmationclose()" class="close-btn">
-                    <mat-icon>Close</mat-icon>
+                    <img src="assets/arrows_icons/VectorClose.svg" alt="">
                 </button><br>
                 <div class="alt-login-img">
                     <img src="assets/svgs/info.svg" alt="">
@@ -191,22 +129,10 @@
 
                 <br>
                 <div class="logout-mdll">
-                    <p style="color:white;font-size:16px;font-weight: 600;">
-                        <!-- {{errorMsg.maxFilesizeAllowed}}  -->
-                         {{'max_file' |translate}}
-                    </p>
+                    <p style="color:white;font-size:16px;font-weight: 600;" *ngIf="!erroMsgHIdeINcode">{{errorMsg.maxFilesizeAllowed}} </p>
+                    <p style="color:white;font-size:16px;font-weight: 600;" *ngIf="erroMsgHIdeINcode">File format not supported</p>
 
                     <br>
-                    <!-- <div class="row">
-                     <div class="col-6">
-     
-                         <button type="button" class="btn-two" (click)=" removeWatchlistContent(-1)">Yes</button>
-                     </div>
-                     <div class="col-6">
-                         <button type="button" class="btn-one" (click)="watchListConfirmationclose()">No</button>
-                     </div>
-                  
-                 </div> -->
 
                 </div>
             </div>
@@ -214,4 +140,145 @@
 
         </div>
     </div>
-</ng-template>
+</ng-template> -->
+
+<!-- <ng-template #paymentModeALert>
+    <div class="modal-container">
+
+        <div fxLayout="column" fxLayoutGap="50px">
+            <div class="parental-control-content">
+                <span class="img-logo" *ngIf="queryForm.logo.is_allow==1">
+             
+                    <img [src]="queryForm.logo.web" alt="vive">
+             
+             </span>
+                <button (click)="screenShotConfirmationclose()" class="close-btn">
+                    <img src="assets/arrows_icons/VectorClose.svg" alt="">
+                </button>
+            </div>
+            <div class="row new-pay-ment" >
+                <div>
+
+                    <mat-form-field class="attchmentFile attchment-1" appearance="outline" (click)="fileInput.click()"
+                        style="cursor: pointer;"
+                        *ngIf="attachmentButton && queryForm.payment_subscription.attach_screenshot.is_allow==1">
+                        <button mat-icon-button style="color:#DEDEDE ;" type="button">
+                            <mat-icon>attach_file</mat-icon>
+                            {{queryForm.payment_subscription.attach_screenshot.placeholder}}
+                        </button>
+                        <input matInput readonly autocomplete="off" required>
+                        <input hidden (change)="selectScreenShot($event)" #fileInput type="file" id="file"
+                            accept="image/*">
+                    </mat-form-field>
+                </div>
+
+
+
+
+                <div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</ng-template> -->
+
+<div>
+    <div class="alt-login-img" *ngIf="queryForm.logo.is_allow==1">
+        <img [src]="queryForm.logo.web" alt="vive">
+    </div>
+
+    <button (click)="onNoClick()" class="close-btn">
+        <img src="assets/arrows_icons/VectorClose.svg" alt="close">
+    </button>
+
+    <h4 class="content_us title mb-3" *ngIf="queryForm.heading1.is_allow">{{queryForm.heading1.text}}</h4>
+    <h6 class="content mb-3" *ngIf="queryForm.payment_subscription.is_allow">{{queryForm.payment_subscription.text}}
+    </h6>
+
+    <ng-container>
+        <ng-container>
+            <form [formGroup]="emailLoginForm" #loginFormDir="ngForm" class="form-class" (ngSubmit)="onSubmit()">
+                <div class="alt-m-2 formField dataField  ">
+                    <div style="position: relative;">
+
+                        <input id="myText" *ngIf="!queryEmail" readonly placeholder="Email" formControlName="email"
+                            autocomplete="off" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required>
+
+                        <input id="myText" [(ngModel)]="queryEmail" *ngIf="queryEmail" readonly formControlName="email">
+                        <div class="verify">
+                            <mat-icon *ngIf="emailTick" aria-hidden="false" svgIcon="tick"></mat-icon>
+                            <button id="verify" *ngIf="this.queryEmail != ''  && !emailTick "
+                                (click)="otpForgot()">VERIFY</button>
+                            <a class="emailLink" *ngIf="this.queryEmail ==''" (click)="linkEmail()"
+                                style="border-bottom:1px solid var(--theme-secondary-color)">link email id</a>
+                        </div>
+                        <mat-error class="error-contact"
+                            *ngIf="(emailLoginForm.get('email')?.invalid && loginFormDir.submitted)">
+                            <!-- {{errorMsg?.messageSignupEmailError}} -->
+                            Please enter your email </mat-error>
+                    </div>
+                    <div class="mb-2" style="position: relative;">
+                        <!-- <ng-select formControlName="query_type" type="select" (change)="selectCodeChange($event)"
+                            [searchable]="false" [clearable]="false"
+                            class="custom" [placeholder]="queryForm.payment_subscription.query_dropdown.placeholder">
+                            <ng-option *ngFor="let item of queryForm.payment_subscription.query_dropdown.dropdown.values"
+                                [value]="item.text">{{item.text}}</ng-option>
+                        </ng-select> -->
+
+                        <div>
+                            <input id="myText" type="text" class="subject" formControlName="query_type"
+                                (change)="selectCodeChange($event)" class="custom" placeholder="Please Enter Subject">
+
+                        </div>
+
+                        <mat-error class="error-contact"
+                            *ngIf="(emailLoginForm.get('query_type')?.invalid && loginFormDir.submitted)">
+                            <!-- {{errorMsg?.messageFAQSelectQueryType}} -->
+                            Please enter your subject
+                        </mat-error>
+                    </div>
+
+
+
+
+                    <div appearance="outline" class="inputColor">
+
+                        <textarea class="write-texts" id="myText" placeholder="Describe Here" rows="3"
+                            [maxlength]="queryForm.payment_subscription.question.word_limit" [(ngModel)]="value"
+                            (ngModelChange)="valueChange(value)" formControlName="write_a_question"
+                            autocomplete="off"></textarea>
+                        <div class="remaning">{{remainingText}}/{{queryForm.payment_subscription.question.word_limit}}
+                        </div>
+
+                        <mat-error class="error-contact"
+                            *ngIf="(emailLoginForm.get('write_a_question')?.invalid && loginFormDir.submitted)">
+                            <!-- {{errorMsg?.messageFAQSelectQueryType}} -->
+                            Please enter your description
+                        </mat-error>
+
+                    </div>
+                    <div *ngIf="fileData.length!=0 && queryForm?.payment_subscription?.disclaimer?.is_allow==1"
+                        style="margin-top:8px;">
+                        <p class="disclaimer">
+                            Disclaimer-
+                        </p>
+                        <p class="detailsDisclaimer">
+                            {{queryForm?.payment_subscription?.disclaimer?.text}}
+                        </p>
+                    </div>
+
+                    <button type="submit" class="theme-btn" style="margin-top: 10px;">Submit</button>
+
+                </div>
+            </form>
+        </ng-container>
+    </ng-container>
+
+
+</div>

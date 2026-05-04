@@ -16,7 +16,7 @@ export class SeoService {
     ) { }
 
     updateMetaInfo(content: any) {
-        this.meta.updateTag({ name: 'description', content: 'The Art of Living Foundation- a humanitarian organisation devoted for betterment of society, brings smiles by yoga, meditation, Sudarshan Kriya &amp; life skills."' });
+        this.meta.updateTag({ name: 'description', content: content });
         // this.meta.updateTag({ name: 'author', content: author });
         // this.meta.updateTag({ name: 'keywords', content: category });
     }

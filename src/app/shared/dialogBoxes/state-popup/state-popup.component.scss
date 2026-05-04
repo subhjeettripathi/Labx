@@ -1,34 +1,12 @@
-.parental-control-content {
-    position: relative;
-    text-align: center;
 
-
-    .img-logo {
-        position: absolute;
-        top: -61px;
-        right: 147px;
-        width: 16%;
-        margin-bottom: 5px;
-    }
-
-}
 
 .adulttHeading {
     color: white;
     font-size: 18px;
-    font-family: "GothamBold" !important;
+    font-family: var(--theme-font-style) !important;
 }
 
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-}
+
 
 .btn-one {
     color: #fff !important;
@@ -66,31 +44,19 @@
 
 .resendOtp {
     color: #9B9B9B;
-    font-weight: 600;
     cursor: pointer;
     background-color: transparent;
     border: none;
 }
 
-.heading {
-    font-size: 16px;
-    color: #FFFFFF;
-    font-weight: 600;
-}
 
-.email_head {
-    font-size: 16px;
-    color: #DEDEDE;
-    font-weight: 600
-}
 
 .verify_submit {
-    width: 63%;
-    background-color: red;
+    width: 100%;
+    background-color: var(--theme-secondary-color);
     border: none;
     padding: 12px;
     color: white;
-    font-weight: 600;
     font-size: 19px;
     border-radius: 4px;
 }

@@ -65,7 +65,7 @@ class CustomVideoJsComponent {
           if (show) {
             player.dispose()
           } else {
-            console.log('Not showing current time');
+           
           }
       },
     });

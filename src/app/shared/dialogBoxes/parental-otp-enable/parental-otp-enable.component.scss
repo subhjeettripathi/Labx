@@ -1,49 +1,58 @@
-.close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
+.adulttHeading {
     color: white;
+    font-size: 18px;
+    font-family: var(--theme-font-style) !important;
 }
 
-.newList h3 {
-    color: white;
-    margin-top: 1.6rem;
-    text-align: center;
-    font-size: 1.5rem;
-    margin-bottom: 6%;
-}
-.playlist-name{
-    color: red;
-    font-size: 13px;
-}
-.newList button {
-    display: block;
-    width: 100%;
+.btn-one {
+    color: #fff !important;
+    background-color: none !important;
+    /* border-color: #858585 !important; */
+    border: 1px solid #858585;
+    padding: 13px;
     border-radius: 4px;
-    border: none;
-    background: rgba(255, 123, 49, 1);
     color: white;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 7px 0px;
-    margin-top: 15%;
-}
-
-.newList input {
+    background-color: transparent;
+    font-size: 19px;
     width: 100%;
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
-    border-bottom: 2px solid rgba(255, 123, 49, 1);
-    
 }
 
-.newList input:focus {
-    outline: none;
+.otpInput {
+    ::ng-deep .ng-otp-input-wrapper .otp-input:not(:last-child) {
+        margin-right: 16px !important;
+    }
+
+    // ::ng-deep .otp-input {
+    //     border: none !important;
+    //     outline: none !important;
+    //     font-size: 40px !important;
+    //     width: 55px !important;
+    //     // height: 85px !important;
+    //     background-color: #676767;
+    // }
+}
+
+.otpnumber {
+    color: #DEDEDE;
+    background-color: transparent;
+    border: none;
+}
+
+.resendOtp {
+    color: #9B9B9B;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+
+
+.verify_submit {
+    width: 100%;
+    background-color: var(--theme-secondary-color);
+    border: none;
+    padding: 12px;
+    color: white;
+    font-size: 19px;
+    border-radius: 4px;
 }

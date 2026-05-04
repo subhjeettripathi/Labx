@@ -1,12 +1,11 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
         <span class="img-logo" *ngIf="basesignin.viewing_restrictions.logo.is_allow == 1">
-            <img src="{{basesignin.viewing_restrictions.logo.web}}" alt="AOL">
+            <img src="{{basesignin.viewing_restrictions.logo.web}}" alt="vive" class="vive-img">
         </span>
 
         <button (click)="close()" class="close-btn">
-            <!-- <mat-icon>close</mat-icon> -->
-            <img src="assets/svgs/Vector.svg" alt="">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
         </button>
 
 
@@ -26,8 +25,8 @@
 
 
                     <ng-container *ngFor="let v of ageGrp;let i=index">
-                        <div style="text-align:start"> <input formControlName="gender"  (click)="title(v.title)"
-                                value="{{v.age_group}}" type="radio" id="{{i}}" >
+                        <div style="text-align:start"> <input formControlName="gender"  (click)="title(v.title,v.id)"
+                                value="{{v.age_group}}" type="radio" id="{{i}}" checked>
                             <label for="{{i}}" class="label-restrict">{{v.title}}</label><br>
                             
                         </div>

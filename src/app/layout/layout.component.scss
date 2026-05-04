@@ -11,17 +11,22 @@ main {
     z-index: 1000;
     top: 0;
     width: 100%;
-    // background: linear-gradient(to bottom, #1E1E1E 0, rgba(0, 0, 0, 0) 100%);
-    background:  linear-gradient(180deg, #100E22 15.72%, rgba(16, 14, 34, 0) 90.77%);
+    background:  linear-gradient(180deg,#0F0F0F 15.72%, rgba(16, 14, 34, 0) 90.77%);
     transition: all ease-out 1s;
 }
 
 
 
-.active-nav {
-    // background-color: #000;
-    background: #100E22;
-    // background:  linear-gradient(180deg, #100E22 15.72%, rgba(16, 14, 34, 0) 90.77%);
-    padding-left: 10px;
-    padding-right: 10px;
+// .active-nav {
+//     background: #474747;
+//     padding-left: 10px;
+//     padding-right: 10px;
+// }
+
+
+@media screen and (max-width:992px) {
+    
+    .header{
+        width: 100%;
+    }
 }

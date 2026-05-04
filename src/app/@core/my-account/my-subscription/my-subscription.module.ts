@@ -13,7 +13,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 @NgModule({
   declarations: [
-    
+  
   ],
   imports: [
     CommonModule,

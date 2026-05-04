@@ -1,30 +1,8 @@
 
 
-.parental-control-content {
-    position: relative;
-    text-align: center;
-  
- 
-    .img-logo{
-        position: absolute;
-        top: -61px;
-        right: 147px;
-        width: 16%;
-        margin-bottom: 5px;
-        }
- 
-}
-.adulttHeading{color: white;font-size: 18px;font-family: "GothamBold" !important;}
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: #B4B4B4;
-}
+
+.adulttHeading{color: white;font-size: 18px;font-family: var(--theme-font-style) !important;}
+
 .btn-one {
     color: #fff !important; 
     background-color: none !important;

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DataService } from 'src/app/services/data.service';
-
+import { SwalMsgService } from 'src/app/services/swal-msg.service';
 @Component({
   selector: 'app-clear-watching-consent',
   templateUrl: './clear-watching-consent.component.html',
@@ -10,7 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 export class ClearWatchingConsentComponent implements OnInit {
 
   @Output() sendValueToSetting = new EventEmitter<boolean>()
-  constructor(public dialogRef: MatDialogRef<ClearWatchingConsentComponent>,private ds:DataService) { }
+  constructor(public dialogRef: MatDialogRef<ClearWatchingConsentComponent>,private ds:DataService,private swal:SwalMsgService) { }
 
   basesignin:any = []
   // popupJson = JSON.parse(localStorage.getItem('popupJson') || '{}');
@@ -26,9 +26,9 @@ export class ClearWatchingConsentComponent implements OnInit {
     const popup: any = localStorage.getItem('allJsonPopupData');
     const dataPopup: any = JSON.parse(popup);
     this.basesignin=dataPopup.PopupList[0]
-    console.log(dataPopup.PopupList[0])
+  
     // this.ds.popupJson().subscribe((res: any) => {
-    //  console.log(res.PopupList[0]);
+  
     //  this.basesignin=res.PopupList[0]
     // })
   }

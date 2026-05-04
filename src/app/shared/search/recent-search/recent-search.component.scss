@@ -14,16 +14,6 @@
   position: relative;
 }
 
-.crown {
-  position: absolute;
-  top: 7%;
-  left: 6.4%;
-}
-.prime-icon {
-  top: 3%;
-  position: absolute;
-  left: 5%;
-}
 #searchDiv {
   cursor: pointer;
 }
@@ -31,51 +21,73 @@
 .noSearchResult {
   display: flex;
   justify-content: center;
-  text-align: center;
-  font-size: 20px;
-  font-family: "PoppinsBold";
-  align-items: center;
+  font-size: xx-large;
+  font-family: var(--theme-font-style);
   margin-top: 10%;
 }
 
-.icon-crown {
+.crown {
   position: absolute;
-  top: 3%;
-  left: 5%;
+  right: 8px;
+  top: 8px;
 }
 
-.icons_art{
-  position: absolute;
-  top: 3%;
-  right: 5%;
+.crown img {
+  width: 22px;
 }
-
 
 .free-icon {
   position: absolute;
-  top: 6%;
-  left: 1.5%;
+  right: 8px;
+  top: 8px;
 }
 
-.title_case {
-  font-size: 15px;
-  font-family: 'PoppinsRegular' !important;
-  font-weight: 600;
-  margin: 0;
-  margin-top: 10px;
-  word-wrap: break-word;
+
+// .free-icon img {
+//   width: 50px;
+// }
+
+.live-icon {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+}
+
+
+.live-icon img {
+  width: 50px;
+}
+
+.img-container{
+  position: relative;
 }
 
 @media screen and (max-width:992px) {
+  .free-icon img {
+    width: 35px !important;
+  }
 
-  .title_case {
-    font-size: 12px;
+  .crown img {
+    width: 15px !important;
   }
 
   .free-icon {
-    position: absolute !important;
-    top: 6px !important;
-    left: 0px !important;
-}
+    right: 7px !important;
+    top: 2px !important;
+  }
 
+  .live-icon img {
+    width: 35px !important;
+  }
+
+  .live-icon {
+    left: 7px !important;
+    top: 2px !important;
+  }
+
+  .crown {
+    right: 3px !important;
+    top: -2px !important;
+
+  }
 }

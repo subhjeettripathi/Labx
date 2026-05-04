@@ -23,7 +23,7 @@ export class CountryLockPopupComponent implements OnInit {
     const popup: any = localStorage.getItem('allJsonPopupData');
     const dataPopup: any = JSON.parse(popup);
     this.baseJson = dataPopup.PopupList[0]
-    console.log(dataPopup.PopupList[0])
+    
     //   this._dd.popupJson().subscribe((res: any) => {
     //  this.baseJson=res.PopupList[0]
     //   })

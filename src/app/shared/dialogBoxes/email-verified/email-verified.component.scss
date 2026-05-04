@@ -1,28 +1,6 @@
 
+.adulttHeading{color: white;font-size: 18px;font-family: var(--theme-font-style) !important;}
 
-.parental-control-content {
-    position: relative;
-    text-align: center;
-  
- 
-    .img-logo {
-        position: relative;
-        text-align: center;
-        top: -56px
-    }
- 
-}
-.adulttHeading{color: white;font-size: 18px;font-family: "GothamBold" !important;}
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-}
 .btn-one {
     color: #fff !important; 
     background-color: none !important;
@@ -38,5 +16,4 @@
 .deleteSuccess{
     color:#DEDEDE;font-size:18px;
     // margin-top: 17px;
-    font-weight: 600;
 }

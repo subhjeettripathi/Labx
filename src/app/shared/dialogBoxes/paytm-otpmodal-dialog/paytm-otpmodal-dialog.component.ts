@@ -12,15 +12,22 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { PaymentCheckoutService } from "src/app/services/payment-checkout.service";
 import { DataService } from "src/app/services/data.service";
 import { DecryptService } from "src/app/services/decrypt.service";
 import Swal from "sweetalert2";
+import { PaymentErrorDialogComponent } from "../payment-error-dialog/payment-error-dialog.component";
 declare var $: any;
 import { CheckoutService } from "paytm-blink-checkout-angular";
 import { Subscription } from "rxjs";
+import { LoaderService } from "src/app/shared/gatewayservice/loader.service";
 @Component({
   selector: "app-paytm-otpmodal-dialog",
   templateUrl: "./paytm-otpmodal-dialog.component.html",
@@ -33,15 +40,23 @@ export class PaytmOtpmodalDialogComponent implements OnInit {
   config = {
     allowNumbersOnly: true,
     length: 6,
-    isPasswordInput: true,
-    disableAutoFocus: false,
+    // isPasswordInput: true,
+    // disableAutoFocus: false,
     timer: 1,
-    placeholder: "",
+    // placeholder: "",
     inputStyles: {
-      width: "46px",
-      height: "46px",
+      'width': '45px',
+      'color': 'white',
+      'background-color': 'transparent',
+      'border-top': 'none',
+      'border-left': 'none',
+      'border-right': 'none',
+      'border-bottom': '2px solid #AAAAAA',
+      'outline': 'none',
+      'border-radius': '0px'
     },
   };
+  paymentErrorMessage:any;
   menuOn?: boolean;
   show: boolean = false;
   hide: boolean = true;
@@ -55,15 +70,18 @@ export class PaytmOtpmodalDialogComponent implements OnInit {
   @Output() sendValueToPaytmRecurring = new EventEmitter<any>();
   subs: any = Subscription;
   clicked = false;
+  USER_ACCOUNT_id:any
   constructor(
     public dialogRef: MatDialogRef<PaytmOtpmodalDialogComponent>,
+    public dialog: MatDialog,
     private router: Router,
     private readonly checkoutService: CheckoutService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _fb: FormBuilder,
     private checkout: PaymentCheckoutService,
     private DEC_SER: DecryptService,
-    private _DS: DataService
+    private _DS: DataService,
+    private loaderService: LoaderService,
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +92,18 @@ export class PaytmOtpmodalDialogComponent implements OnInit {
     // });
     // this.goToPaytmRecurringpage();
   }
+    ngAfterViewInit() {
+   
+  const otpInputs = document.querySelectorAll('.paytm-otp');
+  otpInputs.forEach((input: any) => {
+    input.setAttribute('type', 'text');
+    input.setAttribute('inputmode', 'numeric');
+    input.setAttribute('pattern', '[0-9]*');
+    input.setAttribute('autocomplete', 'one-time-code');
+    input.setAttribute('autocorrect', 'off');
+    input.setAttribute('autocapitalize', 'off');
+  });
+}
   onNoClick() {
     this.dialogRef.close();
   }
@@ -91,14 +121,20 @@ export class PaytmOtpmodalDialogComponent implements OnInit {
       formData.append("otp", this.otpInput.value);
       formData.append("order_id", this.mid.order_id);
       this.checkout.paytmOtpValidation(formData).subscribe((res) => {
-        if (res == "SUCCESS") {
+        if (res.code == 1) {
           this.clicked =true;
           this.goToPaytmRecurringpage();
           // this.sendValueToPaytmRecurring.emit(4)
         } else {
+          this.loaderService.hide();
           this.ngOtpInput.setValue('');
           this.hide = false;
         }
+      },(err) => {
+        this.loaderService.hide()
+        this.ngOtpInput.setValue('');
+          this.hide = false;
+        
       });
     } else {
       this.show = true;
@@ -135,17 +171,43 @@ export class PaytmOtpmodalDialogComponent implements OnInit {
       }
     );
  
-    this.subs = this.checkoutService.checkoutJsInstance$.subscribe((instance) =>
-      console.log(instance)
+    this.subs = this.checkoutService.checkoutJsInstance$.subscribe((instance) => {
+
+    }
+     
       
     );
     
   }
 
   notifyMerchantHandler = (eventType: any, data: any): void => {
+    this.loaderService.hide()
     this.dialogRef.close();
-    console.log("MERCHANT NOTIFY LOG", eventType, data);
+ 
+    if (eventType == 'FETCH_PAYMENT_OPTIONS_ERROR') {
+      this.paymentErrorMessage='Paytm is not responding... Internal server error!'
+      this.paymentErrorMsg();
+     
+    }else{
+      this.paymentErrorMessage='Your payment has been cancelled. Try again or complete the payment later.'
+      this.paymentErrorMsg(); 
+    }
   };
+  paymentErrorMsg() {
+    
+    this.dialogRef.close();
+    document.body.style.overflow = "hidden";
+    const dialogRef = this.dialog.open(PaymentErrorDialogComponent, {
+      backdropClass: "popupBackdropClass",
+      panelClass: "adultAgePopup",
+      width: "390px",
+      data: {paytmDetails: this.paymentErrorMessage },
+    });
+ 
+    dialogRef.afterClosed().subscribe((result:any) => {
+      document.body.style.overflow = "auto";
+    });
+  }
 
   ngOnDestroy(): void {
     if (this.subs) {

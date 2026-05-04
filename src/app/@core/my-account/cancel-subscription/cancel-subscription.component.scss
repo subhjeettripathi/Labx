@@ -1,0 +1,38 @@
+.cancel-text{
+    font-size: 15px;
+    font-family: var(--theme-font-style);
+    font-weight: 700;
+    color: var(--white);
+    padding-bottom: 10px;
+}
+
+
+.btn-one-1 {
+    color: var(--white)!important;
+    background-color: none!important;
+    border: 1px solid var(--theme-secondary-color);
+    padding: 12px;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 14px;
+    background-color: var(--theme-secondary-color);
+    font-family: var(--theme-font-style) !important;
+}
+
+.btn-two-2 {
+    color: #fff !important;
+    background-color: none!important;
+    border: var(--theme-popup-border);
+    padding: 12px;
+    border-radius: 4px;
+    // font-weight: 600;
+    font-size: 14px;
+    width: 100%;
+    letter-spacing: 1px;
+    background-color: transparent;
+    font-family: var(--theme-font-style) !important;
+}
+
+.d-flexi{
+    gap: 12px;
+}

@@ -4,12 +4,8 @@
     </div>
 </section> -->
 
-
 <div class="container terms-container">
-    <span class="arrow-back">
-        <img src="assets/svgs/Vector (4).png" (click)="back()"
-            alt="AOL">
-     </span>
-     
-    <div [innerHTML]="this.terms" class="text-justify"></div>
+    <h1 (click)="back()" class="font-36 mb-0 pb-4"><img src="assets/svgs/Vector-back.svg" width="30px" style="cursor: pointer;"
+        alt="abc"> &nbsp; Term of Use </h1>
+    <div [innerHTML]=this.terms class="text-justify privacy-para"></div>
 </div>

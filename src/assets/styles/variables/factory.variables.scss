@@ -1,12 +1,15 @@
-$margins:(
+// $bg-min-height: 60vh;
+
+$margins: (
     0:0,
     1: 2px,
     2: 4px,
     3: 8px,
     4: 16px,
-    5: 32px,
+    5: 40px,
+    6:50px
 );
-$paddings:(
+$paddings: (
     0:0px,
     1: 2px,
     2: 4px,
@@ -15,15 +18,15 @@ $paddings:(
     5: 24px,
     6: 32px,
 );
-$fontSizes:(
+$fontSizes: (
     14: .875rem,
     16: 1rem,
     20: 1.25rem,
     24: 1.5rem,
     28: 1.75rem,
-    36: 2.25rem,
+    36: 1.75rem,
 );
-$fontWeights:(
+$fontWeights: (
     100:100,
     200:200,
     300:300,
@@ -32,4 +35,6 @@ $fontWeights:(
     600:600,
     700:700,
     800:800,
-)
+    );
+// $heights: (
+//     1:75px)

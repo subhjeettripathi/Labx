@@ -1,27 +1,26 @@
 <div class="alt-login-content">
     <div class="alt-login-img" *ngIf="baseLine.emailVerifySuccess.logo.is_allow == 1">
-        <img src="{{baseLine.emailVerifySuccess.logo.web}}" alt="AOL">
+        <img src="{{baseLine.emailVerifySuccess.logo.web}}" alt="vive" class="vive-img">
     </div>
-    <h3 class="text-white verifyEmail " *ngIf="baseLine.emailVerifySuccess.heading.is_allow == 1">{{'verify_your_emailID' |translate}}</h3>
+    <h3 class="text-white verifyEmail " *ngIf="baseLine.emailVerifySuccess.heading.is_allow == 1">{{baseLine.emailVerifySuccess.heading.text}}</h3>
     <hr>
     <button (click)="onNoClick()" class="close-btn">
-        <!-- <mat-icon>close</mat-icon> -->
-        <img src="assets/svgs/Vector.svg" alt="closeButton">
+        <img src="assets/arrows_icons/VectorClose.svg" alt="">
     </button>
    
    
 <div class="">
     <div class="correct-img" *ngIf="baseLine.emailVerifySuccess.success_icon.is_allow == 1">
-        <img src="{{baseLine.emailVerifySuccess.success_icon.icon}}" alt="AOL">
+        <img src="{{baseLine.emailVerifySuccess.success_icon.icon}}" alt="vive" class="vive-img">
     </div>
 <div>
-    <p class="verificationCOde" *ngIf="baseLine.emailVerifySuccess.description.is_allow == 1">{{'Email_Verified' |translate}} </p>
+    <p class="verificationCOde " *ngIf="baseLine.emailVerifySuccess.description.is_allow == 1">{{baseLine.emailVerifySuccess.description.text}} </p>
 </div>
 <!-- <div class="alt-m-2 mb-3">
     <button type="submit" class="alt-btn-p alt-w-100" (click)="gotoCreatePassword()">Create New Password</button>
 </div> -->
-<div class="create-aol-btn" *ngIf="baseLine.emailVerifySuccess.submit_btn.is_allow == 1">
-            <button  (click)="gotoCreatePassword()" type="submit" class="aol-btn-p">{{'Create_password' |translate}} </button>
+<div class="create-new-btn" *ngIf="baseLine.emailVerifySuccess.submit_btn.is_allow == 1">
+            <button  (click)="gotoCreatePassword()" type="submit" class="alt-btn-p ">{{baseLine.emailVerifySuccess.submit_btn.text}} </button>
         </div>
 </div>
 

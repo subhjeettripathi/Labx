@@ -1,54 +1,51 @@
 <div fxLayout="column" fxLayoutGap="10px">
-
     <div class="parental-control-content">
         <span class="img-logo" *ngIf="baseJson.deviceRestriction.logo.is_allow == 1">
-            <img src="assets/svgs/aol.png" alt="">
+            <img src="{{baseJson.deviceRestriction.logo.web}}" alt="" class="vive-img">
         </span>
 
-        <br><br>
-    
+        <!-- <button (click)="close()" class="close-btn">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </button> -->
+        <div class="alt-login-img" *ngIf="baseJson.deviceRestriction.warning_icon.is_allow == 1">
+            <img src="{{baseJson.deviceRestriction.warning_icon.web}}" alt="">
+        </div>
+        <br>
 
 
 
-        <p style="font-size:15px;color: #DEDEDE;font-weight: 600;"
-            *ngIf="baseJson.deviceRestriction.description.is_allow == 1">
-            {{'deviceRestrictiontext'|translate}}
+        <p style="font-size:14px;color: #DEDEDE;" *ngIf="baseJson.deviceRestriction.description.is_allow == 1">
+            {{baseJson.deviceRestriction.description.text}}
             <br>
-           <span style="color: #6c6c6c;">
-            <!-- Your current plan supports (key added to translation service) -->
-             {{'plan_supports' |translate}}
-            {{limit}}
-             <!-- Devices only {key added to translation service} -->
-  {{'Devices_only'|translate}}
-            </span> 
+            <span style="color: #6c6c6c;">Your current plan supports {{limit}} Devices only</span>
         </p>
 
+
         <div class="devices">
-           <div style="color: #fff;"> {{'log_out_1_device_to_continue'|translate}}</div>
+            <!-- <div style="color: #fff;"> Log Out 1 Device to Continue</div> -->
             <div class="devices-loop" *ngFor="let x of devices">
                 <div class="devices-list">
                     <div class="device-details">
                         <div class="devices-name">
-                            {{x.make_model}} {{x.device_type}}
-                         </div>
-                         <div class="device-time">
-                             {{'Last_used'|translate}} : {{x.created | date:"d-MMM-y , h:mm a"}}
-                         </div>
+                            {{x.make_model}} {{x.device_type}} {{x.os}}
+                        </div>
+                        <div class="device-time">
+                            Last used : {{x.created | date:"d-MMM-y , h:mm a"}}
+                        </div>
                     </div>
-                    
-                    <button class="log-btn" (click)="clearDevices(x)">{{'logout' |translate}}</button>
+
+                    <button class="log-btn" (click)="clearDevices(x)">Logout</button>
                 </div>
-          
+
             </div>
-         
+
         </div>
         <div class="clear-btn">
-            <button (click)="clearDevices('all')">{{'clear_all' |translate}}</button>
+            <button (click)="clearDevices('all')">Clear All</button>
         </div>
         <div class="cancel-btn">
-            <button (click)="close()">{{'cancel' |translate}}</button>
+            <button (click)="close()">Cancel</button>
         </div>
-       
 
 
     </div>

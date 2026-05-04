@@ -15,7 +15,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutModule } from 'paytm-blink-checkout-angular';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { TranslatePipe13 } from 'src/app/services/pipes/translate.pipe';
 declare global {
   interface Window {
     Paytm?: any;
@@ -25,8 +24,7 @@ declare global {
 @NgModule({
   declarations: [
     PaymentpackComponent,
-    FilterPipe,
-    TranslatePipe13
+    FilterPipe
   ],
   imports: [
     CommonModule,

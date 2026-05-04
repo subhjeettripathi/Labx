@@ -36,7 +36,7 @@ export class NotesComponent extends Button {
         const notesSaveBtn = notesWrapper.addChild('NotesSaveBtnComponent');
         notesSaveBtn.on('click', () => {
             const note = notesInput.state.note;
-            console.log(note, 'note');
+          
             // Do something here to save the note.
         })
     }

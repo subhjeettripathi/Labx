@@ -15,8 +15,9 @@ export class RegionalComponent implements OnInit {
   englishShow = false;
   hindiShow = false;
   subtitle: any;
-  selected: any;
+  selected:any;
   baseJson: any = []
+  usertype:any
   @Output() regionalSet = new EventEmitter<any>();
   constructor(
     private ds: DataService,
@@ -33,24 +34,27 @@ export class RegionalComponent implements OnInit {
       this.DEC_SER.getDecryptedData(res?.result);
       let decryptData = JSON.parse(this.DEC_SER.decryptData);
       const sendTosett = decryptData;
-      console.log(sendTosett);
-      
+
+      if(sendTosett.payload ==null){
+        this.selected = 'None'
+      }else{
       if (sendTosett.payload != null && sendTosett.payload.language_key != null) {
         this.selected = sendTosett.payload.language_key;
       }
+    }
     });
   }
 
   getConfig() {
     // this._dd.faqData().subscribe((res: any) => {
     //   this.data = res.language;
-    //   console.log(this.data);
+    
     this.ds.popupJson().subscribe((res: any) => {
       this.data = res.PopupList[0].language.languages
-      console.log(this.data, 'sdfghjki');
+     
 
       this.baseJson = res.PopupList[0]
-      console.log(this.baseJson)
+     
       for (let i in this.data) {
         if (this.data[i].name == "None") {
           this.data[i].is_allow = 1;
@@ -59,7 +63,7 @@ export class RegionalComponent implements OnInit {
         }
         if(this.data[i].is_allow==1){
           this.mains.push(this.data[i])
-          console.log(this.mains);
+        
           
         }
       }
@@ -69,6 +73,14 @@ export class RegionalComponent implements OnInit {
   }
   subtitleSet(selecte: any) {
     this.selected = selecte;
+    // this.ds.getSubtitle(ids.id).subscribe((res: any) => {
+    //   this.DEC_SER.getDecryptedData(res?.result);
+    //   let decryptData = JSON.parse(this.DEC_SER.decryptData);
+    //   const sendTosett = decryptData;
+    //   if (sendTosett.payload != null && sendTosett.payload.language_key != null) {
+    //     this.selected = sendTosett.payload.language_key;
+    //   } 
+    // });
     var u_id: any = localStorage.getItem("taploginInfo");
     var ids = JSON.parse(u_id);
     this.ds.getSubtitle(ids.id).subscribe((res: any) => {
@@ -76,9 +88,10 @@ export class RegionalComponent implements OnInit {
       this.DEC_SER.getDecryptedData(res?.result);
       let decryptData = JSON.parse(this.DEC_SER.decryptData);
       const sendTosett = decryptData;
-      // console.log(sendTosett);
+    
       if (sendTosett.payload != null && sendTosett.payload.subtitle != null) {
         this.subtitle = sendTosett.payload.subtitle;
+       
       } else {
         this.subtitle = "None";
       }
@@ -98,17 +111,29 @@ export class RegionalComponent implements OnInit {
 
       this.ds.subtitleSet(formData).subscribe((res: any) => {
         if (res.code == 1) {
-
+        
+            const is_subscriber: any = localStorage.getItem("is_subscriber")
+            if (is_subscriber == '0') {
+              this.usertype = "Registered";
+            } else {
+              this.usertype = "Subscribed";
+            }
+           
           if (payload.language_key == "None") {
             localStorage.removeItem("regional");
+          
+    
           } else {
+  
             localStorage.setItem("regional", payload.language_key);
           }
 
           this.regionalSet.emit(payload.language_key);
+
         }
       });
     });
+   
   }
   close() {
     this.dialogRef.close();

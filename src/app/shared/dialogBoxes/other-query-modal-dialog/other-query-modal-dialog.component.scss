@@ -1,24 +1,4 @@
-.alt-login-content {
-    position: relative;
-    text-align: center;
 
-   
-
-    .alt-login-img {
-        position: relative;
-        margin-bottom: 56px;
-        display: none;
-       
-    }
-    .alt-login-img-1{
-        position: relative;
-        top: -56px;
-        display: block;
-    }
-    .alt-login-img img{
-       width: 18%;
-    }
-}
 .alt-btn-p{
     background: #FB0000 0% 0% no-repeat padding-box !important;
     border-radius: 4px !important;
@@ -41,23 +21,7 @@ span {
     width:100%;
 }
 
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    transition: .1s;
-    color: white;
-   
-    &:hover {
-        transform: scale(1.1);
-        transition: .1s;
 
-    }
-}
 .close_btn {
     color: #B4B4B4;
     cursor: pointer;
@@ -86,7 +50,7 @@ span {
     font-size: 20px;
     text-transform: uppercase;
     color: #fff;
-    margin-top: -40px;
+    margin-top: 20px;
 }
 .content{
     color: #B4B4B4;
@@ -104,7 +68,7 @@ span {
 .chooseHelpTOpic{
     color: #B4B4B4 !important;
     font-size: 10px !important;
-    font-family: 'GothamMedium' !important;
+    font-family: var(--theme-font-style) !important;
     letter-spacing: 0px !important;
     text-align:left;
     display: flex;
@@ -123,7 +87,7 @@ span {
 .disclaimer{
     color: #FFFFFF !important;
     font-size: 13px !important;
-    font-family: 'GothamMedium' !important;
+    font-family: var(--theme-font-style) !important;
     letter-spacing: 0px !important;
     text-align:left;
     display: flex;
@@ -133,7 +97,7 @@ span {
 .detailsDisclaimer{
     color:#FFFFFF !important;
     font-size: 12px !important;
-    font-family: 'GothamMedium' !important;
+    font-family: var(--theme-font-style) !important;
     letter-spacing: 0px !important;
     text-align:left;
     display: flex;
@@ -189,6 +153,11 @@ span {
     position:relative;
     padding-bottom:3px;
  }
+
+
+ .inputColor ::ng-deep .mat-input-element{
+    caret-color: white !important;
+ }
  .remaning {
  position:absolute;
  right: -8px;
@@ -207,6 +176,7 @@ span {
   .ng-select.ng-select-single ::ng-deep .ng-select-container {
     height:50px;
     cursor: pointer !important;
+    
   }
 .ng-select.custom ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
     background-color:#2D2D2D !important;
@@ -236,7 +206,7 @@ span {
     box-shadow:none !important
 }
 .ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
-    color:white;
+    color:white !important;
 }
 //  ::ng-deep .ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
 //     border-color:red !important;
@@ -293,7 +263,7 @@ span {
 
   
 
-//   alert popupmsg
+
 .parental-control-content {
    
     position: relative;
@@ -308,17 +278,6 @@ span {
  
 }
 
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-
-}
   @media only screen and (max-width: 992px) {
     .reqSelect {
         left: 23% !important;

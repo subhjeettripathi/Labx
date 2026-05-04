@@ -1,0 +1,133 @@
+.offers-head {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.offers-head h1 {
+    margin: 0;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.scarch-card {
+    background: #2b2b2b;
+    border-radius: 26px;
+    position: relative;
+}
+// .scarch-card img {
+//     border-radius: 24px;
+// }
+
+.details-cards {
+    padding: 20px 35px 30px;
+}
+
+.d-head {
+    letter-spacing: 0.76px;
+    color: #F2F2F2;
+    font-size: 16px;
+    font-family: var(--theme-font-style) !important;
+    margin-bottom: 10px;
+}
+
+.hash {
+    letter-spacing: 0px;
+    color: #F2F2F2;
+    font-size: 14px;
+    font-family: var(--theme-font-style) !important;
+    margin-bottom: 8px;
+}
+
+.para-d p {
+    letter-spacing: 0px;
+    color: #F2F2F2;
+    opacity: 0.9;
+    font-family: var(--theme-font-style) !important;
+    font-size: 13px;
+}
+
+.d-card-btn button {
+    border: 1px solid rgb(255, 255, 255, 0.39);
+    border-radius: 8px;
+    background: transparent;
+    width: 100%;
+    color: #F2F2F2;
+    font-size: 14px;
+    font-family: var(--theme-font-style) !important;
+    font-weight: 500;
+    padding: 15px;
+}
+
+.d-card-btn button:hover {
+    background-color: #FB0000;
+}
+
+.percentage {
+    color: #F2F2F2;
+    font-size: 24px;
+    transform: rotate(45deg);
+    font-family: var(--theme-font-style);
+}
+
+
+.dis-card{
+    background: #C038F6;
+    /* padding: 20px; */
+    display: inline-block;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1607843137);
+    border-radius: 10px;
+    rotate: -50grad;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -11%;
+    right: 16%;
+}
+
+.para-d{
+    overflow-y: scroll;
+    height: 14vh;
+    margin-bottom: 18px;
+}
+
+/* width */
+.para-d::-webkit-scrollbar {
+    width: 3px !important;
+    height: 5px !important;
+  }
+  
+  /* Track */
+  .para-d::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+  
+  /* Handle */
+  .para-d::-webkit-scrollbar-thumb {
+    background: #888 !important;
+  }
+  
+  /* Handle on hover */
+  .para-d::-webkit-scrollbar-thumb:hover {
+    background: #555 !important;
+  }
+   
+  @media only screen and (max-width: 992px) {
+    .dis-card {
+        width: 40px;
+        height: 40px;
+        top:-30px;
+  }
+  .percentage {
+     font-size:15px;
+   
+}
+
+}

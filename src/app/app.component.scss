@@ -4,3 +4,51 @@
     --headerPositionRelative:'relative';
     --headerPositionFixed:'fixed';
   }
+  .subscontainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999999;
+    width: 100%;
+    background: var(--theme-color);
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+}
+
+.subscontain h4 {
+    margin: 0;
+}
+
+.subscontain p {
+    font-size: 17px;
+    color: var(--bs-white);
+    font-weight: 700;
+    position: relative;
+    top: 8px;
+}
+
+.subscontain img {
+    width: 39px;
+    height: 37px;
+    margin: 5px;
+}
+
+.subsflex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subscontain {
+    margin: auto;
+}
+
+.closeicon {
+    font-size: 30px;
+}
+
+.crossImg img {
+    cursor: pointer;
+}

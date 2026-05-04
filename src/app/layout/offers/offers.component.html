@@ -1,0 +1,40 @@
+<div class="sec-top">
+    <div class="offers-head">
+        <!-- <img src="assets/svgs/Vector-back.svg" style="cursor: pointer;" class="arr-icon" alt="vive" aria-hidden="false"
+            class="f-size"> -->
+        <h1 *ngIf="offers?.is_allow==1">
+           {{offers.name}}
+        </h1>
+    </div>
+    <div class="cards row">
+        <div class="col-lg-4 px-5 mt-5 mb-4" *ngFor="let offers of offers?.available_offers">
+            <div class="scarch-card" *ngIf="offers.device_allow.web==1 && offers?.is_allow==1">
+                <img src="{{offers.url}}" alt="" width="100%">
+                <div class="details-cards">
+                    <div class="d-head">
+                       {{offers.offer_coupon_code}}
+                    </div>
+                    <!-- <div class="hash">
+                        * Valid on yearly pack only.
+                    </div> -->
+                    <div class="para-d" [innerHTML]="offers.offer_desc">
+                        
+                    </div>
+                    <div class="d-card-btn">
+                        <button (click)="gotoSubscribe(offers)">{{offers.text}}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="dis-card" *ngIf="offers.device_allow.web==1 && offers?.is_allow==1">
+                <div class="percentage">
+                   {{offers.offers_percentage}}
+                </div>
+            </div>
+        </div>
+    
+
+
+
+
+    </div>
+</div>

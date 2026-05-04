@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
@@ -8,8 +8,6 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { FingerPrintService } from 'src/app/services/finger-print.service';
 import { FunctionCallingService } from 'src/app/services/function-calling.service';
 import { ForgotPasswordDialogComponent } from '../forgot-password-dialog/forgot-password-dialog.component';
-import { OtpDialogComponent } from '../otp-dialog/otp-dialog.component';
-import { DecryptService } from 'src/app/services/decrypt.service';
 
 @Component({
   selector: 'app-parental-create-pin-check',
@@ -18,21 +16,14 @@ import { DecryptService } from 'src/app/services/decrypt.service';
 })
 export class ParentalCreatePinCheckComponent implements OnInit {
   otpForm!: FormGroup
-  visitorId: any;
   msg: boolean | undefined;
   showpassword1 = false;
   basesignin: any = [];
-  emailexsist: boolean = false;
-  typesLogin: any
-  errorMsg: any;
-  errorAlertData: any;
-  otpSecret: any
-  openOtpModal:boolean = false
-  constructor(public dialogRef: MatDialogRef<DeleteAccountPopupComponent>, private ds: DataService, private fs: FunctionCallingService, private _FPS: FingerPrintService, private _fb: FormBuilder, private auth: AuthService, private deviceService: DeviceDetectorService, public dialog: MatDialog, private DECS:DecryptService) { }
+  constructor(public dialogRef: MatDialogRef<DeleteAccountPopupComponent>, private ds: DataService, private fs: FunctionCallingService, private _FPS: FingerPrintService, private _fb: FormBuilder, private auth: AuthService, private deviceService: DeviceDetectorService, public dialog: MatDialog) { }
   loginId = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
   @Output() emailVerifiedParental = new EventEmitter<any>()
-  @Input() email: string = "";
   showpass = false;
+    visitorId: any=localStorage.getItem('device_id')
   ngOnInit(): void {
     this.getConfigData()
 
@@ -40,50 +31,33 @@ export class ParentalCreatePinCheckComponent implements OnInit {
       email: [null]
     });
 
-    this._FPS.getFingerPrintDeviceId();
-    this._FPS.visitorId.subscribe(r => this.visitorId = r);
-    this.typesLogin = 'email'
-
-    this.errorAlertData = localStorage.getItem('errorMsg')
-    this.errorMsg = JSON.parse(this.errorAlertData)
-
-    function makeid(length: any) {
-      let result = '';
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-      const charactersLength = characters.length;
-      let counter = 0;
-      while (counter < length) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-      }
-      return result;
-    }
-    var gettoken = btoa(this.errorMsg.otpExpiryTime);
-
-    this.otpSecret = makeid(4) + gettoken
   }
   getConfigData() {
-    // 
+   
     // const popupdata: any = JSON.parse(localStorage.getItem("allJsonPopupData") || {};
-    // console.log(popupdata)
+  
     const popup: any = localStorage.getItem('allJsonPopupData');
     const dataPopup: any = JSON.parse(popup);
-    console.log(dataPopup.PopupList[0])
+    
     this.basesignin=dataPopup.PopupList[0]
     // this.ds.popupJson().subscribe((res: any) => {
-    //   console.log(res);
+ 
     //   this.basesignin = res.PopupList[0]
-    //   console.log(res.PopupList[0]);
+   
     // })
   }
   close() {
     this.dialogRef.close();
+    // this.checked1.emit(true)
+
   }
   forgotPassword() {
+    //  this.dialogRef.close();
+
     const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
       panelClass: 'forgotPassword',
-      disableClose: true,
       width: "450px",
+      // height: "524px",
       data: { name: this.loginId.email }
     });
   }
@@ -94,47 +68,42 @@ export class ParentalCreatePinCheckComponent implements OnInit {
     this.showpassword1 = !this.showpassword1;
     input1.type = this.showpassword1 ? 'text' : 'password';
   }
-
-  onKeydown(event:any) {
-    this.emailexsist = false;
-  }
-
   submitOtplogin() {
-    var loginInfo = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
-    loginInfo.email = this.otpForm.value.email
-    this.loginId.email = this.otpForm.value.email
-    this.email = this.otpForm.value.email
-    localStorage.setItem('taploginInfo', JSON.stringify(loginInfo));
-    let ip: any = localStorage.getItem("ipSaveData")
-    if(loginInfo.email.length != 0) {
-      const formData = new FormData();
-      formData.append('email', loginInfo.email);
-      this.auth.OttcheckUserExisted(formData).subscribe((res:any) => {
-        console.log(res, "lookup");
-        if(res.code == 1) {
-          this.emailexsist = true;
-        } else {
-          if(loginInfo.email.length != 0) {
-            
-            // localStorage.setItem('ott_otp_userid', this.loginId.id);
-            const formData: any = new FormData();
-            formData.append("mode", 'verification');
-            formData.append("type", 'mail');
-            formData.append("value", loginInfo.email);
-            formData.append("device", 'web');
-            formData.append('payload', this.otpSecret);
-            formData.append("c_id", this.loginId.id);
-            this.auth.generateOtp(formData).subscribe((res: any) => {
-              this.DECS.getDecryptedData(res?.result);
-              let decryptData = JSON.parse(this.DECS.decryptData);
-              console.log(decryptData, 'otpppppppppp');
-            });
-            this.openOtpModal = true
-           
-          }
+    const device_other_detail = {
+      os_version: this.deviceDetection.os_version,
+      app_version: "v2_1",
+      network_type: "others",
+      network_provider: "others"
+    }
+    const devicedetail = {
+      make_model: this.deviceService.browser,
+      os: this.deviceDetection.os,
+      screen_resolution: window.innerWidth + '*' + window.innerHeight,
+      push_device_token: "others",
+      device_type: 'web',
+      platform: this.deviceDetection.deviceType,
+      device_unique_id: this.visitorId,
+      onesignal_device_id: "fs95345jfddf",
+    }
+
+    if (this.otpForm.valid) {
+      const formData: any = new FormData();
+      formData.append('email', this.loginId.email);
+      formData.append('password', this.otpForm.value.email);
+      // formData.append('device_other_detail', JSON.stringify(device_other_detail));
+      // formData.append('devicedetail', JSON.stringify(devicedetail));
+      // formData.append('device', "web");
+      this.auth.ottLogin1(formData).subscribe((res: any) => {
+      
+        if (res.code == 1) {
+          this.emailVerifiedParental.emit(true)
+          // this.fs.parentalCreateSubmit.next(true)
+          this.dialogRef.close()
+        }
+        else {
+          this.msg = true
         }
       })
     }
-  
   }
 }

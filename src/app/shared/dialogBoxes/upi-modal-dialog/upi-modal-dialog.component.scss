@@ -1,15 +1,4 @@
-.alt-login-content {
-    position: relative;
-    text-align: center;
 
-    .alt-login-img {
-        position: relative;
-        top: -56px
-    }
-    .alt-login-img img {
-        width: 20%;
-      }
-}
 
 
 .cancel{
@@ -34,8 +23,12 @@ mat-form-field {
 //   }
 
 .alt-btn-p {
-    height: 45px !important;
-    padding: 5px !important; 
-    background-color: #b51131 !important;
-    border:  #b51131 !important;
+  color: var(--white) !important;
+  background-color: none !important;
+  border: 1px solid var(--theme-secondary-color);
+  border-radius: 4px;
+  width: 100%;
+  font-size: 16px;
+  background-color: var(--theme-secondary-color);
+  font-family: var(--theme-font-style) !important;
 }

@@ -1,5 +1,5 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
@@ -8,7 +8,7 @@ import { FingerPrintService } from 'src/app/services/finger-print.service';
 import { FunctionCallingService } from 'src/app/services/function-calling.service';
 import Swal from 'sweetalert2';
 import { PasswordCreateSuccessDialogComponent } from '../password-create-success-dialog/password-create-success-dialog.component';
-import { AnalyticsService } from 'src/app/services/analytics.service';
+import { ExchangeDataService } from 'src/app/services/exchange-data.service';
 declare var $: any;
 @Component({
   selector: 'app-create-new-password-dialog',
@@ -17,66 +17,41 @@ declare var $: any;
 })
 export class CreateNewPasswordDialogComponent implements OnInit {
   emailLoginForm!: FormGroup;
-  visitorId: any;
   userId: any;
   error: any
   showpassword = false;
   showpassword1 = false;
   strongPassword = false;
   submitted = false;
-  @ViewChild('input') inputEl!: ElementRef;
   errorMsg: any;
   errorAlertData: any;
-  userIdPassword: any
-  idUser: any
   invalidCode: boolean = false;
-  msgErrorADD: boolean = false
-  msgError: any
   password_policy: any
-  @ViewChild('emailLoginForm') emailLoginFormDir!: NgForm;
-  constructor(public dialogRef: MatDialogRef<CreateNewPasswordDialogComponent>, private ds: DataService,private analyticsService:AnalyticsService,
-    @Inject(MAT_DIALOG_DATA) public data: any, private _fb: FormBuilder, private auth: AuthService, private DEC_SER: DecryptService, private _FPS: FingerPrintService, public dialog: MatDialog, private fcs: FunctionCallingService) { }
+  loading = false;
+  constructor(public dialogRef: MatDialogRef<CreateNewPasswordDialogComponent>, private ds: DataService,
+    @Inject(MAT_DIALOG_DATA) public data: any, private _fb: FormBuilder, private auth: AuthService, private DEC_SER: DecryptService, private _FPS: FingerPrintService, public dialog: MatDialog, private fcs: FunctionCallingService, private ed: ExchangeDataService) { }
   baseJson: any = []
   ngOnInit(): void {
     this.errorAlertData = localStorage.getItem('errorMsg')
-    this.errorMsg = JSON.parse(this.errorAlertData);
-    console.log(this.errorMsg,"bbbbbbbb");
+    this.errorMsg = JSON.parse(this.errorAlertData)
     this.getdeviceInfo();
-    console.log(this.data)
     this.userId = this.data.data
-    this.userIdPassword = this.data.name
-    this.idUser = this.data.data
 
-    this._FPS.getFingerPrintDeviceId();
-    this._FPS.visitorId.subscribe(r => this.visitorId = r);
     this.emailLoginForm = this._fb.group({
       password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
       confirm_password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
-      old_pwd: ['', this.getMobileValidators()],
+
 
     });
     this.getMainJSON();
     this.getJsonPopup()
-    const eventParams = {};
-    this.analyticsService.logEvent('change_pwd_interaction', eventParams);
-  }
-  ngAfterViewInit() {
-    this.inputEl.nativeElement.focus();
-  }
-  getMobileValidators() {
-    if (this.userIdPassword == 'changePassword') {
-      return Validators.compose([Validators.required])
-    }
-    else {
-      return null
-    }
   }
   getJsonPopup() {
     const popup: any = localStorage.getItem('allJsonPopupData');
     const dataPopup: any = JSON.parse(popup);
     this.data = dataPopup.PopupList[0].language.languages
     this.baseJson = dataPopup.PopupList[0]
-    console.log(dataPopup.PopupList[0])
+
     // this.ds.popupJson().subscribe((res: any) => {
     //   this.data =res.PopupList[0].language.languages
     //   this.baseJson=res.PopupList[0]
@@ -84,13 +59,11 @@ export class CreateNewPasswordDialogComponent implements OnInit {
   }
 
   getMainJSON() {
-    var res: any = localStorage.getItem('faqData')
-    res = JSON.parse(res)
-    // this.ds.faqData().subscribe((res: any) => {
-    this.password_policy = res.Others.password_policy
-    console.log(this.password_policy.rule);
+    this.ds.faqData().subscribe((res: any) => {
+      this.password_policy = res.Others.password_policy
 
-    //  })
+
+    })
   }
 
   onNoClick(): void {
@@ -134,10 +107,10 @@ export class CreateNewPasswordDialogComponent implements OnInit {
   }
   getdeviceInfo() {
     this.auth.deviceInfoGet(this.userId).subscribe((res: any) => {
-      console.log(res.result)
+
       this.DEC_SER.getDecryptedData(res.result);
       let DeviceInfo = JSON.parse(this.DEC_SER.decryptData);
-      console.log(DeviceInfo);
+
 
     })
 
@@ -149,13 +122,13 @@ export class CreateNewPasswordDialogComponent implements OnInit {
     } else {
 
     }
-    if (event !== '') {
-      this.msgErrorADD = false
-    }
   }
   gotoSuccessPassword() {
-    const eventParams = {};
-    this.analyticsService.logEvent('pwd_change', eventParams);
+    setTimeout(() => {
+      this.ed.pauseDetailVideo.next(true);
+      localStorage.setItem('videoCarousel', '1');
+
+    }, 200);
     this.dialogRef.close();
     const dialogRef = this.dialog.open(PasswordCreateSuccessDialogComponent, {
       backdropClass: 'popupBackdropClass',
@@ -166,59 +139,41 @@ export class CreateNewPasswordDialogComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-
+      if (localStorage.getItem('VideoAutoPlay') == '0') {
+        this.ed.pauseDetailVideo.next(false);
+      }
+      localStorage.setItem('videoCarousel', '0');
     });
   }
-  // if (this.userIdPassword == 'changePassword') {
-  //   localStorage.setItem("loginShow", "1")
-  //   formData.append('uid', this.idUser);
-  // } else {
-  //   formData.append('uid', this.userId.user_id);
-  // }
+
   onSubmitEmailLogin() {
-    console.log(this.idUser)
+console.log("aaaaaaa");
+  if (this.loading) return;
     this.submitted = true;
     if (this.emailLoginForm.value.password == this.emailLoginForm.value.confirm_password) {
+      console.log("bbbb");
       if (this.emailLoginForm.valid) {
+        console.log("ccccc");
+        this.loading = true;
         const formData: any = new FormData();
-        if (this.userIdPassword == 'changePassword') {
-          localStorage.setItem("loginShow", "1")
-          formData.append('id', this.idUser);
-          formData.append('old_password', this.emailLoginForm.value.old_pwd);
-          formData.append('new_password', this.emailLoginForm.value.password);
-          this.auth.changePassword(formData).subscribe((res: any) => {
-            if (res.code == 1) {
-              this.gotoSuccessPassword();
-              this.fcs.submitButtonHideForgot.next(false)
-              this.dialogRef.close();
-            }
-            else {
-              this.msgError = res.error
-              this.msgErrorADD = true
-            }
-          })
-        } else {
-          formData.append('newpassword', this.emailLoginForm.value.password);
-          formData.append('confirm_password', this.emailLoginForm.value.confirm_password);
-          formData.append('uid', this.userId.user_id);
-          formData.append('device_unique_id', this.visitorId);
-          this.auth.resetPassword(formData).subscribe((res: any) => {
-            if (res.code == 1) {
-              this.gotoSuccessPassword();
-              this.fcs.submitButtonHideForgot.next(false)
-              this.dialogRef.close();
-            }
-            else {
-              this.getSwalmsg('Oops! Password not change', 'error');
-            }
-          })
-        }
+        var user_id: any = localStorage.getItem('isUserId');
+        formData.append('newpassword', this.emailLoginForm.value.password);
+        // formData.append('confirm_password', this.emailLoginForm.value.confirm_password);
+        formData.append('uid', user_id);
+        formData.append('device', 'web');
 
-
-
-      } else {
-        this.msgError = "all_fields_are_mandatory"
-        this.msgErrorADD = true
+        this.auth.resetPassword(formData).subscribe((res: any) => {
+this.loading = false;
+          if (res.code == 1) {
+            this.gotoSuccessPassword();
+            // this.getSwalmsg('Password change successfully', 'success');
+            this.fcs.submitButtonHideForgot.next(false)
+            this.dialogRef.close();
+          }
+          else {
+            this.getSwalmsg('Oops! Password not change', 'error');
+          }
+        })
       }
 
     } else {
@@ -226,6 +181,6 @@ export class CreateNewPasswordDialogComponent implements OnInit {
       $('input').css("color", "red")
 
     }
-
+// this.dialog.closeAll()
   }
 }

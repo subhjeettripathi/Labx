@@ -7,7 +7,7 @@ import { SubscribeComponent } from './subscribe.component';
 
 const routes: Routes = [
   {path:'', component:SubscribeComponent},
-  {path:'payu-success',component:PayuSuccessComponent},
+  {path:'payment-process',component:PayuSuccessComponent},
   {path:'payu-failure',component:PayuFailureComponent},
   {path:'cancel-payment',component:PayuCancelComponent},
   

@@ -1,12 +1,224 @@
+<style type="text/css">
 
-<div class="container privacy-container about"  >
-   <span class="arrow-back">
-      <img src="assets/svgs/Vector (4).png" (click)="back()"
-          alt="AOL">
-   </span>
-<div class="about" [innerHTML]="refundPolicy.text">
+  body {
+    font-family: var(--theme-font-style) !important;
+  }
+  a {
+    font-family: var(--theme-font-style) !important;
+  }
 
+
+
+    .bdr-btm {
+        border-bottom: 1px solid #1E1E1E;
+    }
+    .mt-100 {
+        margin-top: 100px;
+    }
+    a:hover {
+        color: #fff !important;
+    }
+    h1, h2, h3 {
+        font-family: var(--theme-font-style) !important;
+        font-size: 14px;
+        text-transform: uppercase;
+    }
+    .title {
+        font-family: var(--theme-font-style) !important;
+        font-size: 25px;
+    }
+
+    .m-t-25 {
+        margin-top: 25px;
+    }
+    .content-inner-wrapper a {
+        font-size: 12px;
+    }
+    .investor-wrapper .nav-pills {
+        border: 0;
+        background: #1E1E1E;
+    }
+
+    .investor-wrapper .nav-pills>li {
+        float: none;
+        margin-top: -1px;
+        width: 100%;
+        font-family: var(--theme-font-style) !important;
+    }
+    .investor-wrapper .nav-pills>li>a {
+        border: 0;
+        border-radius: 0;
+        color: #fff;
+        font-size: 14px;
+        padding: 0;
+        text-indent: 0;
+        text-decoration: none !important;
+        text-transform: uppercase;
+        text-align: left;
+    }
+    .investor-wrapper .nav-pills>li>a span {
+        border-bottom: 1px solid #2d2d2d;
+        display: block;
+        margin-left: 15px;
+        margin-right: 15px;
+        padding: 12px 0;
+    }
+    .investor-wrapper .nav-pills .nav-link.active,
+    .investor-wrapper .nav-pills .nav-link:active,
+    .investor-wrapper .nav-pills .nav-link:focus,
+    .investor-wrapper .nav-pills .nav-link:hover {
+        background-color: #2d2d2d;
+        color: #fff;
+    }
+    .investor-wrapper .nav-pills>li:last-child a span {
+        border-bottom: 0;
+    }
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        background-color: #2d2d2d;
+    }
+    .investor-wrapper .tab-pane li {
+        margin-bottom: 15px;
+    }
+
+    table {
+        background: #1E1E1E;
+    }
+
+    .table>tbody>tr>td,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>td,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>thead>tr>th {
+        border: 0;
+    }
+
+    .active + .accordion-selector {
+        display: block;
+    }
+
+    .accordion-selector {
+        border-bottom: 1px solid #2d2d2d;
+        padding: 0;
+        display: none;
+        list-style: none;
+        margin: 0 15px;
+    }
+
+    .accordion-selector li {
+        clear: both;
+        width: 100%;
+    }
+    .accordion-selector li::last-child {
+        border-top:0;
+    }
+    .accordion-selector a {
+        font-size: 14px;
+        padding: 11px 15px;
+        cursor: pointer;
+        display: block;
+        text-decoration: none !important;
+    }
+    .accordion-selector li:first-child a {
+        padding-bottom: 0;
+    }
+
+    /* .accordion-selector a.active {
+        background: #2d2d2d;
+    } */
+
+    .m-t-0 {
+        margin-top: 0;
+    }
+</style>
+<div class="container">
+    <div class="content-inner-wrapper investor-wrapper mt-100">
+        <h1 class="title text-uppercase">INVESTOR RELATIONS</h1>
+        <div class="ss_inner m-t-25">
+            <div class="row" id="accordion">
+                <div class="col-sm-3 mr-auto">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                        <li class="nav-item" id="subNav">
+                            <a class="nav-link active" id="pills-notice-tab" (click)="openFirst()" data-toggle="pill" href="#notice" role="tab" aria-controls="notice" aria-selected="true"><span>{{invester[0].type}}</span></a>
+                            <ul class="accordion-selector">
+                                <li><a data-attr="agm"  (click)="openTab('agm')">1. {{invester[0].sub_category_list[0].name}}</a></li>
+                                <li><a data-attr="egm"  (click)="openTab('egm')">2. {{invester[0].sub_category_list[1].name}}</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" id="pills-annual-return-tab" data-toggle="pill" href="#annual-return" role="tab" aria-controls="annual-return" aria-selected="false"><span>{{invester[1].type}}</span></a></li>
+                        <li class="nav-item"><a class="nav-link" id="pills-code-conduct-tab" data-toggle="pill" href="#code-conduct" role="tab" aria-controls="code-conduct" aria-selected="true"><span>{{invester[2].type}}</span></a></li>
+                        <li class="nav-item"><a class="nav-link" id="pills-policy-tab" data-toggle="pill" href="#policy" role="tab" aria-controls="policy" aria-selected="true"><span>{{invester[3].type}}</span></a></li>
+                        <li class="nav-item"><a class="nav-link" id="pills-resignation-tab" data-toggle="pill" href="#resignation" role="tab" aria-controls="resignation" aria-selected="true"><span>{{invester[4].type}}</span></a></li>
+                        <li class="nav-item"><a class="nav-link" id="pills-directorship-tab" data-toggle="pill" href="#directorship" role="tab" aria-controls="directorship" aria-selected="true"><span>{{invester[5].type}}</span></a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-8">
+                    <!-- Tab panes -->
+                    <div class="tab-content" id="pills-tabContent">
+                        <div role="tabpanel" class="tab-pane fade active show" id="notice" aria-labelledby="pills-notice-tab">
+                            <div id="agm" class="table-responsive"  *ngIf="!show" >
+                                <h3 class="m-t-0">{{invester[0].sub_category_list[0].name}}</h3>
+                                <ol>
+                                    <li *ngFor=" let dataagm of invester[0].sub_category_list[0].data"><a [href]= dataagm.link target="_blank"><strong>{{dataagm.text}}</strong></a></li>
+                                </ol>
+                            </div>
+                            <div id="egm" class="table-responsive" *ngIf="show">
+                                <h3 class="m-t-0">{{invester[0].sub_category_list[1].name}}</h3>
+                                <ol>
+                                    <li *ngFor=" let dataegm of invester[0].sub_category_list[1].data"><a [href]=dataegm.link target="_blank"><strong>{{dataegm.text}}</strong></a></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="annual-return" aria-labelledby="pills-annual-return-tab">
+                            <h3 class="m-t-0">{{invester[1].type}}</h3>
+                            <ol>
+                                <li *ngFor=" let dataannual of invester[1].data"><a [href]=dataannual.link target="_blank">{{dataannual.text}}</a></li>
+                            </ol>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="code-conduct" aria-labelledby="pills-code-conduct-tab">
+                            <h3 class="m-t-0">{{invester[2].type}}</h3>
+                            <ol>
+                                <li *ngFor=" let dataconduct of invester[2].data"><a [href]=dataconduct.link target="_blank">{{dataconduct.text}}</a></li>
+                            </ol>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="policy" aria-labelledby="pills-policy-tab">
+                            <h3 class="m-t-0">{{invester[3].type}}</h3>
+                            <ol>
+                                <li *ngFor=" let datapolicy of invester[3].data"><a [href]=datapolicy.link target="_blank">{{datapolicy.text}}</a></li>
+                            </ol>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="resignation" aria-labelledby="pills-resignation-tab">
+                            <h3 class="m-t-0">{{invester[4].type}}</h3>
+                            <ol>
+                                <li *ngFor=" let dataletter of invester[4].data"><a [href]=dataletter.link target="_blank">{{dataletter.text}}</a></li>
+                            </ol>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="directorship" aria-labelledby="pills-directorship-tab">
+                            <h3 class="m-t-0">{{invester[5].type}}</h3>
+                            <ol>
+                                <li *ngFor=" let datanotice of invester[5].data"><a [href]=datanotice.link target="_blank">{{datanotice.text}}</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
+<script type="text/javascript">
 
-
+    $(function () {
+        var allPanels = $('#accordion .table-responsive').hide();
+        $('#accordion .accordion-selector li > a').on('click', function () {
+            $('#subNav').click();
+            $(this).parents('li').siblings().find('a').removeClass('active');
+            $(this).addClass('active');
+            allPanels.slideUp();
+            var id = $(this).attr('data-attr');
+            $('#' + id).slideDown();
+            return false;
+        });
+        $("#accordion .accordion-selector li:first-child a").click();
+    });
+</script>

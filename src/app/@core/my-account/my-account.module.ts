@@ -21,7 +21,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { MySubscriptionComponent } from './my-subscription/my-subscription.component';
-import { TranslatePipe5 } from 'src/app/services/pipes/translate.pipe';
+import { CancelSubscriptionComponent } from './cancel-subscription/cancel-subscription.component';
+import { WatchlistModule } from '../watchlist/watchlist.module';
+import { ActivationComponent } from 'src/app/activation/activation.component';
+import { ActivationModule } from 'src/app/activation/activation.module';
+
 @NgModule({
   declarations: [
     MyAccountComponent,
@@ -31,12 +35,13 @@ import { TranslatePipe5 } from 'src/app/services/pipes/translate.pipe';
     SettingsComponent,
     DeleteAccountComponent,
     MySubscriptionComponent,
-    TranslatePipe5
+    CancelSubscriptionComponent
   ],
   imports: [
     CommonModule,
     MyAccountRoutingModule,
     MatExpansionModule,
+    ActivationModule,
     MatCardModule,
     FlexLayoutModule,
     MatFormFieldModule,
@@ -48,7 +53,8 @@ import { TranslatePipe5 } from 'src/app/services/pipes/translate.pipe';
     ReactiveFormsModule,
     FormsModule,
     NgxCaptchaModule,
-
+    WatchlistModule
+    
   ]
 })
 export class MyAccountModule { }

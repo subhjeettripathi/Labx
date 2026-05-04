@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { ProfileDialogComponent } from 'src/app/shared/dialogBoxes/profile-dialog/profile-dialog.component';
+
 import { SlickCarouselModule } from 'ngx-slick-carousel';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { AlertDialogComponent } from 'src/app/shared/dialogBoxes/alert-dialog/alert-dialog.component';
+import {MatIconModule} from '@angular/material/icon';
 import { ShowDetailRoutingModule } from './show-detail-routing.module';
 import { ShowDetailComponent } from './show-detail.component';
 import { VideojsDialogModule } from 'src/app/shared/videojs-dialog/videojs-dialog.module';
@@ -12,12 +14,18 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatSelectModule } from '@angular/material/select';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { TranslatePipe7 } from 'src/app/services/pipes/translate.pipe';
+import { ReadmoreDialogComponent } from 'src/app/shared/dialogBoxes/readmore-dialog/readmore-dialog.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { TruncateWordPipe } from './truncate-word.pipe';
+import { TimeDurationDetailPipe } from 'src/app/time-duration.pipe';
+
 @NgModule({
   declarations: [
     ShowDetailComponent,
     VideoLsPlayerComponent,
-    TranslatePipe7
+    ReadmoreDialogComponent,
+    TruncateWordPipe,
+    TimeDurationDetailPipe
   ],
   imports: [
     CommonModule,
@@ -28,9 +36,9 @@ import { TranslatePipe7 } from 'src/app/services/pipes/translate.pipe';
     VideojsDialogModule,
     ClipboardModule,
     MatSelectModule,
-    NgSelectModule,
+    NgSelectModule, 
     FormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ]
 })
 export class ShowDetailModule { }

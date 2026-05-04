@@ -8,6 +8,7 @@ import { DecryptService } from 'src/app/services/decrypt.service';
 import { ExchangeDataService } from 'src/app/services/exchange-data.service';
 import {LazypayDialogMobileVerifyComponent} from '../lazypay-dialog-mobile-verify/lazypay-dialog-mobile-verify.component'
 import { eventNames } from 'process';
+import { LoaderService } from "src/app/shared/loader.service";
 @Component({
   selector: 'app-lazypay-dialog-mobile-otp',
   templateUrl: './lazypay-dialog-mobile-otp.component.html',
@@ -29,7 +30,7 @@ export class LazypayDialogMobileOtpComponent implements OnInit {
   @Output() lazyPayButton=new EventEmitter<any>()
   
   constructor(public dialogRef: MatDialogRef<LazypayDialogMobileOtpComponent>,public dialog: MatDialog,private router:Router,private ed:ExchangeDataService,
-    @Inject(MAT_DIALOG_DATA) public data: any, private _fb: FormBuilder, private checkout: PaymentCheckoutService,    private DEC_SER: DecryptService,private _DS: DataService) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, private _fb: FormBuilder, private checkout: PaymentCheckoutService, private loaderService: LoaderService,   private DEC_SER: DecryptService,private _DS: DataService) { }
 
   ngOnInit(): void {
     this.reedmeForm=this.data.reedmeForm
@@ -85,11 +86,13 @@ export class LazypayDialogMobileOtpComponent implements OnInit {
        this.checkout.createPAYtmOrder(formData).subscribe(
          (data: any) => {
          if(data.code==1){
+          this.loaderService.hide()
           this.OtpValidation(data)
          }else if(data.code==2){
+          this.loaderService.hide()
           this.errorMSg=true;
          }else{
-          
+          this.loaderService.hide()
          }
         
          

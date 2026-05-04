@@ -17,11 +17,9 @@ export class SiteMapComponent implements OnInit {
   }
 
   siteData() {
-    var data:any=localStorage.getItem('innerJson')
-    data=JSON.parse(data)
-    // this.ds.json2().subscribe((data: any) => {    
+    this.ds.json2().subscribe((data: any) => {    
       this.site = data.Website[0].footer_menu.footer_term.site_map.text
-    // })
+    })
   }
 
 }

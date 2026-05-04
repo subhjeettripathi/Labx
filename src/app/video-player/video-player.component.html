@@ -1,17 +1,84 @@
-<div>
+<div style="height: 100%; width: 100%;">
     <div style="display: flex; width: 100%; height: 100%;">
-        <div id="f"></div>
-        <video contextmenu="false" id="video-player" disablepictureinpicture preload="auto" playsinline #target
-            class="video-js vjs-big-play-centered">
+        <div id="ffffffffffffffffffffffff" *ngIf="bandimage != null">
+            <a *ngIf="LbandShareUrl == ''"><img height="100%" width="100%" src={{LbandImageOne}} alt="vive"
+                    (click)="asLbandClick('lband',LBandTitle,LbandShareUrl)"></a>
+            <a *ngIf="LbandShareUrl != ''" href="{{LbandShareUrl}}" target="_blank"><img height="100%" width="100%"
+                    src={{LbandImageOne}} alt="vive" (click)="asLbandClick('lband',LBandTitle,LbandShareUrl)"></a>
+        </div>
+        <video contextmenu="false" id="video-player" data-setup='{}' preload="auto" muted="" playsinline="" #target
+            class="video-js vjs-big-play-centered" disablepictureinpicture>
         </video>
+    </div>
+
+    <div id="gggggggggggggggggggggggggg" *ngIf="bandimage != null">
+        <a *ngIf="LbandShareUrl == ''"><img src={{LBandImageTwo}} width="100%" height="100%" alt="vive"
+                (click)="asLbandClick('lband',LBandTitle,LbandShareUrl)"></a>
+        <a *ngIf="LbandShareUrl != ''" href="{{LbandShareUrl}}" target="_blank"><img src={{LBandImageTwo}} width="100%"
+                height="100%" alt="vive" (click)="asLbandClick('lband',LBandTitle,LbandShareUrl)"></a>
+    </div>
+    <div id="astonband" *ngIf="bandimage != null">
+        <a href="{{LbandShareUrl}}" target="_blank" style="width: 75%;"><img src={{LBandImageTwo}} width="100%"
+                style="margin: 0 auto;" height="100%" alt="vive"
+                (click)="asLbandClick('aston_band',LBandTitle,LbandShareUrl)"></a>
+        <img (click)="astoncross()" id="astoncancel" class="astoncross" src="assets/svgs/playercross.svg" alt="">
     </div>
 </div>
 
+<!-- <div id="waterMark"><img src="../../assets/footer-header-images/Masti-100-px.png" alt=""></div> -->
+
 <div class="bit-main">
-    <ul id="bitrateLevels1" class="hd-mode hidden">
-        <li>quality</li>
+    <ul id="bitrateLevels1" class="hd-mode">
+        <li id="quality1">
+            144p
+        </li>
+
+        <li id="quality2">
+            240p
+        </li>
+
+        <li id="quality3">
+            360p
+        </li>
+
+        <li id="quality4">
+            480p
+        </li>
+
+        <li id="quality5">
+            540p
+        </li>
+
+        <li id="quality6">
+            720pl
+        </li>
+
+        <li id="quality7">
+            720ph
+        </li>
+
+        <li id="quality8">
+            1080pl
+        </li>
+
+        <li id="quality9">
+            1080ph
+        </li>
+
+        <li id="quality10" class="activeModeauto">
+            Auto
+        </li>
+
     </ul>
 </div>
+
+<!-- <video id="video-player" data-setup='{}' preload="auto" playsinline #target
+    class="video-js vjs-big-play-centered">
+</video> -->
+
+
+
+
 
 <div class="episodeSelector" *ngIf="this.data.groupInfo != null">
     <div class="tabset-screen" style="display: flex;">
@@ -24,11 +91,50 @@
             <!-- {{seasontitle.id}}  -->
         </div>
 
+        <!-- <div style="display:flex ;" *ngIf="setF; else elseBlock">
+        <div class="tabset" (click)="getEpisode(seasontitle.id);" *ngFor="let seasontitle of this.data.groupInfo.child" style="margin-bottom: 20px;">
+         
+            <input type="radio" *ngIf="seasontitle.id == this.p" name="tabset" id={{seasontitle.id}}
+            aria-controls="marzen" [checked]="this.p" >
+            <label for={{seasontitle.id}}>{{seasontitle.title}}</label>
+        
+        </div>
     </div>
 
-    <div class="crossepisode">
-        <img (click)="crossEpisode()" src="assets/svgs/playercross.svg" alt="alt">
+    <ng-template #elseBlock>
+        <div class="tabset" (click)="getEpisode(seasontitle.id);getId(seasontitle.id)" *ngFor="let seasontitle of this.data.groupInfo.child" style="margin-bottom: 20px;">
+     
+            <input type="radio" *ngIf="seasontitle.id == this.data.groupInfo.child[0].id" name="tabset" id={{seasontitle.id}}
+            aria-controls="marzen" checked >
+            <label for={{seasontitle.id}}>{{seasontitle.title}}</label>
+           
+        </div>
+    </ng-template> -->
+
+        <div class="crossepisode">
+            <img (click)="crossEpisode()" src="assets/svgs/playercross.svg" alt="alt">
+        </div>
     </div>
+
+    <!-- <div style="display:flex ;" *ngIf="setF; else elseBlock">
+        <div class="tabset" (click)="getEpisode(seasontitle.id);getId(seasontitle.id)" *ngFor="let seasontitle of this.data.groupInfo.child" style="margin-bottom: 20px;">
+         
+            <input type="radio" *ngIf="seasontitle.id == this.p" name="tabset" id={{seasontitle.id}}
+            aria-controls="marzen" [checked]="this.p" >
+            <label for={{seasontitle.id}}>{{seasontitle.title}}</label>
+        
+        </div>
+    </div>
+
+    <ng-template #elseBlock>
+        <div class="tabset" (click)="getEpisode(seasontitle.id);getId(seasontitle.id)" *ngFor="let seasontitle of this.data.groupInfo.child" style="margin-bottom: 20px;">
+     
+            <input type="radio" *ngIf="seasontitle.id == this.data.groupInfo.child[0].id" name="tabset" id={{seasontitle.id}}
+            aria-controls="marzen" checked >
+            <label for={{seasontitle.id}}>{{seasontitle.title}}</label>
+           
+        </div>
+    </ng-template> -->
 
     <div class="tab-panels">
         <div class="player-slick-carousel">
@@ -36,116 +142,105 @@
                 (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
                 (beforeChange)="beforeChange($event)">
                 <div ngxSlickItem *ngFor="let episodes of EpiData, index as i" class="slide">
-                    <!-- <div *ngIf="itemget == episodes.indexing - 1 && episodes.id == videosrc[this.itemget].sources[0].id" class="now_playing"
-                 >Now Playing</div> -->
-                  <div *ngIf="episodes.id == selectedId" class="now_playing">Now Playing</div>
-                    <h6 class="season-head-2"> E{{i+1}} : {{episodes.title.slice(0, 10)}}.. </h6>
-                    <h6 class="season-head"> E{{i+1}} : {{episodes.title.slice(0, 15)}}.. </h6>
-                    <div class="image-container">
-                        <img class="mySlidesMain" [src]="episodes.sliderImg" (click)="playEpisode(episodes,i)"
-                            (error)="onImgError($event)" alt="AOL" width="100%">
-                        <!-- <div *ngIf="itemget == episodes.indexing - 1" class="overlay"></div> -->
-                          <div *ngIf="episodes.id == selectedId" class="overlay"></div>
-                    </div>
+                    <h6 *ngIf="episodes.is_ad != 1" class="season-head-2"> {{episodes.episode_number}} {{(episodes.episode_number.length == 0)? " " : ":"}}
+                        {{(episodes.title.length >=10 ) ?
+                        (episodes.title.slice(0,10)) + '...': (episodes.title)}} </h6>
+                    <h6 *ngIf="episodes.is_ad != 1" class="season-head"> {{episodes.episode_number}} {{(episodes.episode_number.length == 0)? " " : ":"}}
+                        {{(episodes.title.length >=25 ) ?
+                        (episodes.title.slice(0,25)) + '...' : (episodes.title)}} </h6>
+                    <img *ngIf="episodes.is_ad != 1" class="mySlidesMain" [src]="episodes.sliderImg"
+                        (click)="playEpisode(episodes , i)" (error)="onImgError($event)" alt="vive" width="100%">
 
-                    <p class="slide-para"> {{convertTimeToMinutes(episodes.duration)}} min </p>
+                    <h6 *ngIf="episodes.is_ad == 1" style="visibility: hidden;"> Ad</h6>
+                    <img *ngIf="episodes.is_ad == 1" class="mySlidesMain" [src]="episodes.sliderImg"
+                        (click)="playEpisode(episodes , i)" (error)="onImgError($event)" alt="vive" width="100%">
+
+                    <small
+                        *ngIf="episodes.age_group != -1 && episodes.age_group != 999  && episodes.age_group != '' && episodes.is_ad != 1">
+                        {{episodes.duration.slice(3,5)}} m &nbsp; | &nbsp; {{episodes.year}} &nbsp; | &nbsp; U/A
+                        {{episodes.age_group}}+ </small>
+                    <small *ngIf="episodes.age_group == -1 && episodes.age_group != '' && episodes.is_ad != 1">
+                        {{episodes.duration.slice(3,5)}} m &nbsp; | &nbsp; {{episodes.year}} &nbsp; | &nbsp;
+                        A </small>
+                    <small *ngIf="episodes.age_group == 999 && episodes.age_group != '' && episodes.is_ad != 1">
+                        {{episodes.duration.slice(3,5)}} m &nbsp; | &nbsp; {{episodes.year}} &nbsp; | &nbsp;
+                        U </small>
+                    <p *ngIf="episodes.is_ad != 1" class="slide-para"> {{episodes.des.slice(0, 65)}}... </p>
+                    <p *ngIf="episodes.is_ad != 1" class="slide-para-2"> {{episodes.des.slice(0, 35)}}... </p>
                 </div>
             </ngx-slick-carousel>
         </div>
     </div>
 </div>
-
-<div class="speed-mode">
-    <ul id="speedLevelV" class="speedIcon hidden">
-        <div class="speed">
-            <img (click)="leftArr()" src="../../assets/icons/left-down.svg" alt="" width="25px">
-            <h3>Speed</h3>
-            <img (click)="rightArr()" src="../../assets/icons/right-down.svg" alt="" width="25px">
-        </div>
-        <div class="speed-list">
-            <li id="speed1" (click)="changePlaybackRate(0.5, $event)" (touchstart)="changePlaybackRate(0.5, $event)">
-                0.50x
-            </li>
-
-            <li id="speed2" (click)="changePlaybackRate(0.75 ,$event)" (touchstart)="changePlaybackRate(0.75, $event)">
-                0.75x
-            </li>
-
-            <li id="speed3" class="activeModespeed" (click)="changePlaybackRate(1 ,$event)"
-                (touchstart)="changePlaybackRate(1, $event)">
-                1.0x
-            </li>
-
-            <li id="speed4" (click)="changePlaybackRate(1.25 ,$event)" (touchstart)="changePlaybackRate(1.25, $event)">
-                1.25x
-            </li>
-
-            <li id="speed5" (click)="changePlaybackRate(1.5 ,$event)" (touchstart)="changePlaybackRate(1.5, $event)">
-                1.50x
-            </li>
-        </div>
-
-    </ul>
-</div>
-
-
-<div class="speed-modeSafari">
-    <ul id="speedLevelVSafari" class="speedIconSafari hidden">
-        <!-- <div class="speed" >
-            <img  src="../../assets/icons/left-down.svg" alt="" width="25px">
-            <h3>Speed</h3>
-            <img  src="../../assets/icons/right-down.svg" alt="" width="25px">
-        </div> -->
-        <div class="speed-list">
-            <li id="speed1" (click)="changePlaybackRate(0.5, $event)" (touchstart)="changePlaybackRate(0.5, $event)">
-                0.50x
-            </li>
-
-            <li id="speed2" (click)="changePlaybackRate(0.75 ,$event)" (touchstart)="changePlaybackRate(0.75, $event)">
-                0.75x
-            </li>
-
-            <li id="speed3" class="activeModespeed" (click)="changePlaybackRate(1 ,$event)"
-                (touchstart)="changePlaybackRate(1, $event)">
-                1.0x
-            </li>
-
-            <li id="speed4" (click)="changePlaybackRate(1.25 ,$event)" (touchstart)="changePlaybackRate(1.25, $event)">
-                1.25x
-            </li>
-
-            <li id="speed5" (click)="changePlaybackRate(1.5 ,$event)" (touchstart)="changePlaybackRate(1.5, $event)">
-                1.50x
-            </li>
-        </div>
-
-    </ul>
-</div>
-<!-- <div class="speed-mode">
-    <ul id="speedLevelV" class="speedIcon">
-        <li id="speed1" (click)="changePlaybackRate(0.5, $event)" (touchstart)="changePlaybackRate(0.5, $event)">
-            0.50x
-        </li>
-
-        <li id="speed2" (click)="changePlaybackRate(0.75 ,$event)" (touchstart)="changePlaybackRate(0.75, $event)">
-            0.75x
-        </li>
-
-        <li id="speed3" class="activeModespeed" (click)="changePlaybackRate(1 ,$event)" (touchstart)="changePlaybackRate(1, $event)">
-            1.0x
-        </li>
-
-        <li id="speed4" (click)="changePlaybackRate(1.25 ,$event)" (touchstart)="changePlaybackRate(1.25, $event)">
-            1.25x
-        </li>
-
-        <li id="speed5" (click)="changePlaybackRate(1.5 ,$event)" (touchstart)="changePlaybackRate(1.5, $event)">
-            1.50x
-        </li>
-    </ul>
+<!-- <div class="maintitle">
+    {{this.mainelement}}
 </div> -->
-
-<div id="watermark" class="waterMark" *ngIf="this.userId">
-    <p>{{this.user.id}}</p>
-    <!-- <img src="https://static.altt.studio/configration/717/717_650a9a06603b9.png" alt="artofliving"> -->
+<div *ngIf="this.ageshow != null">
+    <div class="ageshow" *ngIf="agetime && this.ageshow.is_allow == 1">
+        <span *ngIf="this.data.agegroup_player_title != null" class="age">
+            <p class="ua-p">
+                {{this.data.agegroup_player_title}}</p>
+        </span>
+        <!-- <span *ngIf="this.data.age_group == -1  && this.data.age_group != ''" class="age">
+            <p class="ua-p">A</p>
+        </span>
+        <span *ngIf="this.data.age_group == 999  && this.data.age_group != ''" class="age">
+            <p class="ua-p">U</p>
+        </span> -->
+    </div>
 </div>
+
+
+
+<!-- 
+
+
+
+-->
+
+
+
+<div *ngIf="this.data.skip_duration != null && this.data.skip_duration.length && this.data.skip_duration.length === 1      && !isTrailerPlaying && !isAdPlaying " >
+    
+    <div class="title" id="titleOnePlayer">
+        <button (click)="skipIntro()">{{data.skip_duration[0].title.replace('_', ' ') | titlecase}}</button>
+    </div>
+</div>
+
+<div *ngIf="this.data.skip_duration != null && this.data.skip_duration.length && this.data.skip_duration.length === 2   && !isTrailerPlaying  && !isAdPlaying "  >
+    <div class="title" id="titleOnePlayer1">
+        <button (click)="skipIntro()">{{data.skip_duration[0].title.replace('_', ' ') | titlecase}}</button>
+        <!-- <h1>{{data.skip_duration[0].title.replace('_', ' ')}}sssssssssss</h1> -->
+    </div>
+    <div class="title1" id="titleTwoPlayer">
+        <button (click)="skipRecap()">{{this.data.skip_duration[1].title.replace('_', ' ') | titlecase}}</button>
+    </div>
+</div>
+
+<div *ngIf="this.data.skip_duration != null && this.data.skip_duration.length && this.data.skip_duration.length === 3   && !isTrailerPlaying  && !isAdPlaying ">
+    <div class="title" id="titleOnePlayer">
+        <button (click)="skipIntro()">{{data.skip_duration[0].title.replace('_', ' ') | titlecase}}</button>
+    </div>
+    <div class="title1" id="titleTwoPlayer">
+        <button (click)="skipRecap()">{{this.data.skip_duration[1].title.replace('_', ' ') | titlecase}}</button>
+    </div>
+    <div class="title2" id="titleThreePlayer">
+        <button (click)="skipCredit()">{{this.data.skip_duration[2].title.replace('_', ' ') | titlecase}}</button>
+    </div>
+</div>
+<!-- 
+<div>
+    
+        <div>
+            <img src="" alt="">
+            <div>
+                title
+            </div>
+
+            <div>
+                timer
+            </div>
+        </div>
+     
+    
+</div> -->

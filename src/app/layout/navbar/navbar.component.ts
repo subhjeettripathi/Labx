@@ -1,6 +1,20 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, TemplateRef, ViewChild, } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MatDialog, MatDialogRef, MatDialogConfig, } from "@angular/material/dialog";
+import {
+  MatDialog,
+  MatDialogRef,
+  MatDialogConfig,
+} from "@angular/material/dialog";
 import { LoginModalDialogComponent } from "src/app/shared/dialogBoxes/login-modal-dialog/login-modal-dialog.component";
 import { EmailDialogComponent } from "src/app/shared/dialogBoxes/email-dialog/email-dialog.component";
 import { OtpDialogComponent } from "src/app/shared/dialogBoxes/otp-dialog/otp-dialog.component";
@@ -13,101 +27,42 @@ import { FunctionCallingService } from "src/app/services/function-calling.servic
 import { FingerPrintService } from "src/app/services/finger-print.service";
 import { MatMenuTrigger } from "@angular/material/menu";
 import { TokenService } from "src/app/services/interceptor/token.service";
-import { RegionalComponent } from 'src/app/shared/dialogBoxes/regional/regional.component';
+import { DeviceDetectorService } from "ngx-device-detector";
+import { CountryRestrictionComponent } from "src/app/shared/dialogBoxes/country-restriction/country-restriction.component";
 import { ContactusModalDialogComponent } from "src/app/shared/dialogBoxes/contactus-modal-dialog/contactus-modal-dialog.component";
-import * as firebase from "firebase/app";
-import { Title } from "@angular/platform-browser";
-import { ParentalControlComponent } from "src/app/shared/dialogBoxes/parental-control/parental-control.component";
-import { AnalyticsService } from "src/app/services/analytics.service";
-import { TranslatePipe } from "src/app/services/pipes/translate.pipe";
-import { TranslationService } from 'src/app/services/translation.service';
 declare var $: any;
-declare var google: any;
+declare global {
+  interface Window {
+    firebaseAnalytics?: {
+      logEvent: (eventName: string, params?: any) => void;
+    };
+  }
+}
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
-  selected: any = localStorage.getItem('tongue') || {};
   logoChange: boolean = true;
   @HostListener("window:scroll", ["$event"])
   doSomething(event: any) {
     if (window.pageYOffset > 100) {
-      this.logoChange = false
+      this.logoChange = false;
     } else {
-      this.logoChange = true
+      this.logoChange = true;
     }
   }
-
-
-  // mains = [
-
-  //   { "code": "en", "language": "English" },
-  //   { "code": "bg", "language": "Bulgarian" },
-  //   { "code": "bn", "language": "Bengali" },
-  //   { "code": "de", "language": "German" },
-  //   { "code": "es", "language": "Spanish" },
-  //   { "code": "ja", "language": "Japanese" },
-  //   { "code": "or", "language": "Odia" },
-  //   { "code": "pa", "language": "Punjabi" },
-  //   { "code": "zh-CN", "language": "Chinese" },
-  //   { "code": "te", "language": "Telugu" },
-  //   { "code": "ta", "language": "Tamil" },
-  //   { "code": "sr", "language": "Serbian" },
-  //   { "code": "pt-BR", "language": "Brazilian" },
-  //   { "code": "nl", "language": "Dutch" },
-  //   { "code": "mr", "language": "Marathi" },
-  //   { "code": "ml", "language": "Malayalam" },
-  //   { "code": "kn", "language": "Kannada" },
-  //   { "code": "hu", "language": "Hungarian" },
-  //   { "code": "hi", "language": "Hindi" },
-  //   { "code": "gu", "language": "Gujarati" },
-  //   { "code": "fr", "language": "French" }
-
-
-  // ];
-
-
-  mains = [
-    { "code": "bn", "language": "Bengali" },
-    { "code": "pt-BR", "language": "Brazilian" },
-    { "code": "bg", "language": "Bulgarian" },
-    { "code": "zh-CN", "language": "Chinese" },
-    { "code": "nl", "language": "Dutch" },
-    { "code": "en", "language": "English" },
-    { "code": "fr", "language": "French" },
-    { "code": "de", "language": "German" },
-    { "code": "gu", "language": "Gujarati" },
-    { "code": "hi", "language": "Hindi" },
-    { "code": "hu", "language": "Hungarian" },
-    { "code": "ja", "language": "Japanese" },
-    { "code": "kn", "language": "Kannada" },
-    { "code": "ml", "language": "Malayalam" },
-    { "code": "mr", "language": "Marathi" },
-    { "code": "or", "language": "Odia" },
-    { "code": "pa", "language": "Punjabi" },
-    { "code": "sr", "language": "Serbian" },
-    { "code": "es", "language": "Spanish" },
-    { "code": "ta", "language": "Tamil" },
-    { "code": "te", "language": "Telugu" }
-  ];
-
+  activeIndex = 0;
   taploginInfo: any = localStorage.getItem("taploginInfo") || {};
-  regional: any
-  sendTosettingSubtitle: any;
-  loggedIn = false
-  // mains: any = [];
-  regionals: any;
-  subtitle: any;
   isMobileToggled = false;
-  stacking: any
   isHambergerMenu = false;
   navbarItems: any[] = [];
   categoryId: any;
-  defaultImages: any = []
+  defaultImages: any = [];
   dd: any;
   nextdata: any = [];
+  ad_data: any = [];
   dataNav: any[] = [];
   rightMenu = [];
   enteredButton = false;
@@ -128,15 +83,18 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   navbar: any = [];
   is_loginInfo = false;
   showSubscribe = true;
-  showButton: boolean = false
-  visitorId: any;
+  visitorId: any = localStorage.getItem('device_id')
   hamBanner: any;
-  selectedItem: any = localStorage.getItem("active")
+  app_version: any;
+  selectedItem: any = localStorage.getItem("active") || "HOME";
   wasClicked = false;
   UserData: any;
   isSubscriber = false;
+  USER_ACCOUNT_id: any;
+  userStatus: any;
+  session_gender: any;
+  
   isSubsInfo: any = localStorage.getItem("is_subscriber") || {};
-  isShowButton: any = localStorage.getItem("showButton") || {};
   @Input() isOttLoggedIn: boolean | undefined;
   @Input() isSubscribed: boolean | undefined;
   @Input() isParentalLocked1: boolean | undefined;
@@ -146,15 +104,16 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   profileLogout: boolean | undefined;
   abc: any;
   ff: any;
-  hideNav: boolean = false
+  offersData: any;
+  offers: any;
+  hideNav: boolean = false;
+  isHovered: boolean = false;
   @ViewChild("signoutConfirmationModal")
   signoutConfirmationModal!: TemplateRef<any>;
   private signoutConfirmationDialogRef!: MatDialogRef<TemplateRef<any>>;
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
   baseJson: any = [];
-  is_subscribe: any;
   constructor(
-    private dataService: DataService,
     public router: Router,
     public dialog: MatDialog,
     private ds: DataService,
@@ -166,30 +125,14 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     private fc: FunctionCallingService,
     private _FPS: FingerPrintService,
     private tokenService: TokenService,
-    private translateService: TranslationService,
-    public translate: TranslationService,
-    private titleService: Title,
-    private fcs: FunctionCallingService,
-    private analyticsService: AnalyticsService,
-
+    private deviceService: DeviceDetectorService
   ) {
-
     this.getNavbarData();
-    this.ed.isUserLoggedIn.subscribe((value) => {
-      if (value == true) {
-        this.loggedIn = value
-      }
-    });
+    if (this.isOttLoggedIn) {
+    }
     this.fc.logoutProfile.subscribe((value) => {
       if (value == true) {
         this.logout();
-      }
-    });
-    this.eds.showButton.subscribe((value) => {
-      if (value == true) {
-        this.showButton = true
-      } else {
-        this.showButton = false
       }
     });
     this.fc.loginModal.subscribe((value) => {
@@ -198,12 +141,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       }
     });
     this.ed.active.subscribe((value) => {
-      if (value != '') {
+      if (value != "") {
         this.selectedItem = value;
       }
-
     });
-
     this.ed.humburgerhide.subscribe((value) => {
       this.isMobileToggled = false;
     });
@@ -216,105 +157,32 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   homeComponent!: HomepageComponent;
 
   ngOnInit(): void {
-
-    // At this point master JSON is guaranteed loaded
-    // this.dataService.getMenus().subscribe(res => {
-    //   console.log('Menus: ', res);
-    // });
-
-    const savedLang = localStorage.getItem('tongue');
-    if (savedLang) {
-      this.selected = savedLang;
-      this.translateService.setLanguage(savedLang);
-    } else {
-      this.selected = 'en';
-      this.translateService.setLanguage('en');
-    }
-
-    if (Object.keys(this.taploginInfo).length) {
-      this.loggedIn = true;
-      // const taplogininfo: any = localStorage.getItem("taploginInfo");
-      // const USER_ACCOUNT: any = JSON.parse(taplogininfo);
-      // this.ds.getSubtitle(USER_ACCOUNT.id).subscribe((res: any) => {
-
-      //   this.dep_ser.getDecryptedData(res?.result);
-      //   let decryptData = JSON.parse(this.dep_ser.decryptData);
-      //   const sendTosett = decryptData;
-      //   localStorage.setItem("app_lang", sendTosett.payload.app_language);
-      //   const languageMap: { [key: string]: string } = {
-      //     'as': 'Assamese',
-      //     'bn': 'Bengali',
-      //     'bg': 'Bulgarian',
-      //     'zh-CN': 'Chinese (Simplified)',
-      //     'en': 'English',
-      //     'fr': 'French',
-      //     'de': 'German',
-      //     'gu': 'Gujarati',
-      //     'he': 'Hebrew',
-      //     'hi': 'Hindi',
-      //     'ja': 'Japanese',
-      //     'kn': 'Kannada',
-      //     'ko': 'Korean',
-      //     'ml': 'Malayalam',
-      //     'mr': 'Marathi',
-      //     'mn': 'Mongolian',
-      //     'or': 'Odia',
-      //     'pa': 'Punjabi',
-      //     'ru': 'Russian',
-      //     'es': 'Spanish',
-      //     'ta': 'Tamil',
-      //     'te': 'Telugu'
-      //   };
-
-      //   const reverseLanguageMap: { [key: string]: string } = Object.keys(languageMap).reduce((acc, key) => {
-      //     acc[languageMap[key].toLowerCase()] = key;
-      //     return acc;
-      //   }, {} as { [key: string]: string });
-      //   setTimeout(() => {
-
-      //     const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-      //     if (selectElement) {
-      //       if (sendTosett.payload.app_language != '' || sendTosett.payload.app_language != null) {
-      //         const appLanguage = sendTosett.payload.app_language.toLowerCase();
-      //         const languageCode = reverseLanguageMap[appLanguage];
-      //         selectElement.value = languageCode;
-      //         selectElement.dispatchEvent(new Event('change'));
-      //         setTimeout(() => {
-      //           selectElement.value = languageCode;
-      //           selectElement.dispatchEvent(new Event('change'));
-      //         }, 1000);
-
-      //       }
-      //     }
-      //   }, 2000);
-      // });
-    } else {
-      this.loggedIn = false;
-    }
-    // setTimeout(() => {
-    //   this.addLanguageChangeListener();
-    // }, 3500);
-    localStorage.setItem('googleLang', '1')
-    this.getLanguages()
-    if (localStorage.getItem('googleLang') == '1') {
-
-      setTimeout(() => {
-        const script = document.createElement('script');
-        script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit&key=AIzaSyC2Yaupd3NMeg-UoC9fX4z6hHFRIZa9LKs';
-        script.async = true;
-        document.head.appendChild(script);
-
-      }, 500);
-
-
-    }
-
-    if (this.isShowButton == '1') {
-      this.showButton = true
-    }
-    this.getHeaderConfig();
-    this.getJsonPopup()
+    localStorage.removeItem('AdUrl')
     // this.jsondata()
+    this.getHeaderConfig();
+    this.getJsonPopup();
+    this._FPS.getFingerPrintDeviceId();
+    this._FPS.visitorId.subscribe(r => {
+      this.visitorId = r;
+      const deviceId = localStorage.getItem('device_id');
+      if (!deviceId || deviceId === '' || deviceId === 'undefined' || deviceId === null) {
+        localStorage.setItem('device_id', this.visitorId);
+      }
+      const device_Id = String(deviceId || 'unknown');
+      window.posthog.reset(true);
+      window.posthog.register({ device_id: deviceId });
+    });
+
+    if (localStorage.getItem("taploginInfo") != null) {
+      const taplogininfo: any = localStorage.getItem("taploginInfo");
+      this.USER_ACCOUNT_id = JSON.parse(taplogininfo);
+    }
+    const userId = String(this.USER_ACCOUNT_id?.id || 'guest');
+    window.posthog.reset(true);
+    window.posthog.identify(userId);
+
+
+
     if (Object.keys(this.taploginInfo).length) {
       this.is_loginInfo = true;
       const taplogininfo: any = localStorage.getItem("taploginInfo");
@@ -327,181 +195,163 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     } else {
       this.is_loginInfo = false;
     }
-    this._FPS.getFingerPrintDeviceId();
-    this._FPS.visitorId.subscribe((r) => (this.visitorId = r));
     this.onWindowSizeCheck();
 
     this.homeservice.castUser.subscribe((user) => (this.user = user));
-    // for mini audio player
-    localStorage.setItem('miniplay', '0')
-  }
-  gotToHome() {
-
-    this.selectedItem = "HOME"
-    this.router.navigateByUrl("/");
-    this.dialog.closeAll();
-
-  }
-  getLanguages() {
-    // this.ds.getLanguages().subscribe((res: any) => {
-    //   this.mains = res.result
-    //   console.log(this.mains);
-
-    // });
-  }
-  // changeLang(event: any) {
-  //   console.log(event.target.value);
-  //   localStorage.setItem('tongue', event.target.value)
-  //   this.selected = localStorage.getItem('tongue')
-  //   location.reload()
-  // }
-
-  changeLang(event: any) {
-    const langCode = event.target.value;
-    localStorage.setItem('tongue', langCode);
-    this.selected = langCode;
-    this.translateService.setLanguage(langCode);
-    // location.reload(); // optional: to reload translations everywhere
+    this.app_version = localStorage.getItem("appVersion");
+    this.selectedItem = localStorage.getItem("active");
   }
 
+
+  adUrl() {
+
+    this.ds.getAdsApi().subscribe((res: any) => {
+
+      if (res.code == 1) {
+        this.dep_ser.getDecryptedData(res?.result);
+        let decryptData = JSON.parse(this.dep_ser.decryptData);
+        console.log(decryptData, "hjkjhghjkjgf")
+        localStorage.setItem('AdUrl', JSON.stringify(decryptData))
+      }
+    })
+  }
+
+  onHover(state: boolean) {
+    this.isHovered = state;
+  }
 
   getJsonPopup() {
     this.ds.popupJson().subscribe((res: any) => {
-      this.baseJson = res.PopupList[0]
-    })
-  }
-  ngAfterViewInit(): void {
-
-  }
-  feedback() {
-    const dialogRef = this.dialog.open(ParentalControlComponent, {
-      panelClass: 'contactfooter',
-      width: "390px",
-      disableClose: false,
+      this.baseJson = res.PopupList[0];
+      console.log(this.baseJson);
     });
   }
+  ngAfterViewInit(): void { }
   getNavbarData() {
     this.tokenService.getTokenInfo().subscribe((res: any) => {
       this.tokenService.saveToken(res.result);
-      this.ds.getMenus().subscribe((res: any) => {
-        this.navbarItems.push(res['result'].category[0])
-        for (let i in this.navbarItems) {
-          if (this.navbarItems[i].category == null || this.navbarItems[i].category == undefined) {
-            this.navbarItems[i].category = this.navbarItems[i].title
-            this.navbarItems[i].category_type = this.navbarItems[i].title
-          }
-        }
-
-        this.ds.getCategoryList(res['result'].category[1].id).subscribe((res: any) => {
-          this.dep_ser.getDecryptedData(res?.result);
-          let getDecryptData = JSON.parse(this.dep_ser.decryptData);
-          console.log(getDecryptData);
-
-          for (let i in getDecryptData.cat) {
-            this.navbarItems.push(getDecryptData.cat[i]);
-          }
-          this.dataNav = this.navbarItems;
-          console.log(this.dataNav)
-          this.loadedData.emit(true);
-          localStorage.setItem("navbarData", JSON.stringify(this.dataNav));
-        });
-      })
-
+      this.ds.getCategoryList().subscribe((res: any) => {
+        this.dep_ser.getDecryptedData(res?.result);
+        let getDecryptData = JSON.parse(this.dep_ser.decryptData);
+        this.navbarItems = getDecryptData.cat.vod;
+        this.dataNav = this.navbarItems;
+        console.log(this.dataNav);
+        this.loadedData.emit(true);
+        localStorage.setItem("navbarData", JSON.stringify(this.dataNav));
+      });
     });
+
   }
+
   cfh() {
     this.logout();
   }
   getHeaderConfig() {
     this.ds.faqData().subscribe((res: any) => {
       localStorage.setItem("jsonPlayer", JSON.stringify(res));
-      this.nextdata = res.Website[0].side_menu;
+      localStorage.setItem("faqData", JSON.stringify(res));
+      if (res?.Player[0]?.google_ads?.is_allow == 1) {
+        this.adUrl()
+      }
+
+      for (let i in res.Website[0].side_menu) {
+        if (res.Website[0].side_menu[i].is_allow == 1) {
+          this.nextdata.push(res.Website[0].side_menu[i]);
+          console.log(this.nextdata);
+        }
+      }
+      // this.nextdata = res.Website[0].side_menu;
+
       this.defaultImages = res.Website[0].default_images;
-      localStorage.setItem('defaultImages', JSON.stringify(this.defaultImages))
+
+      localStorage.setItem("defaultImages", JSON.stringify(this.defaultImages));
+
       this.navbar = res.Website[0].navbar;
+      this.offersData = res.App[0].menu;
+
+      this.offers = this.offersData.find((x: any) => x.type == "offers");
+
+      this.navbar.filter((data: any) => {
+        if (data.type == "ads") {
+          this.ad_data = data;
+        }
+      });
+
       this.hamBanner = res.Website[0];
-      this.stacking = res.Others.package_stacking.subscribed.days
     });
   }
+  activate() {
+    if (this.isSubscribed) {
+      this.router.navigate(["activation"]);
+    } else {
+      this.ed.pauseDetailVideo.next(true);
+      const dialogRef = this.dialog.open(ContactusModalDialogComponent, {
+        panelClass: "premium",
+        backdropClass: 'popupBackdropClass',
+        width: "450px",
+      });
+    }
 
-  hideData() {
     this.isMobileToggled = !this.isMobileToggled;
-  }
-  getAllCatData(menu: any, link: any, name: any, category: any) {
-    this.titleService.setTitle(category)
     $("body").css("overflow", "auto");
-    const taploginInfo = localStorage.getItem("taploginInfo");
-    const userId = taploginInfo ? JSON.parse(taploginInfo).id : '';
+  }
+  hideData() {
 
-    const eventParams = {
-      item_id: menu,
-      item_name: category
-    };
-    this.analyticsService.logEvent('navbar_interaction', eventParams);
-    localStorage.setItem("active", category);
+    this.isMobileToggled = !this.isMobileToggled;
+    $("body").css("overflow", "auto");
+
+  }
+  getAllCatData(menu: any, link: any, name: any, cat: any) {
+    localStorage.removeItem("packcheking");
+    localStorage.removeItem("newuser");
+    localStorage.setItem("active", cat);
     var item = localStorage.getItem("active");
     this.selectedItem = item;
+    // let currentUrl = this.router.url
 
-    if (name.toUpperCase() == 'HOME') {
+    $("body").css("overflow", "auto");
+    localStorage.setItem("active", cat);
+    var item = localStorage.getItem("active");
+    this.selectedItem = item;
+    scroll(0, 0);
+    if (cat.toUpperCase() == "HOME") {
       localStorage.setItem("refresh", "1");
       this.router.navigate(["/"]);
+    } else {
+      this.router.navigateByUrl("/", { skipLocationChange: true }).then(() => {
+        this.router.navigate(["/" + link]);
+      });
     }
-    else {
-      this.ds
-        .getHomeData(this.display_offset, this.display_limit, menu)
-        .subscribe((res: any) => {
-          this.dep_ser.getDecryptedData(res?.result);
-          let decryptData = JSON.parse(this.dep_ser.decryptData);
-          this.homeData = decryptData;
-          this.homeservice.sendDataToComponent(this.homeData);
-          const isSubscribe = localStorage.getItem("is_subscriber")
-          console.log(this.homeData);
-          if (name == 'ebook') {
-            this.router.navigateByUrl(["aol/ebook/"] + menu)
-          } else if (name == 'webcast') {
-            this.router.navigateByUrl('/category/webcast')
-          }
-          else if (name == 'radio') {
-            this.router.navigateByUrl('/category/radio')
-          }
-          else if (name == 'event') {
-            this.router.navigateByUrl('/category/zoom')
-          } else {
-            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-              this.router.navigate(["/category/" + link]);
-            });
-          }
-
-        });
-    }
-
-    // this.dialog.closeAll()
-
   }
 
-  openStore() {
-    this.ds.apipip().subscribe((res: any) => {
-      console.log(res);
-      if (res.countryName == "India") {
-        window.open('https://www.artofliving.store', '_blank');
-      } else {
-        window.open('https://global.artofliving.store/', '_blank');
-      }
-    })
+  gotoClearOffers() {
+    localStorage.removeItem("packcheking");
+    localStorage.removeItem("newuser");
   }
 
   toggleNavbar() {
-
+    if (window.firebaseAnalytics && typeof window.firebaseAnalytics.logEvent === 'function') {
+      window.firebaseAnalytics.logEvent('SIDE_MENU_ITEM_OPEN', {
+        click: 'sidemenuicon'
+      });
+    }
     if (this.isMobileToggled == true) {
       $("body").css("overflow", "auto");
+      if (window.firebaseAnalytics && typeof window.firebaseAnalytics.logEvent === 'function') {
+        window.firebaseAnalytics.logEvent('SIDE_MENU_ITEM_CLOSED', {
+          click: 'sidemenuicon'
+        });
+      }
+    } else {
+      $("body").css("overflow", "hidden");
     }
-    this.eds.hideMemberAlert.next(true)
+    this.eds.hideMemberAlert.next(true);
     this.isMobileToggled = !this.isMobileToggled;
     if (Object.keys(this.taploginInfo).length) {
       this.is_loginInfo = true;
       const taplogininfo: any = localStorage.getItem("taploginInfo");
       const USER_ACCOUNT: any = JSON.parse(taplogininfo);
-      console.log(USER_ACCOUNT)
+
       this.UserData = USER_ACCOUNT.first_name
         ? USER_ACCOUNT.first_name + " " + USER_ACCOUNT.last_name
         : USER_ACCOUNT.email
@@ -512,52 +362,57 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     }
   }
   onClickMove(type: any) {
-
-    if (type == 'subscribe') {
-      const eventParams = {
-        item_name: 'subscribe',
-      };
-      this.analyticsService.logEvent('navbar_interaction', eventParams);
-    }
+    //  let currentUrl = this.router.url
+    localStorage.removeItem("packcheking");
+    localStorage.removeItem("newuser");
     localStorage.setItem("active", type);
     var item = localStorage.getItem("active");
     this.selectedItem = item;
 
     if (type == "search") {
-
       this.router.navigate(["/search"]);
-    }
-    else if (type == "subscribe") {
+      localStorage.removeItem("packcheking");
+      localStorage.removeItem("newuser");
+    } else if (type == "subscribe") {
       localStorage.removeItem("woohoo");
-      if (localStorage.getItem("ott_isLoggedIn") != '1') {
+      this.router.navigate(["/subscribe"]);
 
-        this.openLoginDialog();
-        this.is_subscribe = 1
-      } else {
-        this.fcs.isRental.next(false)
-        this.router.navigate(["/subscribe"]);
+      // this.router.navigate(["/subscribe"]);
+      localStorage.removeItem("packcheking");
+      localStorage.removeItem("newuser");
+      this.gotoSubscribePage();
+    } else if (type == "feels") {
+     
+     if(!this.isOttLoggedIn){
+         const dialogRef = this.dialog.open(LoginModalDialogComponent, {
+        backdropClass: "popupBackdropClass",
+        panelClass: "logindialog",
+        width: "420px",
+        data: { name: "login" },
+      });
       }
+      else{
+      this.router.navigate(["/vives"]);
 
-
+      }
     }
   }
 
   searchNavigate() {
-    const eventParams = {
-      item_name: 'search',
-    };
-    this.analyticsService.logEvent('navbar_interaction', eventParams);
     this.router.navigate(["/search"]);
-
+    if (window.firebaseAnalytics && typeof window.firebaseAnalytics.logEvent === 'function') {
+      window.firebaseAnalytics.logEvent('MENU_SEARCH', {
+        click: 'MENU_SEARCH'
+      });
+    }
+    localStorage.removeItem("packcheking");
+    localStorage.removeItem("newuser");
   }
   navigate(items: any) {
+    window.scroll(0, 0);
     localStorage.setItem("active", "account");
     var item = localStorage.getItem("active");
     this.selectedItem = item;
-    const eventParams = {
-      item_clicked: items,
-    };
-    this.analyticsService.logEvent('menu_interaction', eventParams);
   }
   @HostListener("window:resize")
   onWindowResize() {
@@ -572,18 +427,98 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       this.isHambergerMenu = true;
     }
   }
-  profileClicked() {
-    const eventParams = {};
-    this.analyticsService.logEvent('profile_interaction', eventParams);
+
+  setActive(index: number) {
+    this.activeIndex = index;
   }
+
+  handleAccountClick(event: Event) {
+    if (this.isOttLoggedIn) {
+      this.router.navigate(["/account"]);
+    } else {
+      let xc = window.innerWidth;
+      localStorage.setItem("videoPlay", "1");
+      localStorage.setItem("videoCarousel", "1");
+
+      this.ed.pauseDetailVideo.next(true);
+      localStorage.setItem("videoCarousel", "1");
+      const dialogRef = this.dialog.open(LoginModalDialogComponent, {
+        backdropClass: "popupBackdropClass",
+        panelClass: "logindialog",
+        width: "420px",
+        data: { name: "login" },
+      });
+
+      const sub = dialogRef.componentInstance.isLoggedIn.subscribe(
+        (data: any) => {
+          this.is_loginInfo = data;
+          this.isLoggedInforLayout.emit(data);
+        }
+      );
+      dialogRef.afterClosed().subscribe((result) => {
+        if (localStorage.getItem("VideoAutoPlay") == "0") {
+          this.ed.pauseDetailVideo.next(false);
+        }
+        localStorage.setItem("videoCarousel", "0");
+        localStorage.setItem("videoPlay", "0");
+
+        const taplogininfo: any = localStorage.getItem("taploginInfo");
+        const USER_ACCOUNT: any = JSON.parse(taplogininfo);
+        this.UserData = USER_ACCOUNT?.first_name
+          ? USER_ACCOUNT?.first_name + " " + USER_ACCOUNT?.last_name
+          : USER_ACCOUNT?.email
+            ? USER_ACCOUNT?.email
+            : USER_ACCOUNT?.contact_no;
+      });
+    }
+  }
+  handleWatchlistClick(event: Event) {
+    if (this.isOttLoggedIn) {
+      this.router.navigate(["/watchlist"]);
+    } else {
+      let xc = window.innerWidth;
+      localStorage.setItem("videoPlay", "1");
+      localStorage.setItem("videoCarousel", "1");
+
+      this.ed.pauseDetailVideo.next(true);
+      localStorage.setItem("videoCarousel", "1");
+      const dialogRef = this.dialog.open(LoginModalDialogComponent, {
+        backdropClass: "popupBackdropClass",
+        panelClass: "logindialog",
+        width: "420px",
+        data: { name: "login" },
+      });
+
+      const sub = dialogRef.componentInstance.isLoggedIn.subscribe(
+        (data: any) => {
+          this.is_loginInfo = data;
+          this.isLoggedInforLayout.emit(data);
+        }
+      );
+      dialogRef.afterClosed().subscribe((result) => {
+        if (localStorage.getItem("VideoAutoPlay") == "0") {
+          this.ed.pauseDetailVideo.next(false);
+        }
+        localStorage.setItem("videoCarousel", "0");
+        localStorage.setItem("videoPlay", "0");
+
+        const taplogininfo: any = localStorage.getItem("taploginInfo");
+        const USER_ACCOUNT: any = JSON.parse(taplogininfo);
+        this.UserData = USER_ACCOUNT?.first_name
+          ? USER_ACCOUNT?.first_name + " " + USER_ACCOUNT?.last_name
+          : USER_ACCOUNT?.email
+            ? USER_ACCOUNT?.email
+            : USER_ACCOUNT?.contact_no;
+      });
+    }
+  }
+
   // open login dialog
   openDialog() {
-    const eventParams = {
-      item_name: 'login',
-    };
-    this.analyticsService.logEvent('navbar_interaction', eventParams);
-    this.is_subscribe = 0;
+    // if (dialogtype === "signin") {
     this.openLoginDialog();
+    // this.router.navigateByUrl("/");
+    // }
   }
   openMyMenu(menuTrigger: MatMenuTrigger) {
     menuTrigger.openMenu();
@@ -591,90 +526,101 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   closeMyMenu(menuTrigger: MatMenuTrigger) {
     menuTrigger.closeMenu();
   }
-
+  close() {
+    this.signoutConfirmationDialogRef.close();
+  }
   openLoginDialog(): void {
     let xc = window.innerWidth;
-
+    localStorage.setItem("videoPlay", "1");
+    localStorage.setItem("videoCarousel", "1");
     if (xc < 576) {
       if (this.isMobileToggled == true) {
         $("body").css("overflow", "auto");
       } else {
         $("body").css("overflow", "hidden");
       }
-      this.eds.hideMemberAlert.next(true)
+      this.eds.hideMemberAlert.next(true);
       this.isMobileToggled = !this.isMobileToggled;
     }
+
+    this.ed.pauseDetailVideo.next(true);
+    localStorage.setItem("videoCarousel", "1");
     const dialogRef = this.dialog.open(LoginModalDialogComponent, {
       backdropClass: "popupBackdropClass",
       panelClass: "logindialog",
       width: "420px",
       data: { name: "login" },
     });
+
     const sub = dialogRef.componentInstance.isLoggedIn.subscribe(
       (data: any) => {
         this.is_loginInfo = data;
         this.isLoggedInforLayout.emit(data);
-        if (this.is_subscribe == 1) {
-          this.router.navigate(["/subscribe"]);
-          this.is_subscribe = 0
-        }
-
       }
     );
     dialogRef.afterClosed().subscribe((result) => {
+      if (localStorage.getItem("VideoAutoPlay") == "0") {
+        this.ed.pauseDetailVideo.next(false);
+      }
+      localStorage.setItem("videoCarousel", "0");
+      localStorage.setItem("videoPlay", "0");
+
       const taplogininfo: any = localStorage.getItem("taploginInfo");
       const USER_ACCOUNT: any = JSON.parse(taplogininfo);
-      if (USER_ACCOUNT) {
-        this.UserData = USER_ACCOUNT.first_name
-          ? USER_ACCOUNT.first_name + " " + USER_ACCOUNT.last_name
-          : USER_ACCOUNT.email
-            ? USER_ACCOUNT.email
-            : USER_ACCOUNT.contact_no;
-      }
-
+      this.UserData = USER_ACCOUNT?.first_name
+        ? USER_ACCOUNT?.first_name + " " + USER_ACCOUNT?.last_name
+        : USER_ACCOUNT?.email
+          ? USER_ACCOUNT?.email
+          : USER_ACCOUNT?.contact_no;
     });
-    dialogRef.disableClose = true;
   }
-  list() {
-    if (this.isSubscribed) {
-      this.router.navigate(["/mylist"]);
-    } else {
-      const dialogRef = this.dialog.open(ContactusModalDialogComponent, {
-        panelClass: "premium",
-        backdropClass: 'popupBackdropClass',
-        width: "450px",
-      });
-    }
+  gotoOffers() {
+    localStorage.removeItem("packcheking");
+    localStorage.removeItem("newuser");
+    this.router.navigate(["/offers"]);
+    this.selectedItem = "offers";
+    localStorage.setItem("active", "offers");
+  }
+  gotoOffersMobile() {
+    localStorage.removeItem("packcheking");
+    localStorage.removeItem("newuser");
+    this.router.navigate(["/offers"]);
+    this.selectedItem = "offers";
+    $("body").css("overflow", "auto");
+    localStorage.setItem("active", "offers");
+    scroll(0, 0);
   }
   isLoggedInEvent(e: boolean) {
-    console.log(e);
-
     this.is_loginInfo = e;
     this.isLoggedInforLayout.emit(e);
-    console.log(e, "login status");
   }
   openEmailDialog(input: string): void {
     const dialogRef = this.dialog.open(EmailDialogComponent, {
       width: "390px",
       data: { email: input },
     });
+
+    dialogRef.afterClosed().subscribe((result) => { });
   }
   openOttDialog(): void {
     const dialogRef = this.dialog.open(OtpDialogComponent, {
       width: "390px",
       data: { name: "login" },
     });
+
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   openNav(type: any) {
-
+    localStorage.removeItem("packcheking");
+    localStorage.removeItem("newuser");
     $("body").css("overflow", "auto");
     switch (type) {
-
       case "subscribe":
-
         this.router.navigate(["/subscribe"]);
         window.scroll(0, 0);
+
+        this.gotoSubscribePage();
         break;
       case "notification":
         this.router.navigate(["/notification"]);
@@ -685,7 +631,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         window.scroll(0, 0);
         break;
       case "faq":
-        this.router.navigate(["/faqs"]);
+        this.router.navigate(["/corporate"]);
         window.scroll(0, 0);
         break;
       case "about":
@@ -697,16 +643,18 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         window.scroll(0, 0);
         break;
       case "subscriber":
-        this.router.navigate(["/my-subscriptions"]);
+        this.router.navigate(["/my-subscription"]);
         window.scroll(0, 0);
         break;
     }
     this.hideData();
   }
-
+  get deviceDetection(): any {
+    return this.deviceService.getDeviceInfo();
+  }
   openSignoutConfirmationDialog(): void {
-    const eventParams = {};
-    this.analyticsService.logEvent('logout_interaction', eventParams);
+    this.ed.pauseDetailVideo.next(true);
+    localStorage.setItem("videoCarousel", "1");
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.restoreFocus = false;
@@ -721,34 +669,14 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     );
     this.router.events.subscribe(() => {
       this.signoutConfirmationDialogRef.close();
-    });
-  }
-  close() {
-    this.signoutConfirmationDialogRef.close();
-  }
-  openSignoutConfirmationDialog_mob(): void {
-    const eventParams = {};
-    this.analyticsService.logEvent('logout_interaction', eventParams);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.restoreFocus = false;
-    dialogConfig.autoFocus = false;
-    dialogConfig.role = "dialog";
-    dialogConfig.panelClass = "signoutConfirmation";
-    dialogConfig.backdropClass = "popupBackdropClass";
-    dialogConfig.width = "390px";
-    this.signoutConfirmationDialogRef = this.dialog.open(
-      this.signoutConfirmationModal,
-      dialogConfig
-    );
-    this.router.events.subscribe(() => {
-
-      this.signoutConfirmationDialogRef.close();
-
     });
   }
   signoutConfirmationclose() {
     this.signoutConfirmationDialogRef.close();
+    if (localStorage.getItem("VideoAutoPlay") == "0") {
+      this.ed.pauseDetailVideo.next(false);
+    }
+    localStorage.setItem("videoCarousel", "0");
   }
 
   formatDate(inputDate: any) {
@@ -761,42 +689,59 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     var minutes: any = date.getMinutes();
     var seconds: any = date.getSeconds();
 
-    day = day < 10 ? '0' + day : day;
-    month = month < 10 ? '0' + month : month;
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
+    day = day < 10 ? "0" + day : day;
+    month = month < 10 ? "0" + month : month;
+    hours = hours < 10 ? "0" + hours : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
 
-    var formattedDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+    var formattedDate =
+      year +
+      "-" +
+      month +
+      "-" +
+      day +
+      " " +
+      hours +
+      ":" +
+      minutes +
+      ":" +
+      seconds;
 
     return formattedDate;
   }
 
-
-
   logout() {
     const taplogininfo: any = localStorage.getItem("taploginInfo") || {};
-    const userSessions: any = localStorage.getItem('ipSaveData') || {};
+    const userSessions: any = localStorage.getItem("ipSaveData") || {};
     const USER_ACCOUNT: any = JSON.parse(taplogininfo);
     const USER_SESSION: any = JSON.parse(userSessions);
+    const subscribe: any = localStorage.getItem("is_subscriber") || {};
+    if (subscribe == 1) {
+      this.userStatus = "Subscribed";
+    } else {
+      this.userStatus = "Registered";
+    }
+
+    if (USER_ACCOUNT.gender == "") {
+      this.session_gender = "others";
+    } else {
+      this.session_gender = USER_ACCOUNT.gender;
+    }
+
     const formData: any = new FormData();
     formData.append("user_id", USER_ACCOUNT.id);
     formData.append("type", 1);
-    formData.append("device_unique_id", this.visitorId);
-
+    formData.append("device_unique_id", localStorage.getItem('device_id'));
     this.ds.logout(formData).subscribe((res) => {
       if (res.code == 1) {
         this.dialog.closeAll();
-        this.ed.alreadySubscriber.next(false)
+        this.ed.alreadySubscriber.next(false);
         this.ed.isSubscribe.next(false);
-        this.ed.isUserLoggedIn.next(false)
-        this.ed.isUserLoggedInModal.next(false)
-        this.ed.reload.next(false)
+        this.ed.isUserLoggedIn.next(false);
+        this.ed.isUserLoggedInModal.next(false);
+        this.ed.reload.next(false);
         this.isLoggedInforLayout.emit(false);
-        const eventParams = {
-          method: USER_ACCOUNT.login_type,
-        };
-        this.analyticsService.logEvent('logout', eventParams);
         localStorage.removeItem("ott_subtitle_setup");
         localStorage.removeItem("taploginInfo");
         localStorage.removeItem("ott_isLoggedIn");
@@ -804,7 +749,6 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         localStorage.removeItem("ott_subscriptionPlan");
         localStorage.removeItem("subscribeInfo");
         localStorage.removeItem("is_subscriber");
-        localStorage.removeItem("deviceLimit");
         localStorage.removeItem("isParentalSet");
         localStorage.removeItem("parentalControl");
         localStorage.removeItem("otpForgotId");
@@ -815,6 +759,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         localStorage.removeItem("taploginInfo1");
         localStorage.removeItem("ottParental");
         localStorage.removeItem("toggle_status");
+        localStorage.removeItem("deviceLimit");
         localStorage.removeItem("isParentalRestriction");
         localStorage.removeItem("isOverAge");
         localStorage.removeItem("subtitle");
@@ -828,23 +773,29 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         localStorage.removeItem("regional");
         localStorage.removeItem("jsonPlayer");
         localStorage.removeItem("loginShow");
-        localStorage.removeItem("deleteAccount")
-        localStorage.removeItem("deviceDetails")
-        localStorage.removeItem("device_id")
-        localStorage.removeItem("showButton")
-
-
-        if (this.router && this.router.url === '/') {
-          window.location.reload();
-          this.router.navigate(['/']);
-        } else {
-          this.router.navigate(['/']);
+        localStorage.removeItem("deleteAccount");
+        localStorage.removeItem("pkgData");
+        // localStorage.removeItem("device_id");
+        localStorage.removeItem("packcheking");
+        localStorage.removeItem("cancelKey");
+        const userId = String(this.USER_ACCOUNT_id?.id || 'guest');
+        window.posthog.reset(true);
+        window.posthog.identify(userId);
+        console.log(userId, "kjsl")
+        if (window.firebaseAnalytics && typeof window.firebaseAnalytics.logEvent === 'function') {
+          window.firebaseAnalytics.logEvent('LOGOUT', {
+            userId: USER_ACCOUNT.id
+          });
         }
+        
+        if (this.router && this.router.url === "/") {
+          window.location.reload();
+        } else {
+          this.router.navigate(["/"]);
 
+        }
       }
     });
-
-    // userSessionApi Start
 
     var inputDate = new Date();
     var formattedDate = this.formatDate(inputDate);
@@ -854,38 +805,31 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     formData1.append("type", "end");
     formData1.append("time", formattedDate);
     formData1.append("device_unique_id", this.visitorId);
-    formData1.append("device_type", "web");
+    formData1.append("device_type", this.deviceService.deviceType);
     formData1.append("content_type", "vod");
-    formData1.append("customer_name", USER_ACCOUNT.first_name + '' + USER_ACCOUNT.last_name);
+    formData1.append(
+      "customer_name",
+      USER_ACCOUNT.first_name + "" + USER_ACCOUNT.last_name
+    );
     formData1.append("country", USER_SESSION.countryName);
     formData1.append("country_code", USER_SESSION.countryCode);
     formData1.append("network_type", USER_SESSION.security.network);
     formData1.append("network_provider", USER_SESSION.connection.isp);
-    formData1.append("platform", USER_SESSION.userAgent.platform);
-    formData1.append("browser", USER_SESSION.userAgent.browser);
-    formData1.append("screen_resolution", window.screen.availWidth + '*' + window.screen.availHeight);
-    formData1.append("os_version", USER_SESSION.userAgent.operatingSystem);
+    formData1.append("platform", this.deviceService.deviceType);
+    formData1.append("browser", this.deviceService.browser);
+    formData1.append(
+      "screen_resolution",
+      window.screen.availWidth + "*" + window.screen.availHeight
+    );
+    formData1.append("os_version", USER_SESSION.userAgent.browserVersion);
     formData1.append("age_group", USER_ACCOUNT.age_group);
-    formData1.append("gender", USER_ACCOUNT.gender);
-    formData1.append("city", USER_SESSION.city);
+    formData1.append("gender", this.session_gender);
+    formData1.append("city", "others");
     this.ds.userSession(formData1).subscribe((res: any) => {
       if (res.code == 1) {
-        console.log(res);
-
       }
-
     });
-
-    // userSessionApi End
-
-
   }
-
-  // jsondata() {
-  //   this.ds.faqData().subscribe((data: any) => {
-  //     localStorage.setItem("jsonPlayer", JSON.stringify(data));
-  //   })
-  // }
 
   openParentalControlDialog(): void {
     this.ed.openSettingAccount.next(true);
@@ -922,7 +866,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       } else {
         this.enteredButton = false;
       }
-    }, 3000);
+    }, 3000000);
   }
   menuenter() {
     this.isMatMenuOpen = true;
@@ -934,92 +878,18 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   menuLeave() {
     setTimeout(() => {
       this.menuTrigger.closeMenu();
-    }, 3000);
+    }, 1000000);
   }
 
-  regionalOpen() {
-
-    const dialogRef = this.dialog.open(RegionalComponent, {
-      panelClass: 'contactfooter',
-      width: "390px",
-      data: { title: this.sendTosettingSubtitle }
-    });
-    const sub = dialogRef.componentInstance.regionalSet.subscribe((title: any) => {
-      this.regional = title
-    });
-  }
-  addLanguageChangeListener(): void {
-
-    const languageMap: { [key: string]: string } = {
-      'as': 'Assamese',
-      'bn': 'Bengali',
-      'bg': 'Bulgarian',
-      'zh-CN': 'Chinese (Simplified)',
-      'en': 'English',
-      'fr': 'French',
-      'de': 'German',
-      'gu': 'Gujarati',
-      'he': 'Hebrew',
-      'hi': 'Hindi',
-      'ja': 'Japanese',
-      'kn': 'Kannada',
-      'ko': 'Korean',
-      'ml': 'Malayalam',
-      'mr': 'Marathi',
-      'mn': 'Mongolian',
-      'or': 'Odia',
-      'pa': 'Punjabi',
-      'ru': 'Russian',
-      'es': 'Spanish',
-      'ta': 'Tamil',
-      'te': 'Telugu'
-    };
-
-    const selectElement = document.querySelector('.goog-te-combo');
-    if (selectElement) {
-      selectElement.addEventListener('change', () => {
-        const selectedLanguageCode = (selectElement as HTMLSelectElement).value;
-        const selectedLanguageName = languageMap[selectedLanguageCode]?.toLowerCase() || selectedLanguageCode;
-
-        console.log(selectedLanguageCode);
-        var u_id: any = localStorage.getItem("taploginInfo");
-        var ids = JSON.parse(u_id);
-        this.ds.getSubtitle(ids.id).subscribe((res: any) => {
-          this.dep_ser.getDecryptedData(res?.result);
-          let decryptData = JSON.parse(this.dep_ser.decryptData);
-          const sendTosett = decryptData;
-          if (sendTosett.payload != null && sendTosett.payload.subtitle != null) {
-            this.subtitle = sendTosett.payload.subtitle;
-          } else {
-            this.subtitle = "None";
-          }
-          if (sendTosett.payload != null && sendTosett.payload.language_key != null) {
-            this.regionals = sendTosett.payload.language_key;
-          } else {
-            this.regionals = "None";
-          }
-          const payload: any = {
-            quality_key: 0,
-            notification_key: 0,
-            download_key: 0,
-            autoplay_key: 0,
-            language_key: this.regionals,
-            subtitle: this.subtitle,
-            app_language: selectedLanguageName
-          };
-          var uid: any = localStorage.getItem("taploginInfo");
-          var Uid = JSON.parse(uid);
-          const formData = new FormData();
-          formData.append("uid", Uid.id);
-          formData.append("payload", JSON.stringify(payload));
-
-          this.ds.subtitleSet(formData).subscribe((res: any) => {
-
-          });
-        });
-
-      });
+  gotoSubscribePage() {
+    if (localStorage.getItem("taploginInfo") === null) {
+    } else {
+      const taplogininfo: any = localStorage.getItem("taploginInfo") || {};
+      this.USER_ACCOUNT_id = JSON.parse(taplogininfo) || {};
+      var userage: any = new Date(this.USER_ACCOUNT_id.dob) || {};
+      var currentage: any = new Date() || {};
+      var newage: any = new Date(currentage) || {};
+      var age: any = newage - userage || {};
     }
   }
 }
-

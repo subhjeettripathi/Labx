@@ -3,13 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { FaqRoutingModule } from './faq-routing.module';
 import { FaqComponent } from './faq.component';
-import { TranslatePipe9 } from 'src/app/services/pipes/translate.pipe';
 
 
 @NgModule({
-  declarations: [FaqComponent,
-    TranslatePipe9
-  ],
+  declarations: [FaqComponent],
   imports: [
     CommonModule,
     FaqRoutingModule

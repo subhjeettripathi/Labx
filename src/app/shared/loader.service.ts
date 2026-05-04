@@ -7,11 +7,11 @@ export class LoaderService {
   isLoading = new Subject<boolean>();
   constructor() { }
   show() {
-
     this.isLoading.next(true);
-  }
+ }
 
-  hide() {
+ hide() {
+ 
     this.isLoading.next(false);
-  }
+ }
 }

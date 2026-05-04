@@ -1,1 +1,30 @@
-<p>landing-consent-age-popup works!</p>
+<div fxLayout="column" fxLayoutGap="10px" class="alert-modal">
+    <div class="alt-login-content">
+        <div class="alt-login-img" >
+            <img src="https://static.creatorott.com/configration/5006/5006_683022271b603.png" alt="vive" class="vive-img"/>
+        </div>
+        <button class="close-btn" (click)="close()">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="" />
+        </button>
+        <div>
+            <p class="cancel-text" *ngIf="data.message == 'onetime'">
+                Are you sure you want to delete your account? After deletion, you won't
+                be able to access the app and will need to register again to use it.
+            </p>
+       
+            <p class="cancel-text" *ngIf="data.message == 'renew'">
+                Your subscription pack appears to be active. Please cancel it before
+                submitting a deletion request.
+            </p>
+            <div class="row-aol">
+                <div class="yes-btn" (click)="deleteAccount()">
+                    <button type="button" class="btn-two">Yes</button>
+                </div>
+                <div class="no-btn">
+                    <button type="button" class="btn-one" >No</button>
+                </div>
+            </div>
+        </div>
+     
+    </div>
+</div>

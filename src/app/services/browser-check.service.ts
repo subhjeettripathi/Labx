@@ -46,7 +46,7 @@ export class BrowserCheckService {
      // The below three lines are for the sample code only. May need to be removed.
      var result = "Running in " + browser + ". " + drmType + " supported.";
      // document.getElementById("browserCheckResult").innerHTML = result;
-    //  console.log(result);
+   
    
      return drmType;
    }

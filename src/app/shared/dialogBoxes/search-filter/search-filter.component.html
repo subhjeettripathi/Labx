@@ -1,45 +1,48 @@
 <div fxLayout="column" fxLayoutGap="10px">
   <div fxLayoutAlign="flex-end">
 
-    <mat-icon (click)="close()">Close</mat-icon>
+    <img src="assets/arrows_icons/VectorClose.svg"  (click)="close()" alt="" class="vive-img">
 
   </div>
   <form [formGroup]="searchForm" #searchFormDir="ngForm" (ngSubmit)="onSubmit()">
 
-    <!-- <div class="form-group">
-      <label>Type</label>
+    <div class="form-group">
+      <label>Year</label>
       <select class="form-control" formControlName="year">
         <option value="" selected disabled>Choose Year</option>
         <option *ngFor="let x of year">{{x}}</option>
 
       </select>
 
-    </div> -->
+    </div>
 
-    <!-- <div class="form-group">
+    <div class="form-group">
       <label>Genre</label>
       <select class="form-control" formControlName="genre">
         <option value="" selected disabled>Choose Genre</option>
         <option *ngFor="let x of genre">{{x}}</option>
       </select>
 
-    </div> -->
+    </div>
 
     <div class="form-group">
-      <label>{{'language' |translate}}</label>
+      <label>Language</label>
       <select class="form-control" formControlName="language">
-        <option value="" selected disabled>{{'Choose_Language' |translate}}</option>
+        <option value="" selected disabled>Choose Language</option>
         <option *ngFor="let l of languageData">{{l}}</option>
 
 
       </select>
+      <!-- <ng-select [items]="languageData" appendTo="body" [hideSelected]="true" [multiple]="false"
+        bindLabel="name" formControlName="language" placeholder="Select Rights">
+      </ng-select> -->
 
     </div>
 
     <div class="form-group">
-      <label>{{'Category' |translate}}</label>
+      <label>Category</label>
       <select class="form-control" formControlName="category">
-        <option value="" selected disabled >{{'Choose_Category' |translate}}</option>
+        <option value="" selected disabled >Choose Category</option>
         <option *ngFor="let c of returncategory">{{c}}</option>
 
       </select>
@@ -52,12 +55,12 @@
     <div class="row btnsFilter">
       <div class="col-md-6 clearFilter">
         <button (click)="clearFIlters()">
-          {{'Clear_Filters' |translate}}
+          Clear Filters
         </button>
       </div>
       <div class="col-md-6 submitFilter">
         <button type="submit">
-          {{'submit' |translate}}
+          Submit
         </button>
       </div>
     </div>

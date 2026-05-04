@@ -21,10 +21,11 @@ export class ExchangeDataService {
   public continueCleared: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public active: BehaviorSubject<String> = new BehaviorSubject<String>('');
   public totalCount: BehaviorSubject<Number> = new BehaviorSubject<Number>(0);
+
   public disableToEnableFaste: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
-  public rentalDone: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
 
   public alreadySubscriber: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
+  public directpayment: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   public hideMemberAlert: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   public humburgerhide: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -35,9 +36,10 @@ export class ExchangeDataService {
 
   public showrestrict: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  public closeAudioGetCallList: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public showButton: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  
+  public cancelKey :BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public showPins: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public playauto: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public hider: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   constructor(private http: HttpClient) {
 
   }

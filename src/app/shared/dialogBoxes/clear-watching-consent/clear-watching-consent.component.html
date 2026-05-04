@@ -1,31 +1,27 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
         <div class="img-logo" *ngIf="basesignin.clearContinueWatching.logo.is_allow == 1">
-            <img src="{{basesignin.clearContinueWatching.logo.web}}" alt="">
+            <img src="{{basesignin.clearContinueWatching.logo.web}}" alt="" class="vive-img">
         </div>
         <button (click)="close()" class="close-btn">
-          <img src="assets/svgs/Vector.svg" alt="">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
         </button>
+
         <div class="deleteConsent">
-            <p style="color:white;font-size:16px;font-weight: 600;"
+            <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
+            <p style="color:white;font-size:16px;"
                 *ngIf="basesignin.clearContinueWatching.description.is_allow == 1">
-                <!-- {{basesignin.clearContinueWatching.description.text |translate}} -->
-                 {{'are_you_sure_you_want_to_clear_watching' |translate}}
+                {{basesignin.clearContinueWatching.description.text}}
             </p>
+    
             <div class="row">
                 <div class="col-6">
                     <button type="button" (click)="clearWatch()" class="btn-one"
-                        *ngIf="basesignin.clearContinueWatching.yes_btn.is_allow == 1">
-                        <!-- {{basesignin.clearContinueWatching.yes_btn.text |translate}} -->
-                         {{'yes' |translate}}
-                    </button>
+                        *ngIf="basesignin.clearContinueWatching.yes_btn.is_allow == 1">{{basesignin.clearContinueWatching.yes_btn.text}}</button>
                 </div>
                 <div class="col-6">
                     <button (click)="close()" type="button" class="btn-two"
-                        *ngIf="basesignin.clearContinueWatching.no_btn.is_allow == 1">
-                        <!-- {{basesignin.clearContinueWatching.no_btn.text |translate}} -->
-                         {{'no' |translate}}
-                    </button>
+                        *ngIf="basesignin.clearContinueWatching.no_btn.is_allow == 1">{{basesignin.clearContinueWatching.no_btn.text}}</button>
                 </div>
             </div>
 

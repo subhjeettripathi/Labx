@@ -1,32 +1,29 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
         <span class="img-logo">
-            <img src="assets/svgs/Group.png" alt="">
+            <img src="{{baseJson.invalid_pin.logo.web}}" alt="vive">
         </span>
-
-
+        
+        
         <button (click)="close()" class="close-btn">
-            <!-- <mat-icon>close</mat-icon> -->
-            <img src="/assets/svgs/Vector.svg" alt="">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
         </button>
         <br>
         <div class="alt-login-img">
-            <img src="{{baseJson.invalid_pin.warning_error.web}}" alt="AOL">
+            <img src="{{baseJson.invalid_pin.warning_error.web}}">
         </div>
-        <br>
-
-        <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
-        <p class="adulttHeading" *ngIf="showwrongOtp">
-            {{wrongOtp |translate}}
-        </p>
-        <p style="font-size:17px;color: #DEDEDE;font-weight: 600" *ngIf="openMic">
-            <!-- Microphone access is disabled. Please allow microphone access from the browser's settings. (key added to the translation service) -->
-  
-  {{'Microphone' |translate}}
-        </p>
-
-
-        <!-- <div class="row">
+   <br>
+   
+            <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
+            <p style="font-size:17px;color: #DEDEDE;font-weight: 600" *ngIf="showwrongOtp">
+                {{wrongOtp}}
+            </p>
+            <p style="font-size:17px;color: #DEDEDE;font-weight: 600" *ngIf="openMic">
+                Microphone access is disabled. Please allow microphone access from the browser's settings.
+            </p>
+          
+          
+            <!-- <div class="row">
                 <div class="col-6">
                     <button type="button"  class="btn-one">Yes</button>
                 </div>
@@ -35,6 +32,6 @@
                 </div>
             </div> -->
 
-
+       
     </div>
 </div>

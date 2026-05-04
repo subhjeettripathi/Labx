@@ -1,11 +1,11 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div class="parental-control-content">
         <span class="img-logo" *ngIf="baseJson.countryRestriction.logo.is_allow == 1">
-            <img src="{{baseJson.countryRestriction.logo.web}}" alt="">
+            <img src="{{baseJson.countryRestriction.logo.web}}" alt="" class="vive-img">
         </span>
 
         <button (click)="close()" class="close-btn">
-            <img src="../../../../assets/svgs/Vector.svg" alt="">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
         </button>
         <br><br>
         <div class="alt-login-img" *ngIf="baseJson.countryRestriction.warning_icon.is_allow == 1">
@@ -15,9 +15,9 @@
 
 
 
-        <p style="font-size:15px;color: #DEDEDE;font-weight: 600;"
+        <p style="font-size:15px;color: #DEDEDE;"
             *ngIf="baseJson.countryRestriction.description.is_allow == 1">
-            {{baseJson.countryRestriction.description.text |translate}}
+            {{baseJson.countryRestriction.description.text}}
         </p>
 
 

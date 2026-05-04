@@ -1,3 +1,4 @@
+
 // ::ng-deep .otp-input {
 //     border: none !important;
 //     outline: none !important;
@@ -6,83 +7,60 @@
 //     height: 85px !important;
 //     background-color: #3D3D3D;
 // }
+.disabled-resend {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.clicked
+{
+    opacity: 0.3;
+}
+
 .parental-control-content {
-    position: relative;
-    text-align: center;
 
-
-    .parental-heading {
-        p {
+    .parental-heading{
+        p{
             font-size: 18px;
-            font-family: 'PoppinsRegular' !important;
+            font-family: var(--theme-font-style) !important;
             text-align: center;
             color: #FFFFFF;
         }
     }
 
-    button:disabled {
-        cursor: not-allowed !important;
-        pointer-events: all !important;
-    }
-
-
-    // .alt-login-img {
-    //     position: relative;
-    //     top: -56px;
-
-    // }
-    .alt-login-img img {
-        margin-bottom: 10px;
-    }
-
-    .parental-heading-1 {
-        p {
+    .parental-heading-1{
+        p{
             font-size: 16px;
-            font-family: 'PoppinsRegular' !important;
+            font-family: var(--theme-font-style) !important;
             text-align: center;
             color: #B4B4B4;
 
         }
-
-        .otp-form {
-            text-align: center;
-
-            span {
-                .otp-pin {
-
-                    width: 50px;
-                    border: 1px solid #3D3D3D;
-                    margin-right: 10px;
-                    padding: 10px;
-                    border-radius: 10px;
-                    text-decoration: underline;
-                    text-decoration-thickness: 1px;
-                    text-underline-offset: 5px;
-                    margin-bottom: 20px;
-                    background-color: #3D3D3D;
-                    color: #BEBEBE;
-                    font-size: 48px;
-
-                }
-            }
+        .otp-form{
+        text-align: center;
+   
+        span{
+         .otp-pin{
+           
+            width: 50px;
+            border: 1px solid #3D3D3D;
+            margin-right: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: underline;
+            text-decoration-thickness:1px;
+            text-underline-offset: 5px;
+            margin-bottom: 20px;
+            background-color:#3D3D3D ;
+            color: #BEBEBE;
+            font-size: 48px;
+            
         }
     }
+    }
+}
 }
 
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: -12px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-    padding: 0;
-
-}
-
-.submitBtn {
+.submitBtn{
     background-color: #bebebe;
     padding: 30px;
 }
@@ -94,37 +72,11 @@
     border-bottom: 1px solid white;
     background-color: transparent;
 }
-
-.incorrectMsg {
+.incorrectMsg{
     color: red;
     font-size: 17px;
 }
-
-.verify {
-    color: white;
+.verify{
+    color: white ;
     font-size: 20px;
-}
-
-.aol-btn-p {
-    font-family: "PoppinsRegular";
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 33px;
-    letter-spacing: 0em;
-    text-align: left;
-    background: #FF8731;
-    border: 0;
-    color: #ffffff;
-    padding: 10px 20px;
-    width: 100% !important;
-    text-align: center;
-    border-radius: 6px;
-    font-weight: 700;
-}
-
-.otp-flex ::ng-deep .ng-otp-input-wrapper{
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
 }

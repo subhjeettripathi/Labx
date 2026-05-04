@@ -1,19 +1,52 @@
-<div class="newList" *ngIf="data.getType != 'audio'">
-    <form  [formGroup]="playlistForm" #playlistFormDir="ngForm" (ngSubmit)="createPlaylist()">
-    <div class="close-btn" (click)="close()"><img src="assets/svgs/Vector.svg" alt="closeButton"></div>
-    <h3>{{'createNewPlaylist' |translate}}</h3>
-    <input type="text" (keydown)="handleInput($event)" formControlName="playlist" >
-    <span class="playlist-name" *ngIf="showMessage">{{'playlist_already_exists' |translate}}</span>
-    <button>{{'add' |translate}}</button>
-    </form>
+<div fxLayout="column" fxLayoutGap="10px">
+    <div class="parental-control-content">
+        <span class="img-logo" *ngIf="basesignin.parentalOtpVerify.logo.is_allow == 1">
+            <img src="{{basesignin.parentalOtpVerify.logo.web}}" alt="vive" class="vive-img">
+        </span>
+        
+        <button (click)="close()" class="close-btn">
+            <img src="assets/arrows_icons/VectorClose.svg" alt="">
+        </button>
+  
+   
+          <div>
+            <p class="heading" *ngIf="basesignin.parentalOtpVerify.heading.is_allow == 1">{{basesignin.parentalOtpVerify.heading.text}}</p>
+           
+            <p class="email_head" *ngIf="basesignin.parentalOtpVerify.description.is_allow == 1">
+                {{basesignin.parentalOtpVerify.description.text}}
+            </p>
+             <p style="color: #FF8787 !important;" *ngIf="msg">Invalid Password</p>
+            
+              <div class="otpInput">  
+            <ng-otp-input class="parental-otp-enable" type="tel" inputmode="numeric" #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event)" [config]="config">
+            </ng-otp-input>
+            </div>
+            <br>
+            <div class="row">
+                <button class="col-6 otpnumber" [disabled]="clicked" *ngIf="basesignin.parentalOtpVerify.timer.is_allow == 1">
+                    {{display}}
+                </button>
+                <button class="col-6 resendOtp" (click)="resendOtp()"  [disabled]="clicked" *ngIf="basesignin.parentalOtpVerify.resend_btn.is_allow == 1">
+                    {{basesignin.parentalOtpVerify.resend_btn.text}}
+                </button>
+            </div>
+            <br>
+            <button (click)="submit()" class="verify_submit"  *ngIf="basesignin.parentalOtpVerify.submit_btn.is_allow == 1">{{basesignin.parentalOtpVerify.submit_btn.text}}</button>
+          
+          </div>
+            
+           
+         
+            <!-- <div class="row">
+                <div class="col-6">
+                    <button type="button"  class="btn-one">Yes</button>
+                </div>
+                <div class="col-6">
+                    <button (click)="close()" type="button" class="btn-one">NO</button>
+                </div>
+            </div> -->
+
+       
+    </div>
 </div>
 
-<div class="newList" *ngIf="data.getType == 'audio'">
-    <form  [formGroup]="playlistForm" #playlistFormDir="ngForm" (ngSubmit)="editNamePlaylist()">
-    <div class="close-btn" (click)="close()"><img src="assets/svgs/Vector.svg" alt="closeButton"></div>
-    <h3>{{'renameplaylist' |translate}}</h3>
-    <input type="text" maxlength="25" [(ngModel)]="inputData" (keydown)="handleInput($event)" formControlName="playlist" >
-
-    <button>{{'update' |translate}}</button>
-    </form>
-</div>

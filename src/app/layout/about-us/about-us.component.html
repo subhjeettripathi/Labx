@@ -1,13 +1,8 @@
-
-
- <div class="container privacy-container about"  >
-   <span class="arrow-back">
-      <img src="assets/svgs/Vector (4).png" (click)="back()"
-          alt="AOL">
-   </span>
-<div class="about" [innerHTML]="about.text">
-
+<div class="privacy-container">
+   <h1 (click)="back()" class="font-36 mb-0 pb-4 headcor"><img src="assets/svgs/Vector-back.svg" width="30px"
+         style="cursor: pointer;" alt="abc"> &nbsp; About Us </h1>
+   <!-- <div class="poster-wrapper">
+      <img style="border-radius: 10px;" [src]=this.about.logo width="" alt="vive">
+   </div> -->
+   <div class="about" [innerHTML]=about.text></div>
 </div>
-</div>
-
-

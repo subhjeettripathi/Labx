@@ -1,6 +1,9 @@
-<div class="section-deleteAccount">
-    <div [innerHTML]="deleteContent" *ngIf="contentIsAllow=='1'">
-        <!-- <p>Enter the below details to help us understand your query better:</p>
+<!-- <div class="section-deleteAccount">
+    <div class="delete_head">
+        {{deleteHead}}
+    </div>
+    <div [innerHTML]="deleteContent" *ngIf="contentIsAllow=='1'"> -->
+<!-- <p>Enter the below details to help us understand your query better:</p>
         <p style="color:#e7a42a;">Fields marked with * are mandatory.</p>
         <p>If you have purchased your subscription from Apple store, please go to
             https://apps.apple.com/account/ subscriptions to cancel your subscription. Deleting your
@@ -15,22 +18,22 @@
             request.</p>
         <p>Do you still want to continue and delete your account? Send us a request and we'll delete
             your account within 90 days.</p> -->
-    </div>
+<!-- </div>
     <hr>
     <div class="form-details">
         <form style="flex-direction: column;" [formGroup]="deleteForm">
-            <div fxFlex="row" *ngIf="accountData.contact_no">
+            <div fxFlex="row" *ngIf="accountData?.contact_no || showPin">
                 <div fxFlex="20" fxFlex.sm="50"  fxFlex.xs="0"> 
 
                     <div class="form-label">Mobile Number *</div>
                 </div>
                 <div fxFlex="80" fxFlex.sm="50"  fxFlex.xs="0" class="formField">
                     <mat-form-field class="employee-search-field" appearance="legacy">
-                        <input matInput formControlName="mobile" readonly autocomplete="off">
+                        <input matInput formControlName="mobile" readonly autocomplete="off"  >
                     </mat-form-field>
                 </div>
             </div>
-            <div fxFlex="row" *ngIf="emailAllow=='1' && accountData.email" class="acc-email-disp">
+            <div fxFlex="row" *ngIf="emailAllow=='1' && accountData?.email" class="acc-email-disp">
                 <div fxFlex="20" fxFlex.sm="50" fxFlex.xs="0">
 
                     <div class="form-label">{{emailText}}</div>
@@ -47,42 +50,165 @@
     <br>
     <div class="reason" *ngIf="dropdownTextIsAllow=='1'">
         <div class="reasonDeleteTitle*">{{dropdownText}}</div><br>
-        <form [formGroup]="deleteForm" class="select-input-field" (ngSubmit)="deleteAccount()">
-            <!-- {{deleteForm.value|json}} -->
-            <mat-form-field style="width:80%;" appearance="legacy" class="place">
+        <form [formGroup]="deleteForm" class="select-input-field" (ngSubmit)="deleteAccount()"> -->
+<!-- {{deleteForm.value|json}} -->
+<!-- <mat-form-field style="width:80%;" appearance="legacy" class="place">
                 <mat-select  panelClass="ashish" (opened)="s1(select)" (closed)="s2(select)" #select class="abc"
-                    [(value)]="selected" formControlName="desc" placeholder={{dropdownTextPlaceholder}}>
-                    <!-- <mat-option [value]="">None</mat-option> -->
-                    <mat-option *ngFor="let inspectionType of inspectionTypes" [value]="inspectionType.text">
+                    [(value)]="selected" formControlName="desc" placeholder={{dropdownTextPlaceholder}}> -->
+<!-- <mat-option [value]="">None</mat-option> -->
+<!-- <mat-option *ngFor="let inspectionType of inspectionTypes" [value]="inspectionType.text">
                         {{inspectionType.text}}</mat-option>
-                </mat-select>
-                <!-- <input matInput formControlName="desc" placeholder="Please type reason for deletion" autocomplete="off"> -->
-                <mat-error
+                </mat-select> -->
+<!-- <input matInput formControlName="desc" placeholder="Please type reason for deletion" autocomplete="off"> -->
+<!-- <mat-error
                     *ngIf="deleteForm.controls['desc'].hasError('pattern') || deleteForm.controls['desc'].dirty">
-                    <!-- Please enter a reason for deletion (key added to translation service) -->
-                     {{'reason_for_deletion'|translate}}
+                    Please enter a reason for deletion
                 </mat-error>
-            </mat-form-field>
-            <!-- <div id="g-recaptcha-0" class="g-recaptcha" data-sitekey="6LdHbTkdAAAAAODFstiotyNLZWXkGA9aRzZuOhYr" data-theme="light" data-widget-id="0"><div style="width: 304px; height: 78px;"><div><iframe title="reCAPTCHA" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LdHbTkdAAAAAODFstiotyNLZWXkGA9aRzZuOhYr&amp;co=aHR0cHM6Ly93d3cuY29kZXNwZWVkeS5jb206NDQz&amp;hl=en&amp;v=5qcenVbrhOy8zihcc2aHOWD4&amp;theme=light&amp;size=normal&amp;cb=osxk0uu1n1mn" width="304" height="78" role="presentation" name="a-1mna51xxehcs" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div> -->
-            <div class="captcha">
+            </mat-form-field> -->
+<!-- <div id="g-recaptcha-0" class="g-recaptcha" data-sitekey="6LdHbTkdAAAAAODFstiotyNLZWXkGA9aRzZuOhYr" data-theme="light" data-widget-id="0"><div style="width: 304px; height: 78px;"><div><iframe title="reCAPTCHA" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LdHbTkdAAAAAODFstiotyNLZWXkGA9aRzZuOhYr&amp;co=aHR0cHM6Ly93d3cuY29kZXNwZWVkeS5jb206NDQz&amp;hl=en&amp;v=5qcenVbrhOy8zihcc2aHOWD4&amp;theme=light&amp;size=normal&amp;cb=osxk0uu1n1mn" width="304" height="78" role="presentation" name="a-1mna51xxehcs" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div> -->
+<!-- <div class="captcha">
                 <ngx-recaptcha2 #captchaElem [siteKey]="'6LdEx6sdAAAAAPBCtvs_XnG4uLZ2KthmWS6jB-HU'"
                     (success)="handleSuccess($event)" [useGlobalDomain]="false" formControlName="recaptcha">
                 </ngx-recaptcha2>
-                <div style="color: red;" *ngIf="invalidCapchta">
-                    <!-- Please select recaptcha  (key added to translation service)-->
-                     {{'select_recaptcha' |translate}}
-                                </div>
-            </div>
-            <br>
+                <div style="color: red;" *ngIf="invalidCapchta">Please select recaptcha</div>
+            </div> -->
+<!-- <br>
             <div class="delete-submit-btn">
-                <div class="d-block"><button id="btn-submit" class="btn btn-submit text-uppercase">{{'submit'|translate}}</button></div>
+                <div class="d-block"><button id="btn-submit" class="theme-btn-2">SUBMIT</button></div>
             </div>
+
+          
         </form>
+        <div class="delete_subscription" *ngIf="isSubscribed && this.autoplan == '1'" >
+            <button (click)="opencancelsubscription()">Cancel Subscription</button>
+        </div>
+    </div> -->
+
+<!-- capcha -->
+<!-- <br> -->
+<!-- <div id="altbalaji-secure-rechapcha2" class="form-group">
+        <div id="captcha_container_delete_account">
+            <div class="recaptcha">
+                <div>
+                    <iframe title="reCAPTCHA"
+                        src="https://www.google.com/recaptcha/api2/anchor?ar=2&amp;k=6LcCL8YgAAAAAPvM3Rjj6UgR6uN7zp-BHF1M3Bvh&amp;co=aHR0cHM6Ly93d3cuYWx0YmFsYWppLmNvbTo0NDM.&amp;hl=en&amp;type=image&amp;v=ovmhLiigaw4D9ujHYlHcKKhP&amp;size=normal&amp;cb=xk8ka4a6sgot"
+                        width="304" height="78" role="presentation" name="a-tdx90dul94jp" frameborder="0" scrolling="no"
+                        sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox">
+                    </iframe>
+                </div>
+
+            </div>
+            <iframe style="display: none;"></iframe>
+        </div>
+        <div id="captcha-error" class="error-msg"></div>
+    </div> -->
+
+<!-- <div class="delete-submit-btn">
+                           
+        <div class="d-block"><button id="btn-submit" (click)="deleteAccount()" class="btn btn-submit text-uppercase"
+                >SUBMIT</button></div>
+    </div> -->
+
+<!-- </div> -->
+
+<!--  -->
+
+<div class="section-deleteAccount">
+    <!-- <div class="edit-head">
+        Account Management </div> -->
+    <div class="del-content" [innerHTML]="deleteContent" *ngIf="contentIsAllow == '1'">
+        <!-- <p>Enter the below details to help us understand your query better:</p>
+        <p style="color:#e7a42a;">Fields marked with * are mandatory.</p>
+        <p>If you have purchased your subscription from Apple store, please go to
+            https://apps.apple.com/account/ subscriptions to cancel your subscription. Deleting your
+            account will not cancel your subscription.</p>
+        <p>If you have purchased your subscription from anywhere else and your subscription is
+            active on this account, deleting your account will also cancel your subscription. Please
+            note that no refunds will be provided. We request, you to cancel your subscription first
+            and then raise request for deleting your account.</p>
+        <p>By deleting your account, all data associated with this account will be deleted and you
+            will not be able to recover any data.</p>
+        <p>Once you have raised the request for deletion, you will not be able to revoke the
+            request.</p>
+        <p>Do you still want to continue and delete your account? Send us a request and we'll delete
+            your account within 90 days.</p> -->
+    </div>
+    <!-- <hr /> -->
+    <div class="container-form">
+        <div class="form-details">
+            <form style="flex-direction: column" [formGroup]="deleteForm">
+                <div style="flex-direction: column;" *ngIf="accountData?.contact_no || showPin">
+                    <div fxFlex="100" fxFlex.sm="100" fxFlex.md="100" fxFlex.xs="0">
+                        <div class="form-label mb-2">Mobile Number *</div>
+                    </div>
+                    <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="0" class="formField">
+                        <mat-form-field class="employee-search-field" appearance="legacy">
+                            <input matInput formControlName="mobile" readonly autocomplete="off" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div style="flex-direction: column;" *ngIf="emailAllow == '1' && accountData?.email"
+                    class="acc-email-disp">
+                    <div fxFlex="100" fxFlex.sm="100" fxFlex.md="100" fxFlex.xs="0">
+                        <div class="form-label mb-2">{{ emailText }}</div>
+                    </div>
+                    <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="0" class="formField">
+                        <mat-form-field class="employee-search-field" appearance="legacy">
+                            <input matInput formControlName="email" readonly autocomplete="off" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- <br /> -->
+        <div class="reason" *ngIf="dropdownTextIsAllow == '1'">
+            <div class="reasonDeleteTitle* mb-2">{{ dropdownText }}</div>
+            <!-- <br /> -->
+            <form [formGroup]="deleteForm" class="select-input-field" (ngSubmit)="deleteAccount()">
+                <!-- {{deleteForm.value|json}} -->
+                <mat-form-field style="width: 100%" appearance="legacy" class="place">
+                    <mat-select panelClass="ashish" (opened)="s1(select)" (closed)="s2(select)" #select class="abc"
+                        [(value)]="selected" formControlName="desc" placeholder="{{ dropdownTextPlaceholder }}">
+                        <!-- <mat-option [value]="">None</mat-option> -->
+                        <mat-option *ngFor="let inspectionType of inspectionTypes" [value]="inspectionType.text">
+                            {{ inspectionType.text }}</mat-option>
+                    </mat-select>
+                    <!-- <input matInput formControlName="desc" placeholder="Please type reason for deletion" autocomplete="off"> -->
+                    <mat-error *ngIf="
+            deleteForm.controls['desc'].hasError('pattern') ||
+            deleteForm.controls['desc'].dirty
+          ">
+                        Please enter a reason for deletion
+                    </mat-error>
+                </mat-form-field>
+
+            </form>
+            <div class="delete_subscription" *ngIf="isSubscribed && this.autoplan == '1'">
+                <button (click)="opencancelsubscription()">Cancel Subscription</button>
+            </div>
+        </div>
+
+
 
     </div>
 
+    <div class="btnn-edit btnn-edit-1">
+        <button class="save-btn" (click)="back()">
+            Go back
+        </button>
+        <button class="edit-btn-1" (click)="deleteAccount()" [disabled]="isDeletingg">
+            Submit
+        </button>
+    </div>
+
+    <!-- <div class="delete-submit-btn">
+                <div class="d-block">
+                    <button id="btn-submit" class="theme-btn-2">SUBMIT</button>
+                </div>
+            </div> -->
+
     <!-- capcha -->
-    <br>
+    <!-- <br /> -->
     <!-- <div id="altbalaji-secure-rechapcha2" class="form-group">
         <div id="captcha_container_delete_account">
             <div class="recaptcha">
@@ -105,8 +231,46 @@
         <div class="d-block"><button id="btn-submit" (click)="deleteAccount()" class="btn btn-submit text-uppercase"
                 >SUBMIT</button></div>
     </div> -->
-
 </div>
-
-
-<!--  -->
+<ng-template #deleteConfirmationModal>
+    <div class="modal-container">
+        <div fxLayout="column" fxLayoutGap="50px">
+            <div class="alt-login-content">
+                <div class="alt-login-img">
+                    <img src="https://static.creatorott.com/configration/5006/5006_683022271b603.png" alt="vive" class="vive-img"/>
+                </div>
+                <!-- <button class="close-btn" (click)="close()">
+                    <img src="assets/arrows_icons/VectorClose.svg" alt="" />
+                </button> -->
+                <br />
+                <div *ngIf="autoplan == '0'">
+                    <p class="cancel-text">
+                        Are you sure you want to delete your account? After deletion, you
+                        won't be able to access the app and will need to register again to
+                        use it.
+                    </p>
+                    <div class="row-aol">
+                        <div class="yes-btn">
+                            <button type="button" class="btn-two" [disabled]="isDeleting" (click)="deleAccount()">
+                                Yes
+                            </button>
+                        </div>
+                        <div class="no-btn">
+                            <button type="button" class="btn-one" (click)="close()">No</button>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="autoplan == '1'">
+                    <p class="cancel-text">
+                        Your subscription pack appears to be active. Please cancel it before
+                        submitting a deletion request.
+                    </p>
+                    <div class="yes-btn" (click)="close()">
+                        <button type="button" class="btn-two">Ok</button>
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+</ng-template>

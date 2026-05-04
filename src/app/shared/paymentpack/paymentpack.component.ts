@@ -12,7 +12,6 @@ import {
   PipeTransform,
   Pipe,
   NgZone,
-  ChangeDetectorRef,
 } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 import {
@@ -25,16 +24,14 @@ import {
 
 import { PaymentCheckoutService } from "src/app/services/payment-checkout.service";
 import { DecryptService } from "src/app/services/decrypt.service";
-declare var Razorpay: any;
 
-declare var Paytm: any;
 import Swal from "sweetalert2";
-import { CheckoutService } from "paytm-blink-checkout-angular";
+
 import { Subscription } from "rxjs";
 
 declare var $: any;
 declare var amazon: any;
-
+declare var Razorpay: any;
 
 declare var paypal: any;
 import {
@@ -61,11 +58,9 @@ import { environment } from 'src/environments/environment';
 import { PaymentErrorDialogComponent } from "../dialogBoxes/payment-error-dialog/payment-error-dialog.component";
 import { StatePopupComponent } from "../dialogBoxes/state-popup/state-popup.component";
 var baseUrl2 = environment.baseUrl2;
-import { AnalyticsService } from "src/app/services/analytics.service";
-import { TranslationService } from "src/app/services/translation.service";
-//const url = 'https://static-na.payments-amazon.com/checkout.js';
+const url = 'https://static-na.payments-amazon.com/checkout.js';
 const urlRazorpay = 'https://checkout.razorpay.com/v1/checkout.js';
-//const urlPaypal = 'https://www.paypal.com/sdk/js?client-id=AS26hUgwRJ4fX9ggbLMCUsaUoOcdvk3vveiygFcuxfjnghRFZSukhT0LEqwlsUEw5gT_UHTG291M-cC6&components=buttons';
+const urlPaypal = 'https://www.paypal.com/sdk/js?client-id=AS26hUgwRJ4fX9ggbLMCUsaUoOcdvk3vveiygFcuxfjnghRFZSukhT0LEqwlsUEw5gT_UHTG291M-cC6&components=buttons';
 @Component({
   selector: "app-paymentpack",
   templateUrl: "./paymentpack.component.html",
@@ -73,7 +68,6 @@ const urlRazorpay = 'https://checkout.razorpay.com/v1/checkout.js';
 })
 
 export class PaymentpackComponent implements OnInit {
-  isInputNotEmpty: boolean = false; // For tracking input status
   loadAPI!: Promise<any>;
   // key = "rzp_live_3WhaZfJwk0bfCR";
   searchText: any
@@ -114,11 +108,12 @@ export class PaymentpackComponent implements OnInit {
   targetId: any;
   couponHide: boolean = false;
   resetHIde: boolean = false;
+  couponpageShow: boolean = true;
   @Input() public subscriptionMonth: any;
   @Input() public razorPayKeyGet: any;
   @Input() public subscriptionPrice: any;
   @Input() public stateDefault: any;
-
+  @Input() public subscribtionArr: any = [];
   @Input() public showCountry1: any;
   @Output() activeBtnValue = new EventEmitter<any>();
   // @Output() sendValueToNetbankingpayment = new EventEmitter<any>();
@@ -128,6 +123,8 @@ export class PaymentpackComponent implements OnInit {
   @Output() openTab4 = new EventEmitter<any>();
   @Output() openTab1 = new EventEmitter<any>();
   @Output() sendValueToPayment = new EventEmitter<any>();
+
+
   paymentItems: any[] = [];
   thirdPartyDetails: any;
   mobikwikDetails: any;
@@ -163,11 +160,11 @@ export class PaymentpackComponent implements OnInit {
   discloseCoupon: any
   coupunSubscriber: any;
   firstValue: any;
-  ishighlight: boolean = false
+  global_coupon: any;
+  global_coupons: any
 
   constructor(
-    private translate: TranslationService,
-    private readonly checkoutService: CheckoutService,
+
     private router: Router,
     private http: HttpClient,
     private _fb: FormBuilder,
@@ -179,27 +176,20 @@ export class PaymentpackComponent implements OnInit {
     private fcs: FunctionCallingService,
     private SpinnerService: NgxSpinnerService,
     private _storage: StorageService,
-    private cdr: ChangeDetectorRef,
     private zone: NgZone,
-    private analyticsService: AnalyticsService,
-
     @Inject(DOCUMENT) private document: any
   ) {
     this.jsonDevData().subscribe((res: any) => {
       this.mainData = res.result
-      console.log(this.mainData);
 
 
     });
     this.fcs.fgh.subscribe((value) => {
       if (value.countryName == "India") {
-        console.log(value.countryName);
         if (value.regionName == "National Capital Territory of Delhi") {
           value.regionName = "Delhi";
         }
         this.stateDefault = value.regionName;
-
-
         this.showCountry = true;
       } else {
         this.stateDefault = value.countryName;
@@ -207,27 +197,29 @@ export class PaymentpackComponent implements OnInit {
       }
     });
     this.fcs.removeCoupon.subscribe(val => {
-
       if (val == true) {
         this.RedeemForm.reset();
       }
 
     });
     this.fcs.statePopup.subscribe(val => {
-
       this.stateDefault = val
       this.stateNamesend = val
     });
   }
 
 
-
   ngOnInit(): void {
+    const popup: any = localStorage.getItem('faqData');
+    const faq: any = JSON.parse(popup);
+    this.global_coupon = faq.Others.global_coupon;
+    if (this.global_coupon == 0) {
+      this.couponpageShow = false
+      this.gotoPaymentpay('1');
+    }
 
 
 
-    console.log(this.subscriptionPrice)
-    console.log(this.loginId)
     let ip: any = localStorage.getItem("ipSaveData");
     this.ipAddress = JSON.parse(ip).countryName;
     this.country_code = JSON.parse(ip).countryCode;
@@ -242,22 +234,19 @@ export class PaymentpackComponent implements OnInit {
       this.stateDefault = "Delhi";
     }
     this.getCountryStatesList();
-    // console.log(this.countryAll);
     this.showCountry = this.showCountry1;
-    this.getJson();
+    // this.getJson();
 
     this.RedeemForm = this._fb.group({
       redeem: ["", Validators.required],
     });
 
 
-
     this.domain = this.document.location.hostname;
     this.loadScript();
 
-    // if (this.domain == "altbweb-dev.multitvsolution.com") {
-    //   this.show = true;
-    // }
+
+
   }
   loadScript() {
 
@@ -286,12 +275,11 @@ export class PaymentpackComponent implements OnInit {
     // this._DS.json2().subscribe((data: any) => {
     this.paymentItems = data.payment_providers;
     this.paymentDetails = data.payment_providers;
-    console.log(this.paymentDetails);
 
     this.paymentDetails.forEach((element: any) => {
       this.Offer.push(element.is_offer);
     });
-    // console.log("leng", this.Offer);
+
     for (let i in this.Offer) {
       if (this.Offer[i] == 1) {
         this.allHIde = true;
@@ -300,9 +288,7 @@ export class PaymentpackComponent implements OnInit {
         this.allHIde = false;
       }
     }
-    // this.razorPayKey = data.ThirdParty[0].Razorpay.SECRET_KEY;
-    // this.mobikwikDetails = data.ThirdParty[0].Mobikwik.MOBIKWIK_MERCHANTID;
-    // });
+
   }
   openInformation() {
     const dialogRef = this.dialog.open(GeographicalInformationComponent, {
@@ -316,12 +302,28 @@ export class PaymentpackComponent implements OnInit {
   }
   redeemSubmit() {
     this._DS.apipip().subscribe((res: any) => {
-      localStorage.setItem("ipSaveData", JSON.stringify(res));
+      if (res.code == 1) {
+        this.DEC_SER.getDecryptedData(res?.result);
+        let ipSaveData = JSON.parse(this.DEC_SER.decryptData);
+        localStorage.setItem("ipSaveData", JSON.stringify(ipSaveData));
+      }
     });
+
+    const subscribeInfo = {
+      currency: this.subscriptionPrice.currency,
+      s_id: this.subscriptionPrice.s_id,
+      package_mode: this.subscriptionPrice.package_mode,
+      price: this.subscriptionPrice.price,
+      month: this.subscriptionPrice.month,
+      autorenew: this.subscriptionPrice.s_package.autorenewal,
+
+    };
+    localStorage.setItem("subscribeInfo", JSON.stringify(subscribeInfo));
     this.userId = localStorage.getItem("taploginInfo");
     this.user = JSON.parse(this.userId);
     this.packageId = localStorage.getItem("subscribeInfo");
     this.package = JSON.parse(this.packageId);
+    console.log(this.package, "package")
 
     const formData = new FormData();
     formData.append("c_id", this.user.id);
@@ -332,32 +334,17 @@ export class PaymentpackComponent implements OnInit {
     formData.append("package_mode", "OTT");
     if (this.RedeemForm.valid) {
       this._DS.redeemCoupon(formData).subscribe((res: any) => {
-        console.log(res)
         if (res.code == 1) {
-
           this.DEC_SER.getDecryptedData(res?.result);
           let decryptData = JSON.parse(this.DEC_SER.decryptData);
           this.discloseCoupon = decryptData;
-          console.log(this.discloseCoupon);
-          const eventParams = {
-            plan_name: this.package.packageName,
-            coupon_code: this.RedeemForm.value.redeem,
-            coupon_value: this.discloseCoupon.value,
-          };
-          this.analyticsService.logEvent('apply_coupon', eventParams);
+
           if (decryptData.code == 1) {
-
-            // this.couponHide==true
-
-            // console.log(this.discloseCoupon.code);
             setTimeout(() => {
               this._DS.getUserSubscriptionDetails(this.loginId.id).subscribe(res => {
                 this.DEC_SER.getDecryptedData(res.result);
                 this.coupunSubscriber = JSON.parse(this.DEC_SER.decryptData);
-
-                console.log(JSON.parse(this.DEC_SER.decryptData));
                 if (this.coupunSubscriber.is_subscriber == 1) {
-
                   this.ed.isSubscribe.next(true);
                   const exp_date = new Date(this.coupunSubscriber['packages_list'][0]['subscription_end']).getTime();
                   localStorage.setItem('is_subscriber', '1')
@@ -378,24 +365,20 @@ export class PaymentpackComponent implements OnInit {
             this.couponHide = true
             this.code = false;
             this.showMsgError = false;
-            console.log(res.result);
             this.showDiscountMsg = true;
             this.tickIcon = true;
             this.DEC_SER.getDecryptedData(res?.result);
             let decryptData = JSON.parse(this.DEC_SER.decryptData);
             this.discountedCouponCode = decryptData;
-            console.log(this.discountedCouponCode);
             this.showCodeLine = true;
             this.dd = Number(this.subscriptionPrice.price.slice(1));
             let a = this.discountedCouponCode.value;
-            console.log(a);
 
             let b = Number(this.subscriptionPrice.price.slice(1));
             this.firstValue = b;
             let c = b - a;
             this.tot = c;
             // this.tot = this.subscriptionPrice.currency + c;
-            console.log(c);
 
             // this.subs()
             this.showDiscount = false;
@@ -406,6 +389,8 @@ export class PaymentpackComponent implements OnInit {
               package_mode: this.subscriptionPrice.package_mode,
               price: this.tot,
               month: this.subscriptionPrice.month,
+              autorenew: this.subscriptionPrice.s_package.autorenewal,
+
             };
             localStorage.setItem("subscribeInfo", JSON.stringify(subscribeInfo));
           }
@@ -414,8 +399,7 @@ export class PaymentpackComponent implements OnInit {
             this.DEC_SER.getDecryptedData(res?.result);
             let decryptData = JSON.parse(this.DEC_SER.decryptData);
             this.discountedCouponCode = decryptData;
-            console.log(this.discountedCouponCode);
-            console.log(this.subscriptionMonth)
+
             const dialogRef = this.dialog.open(SwitchCouponComponent, {
               backdropClass: 'popupBackdropClass',
               panelClass: 'adultAgePopup',
@@ -423,29 +407,24 @@ export class PaymentpackComponent implements OnInit {
               data: { redeem: this.RedeemForm.value.redeem, package_id: this.discountedCouponCode.data },
             });
             const sub = dialogRef.componentInstance.sendToFirstTab.subscribe((verify: any) => {
-              console.log(verify)
               this.couponHide = true
               this.code = false;
               this.showMsgError = false;
-              console.log(res.result);
               this.showDiscountMsg = true;
               this.tickIcon = true;
               this.DEC_SER.getDecryptedData(res?.result);
               let decryptData = JSON.parse(this.DEC_SER.decryptData);
               this.discountedCouponCode = decryptData;
-              console.log(this.discountedCouponCode);
               this.subscriptionMonth = this.discountedCouponCode.data.interval + ' ' + this.discountedCouponCode.data.period
               this.showCodeLine = true;
               this.dd = Number(this.discountedCouponCode.data.price);
               let a = verify;
-              console.log(a);
 
               let b = Number(this.discountedCouponCode.data.price);
               this.firstValue = b;
               let c = b - a;
               this.tot = c
               // this.tot = this.subscriptionPrice.currency + c;
-              console.log(c);
 
               // this.subs()
               this.showDiscount = false;
@@ -456,6 +435,8 @@ export class PaymentpackComponent implements OnInit {
                 package_mode: this.subscriptionPrice.package_mode,
                 price: this.tot,
                 month: this.discountedCouponCode.data.interval,
+                autorenew: this.subscriptionPrice.s_package.autorenewal,
+
               };
               localStorage.setItem("subscribeInfo", JSON.stringify(subscribeInfo));
             })
@@ -471,16 +452,12 @@ export class PaymentpackComponent implements OnInit {
   }
 
   onOtpChange(otp: any) {
-    const inputValue = this.RedeemForm.get('redeem')?.value;
-    this.isInputNotEmpty = inputValue && inputValue.trim().length > 0;
-    console.log(otp.length)
+
     if (otp.length != 0) {
       this.showMsgError = false;
 
     }
   }
-
-
 
   removeCode() {
 
@@ -490,7 +467,6 @@ export class PaymentpackComponent implements OnInit {
     this.showCodeLine = false;
     this.showDiscount = true;
     this.showDiscountMsg = false;
-    this.showMsgError = false;
 
     const subscribeInfo = {
       currency: this.subscriptionPrice.currency,
@@ -498,46 +474,146 @@ export class PaymentpackComponent implements OnInit {
       package_mode: this.subscriptionPrice.package_mode,
       price: this.subscriptionPrice.price,
       month: this.subscriptionPrice.month,
+      autorenew: this.subscriptionPrice.s_package.autorenewal,
+
     };
     localStorage.setItem("subscribeInfo", JSON.stringify(subscribeInfo));
   }
 
-  // openDirect($event: MatRadioChange) {
-  //   if ($event.value == 1) {
-  //     this.removeCode()
-  //     this.oneTimeCreditSHow = false;
-  //     this.autoRenewHIde = false;
-  //     this.autoRenewMOdal = true;
-  //     this.showMsgError = false;
-  //     this.showDiscountMsg = false
-  //     this.autoRenewForm.reset();
-  //     this.RedeemForm.reset();
-  //     this.show = false;
+
+
+
+
+
+  openPayment() {
+    let isLoggedIn = localStorage.getItem("ott_isLoggedIn");
+    if (isLoggedIn == "1") {
+      const subscribeInfo = {
+        s_id: this.subscriptionPrice.s_id,
+        package_mode: this.subscriptionPrice.s_package.package_mode,
+        price: this.subscriptionPrice.s_package.p_currency + this.subscriptionPrice.s_package.p_price,
+        month: this.subscriptionPrice.s_package.period_interval,
+        currency: this.subscriptionPrice.s_package.p_currency,
+        des: this.subscriptionPrice.s_package.description,
+        autorenew: this.subscriptionPrice.s_package.autorenewal,
+
+      };
+      localStorage.setItem(
+        "subscribeInfo",
+        JSON.stringify(subscribeInfo)
+      );
+      sessionStorage.setItem(
+        "subscribePack",
+        JSON.stringify(subscribeInfo)
+      );
+      this.gotoPaymentpay('1')
+
+
+    } else if (!isLoggedIn) {
+      this.openTab1.emit(2)
+      // this.openLogin();
+    }
+
+
+
+  }
+
+
+
+
+
+  // gotoPaymentpay(value: any) {
+
+  //   // if(value==1){
+  //   //   this.removeCode()
+  //   //  this.RedeemForm.value.redeem=''
+  //   // }
+  //   this._DS.apipip().subscribe((res: any) => {
+  //     if (res.code == 1) {
+  //       this.DEC_SER.getDecryptedData(res?.result);
+  //       let ipSaveData = JSON.parse(this.DEC_SER.decryptData);
+  //       localStorage.setItem("ipSaveData", JSON.stringify(ipSaveData));
+  //     }
+  //   });
+  //   window.scrollTo(0, 0);
+
+  //   let userInfo: any = localStorage.getItem("taploginInfo") || {};
+  //   let cardDetails: any = localStorage.getItem("subscribeInfo") || {};
+  //   let ip: any = localStorage.getItem("ipSaveData");
+  //   if (JSON.parse(ip).countryCode == "IN") {
+  //     this.currencySymbol = 'INR'
   //   } else {
-  //     this.autoRenewForm.reset();
-  //     this.autoRenewHIde = true;
-  //     this.oneTimeCreditSHow = false;
+  //     this.currencySymbol = 'USD'
+  //   }
+  //   const formData = new FormData();
+
+  //   if (Object.keys(userInfo).length >= 1) {
+
+  //     formData.append("c_id", JSON.parse(userInfo).id);
+  //     formData.append(
+  //       "cart",
+  //       `{"items":[{"id":${JSON.parse(cardDetails).s_id},"package_mode":"${JSON.parse(cardDetails).package_mode
+  //       }"}]}`
+  //     );
+  //     formData.append("autorenewal",this.subscriptionPrice.autorenew)
+  //     formData.append("paymentgateway", "juspay");
+  //     formData.append("region_type", "1");
+  //     formData.append("coupon_code", '');
+  //     formData.append("user_role", "1");
+  //     formData.append("device", "web");
+  //     formData.append("country_code", JSON.parse(ip).countryCode);
+  //     formData.append("state", JSON.parse(ip).regionName);
+  //     formData.append("country", JSON.parse(ip).countryName);
+  //     let location = {
+  //       loc_country: JSON.parse(ip).countryName,
+  //       city: JSON.parse(ip).city,
+  //       loc_state: JSON.parse(ip).regionName,
+  //       ip: JSON.parse(ip).ip,
+  //       lat: JSON.parse(ip).latitude,
+  //       long: JSON.parse(ip).longitude,
+  //       pincode: JSON.parse(ip).postalCode,
+  //       isp: JSON.parse(ip).connection.isp,
+  //     };
+
+  //     formData.append("location", JSON.stringify(location));
+
+  //     this.checkout.createOrder(formData).subscribe((data: any) => {
+
+  //       if (data.code == 1) {
+  //         this.DEC_SER.getDecryptedData(data.result);
+  //         localStorage.setItem("checkoutData", this.DEC_SER.decryptData);
+  //         let checkoutData = JSON.parse(this.DEC_SER.decryptData);
+  //         this.sessionId = checkoutData;
+
+
+  //         this.goToRazorpay(checkoutData)
+
+  //       }
+
+  //     },
+
+  //       (err) => {
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: "Oops...",
+  //           text: "Something went wrong!",
+  //         });
+  //       }
+  //     );
   //   }
   // }
+  gotoPaymentpay(value: any) {
 
-
-
-
-
-
-
-
-
-
-  gotoRazorpay(value: any) {
-
-    console.log((window as any).pagesense)
-    if (value == 1) {
-      this.removeCode()
-      this.RedeemForm.value.redeem = ''
-    }
+    // if(value==1){
+    //   this.removeCode()
+    //  this.RedeemForm.value.redeem=''
+    // }
     this._DS.apipip().subscribe((res: any) => {
-      localStorage.setItem("ipSaveData", JSON.stringify(res));
+      if (res.code == 1) {
+        this.DEC_SER.getDecryptedData(res?.result);
+        let ipSaveData = JSON.parse(this.DEC_SER.decryptData);
+        localStorage.setItem("ipSaveData", JSON.stringify(ipSaveData));
+      }
     });
     window.scrollTo(0, 0);
 
@@ -550,8 +626,11 @@ export class PaymentpackComponent implements OnInit {
       this.currencySymbol = 'USD'
     }
     const formData = new FormData();
-    if (Object.keys(userInfo).length >= 1 && JSON.parse(cardDetails).s_id != null) {
+
+    if (Object.keys(userInfo).length >= 1) {
+
       formData.append("c_id", JSON.parse(userInfo).id);
+
       formData.append(
         "cart",
         `{"items":[{"id":${JSON.parse(cardDetails).s_id},"package_mode":"${JSON.parse(cardDetails).package_mode
@@ -560,7 +639,7 @@ export class PaymentpackComponent implements OnInit {
 
       formData.append("paymentgateway", "razorpay");
       formData.append("region_type", "1");
-      formData.append("coupon_code", this.RedeemForm.value.redeem);
+      formData.append("coupon_code", '');
       formData.append("user_role", "1");
       formData.append("device", "web");
       formData.append("country_code", JSON.parse(ip).countryCode);
@@ -576,35 +655,51 @@ export class PaymentpackComponent implements OnInit {
         pincode: JSON.parse(ip).postalCode,
         isp: JSON.parse(ip).connection.isp,
       };
+
       formData.append("location", JSON.stringify(location));
-      //  this.sendValueToPayment.emit(3);
-      this.checkout.createOrder(formData).subscribe(
-        (data: any) => {
-          if (data.code == 1) {
-            this.DEC_SER.getDecryptedData(data.result);
-            localStorage.setItem("checkoutData", this.DEC_SER.decryptData);
-            let checkoutData = JSON.parse(this.DEC_SER.decryptData);
-            this.sessionId = checkoutData;
-            console.log(this.sessionId);
-            console.log(this.sessionId.rzrpy_trans_id);
-            this.packagePrice = sessionStorage.getItem("subscribePack");
-            console.log(this.packagePrice);
+      formData.append("autorenew", JSON.parse(cardDetails).autorenew);
+      this._DS.createOrder(formData).subscribe((res) => {
 
-            const eventParams = {
-              plan_name: JSON.parse(this.packagePrice).packageName,
-              plan_type: JSON.parse(this.packagePrice).package_mode,
-              transaction_id: this.sessionId.rzrpy_trans_id,
-              currency: this.sessionId.currency,
-              value: this.sessionId.sub_total,
-            };
-            this.analyticsService.logEvent('purchase_start', eventParams);
+        if (res.code == 1) {
+          this.DEC_SER.getDecryptedData(res.result);
+          localStorage.setItem("checkoutData", this.DEC_SER.decryptData);
+          let checkoutData = JSON.parse(this.DEC_SER.decryptData);
+          this.sessionId = checkoutData;
+          let autorenew = JSON.parse(cardDetails).autorenew
+          // if (autorenew == 1) {
+          //   this.goToRazorpayauto(checkoutData)
+          // } else if (autorenew == 0) {
+          //   this.goToRazorpay(checkoutData)
+          // }
+
+          this.goToRazorpay(checkoutData,autorenew)
 
 
-            this.goToRazorpay(checkoutData)
+          // this.uid = localStorage.getItem("taploginInfo");
+          // this.Uid = JSON.parse(this.uid).id;
+          // this.uid;
+          // setTimeout(() => {
+          //   this._DS.getUserSubscriptionDetails(this.Uid).subscribe((res) => {
+          //     this.DEC_SER.getDecryptedData(res.result);
+          //     const data: any = JSON.parse(this.DEC_SER.decryptData);
+          //     console.log(data)
+          //     if (data.is_subscriber == 1) {
+          //       this.openTab1.emit(4)
+          //       localStorage.setItem("is_subscriber", "1");
+          //       // location.reload()
+          //       this.ed.isSubscribe.next(true);  
 
-          }
+          //     }
+          //   });
+          //   this.router.navigate(['/subscribe'], {queryParams:{'tab':'4'}});
+          // }, 1000);
 
-        },
+
+
+
+        }
+
+      },
 
         (err) => {
           Swal.fire({
@@ -618,145 +713,184 @@ export class PaymentpackComponent implements OnInit {
   }
   options: object = {};
   verifyPay: any;
-  goToRazorpay(checkoutdata: any) {
-    console.log(checkoutdata);
+  // goToRazorpay(checkoutdata: any) {
 
-    console.log(this.packagePrice);
-    this.packageId = localStorage.getItem("subscribeInfo");
-    this.package = JSON.parse(this.packageId);
+  //   const userInfo: any = localStorage.getItem('taploginInfo') || {};
+  //   this.options = {
+  //     'key': 'rzp_live_UeJrCH8yutrbT5', // Enter the Key ID generated from the Dashboard
+  //     'amount': this.sessionId.total, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+  //     'currency': this.currencySymbol,
+  //     'name': 'VIVE',
+  //     'description': 'VIVE',
+  //     // 'image': 'assets/book.png',
+  //     'order_id': checkoutdata.gateway_ref_id, // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+  //     'handler': (response: any) => {
 
+  //       this.verifyPay = response;
+  //       this.makeRazorpayPayment(response);
 
-    const userData: any = localStorage.getItem('taploginInfo') || {};
-    const userInfo = JSON.parse(userData)
-    let dialogOpened = false;
-    this.options = {
-      // rzp_test_U85lR3pxmQxgtq  test key
-      // rzp_live_gtG7Du44HJPsx6  live key
-      'key': 'rzp_live_TfBIlXkcoo7dbK', // Enter the Key ID generated from the Dashboard
-      'amount': this.sessionId.total, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-      'currency': this.currencySymbol,
-      'name': JSON.parse(this.packagePrice).packageName,
-      'description': this.sessionId.id,
-      // 'image': 'assets/book.png',
-      'order_id': checkoutdata.gateway_ref_id, // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      'handler': (response: any) => {
+  //     },
+  //     'prefill': {
+  //       'name': userInfo.firstName + ' ' + userInfo.last_name,
+  //       'email': userInfo.email,
+  //       "contact": userInfo.contact
+  //     },
+  //     'notes': {
+  //       'address': 'Razorpay Corporate Office'
+  //     },
+  //     'theme': {
+  //       'color': '#3399cc'
+  //     },
+  //     'modal': {
+  //       ondismiss: () => {
+  //         // console.log("ddddddddddd");
+  //         this.zone.run(() => {
+  //           this.openTab1.emit(1);
+  //         });
+  //         // console.log('User cancelled the payment or closed the Razorpay modal');
+  //       }
+  //     }
+  //   };
+  //   const rzp1 = new Razorpay(this.options);
+  //   rzp1.open();
+  //   rzp1.on('payment.failed', (response: any) => {
+  //     console.error('Payment Failed:', response);
+  //     const now = new Date();
+  //     const currentTime = now.toLocaleTimeString();
+  //     const eventParams = {
+  //       plan_name: JSON.parse(this.packagePrice).packageName,
+  //       transaction_id: this.sessionId.rzrpy_trans_id,
+  //       cancel_reason: 'Payment failed',
+  //       cancel_time: currentTime,
+  //     };
 
+  //   });
+
+  // }
+
+  // goToRazorpayauto(checkoutdata: any) {
+  //   const userInfo: any = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
+
+  //   let options: any = {
+  //     key: 'rzp_live_UeJrCH8yutrbT5',
+  //     name: 'VIVE',
+  //     description: 'VIVE Subscription',
+  //     handler: (response: any) => {
+  //       this.verifyPay = response;
+  //       console.log('Payment Success:', response);
+  //       this.makeRazorpayPayment(response); // always subscription
+  //     },
+  //     prefill: {
+  //       name: (userInfo.firstName || '') + ' ' + (userInfo.last_name || ''),
+  //       email: userInfo.email,
+  //       contact: userInfo.contact
+  //     },
+  //     notes: {
+  //       address: 'Razorpay Corporate Office'
+  //     },
+  //     theme: { color: '#3399cc' },
+  //     modal: {
+  //       ondismiss: () => {
+  //         this.zone.run(() => {
+  //           this.openTab1.emit(1);
+  //         });
+  //       }
+  //     },
+  //     subscription_id: checkoutdata.gateway_ref_id
+  //   };
+
+  //   const rzp1 = new Razorpay(options);
+  //   rzp1.open();
+
+  //   rzp1.on('payment.failed', (response: any) => {
+  //     console.error('Payment Failed:', response);
+  //     const now = new Date();
+  //     const currentTime = now.toLocaleTimeString();
+
+  //     const eventParams = {
+  //       plan_name: JSON.parse(this.packagePrice).packageName,
+  //       transaction_id: this.sessionId.rzrpy_trans_id,
+  //       cancel_reason: 'Payment failed',
+  //       cancel_time: currentTime,
+  //     };
+
+  //     // send eventParams to backend/analytics
+  //   });
+  // }
+
+  goToRazorpay(checkoutdata: any, autoRenew:any) {
+    const userInfo: any = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
+  
+    const options: any = {
+      key: 'rzp_live_UeJrCH8yutrbT5',
+      name: 'VIVE MOVIES',
+      description: autoRenew ? 'VIVE Subscription' : 'VIVE One-Time Purchase',
+      image: 'https://static.creatorott.com/configration/5006/5006_68c8fc7215f66.png', // ✅ your logo here
+      handler: (response: any) => {
         this.verifyPay = response;
-        console.log(this.verifyPay);
+        console.log('Payment Success:', response);
         this.makeRazorpayPayment(response);
-        this.onSuccess(response)
       },
-      'prefill': {
-        'name': userInfo.firstName + ' ' + userInfo.last_name,
-        'email': userInfo.email,
-        "contact": userInfo.contact_no
+      prefill: {
+        name: (userInfo.firstName || '') + ' ' + (userInfo.last_name || ''),
+        email: userInfo.email,
+        contact: userInfo.contact
       },
-      'customer': {
-        contact: userInfo.contact_no || '9999999999',
-        email: userInfo.email
+      notes: {
+        address: 'Razorpay Corporate Office'
       },
-      'notes': {
-
-        'TransactionId': this.sessionId.rzrpy_trans_id,
-        // 'Contact_email':userInfo.email,
-        // "Contact_phone": userInfo.contact_no,
-        'Plan_name': this.package.packageName,
-        'Plan_value': this.package.price,
-        'Discount_coupon_code': this.RedeemForm.value.redeem || 'NA',
-        'Discount_value': this.packagePrice.total,
-        'Platform': 'Web'
-
-      },
-      'theme': {
-        'color': '#3399cc'
-      },
-
+      theme: { color: '#3399cc' },
       modal: {
-
         ondismiss: () => {
-
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            // title: " Your payment has been cancelled. Try again or complete the payment later. ",
-            title:  this.translate.instant('cancelled_payment'),
-              confirmButtonText: this.translate.instant('ok'),
-
-            timer: 999999999
+          this.zone.run(() => {
+            this.openTab1.emit(1);
           });
-
-          const now = new Date();
-          const currentTime = now.toLocaleTimeString();
-
-          (window as any).pagesense = (window as any).pagesense || [];
-          (window as any).pagesense.push(['trackEvent', 'purchase_cancel']);
-          const eventParams = {
-            plan_name: JSON.parse(this.packagePrice).packageName,
-            transaction_id: this.sessionId.rzrpy_trans_id,
-            cancel_reason: 'Payment cancelled by user',
-            cancel_time: currentTime,
-          };
-          this.analyticsService.logEvent('purchase_cancel', eventParams);
-
-        },
-      },
+        }
+      }
     };
-    const rzp1 = new Razorpay(this.options);
+  
+    // 🔹 Decide between subscription or one-time
+    if (autoRenew == '1') {
+      options.subscription_id = checkoutdata.gateway_ref_id;
+    } else if(autoRenew == '0') {
+      options.order_id = checkoutdata.gateway_ref_id;
+    }
+  
+    const rzp1 = new Razorpay(options);
     rzp1.open();
+  
     rzp1.on('payment.failed', (response: any) => {
       console.error('Payment Failed:', response);
       const now = new Date();
       const currentTime = now.toLocaleTimeString();
+  
       const eventParams = {
         plan_name: JSON.parse(this.packagePrice).packageName,
         transaction_id: this.sessionId.rzrpy_trans_id,
         cancel_reason: 'Payment failed',
         cancel_time: currentTime,
       };
-      this.analyticsService.logEvent('purchase_cancel', eventParams);
+  
     });
   }
+  
 
-  onSuccess(response: any) {
-    setTimeout(() => {
-      this.zone.run(() => {
-        this.openTab1.emit(3);
-      });
-      this.openTab1.emit(3);
-      this.cdr.detectChanges();
-      (window as any).pagesense = (window as any).pagesense || [];
-      (window as any).pagesense.push(['trackEvent', 'purchase']);
-      console.log(JSON.parse(this.packagePrice).packageName);
-      const eventParams = {
-        plan_name: JSON.parse(this.packagePrice).packageName,
-        transaction_id: this.sessionId.rzrpy_trans_id,
-        currency: this.sessionId.currency,
-        value: this.sessionId.sub_total,
-      };
-      this.analyticsService.logEvent('purchase', eventParams);
-    }, 2000);
-  }
 
 
   stateNamesend: any;
   stateNameSelect(stateName: any) {
-    console.log(stateName);
 
     if (stateName != '') {
       this.stateNamesend = stateName;
     }
   }
   onSearch(item: any) {
-    console.log('search called' + item.term);
   }
 
   testSearch(term: any, item: any) {
-    console.log(item);
-    console.log(term);
     return item.name.startsWith(term);
   }
   stateSelected(state: any) {
-    console.log(state);
     if (state != '') {
       this.stateNamesend = state;
       this.stateDefault = state
@@ -766,7 +900,6 @@ export class PaymentpackComponent implements OnInit {
 
 
   makeRazorpayPayment(data: any) {
-
     // this.sendValueToPayment.emit(3);
     let userInfo: any = localStorage.getItem("taploginInfo") || {};
     this.sessionId = localStorage.getItem("checkoutData");
@@ -783,13 +916,14 @@ export class PaymentpackComponent implements OnInit {
     formData.append("status", "1");
     formData.append("device", "web");
     formData.append("pg_ref_id", JSON.parse(this.sessionId).rzrpy_trans_id);
+
     this.checkout.makeRazorPayPayment(formData).subscribe((res: any) => {
-      this.DEC_SER.getDecryptedData(res.result);
+      console.log(res);
+
+      // this.DEC_SER.getDecryptedData(res.result);
 
       if (res.code == 1) {
-        console.log(res.result)
-
-        this.removeCode()
+        // this.removeCode()
         // this.openTab1.emit(3)
         // this.sendValueToNetbankingpayment.emit(3);
         this.uid = localStorage.getItem("taploginInfo");
@@ -797,16 +931,18 @@ export class PaymentpackComponent implements OnInit {
         this.Uid = JSON.parse(this.uid).id;
         this.uid;
         this._DS.getUserSubscriptionDetails(this.Uid).subscribe((res) => {
+          console.log(res);
           this.DEC_SER.getDecryptedData(res.result);
           const data: any = JSON.parse(this.DEC_SER.decryptData);
-          console.log(data);
           if (data.is_subscriber == 1) {
 
+            this.zone.run(() => {
+              this.openTab1.emit(4);
+            });
 
+            // this.sendValueToPayment.emit(4);
             localStorage.setItem("is_subscriber", "1");
             this.ed.isSubscribe.next(true);
-            this.openTab1.emit(3)
-            // this.leadSquare()
           }
         });
         // this.router.navigate(['/subscribe'], {queryParams:{'tab':'4'}});
@@ -830,57 +966,7 @@ export class PaymentpackComponent implements OnInit {
       document.body.style.overflow = "auto";
     });
   }
-  leadSquare() {
-    const subs: any = localStorage.getItem('ott_subscriptionPlan')
-    console.log("hi");
 
-    console.log(JSON.parse(subs).packages_list[0].title);
-
-    // const formData = new FormData();
-    // formData.append("EmailAddress", this.loginId.email);
-    // formData.append("FirstName",this.loginId.first_name);
-    // formData.append("LastName",this.loginId.last_name);
-    // formData.append("Phone",this.loginId.contact_no);
-    // formData.append("mx_App_Subscriptions_Plan",`${JSON.parse(subs).packages_list[0].period_interval}+${JSON.parse(subs).packages_list[0].period} plan`);
-    // formData.append("mx_App_Subcription_Date",JSON.parse(subs).packages_list[0].start_date );
-    // formData.append("mx_App_User_Source","Web");
-    // formData.append("mx_APP_Plan_Expiry_Date",JSON.parse(subs).packages_list[0].end_date);
-    const requestData = [
-      {
-        "Attribute": "EmailAddress",
-        "Value": this.loginId.email
-      },
-      {
-        "Attribute": "FirstName",
-        "Value": this.loginId.first_name
-      },
-      {
-        "Attribute": "LastName",
-        "Value": this.loginId.last_name
-      },
-      {
-        "Attribute": "Phone",
-        "Value": this.loginId.contact_no
-      }, {
-        "Attribute": "mx_App_Subscriptions_Plan",
-        "Value": JSON.parse(subs).packages_list[0].title + ' ' + 'plan'
-      }, {
-        "Attribute": "mx_App_Subcription_Date",
-        "Value": JSON.parse(subs).packages_list[0].subscription_start
-      }, {
-        "Attribute": "mx_App_User_Source",
-        "Value": "Web"
-
-      }, {
-        "Attribute": "mx_APP_Plan_Expiry_Date",
-        "Value": JSON.parse(subs).packages_list[0].subscription_end
-      }
-    ]
-    this._DS.leadSquare(requestData).subscribe((res: any) => {
-
-
-    })
-  }
   openState() {
     const dialogRef = this.dialog.open(StatePopupComponent, {
       backdropClass: "popupBackdropClass",

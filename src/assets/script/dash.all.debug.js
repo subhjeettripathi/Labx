@@ -60552,7 +60552,7 @@ function SchedulingInfo() {
 
 exports.basicFilter = factory(basic, true)
 exports.extendedFilter = factory(extended, true)
-exports.lookup = factory(lookup)
+exports. = factory(lookup
 
 // Basic Filtering (Section 3.3.1) matches a language priority list consisting
 // of basic language ranges (Section 2.1) to sets of language tags.
@@ -69608,17 +69608,17 @@ module.exports = function equal(a, b) {
 
                         if (attr[i] === "monospaceSerif") {
 
-                            // rslt.push("Courier New");
-                            rslt.push('"Liberation Mono"');
-                            // rslt.push("Courier");
-                            rslt.push("monospace");
+                            rslt.push("ALMARAI");
+                            rslt.push('ALMARAI');
+                            rslt.push("ALMARAI");
+                            rslt.push("ALMARAI");
 
                         } else if (attr[i] === "proportionalSansSerif") {
 
-                            // rslt.push("Arial");
-                            // rslt.push("Helvetica");
-                            rslt.push('"Liberation Sans"');
-                            rslt.push("sans-serif");
+                            rslt.push("ALMARAI");
+                            rslt.push("ALMARAI");
+                            rslt.push('"ALMARAI"');
+                            rslt.push("ALMARAI");
 
                         } else if (attr[i] === "monospace") {
 

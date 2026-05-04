@@ -2,29 +2,40 @@
     <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-between" class="alt-p-20">
         <div class="alt-profildialog-content">
             <div class="alt-main-content">
-               
+
                 <div class="alt-profile-details">
                     <button (click)="close()" class="close-btn" style="float: right;">
-                        <!-- <mat-icon>close</mat-icon> -->
-                        <img src="/assets/svgs/Vector.svg" alt="">
+                        <img src="assets/arrows_icons/VectorClose.svg" alt="">
                     </button>
 
                     <div class="profile-img-disp">
                         <p><img [src]="datas[0].data.banner" (error)="onImgError($event)"
-                                style="width:220px;height:260px;" alt="AOL" class="profile-img"> 
+                                style="width:220px;height:260px;" alt="vive" class="profile-img">
                             <span class="a-heading">{{datas[0].data.name}}</span><br>
 
                         </p>
                         <div class="deta-scrol"> {{datas[0].data.description}} </div>
                     </div>
-                    <div class="disp">                         
-                       <div class="disp-image">
-                         <img [src]="datas[0].data.banner" (error)="onImgError($event)" alt="AOL" width="100%"> 
-                       </div>
-                        
-                        <div class="disp-content"> 
-                            <h2>{{datas[0].data.name}}</h2>
-                            <p>{{datas[0].data.description}}</p>
+                    <div class="disp">
+                        <div class="disp-image">
+                            <img [src]="datas[0].data.banner" loading="lazy" (error)="onImgError($event)" alt="vive"
+                                width="100%">
+                        </div>
+
+                        <div class="disp-content">
+                            <h2 class="actor-name">{{datas[0].data.name}}</h2>
+                            <p class="actor-desc">{{datas[0].data.description}}</p>
+                            <!-- <p>"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                                voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
+                                occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt
+                                mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et
+                                expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque
+                                nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda
+                                est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut
+                                rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non
+                                recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis
+                                voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+                            </p> -->
                         </div>
                     </div>
                 </div>

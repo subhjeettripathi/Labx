@@ -147,7 +147,7 @@ export class SearchFilterComponent implements OnInit {
           this.DEC_SER.getDecryptedData(res.result);
           this.UserInfo = JSON.parse(this.DEC_SER.decryptData);
           this.advancedsearchData = this.UserInfo.content;
-          console.log( this.advancedsearchData);
+         
           
           localStorage.setItem('advancedSearch',this.advancedsearchData)
           if(this.advancedsearchData!=''){
@@ -164,7 +164,7 @@ export class SearchFilterComponent implements OnInit {
                         this.windowSize / 6
                       ) {
                         data.sliderImg = img.url;
-                        console.log(data.sliderImg);
+                       
                        data.sliderIdentifier = img.identifier;
                       } else if (data.sliderImg == "") {
                         data.sliderImg = thumb?.image_size[1].url;

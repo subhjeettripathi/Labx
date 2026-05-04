@@ -1,5 +1,13 @@
-
-
+<div class="subscontainer" *ngIf="connected ? '': 'No internet connecction'">
+    <div class="subsflex">
+        <div class="subscontain">
+            <h3>{{ connected ? '': 'Connection interrupted, Please check your internet connection.' }}</h3>
+        </div>
+        <div class="crossImg">
+            <img (click)="closeBanner()" src="assets/arrows_icons/VectorClose.svg" alt="">
+        </div>
+    </div>
+</div>
 <router-outlet></router-outlet>
 <app-loader></app-loader>
-<app-content-loader></app-content-loader>
+<app-gatewayloader></app-gatewayloader>

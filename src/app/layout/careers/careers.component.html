@@ -1,11 +1,246 @@
- <div class="container privacy-container about"  >
-   <span class="arrow-back">
-      <img src="assets/svgs/Vector (4).png" (click)="back()"
-          alt="AOL">
-   </span>
-<div class="about" [innerHTML]="shipping.text">
-
-</div>
-</div>
-
-
+<section class="container lst" style="margin-top: 120px;">
+    <div class="content-inner-wrapper my-5">
+        <h1>Our Story</h1>
+        <div class="testimonial-section">
+            <div id="carouselExampleIndicators" data-ride="carousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0"
+                        class="active ng-star-inserted"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"
+                        class="ng-star-inserted"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"
+                        class="ng-star-inserted"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="3"
+                        class="ng-star-inserted"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active ng-star-inserted">
+                        <div class="testimonial-container my-5 my-sm-0" >
+                            <div class="column col-left">
+                                <div class="quote-icon-wrapper">
+                                    <figure class="m-0"><img
+                                            src="https://static.mastii.studio/configration/1061/1061_6513bea982558.png"
+                                            alt="vive" class="img-fluid"></figure>
+                                </div>
+                                <div class="direction-arrow-wrapper">
+                                    <figure class="m-0"><img
+                                            src="https://static.mastii.studio/configration/1061/1061_6513be9f8f01e.png"
+                                            alt="vive" class="img-fluid"></figure>
+                                </div>
+                                <div class="avatar-wrapper mx-auto"><a
+                                        href="#">
+                                        <figure class="m-0"><img
+                                                src="https://static.mastii.studio/configration/1061/1061_6513beb204812.png" alt="vive"
+                                                class="img-fluid"></figure>
+                                    </a></div>
+                            </div>
+                            <div class="column col-right">
+                                <div class="blockquote-wrapper"><span
+                                        class="left-curlybrace"></span>
+                                    <blockquote>
+                                        <p [innerHTML]=career.testimonials[0].desc ></p>
+                                        <!-- <p>{{this.career.testimonials[0].desc}}</p> -->
+                                        <p class="text-right">{{this.career.testimonials[0].author}} ({{this.career.testimonials[0].post}})
+                                        </p>
+                                    </blockquote><span class="right-curlybrace"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item ng-star-inserted">
+                        <div class="testimonial-container my-5 my-sm-0">
+                            <div class="column col-left">
+                                <div class="quote-icon-wrapper">
+                                    <figure class="m-0"><img
+                                            src="https://static.mastii.studio/configration/1061/1061_6513bea982558.png"
+                                            alt="vive" class="img-fluid"></figure>
+                                </div>
+                                <div class="direction-arrow-wrapper">
+                                    <figure class="m-0"><img
+                                            src="https://static.mastii.studio/configration/1061/1061_6513be9f8f01e.png"
+                                            alt="vive" class="img-fluid"></figure>
+                                </div>
+                                <div class="avatar-wrapper mx-auto"><a
+                                        href="#">
+                                        <figure class="m-0"><img
+                                                src="https://static.mastii.studio/configration/1061/1061_6513beb204812.png" alt="vive"
+                                                class="img-fluid"></figure>
+                                    </a></div>
+                            </div>
+                            <div class="column col-right">
+                                <div class="blockquote-wrapper"><span
+                                        class="left-curlybrace"></span>
+                                    <blockquote>
+                                        <p [innerHTML]=career.testimonials[1].desc ></p>
+                                        <!-- <p>{{this.career.testimonials[1].desc}}</p> -->
+                                        <p class="text-right">{{this.career.testimonials[1].author}} ({{this.career.testimonials[1].post}})</p>
+                                    </blockquote><span class="right-curlybrace"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item ng-star-inserted">
+                        <div class="testimonial-container my-5 my-sm-0">
+                            <div class="column col-left">
+                                <div class="quote-icon-wrapper">
+                                    <figure class="m-0"><img
+                                            src="https://static.mastii.studio/configration/1061/1061_6513bea982558.png"
+                                            alt="vive" class="img-fluid"></figure>
+                                </div>
+                                <div class="direction-arrow-wrapper">
+                                    <figure class="m-0"><img
+                                            src="https://static.mastii.studio/configration/1061/1061_6513be9f8f01e.png"
+                                            alt="vive" class="img-fluid mob-arrow-hide"></figure>
+                                </div>
+                                <div class="avatar-wrapper mx-auto"><a
+                                        href="#">
+                                        <figure class="m-0"><img
+                                                src="https://static.mastii.studio/configration/1061/1061_6513beb204812.png" alt="vive"
+                                                class="img-fluid"></figure>
+                                    </a></div>
+                            </div>
+                            <div class="column col-right">
+                                <div class="blockquote-wrapper"><span
+                                        class="left-curlybrace"></span>
+                                    <blockquote>
+                                        <p [innerHTML]=career.testimonials[2].desc ></p>
+                                        <!-- <p>{{this.career.testimonials[2].desc}}</p> -->
+                                        <p class="text-right">{{this.career.testimonials[2].author}} ({{this.career.testimonials[2].post}})</p>
+                                    </blockquote><span class="right-curlybrace"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item ng-star-inserted">
+                        <div class="testimonial-container my-5 my-sm-0">
+                            <div class="column col-left">
+                                <div class="quote-icon-wrapper">
+                                    <figure class="m-0"><img
+                                            src="https://static.mastii.studio/configration/1061/1061_6513bea982558.png"
+                                            alt="vive" class="img-fluid"></figure>
+                                </div>
+                                <div class="direction-arrow-wrapper">
+                                    <figure class="m-0"><img
+                                            src="https://static.mastii.studio/configration/1061/1061_6513be9f8f01e.png"
+                                            alt="vive" class="img-fluid"></figure>
+                                </div>
+                                <div class="avatar-wrapper mx-auto"><a
+                                        href="#">
+                                        <figure class="m-0"><img
+                                                src="https://static.mastii.studio/configration/1061/1061_6513beb204812.png" alt="vive"
+                                                class="img-fluid"></figure>
+                                    </a></div>
+                            </div>
+                            <div class="column col-right">
+                                <div class="blockquote-wrapper"><span
+                                        class="left-curlybrace"></span>
+                                    <blockquote>
+                                        <p [innerHTML]=career.testimonials[3].desc ></p>
+                                        <!-- <p>{{this.career.testimonials[3].desc}}</p> -->
+                                        <p class="text-right">{{this.career.testimonials[3].author}} ({{this.career.testimonials[3].post}})</p>
+                                    </blockquote><span class="right-curlybrace"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [innerHTML]=this.career.text.text></div>
+        <div class="position-section">
+            <div class="position-filter-section text-md-right text-lg-right mt-4 text-left">
+                <h4
+                    class="float-md-left text-left m-0 text-uppercase d-md-inline-block d-block mb-2 mb-md-0 mb-lg-0">
+                    Current Job openings</h4>
+                <div class="position-select-section d-flex">
+                    <div class="select-box-wrapper"><select
+                            class="custom-select ng-untouched ng-pristine ng-valid">
+                            <option selected="selected" value="0: null">Select Location</option>
+                            <option value="1: Mumbai" class="ng-star-inserted">{{this.career.job_openings[0].location}}</option>
+                          
+                        </select></div>
+                    <div class="select-box-wrapper ml-0 ml-sm-4"><select
+                            class="custom-select ng-untouched ng-pristine ng-valid">
+                            <option selected="" value="0: null">Select Department</option>
+                            <option value="1: Legal" class="ng-star-inserted">{{this.career.job_openings[0].department}}</option>
+                            <option value="2: Product and Technology" class="ng-star-inserted">
+                                {{this.career.job_openings[1].department}}</option>
+                            <option value="3: Analytics" class="ng-star-inserted">{{this.career.job_openings[2].department}}
+                            </option>
+                        </select></div>
+                </div>
+            </div>
+            <div id="accordionExample" class="accordion my-3">
+                <div class="card show ng-star-inserted">
+                    <div class="card-header">
+                        <h5 data-toggle="collapse" aria-expanded="true"
+                            class="mb-0 careers-class-heading collapsed" data-target="#collapse0" aria-controls="0">
+                            {{this.career.job_openings[0].post_name}}</h5>
+                    </div>
+                    <div data-parent="#accordionExample" class="collapse show" id="collapse0"
+                        aria-labelledby="collapse0">
+                        <div class="card-body">
+                            <p>Department: {{this.career.job_openings[0].department}}</p>
+                            <div [innerHTML]=this.career.job_openings[0].description></div>
+                            <div class="apply-section">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3"></div>
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="float-right">Submit your cv at careers (at)
+                                            balajitelefilms (dot) com</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card ng-star-inserted">
+                    <div class="card-header">
+                        <h5 data-toggle="collapse" aria-expanded="false"
+                            class="mb-0 careers-class-heading" data-target="#collapse1" aria-controls="1">{{this.career.job_openings[1].post_name}}
+                        </h5>
+                    </div>
+                    <div data-parent="#accordionExample" class="collapse" id="collapse1"
+                        aria-labelledby="collapse1">
+                        <div class="card-body">
+                            <p>Department: {{this.career.job_openings[1].department}}</p>
+                            <div [innerHTML]=this.career.job_openings[1].description></div>
+                            <div class="apply-section">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3"></div>
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="float-right">Submit your cv at careers (at)
+                                            balajitelefilms (dot) com</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card ng-star-inserted">
+                    <div class="card-header">
+                        <h5 data-toggle="collapse" aria-expanded="false"
+                            class="mb-0 careers-class-heading" data-target="#collapse2" aria-controls="2">{{this.career.job_openings[2].post_name}}
+                        </h5>
+                    </div>
+                    <div data-parent="#accordionExample" class="collapse" id="collapse2"
+                        aria-labelledby="collapse2">
+                        <div class="card-body">
+                            <p>Department: {{this.career.job_openings[2].department}}</p>
+                            <div [innerHTML]=this.career.job_openings[2].description></div>
+                            <div class="apply-section">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3"></div>
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="float-right">Submit your cv at careers (at)
+                                            balajitelefilms (dot) com</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

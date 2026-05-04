@@ -1,6 +1,1229 @@
+// mat-divider {
+//     left: 5% !important;
+//     width: 90% !important;
+// }
+
+// p ul li::marker{
+//     list-style: none !important;
+// }
+
+// .har-form {
+//     padding-right: 12px;
+// }
+
+
+// #i-icon {
+//     display: none;
+// }
+
+// .payment-select {
+//     background: transparent;
+//     border: none;
+//     outline: none;
+//     cursor: pointer;
+//     color: white;
+// }
+
+// .check-icon {
+//     color: green;
+//     font-weight: 700;
+// }
+
+// .url_Link {
+//     color: black;
+// }
+
+// .searchInputLogin {
+//     width: 100%;
+//     background-color: transparent;
+//     border: none;
+//     padding: 10px;
+//     border-top: 1px solid rgba 0, 0, 0, 0.1;
+//     box-shadow: 0px 0.3px white;
+// }
+
+// .loginSearchImg {
+//     position: absolute;
+//     top: 8%;
+//     right: 6%;
+// }
+
+// .choosePayment {
+//     font-size: 14px !important;
+//     font-family: 'GothamMedium' !important;
+//     color: #cbc9c9 !important;
+// }
+
+
+
+// .ng-dropdown-panel.custom {
+//     min-width: 500px !important;
+// }
+
+// .formField ::ng-deep {
+//     .mat-form-field-appearance-fill .mat-form-field-flex {
+//         background-color: #c1c1c1;
+//         padding: 0 10px !important;
+//         font-size: 12px;
+//     }
+
+//     .mat-select-value {
+//         color: white;
+//     }
+
+
+//     .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+//         color: white;
+//     }
+
+//     .mat-select-arrow {
+//         color: white;
+//     }
+
+//     .mat-form-field-appearance-fill .mat-form-field-underline::before {
+//         display: none;
+//     }
+
+//     .mat-form-field-underline {
+//         display: none;
+//     }
+
+//     .mat-form-field-appearance-fill .mat-form-field-flex {
+//         padding-top: 0;
+//     }
+
+//     .mat-form-field-appearance-fill .mat-select-arrow-wrapper {
+//         transform: translateY(-10%);
+//     }
+// }
+
+// .radioButton ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+//     border: 4px solid #ffffffcf;
+//     background-color: transparent !important;
+//     border-color: white !important;
+// }
+
+// .radioButton ::ng-deep.mat-radio-outer-circle {
+//     border: 4px solid #ffffffcf;
+//     border-width: 4px !important;
+// }
+
+// .radioButton ::ng-deep .mat-radio-checked .mat-radio-inner-circle {
+//     transform: scale(.6) !important;
+//     background: green !important;
+//     border: 2px solid #ffffffcf;
+// }
+
+// .radioButton ::ng-deep .mat-radio-container {
+//     background: #868484;
+//     border-radius: 50%;
+// }
+
+// .mat-icons-pay {
+//     // background: #ffffffcf;
+//     padding: 6px 16px;
+//     border-radius: 4px;
+// }
+
+
+
+// .margin15 {
+//     margin-top: 15px;
+// }
+
+
+// mat-form-field {
+//     width: 100%;
+// }
+
+// .payment {
+//     cursor: pointer;
+//     margin-top: 14px !important;
+// }
+
+
+// .card_validation {
+//     width: 31%;
+// }
+
+// .slash {
+//     margin-top: 20px;
+//     font-size: 25px;
+// }
+
+// .mobikwik {
+//     cursor: pointer;
+
+// }
+
+// .line-through {
+
+//     text-decoration-line: line-through;
+//     text-decoration-thickness: 1px;
+//     text-decoration-color: white;
+// }
+
+// .discountMsg {
+//     color: #A2FF9B;
+//     font-size: 14px;
+//     position: absolute;
+// }
+
+// .discountMsgZError {
+//     color: #FF8787;
+//     font-size: 14px;
+//     position: absolute;
+//     margin-top: -25px;
+// }
+
+// .coupon-input-art {
+//     position: relative;
+// }
+
+
+// .iconCode {
+//     margin-right: 20px;
+//     width: 19px;
+
+// }
+
+// .stopIcon {
+//     margin-right: 20px;
+//     width: 19px;
+// }
+
+// .formField ::ng-deep .mat-form-field-appearance-outline .mat-form-field-prefix {
+//     top: 0 !important;
+// }
+
+// .har-form ::ng-deep .mat-select-panel-wrap {
+//     margin-top: 40px !important;
+//     width: 0px !important;
+// }
+
+
+// .CreditCardBg .mat-input-element::placeholder {
+//     color: white;
+// }
+
+// .bg-payment {
+//     color: black;
+//     padding: 16px;
+// }
+
+// .CreditCardBg {
+//     background-color: #55545499 !important;
+// }
+
+// .CreditCardBg input.mat-input-element {
+//     margin-top: -0.0625em;
+//     color: white !important;
+// }
+
+// .hide {
+//     display: none;
+// }
+
+// .show {
+//     display: block;
+// }
+
+// .CreditCardBg .alt-btn-p {
+//     background-color: #b51131 !important;
+//     border: #b51131 !important;
+// }
+
+// .geographical {
+//     margin-top: 16px;
+//     margin-left: 30px;
+// }
+
+// .alt-btn-mar {
+//     padding: 8px;
+// }
+
+
+// .amount {
+//     justify-content: space-between;
+//     padding: 18px 32px 18px 30px;
+// }
+
+// @media screen and (max-width: 572px) {
+//     #paypal-button-container {
+//         width: 100%;
+//     }
+
+//     .amount {
+//         padding: 18px 15px !important;
+//     }
+
+//     .geographical {
+//         margin-top: 16px;
+//         font-size: 13px;
+//         text-align: left !important;
+//         margin-left: 15px !important;
+//         // display: flex;
+//     }
+
+//     .har-form {
+//         padding-right: unset !important;
+//     }
+
+
+
+// }
+
+// @media screen and (min-width: 400px) {
+//     #paypal-button-container {
+//         width: 100%;
+//         margin-top: 12px;
+//     }
+
+// }
+
+// .totalPrice {
+//     font-size: 20px;
+// }
+
+
+// .har-form {
+//     width: 100% !important;
+//     float: right;
+//     margin-right: 10px;
+// }
+
+// .i-icon {
+//     padding: 12px;
+// }
+
+// .selectSate {
+//     text-align: end;
+// }
+
+// #iconn {
+//     padding-left: 4px;
+//     padding-bottom: 5px;
+// }
+
+// @media screen and (max-width: 400px) {
+//     .dropdown-toggle {
+//         width: 0px !important;
+//     }
+// }
+
+// @media screen and (max-width: 992px) {
+
+//     .btn-coupon {
+//         font-size: 14px;
+//         line-height: 25px;
+
+//     }
+
+//     .input-coupon-aol {
+//         padding: 14px;
+//         font-size: 14px;
+//         border-radius: 4px;
+//         margin-bottom: 15px;
+//     }
+
+//     input::placeholder {
+//         color: var(--theme-check-btn-color);
+//         /* font-family: Poppins; */
+//         font-size: 16px;
+//         font-weight: 400;
+//         line-height: 24px;
+//         letter-spacing: 0em;
+//         text-align: left;
+
+//     }
+
+//     .btn-coupon-aol {
+//         margin-top: 10px;
+//     }
+
+//     .bg-back {
+//         height: 200px !important;
+//     }
+
+//     .bg-pay {
+//         margin-top: -170px;
+//     }
+
+//     #iconn {
+//         padding-left: 5px !important;
+//         padding-bottom: 5px !important;
+//     }
+
+//     .mat-select-panel {
+//         max-width: unset !important;
+//     }
+
+//     #drpDown-panel {
+//         min-width: unset !important;
+//     }
+
+//     .cdk-overlay-pane {
+//         top: 425.922px !important;
+//         left: 54.5px !important;
+//     }
+
+//     .bg-colorr {
+//         background: #3A3A3A !important;
+//     }
+
+//     .amount {
+//         justify-content: space-between;
+//         padding: 17px 35px 18px 36px;
+//     }
+
+//     .geographical {
+//         margin-top: 16px;
+//         margin-left: 33px;
+//     }
+
+//     .country-code-lists li {
+//         font-size: 12px !important;
+//         white-space: inherit;
+//     }
+
+//     .loginSearchImg {
+//         position: absolute;
+//         top: 24%;
+//         right: 8%;
+//     }
+
+// }
+
+// .stateCl ::ng-deep ng-select .ng-select-container {
+//     background-color: transparent !important;
+//     color: white !important;
+//     border: none;
+
+// }
+
+// .stateCl ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+//     background-color: #0A0A0A !important;
+//     color: white !important;
+
+// }
+
+// // .stateCl ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option:hover {
+// // background-color: #2d2d2d !important;
+// // color: white !important;
+
+// // }
+// .stateCl ::ng-deep ng-select .ng-dropdown-panel.ng-select-bottom {
+//     border-top: none !important;
+//     border: 1px solid #676767;
+// }
+
+// .stateCl ::ng-deep ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected .ng-option-label {
+//     font-weight: inherit;
+// }
+
+// .stateCl ::ng-deep .ng-select .ng-clear-wrapper {
+//     color: #999;
+//     display: none !important;
+// }
+
+// .stateCl ::ng-deep .ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+
+//     box-shadow: none !important;
+// }
+
+// .stateCount {
+//     margin-top: 15px;
+//     text-align: right;
+// }
+
+// .search-country-code input {
+//     width: 100%;
+//     padding: 8px;
+//     background: #2d2d2d00;
+//     margin: 0px;
+//     /* border: 1px solid #fff; */
+//     border-radius: 0px;
+//     border: unset;
+//     border-bottom: 1px solid #9b9696;
+//     color: white;
+// }
+
+// .country-code-lists {
+//     position: absolute;
+//     /* transform: translate3d(5px, -447px, 0px); */
+//     top: 25px;
+//     left: 0px;
+//     will-change: transform;
+//     height: 274px;
+//     overflow: scroll;
+//     overflow-x: hidden;
+//     width: 100%;
+//     background-color: #383838;
+//     cursor: pointer;
+//     padding: 6px;
+//     font-weight: 700;
+// }
+
+// .country-code-lists li {
+//     color: white;
+//     font-size: 13px;
+// }
+
+// .country-code-lists li:hover {
+//     color: black;
+// }
+
+// .country-code-section {
+//     display: inline-flex;
+// }
+
+// .country-code {
+//     padding-right: 9px
+// }
+
+// .row-geo {
+//     flex-wrap: unset !important;
+// }
+
+// .dropdown-item {
+//     padding: 0.25rem 0.5rem !important;
+// }
+
+// // .coupon-aol {
+// //     width: 22%;
+// //     margin: auto;
+// //     padding: 20px;
+
+// // }
+// .input-coupon-aol {
+//     padding: 15px 20px;
+//     outline: 0;
+//     color: #FFFFFF;
+//     font-size: 18px;
+//     border: 1px solid #997e7e9c;
+//     background: #27253D;
+//     border-radius: 6px;
+//     width: 100%;
+//     // margin-bottom: 30px;
+//     color: #FFFFFF;
+
+// }
+
+
+// input::placeholder {
+//     color: var(--theme-check-btn-color);
+//     /* font-family: Poppins; */
+//     font-size: 14px;
+//     font-weight: 400;
+//     line-height: 33px;
+//     letter-spacing: 0em;
+//     text-align: left;
+
+// }
+
+// .btn-coupon {
+//     background: var(--theme-check-btn-color);
+//     padding: 10px;
+//     color: #FFFFFF;
+//     border: 0;
+//     outline: 0;
+//     width: 100%;
+//     border-radius: 6px;
+//     margin-bottom: 20px;
+//     font-family: var(--theme-font-style);
+//     font-size: 16px;
+//     line-height: 33px;
+//     letter-spacing: 0em;
+//     text-align: center;
+// }
+
+// .btn-coupon:hover {
+//     background: #FF8731;
+// }
+
+// // .btn-coupon-aol-2 button {
+// //     background: #7F7F7F;
+// //     border-radius: 6px;
+// //     border: 0;
+// //     outline: 0;
+// //     padding: 10px;
+// //     width: 100%;:
+// //     color: #C5C5C5;
+// //     font-family: var(--theme-font-style);
+// //     font-size: 16px;
+// //   
+// //     line-height: 33px;
+// //     letter-spacing: 0em;
+// //     text-align: center;
+
+// // }
+
+// .remove-aol a {
+//     font-family: var(--theme-font-style);
+//     font-size: 16px;
+//     font-weight: 400;
+//     // line-height: 30px;
+//     letter-spacing: 0em;
+//     text-align: center;
+//     color: #FF0000;
+//     text-decoration: none;
+//     cursor: pointer;
+
+// }
+
+// .validate-text {
+//     display: flex;
+//     // justify-content: space-between;
+//     align-items: center;
+//     gap: 12px;
+
+// }
+
+// .coupon-validate {
+//     padding: 5px 20px;
+//     outline: 0;
+//     font-size: 18px;
+//     // border: 1px solid #997e7e9c;
+//     background: #164739;
+//     border-radius: 6px;
+//     width: 100%;
+//     margin-bottom: 30px;
+//     color: #FFFFFF;
+//     border: 1px solid #FFFFFF
+// }
+
+// .coupon {
+//     font-family: var(--theme-font-style);
+//     font-size: 15px;
+//     // line-height: 36px;
+//     letter-spacing: 0em;
+//     text-align: left;
+// }
+
+// .discount-aol {
+//     font-family: Poppins;
+//     font-size: 13px;
+//     font-weight: 500;
+//     // line-height: 24px;
+//     letter-spacing: 0em;
+//     text-align: left;
+// }
+
+// .remove-aol {
+//     margin: auto;
+// }
+
+
+
+
+// @media screen and (max-width: 992px) {
+
+//     .btn-coupon {
+//         font-size: 14px;
+//         line-height: 25px;
+
+//     }
+
+//     .input-coupon-aol {
+//         padding: 14px;
+//         font-size: 14px;
+//         border-radius: 4px;
+//         margin-bottom: 15px;
+//     }
+
+//     input::placeholder {
+//         color: var(--theme-check-btn-color);
+//         /* font-family: Poppins; */
+//         font-size: 18px;
+//         font-weight: 400;
+//         line-height: 24px;
+//         letter-spacing: 0em;
+//         text-align: left;
+
+//     }
+
+//     .btn-coupon-aol {
+//         margin-top: 10px;
+//     }
+
+//     .bg-back {
+//         height: 200px !important;
+//     }
+
+//     .bg-pay {
+//         margin-top: -170px;
+//     }
+
+//     #iconn {
+//         padding-left: 5px !important;
+//         padding-bottom: 5px !important;
+//     }
+
+//     .mat-select-panel {
+//         max-width: unset !important;
+//     }
+
+//     #drpDown-panel {
+//         min-width: unset !important;
+//     }
+
+//     .cdk-overlay-pane {
+//         top: 425.922px !important;
+//         left: 54.5px !important;
+//     }
+
+//     .bg-colorr {
+//         background: #3A3A3A !important;
+//     }
+
+//     .amount {
+//         justify-content: space-between;
+//         padding: 17px 35px 18px 36px;
+//     }
+
+//     .geographical {
+//         margin-top: 16px;
+//         margin-left: 33px;
+//     }
+
+//     .country-code-lists li {
+//         font-size: 12px !important;
+//         white-space: inherit;
+//     }
+
+//     .loginSearchImg {
+//         position: absolute;
+//         top: 24%;
+//         right: 8%;
+//     }
+
+// }
+
+// .buttons {
+//     color: white;
+//     display: flex;
+//     width: 100%;
+//     justify-content: center;
+// }
+
+// .close-btn img {
+//     width: 25px;
+// }
+
+// .line-through {
+
+//     text-decoration-line: line-through;
+//     text-decoration-thickness: 1px;
+//     text-decoration-color: white;
+// }
+
+// .close-btn {
+//     cursor: pointer;
+// }
+
+// .btns {
+//     color: #fff !important;
+//     border: 1px solid #858585;
+//     padding: 10px;
+//     border-radius: 4px;
+//     width: 100%;
+//     background-color: transparent;
+//     font-size: 16px;
+//     letter-spacing: 1px;
+//     font-family: var(--theme-font-style);
+//     margin-right: 20px;
+// }
+
+// .btns:hover {
+//     background: #FF8731;
+// }
+
+// .input-coupon input {
+//     width: 100%;
+//     background: transparent;
+//     border: 1px solid #FFFFFF;
+//     padding: 12px 16px;
+//     border-radius: 6px;
+//     color: #ffff;
+//     font-size: 14px;
+
+// }
+
+// .input-coupon {
+//     margin: 30px 0px 20px 0px;
+// }
+
+
+// .btn-upper {
+//     width: 100%;
+//     margin-right: 20px;
+// }
+
+// .btn-upper-1 {
+//     width: 100%;
+
+// }
+
+
+
+// .btn_apply {
+//     font-family: var(--theme-font-style);
+//     font-size: 16px;
+//     // line-height: 23px;
+//     letter-spacing: 0em;
+//     text-align: center;
+//     background: var(--theme-check-btn-color);
+//     border: 0;
+//     outline: 0;
+//     color: var(--theme-payment-mode-color);
+//     width: 100%;
+//     border-radius: 6px;
+//     padding: 12px 16px;
+//     // margin-bottom: 20px;
+// }
+
+// .btn_process-1 {
+//     font-family: var(--theme-font-style);
+//     font-size: 16px;
+//     // line-height: 23px;
+//     letter-spacing: 0em;
+//     text-align: center;
+//     border: 0;
+//     outline: 0;
+//     color: #FFFFFF;
+//     width: 100%;
+//     border-radius: 6px;
+//     padding: 12px 16px;
+//     // margin-bottom: 20px;
+//     // background: #333054;
+//     background: #11CCF5;
+
+// }
+
+// .btn_process {
+//     font-family: var(--theme-font-style);
+//     font-size: 16px;
+//     // line-height: 23px;
+//     letter-spacing: 0em;
+//     text-align: center;
+//     border: 0;
+//     outline: 0;
+//     color: #FFFFFF;
+//     width: 100%;
+//     border-radius: 6px;
+//     padding: 12px 16px;
+//     // margin-bottom: 20px;
+//     background: var(--theme-secondary-color);
+// }
+
+// .input-coupon::placeholder {
+//     font-family: var(--theme-font-style);
+//     font-size: 16px;
+//     font-weight: 400;
+//     // line-height: 23px;
+//     letter-spacing: 0em;
+//     text-align: left;
+//     // background: #7F7F7F;
+//     color: var(--theme-check-btn-color);
+
+// }
+
+// .btn_process:hover {
+//     background: var(--theme-hover-bgColor);
+//     color: var(--theme-hover-color);
+// }
+
+// .btn_apply:hover {
+//     background: var(--theme-hover-bgColor);
+//     color: var(--theme-hover-color);
+// }
+
+
+
+// .rental-details h5 {
+//     font-family: var(--theme-font-style) !important;
+//     font-size: 14px;
+//     font-weight: 500;
+//     // line-height: 29px;
+//     letter-spacing: 0em;
+//     text-align: left;
+//     color: #BDBDBD;
+
+// }
+
+
+// .rental-details h2 {
+//     font-family: var(--theme-font-style) !important;
+//     font-size: 28px;
+//     font-weight: 700;
+//     // line-height: 50px;
+//     letter-spacing: 0em;
+//     text-align: left;
+//     color: #FFFFFF;
+// }
+
+// .rental_para p {
+//     font-family: var(--theme-font-style);
+//     font-size: 18px;
+//     font-weight: 400;
+//     line-height: 31px;
+//     letter-spacing: 0em;
+//     text-align: left;
+//     color: #E9E9E9;
+
+// }
+
+// .rental_para{
+//     padding: 10px;
+// }
+
+
+// .rental_head h3 {
+//     font-family: "Lato";
+//     font-size: 22px;
+//     font-weight: 700;
+//     line-height: 30px;
+//     letter-spacing: -0.022em;
+//     text-align: left;
+//     color: #FFFFFF;
+//     margin: 0;
+
+// }
+
+// .rental_head {
+//     margin: auto;
+// }
+
+// .aol_head {
+//     background: #FF8731;
+//     padding: 20px;
+//     width: 100%;
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+
+//     border-radius: 12px 12px 0px 0px;
+// }
+
+// .terms {
+//     font-family: var(--theme-font-style);
+//     font-size: 16px;
+//     font-weight: 400;
+//     line-height: 32px;
+//     letter-spacing: 0em;
+//     text-align: left;
+//     color: var(--theme-check-btn-color);
+
+// }
+
+// .rental-details {
+//     // padding: 0px 60px;
+//     border-radius: 6px;
+//     border: 2px solid #7E7E7E;
+    
+// }
+
+// .single {
+//     background: var(--theme-price-bgColor);
+//     display: flex;
+//     justify-content: center;
+//     flex-direction: column;
+//     padding: 15px !important;
+// }
+
+
+// .payment-pg {
+//     background: var(--theme-price-bgColor);
+//     padding: 20px;
+//     border-radius: 10px;
+//     // height: 30vh;
+//     display: flex;
+//     flex-direction: column;
+//     gap: 16px;
+// }
+
+
+
+
+// .discountMsg-rental {
+//     color: var(--theme-secondary-color);
+//     font-size: 14px;
+//     position: absolute;
+// }
+
+// .discountMsgZError-rental {
+//     color: var(--theme-secondary-color);
+//     font-size: 14px;
+//     position: absolute;
+//     bottom: -26px;
+//     font-family: var(--theme-font-style) !important;
+//     // margin-top: 10px;
+//     // margin-top: -25px;
+// }
+
+// .coupon_apply {
+//     padding-top: 3%;
+// }
+
+
+// .validate-text {
+//     display: flex;
+//     align-items: center;
+//     gap: 8px;
+
+// }
+
+// .coupon-validate {
+//     padding: 3px;
+//     outline: 0;
+//     font-size: 18px;
+//     // border: 1px solid #997e7e9c;
+//     background: #164739;
+//     border-radius: 6px;
+//     width: 100%;
+//     // margin-bottom: 30px;
+//     color: #FFFFFF;
+//     border: 1px solid #FFFFFF
+// }
+
+// .coupon {
+//     font-family: var(--theme-font-style);
+//     font-size: 12px;
+//     // line-height: 36px;
+//     letter-spacing: 0em;
+//     text-align: left;
+// }
+
+// .discount-aol {
+//     font-family: Poppins;
+//     font-size: 12px;
+//     font-weight: 500;
+//     // line-height: 24px;
+//     letter-spacing: 0em;
+//     text-align: left;
+// }
+
+// .remove-aol {
+//     margin: auto;
+// }
+
+
+// .remove-aol a {
+//     font-family: var(--theme-font-style);
+//     font-size: 14px;
+//     font-weight: 400;
+//     // line-height: 30px;
+//     letter-spacing: 0em;
+//     text-align: center;
+//     color: #FF0000;
+//     text-decoration: none;
+//     cursor: pointer;
+
+// }
+
+// .coupon-head {
+//     font-family: var(--theme-font-style);
+//     font-size: 26px;
+//     line-height: 42px;
+//     letter-spacing: 0em;
+//     text-align: center;
+//     margin-bottom: 15px;
+
+// }
+
+// @media screen and (max-width:1366px) {
+//     .btn_process{
+//         font-size: 12px;
+//         padding: 7px;
+//     }
+
+//     .btn_apply{
+//         font-size: 12px;
+//         padding: 7px;
+//     }
+
+//     .input-coupon input {
+//         padding: 7px;
+//         font-size: 12px;
+    
+//     }
+
+//     input::placeholder {
+
+//         font-size: 14px;
+    
+//     }
+// }
+
+// @media screen and (max-width:992px) {
+
+
+
+//     .btn_apply {
+//         font-size: 12px;
+//         padding: 10px;
+//     }
+
+//     .btn_process-1 {
+//         font-size: 12px;
+//         padding: 10px;
+
+//     }
+
+//     .btn_process {
+//         font-size: 12px;
+//         padding: 10px;
+
+//     }
+
+//     .input-coupon input {
+//         padding: 10px;
+//     }
+
+//     .coupon-validate {
+//         padding: 0 3px;
+//     }
+
+//     .rental-details h2 {
+//         font-size: 15px;
+//     }
+
+//     // .aol-rental{
+//     //     padding: 0px 10px;
+//     // }
+
+
+
+// }
+
+// @media screen and (max-width:767px) {
+
+//     .padd-rental {
+//         padding: 0;
+//     }
+
+//     .input-coupon {
+//         gap: 20px;
+//     }
+
+
+
+
+
+// }
+
+// @media screen and (max-width:576px) {
+//     // .aol-rental{
+//     //     padding: 0px;
+//     // }
+
+//     .single {
+//         padding: 8px !important;
+//     }
+
+//     .rental-details h5 {
+//         font-size: 12px;
+//     }
+
+//     .rental-details h2 {
+//         font-size: 14px;
+//     }
+
+//     .rental-details h2 {
+//         font-size: 12px;
+//     }
+
+//     .terms {
+//         font-size: 12px;
+//         line-height: unset;
+//     }
+
+//     .rental_para p {
+//         font-size: 12px;
+//         line-height: unset;
+//     }
+
+//     .rental_head h3 {
+//         font-size: 16px;
+//         line-height: unset;
+//     }
+
+//     .aol_head {
+//         padding: 10px;
+//     }
+
+//     .close-btn {
+//         top: 10px;
+//         right: 15px;
+//     }
+
+//     .close-btn img {
+//         width: 20px;
+//     }
+
+//     .coupon_apply {
+//         padding: 0;
+//     }
+
+//     .discountMsgZError-rental {
+//         // margin-top: 4px;
+//         font-size: 12px;
+//         bottom: -9px;
+//     }
+
+//     .discountMsg-rental {
+//         // margin-top: 4px;
+//         font-size: 12px;
+//         bottom: -9px;
+//     }
+
+//     .padd-rental {
+//         padding: 0;
+//     }
+
+//     .input-coupon {
+//         gap: 20px;
+//     }
+// }
+
+// .pay-btn button {
+//     width: 100%;
+//     background: var(--theme-check-btn-color);
+//     padding: 10px;
+//     border: 0;
+//     outline: 0;
+//     font-family: var(--theme-font-style) !important;
+//     font-size: 16px;
+//     font-weight: 900;
+//     line-height: 25px;
+//     text-align: center;
+//     color: var(--theme-payment-mode-color);
+//     border-radius: 6px;
+// }
+
+// .pay-btn button:hover {
+//     background: var(--theme-hover-bgColor);
+//     color: var(--theme-hover-color);
+// }
+
+
+
+// .pay-full{
+//     justify-content: center;
+// }
+
+
+
+
+
+
 mat-divider {
     left: 5% !important;
     width: 90% !important;
+}
+
+p ul li::marker{
+    list-style: none !important;
 }
 
 .har-form {
@@ -50,24 +1273,7 @@ mat-divider {
     color: #cbc9c9 !important;
 }
 
-// .drop{
-//     position: relative;
-//     margin-top: -11px;
-// border-left: 1px solid #B4B4B4;
-// height: 43px;
-// }
 
-
-// .ng-select.custom ::ng-deep .ng-select-container  {            
-//     min-height: 0px;
-//     border-radius: 0;
-//     background-color:white !important;
-// }
-// .ng-select.custom ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-//     background-color: #8e8e8e !important ;
-//     color:white;
-//     padding: 8px 10px;
-// }
 
 .ng-dropdown-panel.custom {
     min-width: 500px !important;
@@ -154,9 +1360,7 @@ mat-form-field {
     margin-top: 14px !important;
 }
 
-//   .invalidError{
-//     margin-top: 50px;
-//   }
+
 .card_validation {
     width: 31%;
 }
@@ -171,21 +1375,6 @@ mat-form-field {
 
 }
 
-// .subscribeInput {
-//     // color: black !important;
-//     // padding: 10px 15px;
-//     outline: 0;
-//     font-size: 18px;
-//     // border: 1px solid #997e7e9c;
-//     background: #27253D;
-//     // border-radius: 6px;
-//     // width: 100%;
-//     // margin-bottom: 30px;
-//     color: #FFFFFF;
-
-
-// }
-
 .line-through {
 
     text-decoration-line: line-through;
@@ -196,14 +1385,12 @@ mat-form-field {
 .discountMsg {
     color: #A2FF9B;
     font-size: 14px;
-    font-weight: 600;
     position: absolute;
 }
 
 .discountMsgZError {
     color: #FF8787;
     font-size: 14px;
-    font-weight: 600;
     position: absolute;
     margin-top: -25px;
 }
@@ -239,8 +1426,6 @@ mat-form-field {
 }
 
 .bg-payment {
-    // margin-top: -0.0625em;
-    // color: white !important;
     color: black;
     padding: 16px;
 }
@@ -307,7 +1492,6 @@ mat-form-field {
 
 }
 
-/* Media query for desktop viewport */
 @media screen and (min-width: 400px) {
     #paypal-button-container {
         width: 100%;
@@ -328,11 +1512,6 @@ mat-form-field {
 }
 
 .i-icon {
-    // text-align: center;
-    // margin-top: 15px;
-    // position: absolute;
-    // right: 22%;
-    // top: 15%;
     padding: 12px;
 }
 
@@ -367,9 +1546,9 @@ mat-form-field {
     }
 
     input::placeholder {
-        color: #7F7F7F;
+        color: var(--theme-check-btn-color);
         /* font-family: Poppins; */
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 400;
         line-height: 24px;
         letter-spacing: 0em;
@@ -544,16 +1723,16 @@ mat-form-field {
     background: #27253D;
     border-radius: 6px;
     width: 100%;
-    margin-bottom: 30px;
+    // margin-bottom: 30px;
     color: #FFFFFF;
 
 }
 
 
 input::placeholder {
-    color: #7F7F7F;
+    color: var(--theme-check-btn-color);
     /* font-family: Poppins; */
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 33px;
     letter-spacing: 0em;
@@ -562,46 +1741,24 @@ input::placeholder {
 }
 
 .btn-coupon {
-    // background: #7F7F7F;
+    background: var(--theme-check-btn-color);
+    padding: 10px;
+    color: #FFFFFF;
+    border: 0;
+    outline: 0;
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-family: var(--theme-font-style);
+    font-size: 16px;
+    line-height: 33px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.btn-coupon:hover {
     background: #FF8731;
-    padding: 10px;
-    color: #FFFFFF;
-    border: 0;
-    outline: 0;
-    width: 100%;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    font-family: 'PoppinsRegular';
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 33px;
-    letter-spacing: 0em;
-    text-align: center;
 }
-
-.btn-coupon-1 {
-    background: #7F7F7F;
-    // background: #FF8731;
-    padding: 10px;
-    color: #FFFFFF;
-    border: 0;
-    outline: 0;
-    width: 100%;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    font-family: 'PoppinsRegular';
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 33px;
-    letter-spacing: 0em;
-    text-align: center;
-}
-
-    
-
-// .btn-coupon:hover {
-//     background: #FF8731;
-// }
 
 // .btn-coupon-aol-2 button {
 //     background: #7F7F7F;
@@ -611,9 +1768,9 @@ input::placeholder {
 //     padding: 10px;
 //     width: 100%;:
 //     color: #C5C5C5;
-//     font-family: 'PoppinsRegular';
+//     font-family: var(--theme-font-style);
 //     font-size: 16px;
-//     font-weight: 600;
+//   
 //     line-height: 33px;
 //     letter-spacing: 0em;
 //     text-align: center;
@@ -621,7 +1778,7 @@ input::placeholder {
 // }
 
 .remove-aol a {
-    font-family: "PoppinsRegular";
+    font-family: var(--theme-font-style);
     font-size: 16px;
     font-weight: 400;
     // line-height: 30px;
@@ -655,9 +1812,8 @@ input::placeholder {
 }
 
 .coupon {
-    font-family: "PoppinsRegular";
+    font-family: var(--theme-font-style);
     font-size: 15px;
-    font-weight: 600;
     // line-height: 36px;
     letter-spacing: 0em;
     text-align: left;
@@ -681,6 +1837,10 @@ input::placeholder {
 
 @media screen and (max-width: 992px) {
 
+    .input-coupon{
+    margin: 10px 0px 10px 0px !important;
+    gap: 15px !important;
+}
     .btn-coupon {
         font-size: 14px;
         line-height: 25px;
@@ -689,13 +1849,13 @@ input::placeholder {
 
     .input-coupon-aol {
         padding: 14px;
-        font-size: 14px;
+        font-size: 12px !important;
         border-radius: 4px;
         margin-bottom: 15px;
     }
 
     input::placeholder {
-        color: #7F7F7F;
+        color: var(--theme-check-btn-color);
         /* font-family: Poppins; */
         font-size: 18px;
         font-weight: 400;
@@ -762,24 +1922,518 @@ input::placeholder {
 
 }
 
-
-
-/* Add default button styles */
-// .btn-coupon,
-// .btn-coupon-1 {
-//     padding: 10px 20px;
-//     border: none;
-//     cursor: pointer;
-// }
-
-/* Orange button class */
-.orange-btn {
-    background-color: #FF8731;
+.buttons {
     color: white;
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 
-/* Grey button class */
-.grey-btn {
-    background-color: #7F7F7F;
-    color: white;
+.close-btn img {
+    width: 25px;
+}
+
+.line-through {
+
+    text-decoration-line: line-through;
+    text-decoration-thickness: 1px;
+    text-decoration-color: white;
+}
+
+.close-btn {
+    cursor: pointer;
+}
+
+.btns {
+    color: #fff !important;
+    border: 1px solid #858585;
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+    background-color: transparent;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-family: var(--theme-font-style);
+    margin-right: 20px;
+}
+
+.btns:hover {
+    background: #FF8731;
+}
+
+.input-coupon input {
+    width: 100%;
+    background: transparent;
+    border: 1px solid #FFFFFF;
+    padding: 12px 16px;
+    border-radius: 6px;
+    color: #ffff;
+    font-size: 14px;
+
+}
+
+.input-coupon {
+    margin: 30px 0px 20px 0px;
+}
+
+
+.btn-upper {
+    width: 100%;
+    margin-right: 20px;
+}
+
+.btn-upper-1 {
+    width: 100%;
+
+}
+
+
+
+.btn_apply {
+    font-family: var(--theme-font-style);
+    font-size: 16px;
+    // line-height: 23px;
+    letter-spacing: 0em;
+    text-align: center;
+    background: var(--theme-secondary-color);
+    border: 0;
+    outline: 0;
+    color: var(--theme-payment-mode-color);
+    width: 100%;
+    border-radius: 6px;
+    padding: 12px 16px;
+    // margin-bottom: 20px;
+}
+
+.btn_process-1 {
+    font-family: var(--theme-font-style);
+    font-size: 16px;
+    // line-height: 23px;
+    letter-spacing: 0em;
+    text-align: center;
+    border: 0;
+    outline: 0;
+    color: #FFFFFF;
+    width: 100%;
+    border-radius: 6px;
+    padding: 12px 16px;
+    // margin-bottom: 20px;
+    // background: #333054;
+    background: #11CCF5;
+
+}
+
+.btn_process {
+    font-family: var(--theme-font-style);
+    font-size: 16px;
+    // line-height: 23px;
+    letter-spacing: 0em;
+    text-align: center;
+    border: 0;
+    outline: 0;
+    color: #FFFFFF;
+    width: 100%;
+    border-radius: 6px;
+    padding: 12px 16px;
+    // margin-bottom: 20px;
+    background: var(--theme-secondary-color);
+}
+
+.input-coupon::placeholder {
+    font-family: var(--theme-font-style);
+    font-size: 16px;
+    font-weight: 400;
+    // line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+    // background: #7F7F7F;
+    color: var(--theme-check-btn-color);
+
+}
+
+.btn_process:hover {
+    // background: var(--theme-hover-bgColor);
+    // color: var(--theme-hover-color);
+}
+
+.btn_apply:hover {
+    // background: var(--theme-hover-bgColor);
+    // color: var(--theme-hover-color);
+}
+
+
+
+.rental-details h5 {
+    font-family: var(--theme-font-style) !important;
+    font-size: 14px;
+    font-weight: 500;
+    // line-height: 29px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #BDBDBD;
+
+}
+
+
+.rental-details h2 {
+    font-family: var(--theme-font-style) !important;
+    font-size: 28px;
+    font-weight: 700;
+    // line-height: 50px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.rental_para p {
+    font-family: var(--theme-font-style);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 31px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #E9E9E9;
+
+}
+
+.rental_para{
+    padding: 10px;
+}
+
+
+.rental_head h3 {
+    font-family: "Lato";
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: -0.022em;
+    text-align: left;
+    color: #FFFFFF;
+    margin: 0;
+
+}
+
+.rental_head {
+    margin: auto;
+}
+
+.aol_head {
+    background: #FF8731;
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-radius: 12px 12px 0px 0px;
+}
+
+.terms {
+    font-family: var(--theme-font-style);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 32px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: var(--theme-check-btn-color);
+
+}
+
+.rental-details {
+    // padding: 0px 60px;
+    border-radius: 6px;
+    border: 2px solid #7E7E7E;
+    
+}
+
+.single {
+    background: var(--theme-price-bgColor);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 15px !important;
+}
+
+
+.payment-pg {
+    background: var(--theme-price-bgColor);
+    padding: 20px;
+    border-radius: 10px;
+    // height: 30vh;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+
+
+.discountMsg-rental {
+    color: var(--theme-secondary-color);
+    font-size: 14px;
+    position: absolute;
+}
+
+.discountMsgZError-rental {
+    color: #FF8787;
+    // color: var(--theme-secondary-color);
+    font-size: 14px;
+    position: absolute;
+    bottom: -26px;
+    font-family: var(--theme-font-style) !important;
+    // margin-top: 10px;
+    // margin-top: -25px;
+}
+
+.coupon_apply {
+    // padding-top: 3%;
+}
+
+
+.validate-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+}
+
+.coupon-validate {
+    padding: 3px;
+    outline: 0;
+    font-size: 18px;
+    // border: 1px solid #997e7e9c;
+    background: #164739;
+    border-radius: 6px;
+    width: 100%;
+    // margin-bottom: 30px;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF
+}
+
+.coupon {
+    font-family: var(--theme-font-style);
+    font-size: 12px;
+    // line-height: 36px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.discount-aol {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    // line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.remove-aol {
+    margin: auto;
+}
+
+
+.remove-aol a {
+    font-family: var(--theme-font-style);
+    font-size: 14px;
+    font-weight: 400;
+    // line-height: 30px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #FF0000;
+    text-decoration: none;
+    cursor: pointer;
+
+}
+
+.coupon-head {
+    font-family: var(--theme-font-style);
+    font-size: 26px;
+    line-height: 42px;
+    letter-spacing: 0em;
+    text-align: center;
+    margin-bottom: 15px;
+
+}
+
+@media screen and (max-width:1366px) {
+    .btn_process{
+        font-size: 12px;
+        padding: 7px;
+    }
+
+    .btn_apply{
+        font-size: 12px;
+        padding: 7px;
+    }
+
+    .input-coupon input {
+        padding: 7px;
+        font-size: 12px;
+    
+    }
+
+    input::placeholder {
+
+        font-size: 14px;
+    
+    }
+}
+
+@media screen and (max-width:992px) {
+
+
+
+    .btn_apply {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .btn_process-1 {
+        font-size: 12px;
+        padding: 10px;
+
+    }
+
+    .btn_process {
+        font-size: 12px;
+        padding: 10px;
+
+    }
+
+    .input-coupon input {
+        padding: 10px;
+    }
+
+    .coupon-validate {
+        padding: 0 3px;
+    }
+
+    .rental-details h2 {
+        font-size: 15px;
+    }
+
+    // .aol-rental{
+    //     padding: 0px 10px;
+    // }
+
+
+
+}
+
+@media screen and (max-width:767px) {
+
+    .padd-rental {
+        padding: 0;
+    }
+
+    .input-coupon {
+        gap: 20px;
+    }
+
+
+
+
+
+}
+
+@media screen and (max-width:576px) {
+    // .aol-rental{
+    //     padding: 0px;
+    // }
+
+    .single {
+        padding: 8px !important;
+    }
+
+    .rental-details h5 {
+        font-size: 12px;
+    }
+
+    .rental-details h2 {
+        font-size: 14px;
+    }
+
+    .rental-details h2 {
+        font-size: 12px;
+    }
+
+    .terms {
+        font-size: 12px;
+        line-height: unset;
+    }
+
+    .rental_para p {
+        font-size: 12px;
+        line-height: unset;
+    }
+
+    .rental_head h3 {
+        font-size: 16px;
+        line-height: unset;
+    }
+
+    .aol_head {
+        padding: 10px;
+    }
+
+    .close-btn {
+        top: 10px;
+        right: 15px;
+    }
+
+    .close-btn img {
+        width: 20px;
+    }
+
+    .coupon_apply {
+        padding: 0;
+    }
+
+    .discountMsgZError-rental {
+        // margin-top: 4px;
+        font-size: 12px;
+        bottom: -9px;
+    }
+
+    .discountMsg-rental {
+        // margin-top: 4px;
+        font-size: 12px;
+        bottom: -9px;
+    }
+
+    .padd-rental {
+        padding: 0;
+    }
+
+    .input-coupon {
+        gap: 20px;
+    }
+}
+
+.pay-btn button {
+    width: 100%;
+    background: var(--theme-check-btn-color);
+    padding: 10px;
+    border: 0;
+    outline: 0;
+    font-family: var(--theme-font-style) !important;
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 25px;
+    text-align: center;
+    color: var(--theme-payment-mode-color);
+    border-radius: 6px;
+}
+
+.pay-btn button:hover {
+    background: var(--theme-hover-bgColor);
+    color: var(--theme-hover-color);
+}
+
+
+
+.pay-full{
+    // justify-content: center;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 }

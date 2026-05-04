@@ -346,6 +346,7 @@
   line-height: 1;
   font-weight: normal;
   font-style: normal;
+  font-family:var(--theme-font-style);
   word-break: initial;
 }
 .video-js:-moz-full-screen {
@@ -481,6 +482,7 @@ body.vjs-full-window {
   color: #fff;
   background-color: #000;
   font-size: 18px;
+  font-family:var(--theme-font-style);
   text-align: center;
   width: 300px;
   height: 150px;
@@ -597,6 +599,7 @@ body.vjs-full-window {
   display: block;
   padding: 0;
   margin: 0;
+  font-family:var(--theme-font-style);
   overflow: auto;
 }
 
@@ -903,7 +906,7 @@ body.vjs-full-window {
 .video-js .vjs-play-progress:before {
   font-size: 0.9em;
   position: absolute;
-  right: -0.5em;
+  right: -0.02em !important;
   top: -0.3333333333em;
   z-index: 1;
 }
@@ -922,6 +925,7 @@ body.vjs-full-window {
   border-radius: 0.3em;
   color: #000;
   float: right;
+  font-family:var(--theme-font-style);
   font-size: 1em;
   padding: 6px 8px 8px 8px;
   pointer-events: none;
@@ -1161,6 +1165,7 @@ body.vjs-full-window {
   border-radius: 0.3em;
   color: #000;
   float: right;
+  font-family:var(--theme-font-style);
   font-size: 1em;
   padding: 6px 8px 8px 8px;
   pointer-events: none;
@@ -1437,6 +1442,7 @@ video::-webkit-media-text-track-display {
 .vjs-error .vjs-error-display:before {
   color: #fff;
   content: "X";
+  font-family:var(--theme-font-style);
   font-size: 4em;
   left: 0;
   line-height: 1;

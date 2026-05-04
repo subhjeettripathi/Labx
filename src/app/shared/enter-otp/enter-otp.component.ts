@@ -32,48 +32,93 @@ export class EnterOtpComponent implements OnInit {
   clicked = true;
   errorMsg: any;
   errorAlertData: any;
-  otpInput:any;
-  global:any;
-  ipCountry:any;
-  ipCountryName:any;
-  countryData:any;
-  totalOtpCount:any;
-  otpValidation:any;
-  country=[]
-  otpExceeded=false;
+  otpInput: any;
+  global: any;
+  ipCountry: any;
+  ipCountryName: any;
+  countryData: any;
+  totalOtpCount: any;
+  otpValidation: any;
+  country = []
+  otpExceeded = false;
+  otpTime: any
+  otpSecret: string;
   constructor(private _SWAL: SwalMsgService
-    , public dialogRef: MatDialogRef<EnterOtpComponent>, private _DS: DataService, private dialog: MatDialog, public es: ExchangeDataService, private ds: DataService, @Inject(MAT_DIALOG_DATA) public data: any) { this.timer(1);
-     }
+    , public dialogRef: MatDialogRef<EnterOtpComponent>, private _DS: DataService, private dialog: MatDialog, public es: ExchangeDataService, private ds: DataService, @Inject(MAT_DIALOG_DATA) public data: any) {
 
- 
+    this.errorAlertData = localStorage.getItem('errorMsg')
+    this.errorMsg = JSON.parse(this.errorAlertData)
+
+    this.otpTime = Number(this.errorMsg.otpExpiryTime) / 60
+
+    function makeid(length: any) {
+      let result = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      const charactersLength = characters.length;
+      let counter = 0;
+      while (counter < length) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+      }
+      return result;
+    }
+
+
+
+    var gettoken = btoa(this.errorMsg.otpExpiryTime);
+
+    this.otpSecret = makeid(4) + gettoken
+
+
+  }
+
+
+
+
   config = {
     allowNumbersOnly: true,
     length: 4,
-    isPasswordInput: true,
-    disableAutoFocus: false,
+    // isPasswordInput: true,
+    // disableAutoFocus: false,
     timer: 1,
-    placeholder: '',
+    // placeholder: '',
     inputStyles: {
-      'width': '56px',
-      
+      'width': '70px',
       'color': 'white',
-      'background-color': '#676767',
-      'border': 'none',
-     'outline': 'none'
+      'background-color': 'transparent',
+      'border-top': 'none',
+      'border-left': 'none',
+      'border-right': 'none',
+      'border-bottom': '2px solid #AAAAAA',
+      'outline': 'none',
+      'border-radius': '0px'
     },
   };
   ngOnInit(): void {
+    this.timer(this.otpTime);
     this.otpInput = new FormControl(null, Validators.compose([Validators.required, Validators.minLength(4)]));
     this.ottId = localStorage.getItem("otpForgotId")
     this.basesignin = this.popupJson.PopupList[0]
-    console.log(this.basesignin);
+
     this.errorAlertData = localStorage.getItem('errorMsg')
     this.errorMsg = JSON.parse(this.errorAlertData)
     this.getCountryName()
 
-    this.errorAlertData=localStorage.getItem('errorMsg')
-    this.errorMsg=JSON.parse(this.errorAlertData)
+    this.errorAlertData = localStorage.getItem('errorMsg')
+    this.errorMsg = JSON.parse(this.errorAlertData)
   }
+    ngAfterViewInit() {
+   
+  const otpInputs = document.querySelectorAll('ng-otp-input input');
+  otpInputs.forEach((input: any) => {
+    // input.setAttribute('type', 'text');
+    input.setAttribute('inputmode', 'numeric');
+    input.setAttribute('pattern', '[0-9]*');
+    input.setAttribute('autocomplete', 'one-time-code');
+    input.setAttribute('autocorrect', 'off');
+    input.setAttribute('autocapitalize', 'off');
+  });
+}
   close() {
 
     this.dialogRef.close()
@@ -101,7 +146,7 @@ export class EnterOtpComponent implements OnInit {
       if (seconds == 0) {
         this.clicked = false
         this.timerHide = false
-        console.log("finished");
+
         clearInterval(timer);
       }
     }, 1000);
@@ -114,41 +159,49 @@ export class EnterOtpComponent implements OnInit {
 
     }
   }
+  isSubmitting = false;
+
   onVerifyOtp() {
-
-    if (this.otpInput.valid) {
-
+    if (this.otpInput.valid && !this.isSubmitting) {
+      this.isSubmitting = true; // disable further clicks
+  
       const formData: any = new FormData();
-      formData.append('user_id', this.ottId);
+      var user_id: any = localStorage.getItem('taploginInfo');
+      formData.append('user_id', JSON.parse(user_id).id);
       formData.append('otp', this.otpInput.value);
-      formData.append('type', 'mail_verify');
-      formData.append('device', 'web');
-      this.ds.verifyOtp(formData).subscribe((res: any) => {
-        console.log(res);
-        if (res.code == 1) {
-          // localStorage.setItem("emailVerified","1")
-          var mailVerify = this.loginId
-          mailVerify.is_mail_verify = "1"
-          localStorage.setItem('taploginInfo', JSON.stringify(mailVerify))
-          this.tick.emit(true)
-          // this.getSwalmsg('Your Email ID isVerified Successfully!', 'success');
-          const dialogRef = this.dialog.open(EmailVerifiedComponent, {
-            panelClass: 'deleteSuccessfull',
-            width: "390px",
-            backdropClass: 'backdropBackground'
-          });
-          this.dialogRef.close()
-        } else {
+      formData.append('device', "web");
+      formData.append('type', "mail");
+  
+      this.ds.verifyOtp(formData).subscribe({
+        next: (res: any) => {
+          if (res.code == 1) {
+            var mailVerify = this.loginId;
+            mailVerify.is_mail_verify = "1";
+            localStorage.setItem('taploginInfo', JSON.stringify(mailVerify));
+            this.tick.emit(true);
+  
+            const dialogRef = this.dialog.open(EmailVerifiedComponent, {
+              panelClass: 'deleteSuccessfull',
+              width: "390px",
+              backdropClass: 'backdropBackground'
+            });
+            this.dialogRef.close();
+          } else {
+            this.verifyOtp = false;
+          }
+        },
+        error: () => {
           this.verifyOtp = false;
-
+        },
+        complete: () => {
+          this.isSubmitting = false; // re-enable button after request finishes
         }
-      })
-
-    }
-    else {
-      this.otpInputInvalid = true
+      });
+    } else {
+      this.otpInputInvalid = true;
     }
   }
+  
   getSwalmsg(msg: string, icon: any) {
     const Toast = Swal.mixin({
       toast: true,
@@ -170,69 +223,69 @@ export class EnterOtpComponent implements OnInit {
   getCountryName() {
     this._DS.getCountryStateList().subscribe((res: any) => {
       this.country = res.country
-      // console.log(this.country);
+
       this.global = res.global_setting;
-      console.log(this.global);
-      
-      if(this.global.is_custom==1){
-       
-        this.otpValidation=this.global;
-       }else{
-      
-        this.ipCountryName=localStorage.getItem('ipSaveData');
-        this.ipCountry=JSON.parse(this.ipCountryName).countryName
-        console.log(this.ipCountry);
-        
-        this.countryData= this.country.find((x: { name: any; })=> x.name === this.ipCountry);
-        console.log(this.countryData);
-        this.otpValidation=this.countryData;
-        console.log(this.otpValidation);
-       }
+
+
+      if (this.global.is_custom == 1) {
+
+        this.otpValidation = this.global;
+      } else {
+
+        this.ipCountryName = localStorage.getItem('ipSaveData');
+        this.ipCountry = JSON.parse(this.ipCountryName).countryName
+
+
+        this.countryData = this.country.find((x: { name: any; }) => x.name === this.ipCountry);
+
+        this.otpValidation = this.countryData;
+
+      }
     })
   }
+
+
   resendOtp() {
     // var phoneNumber=this.valueMobile
     this._DS.profileSmsPolicy(this.data.email).subscribe((res: any) => {
-      console.log(res);
-      
-    this.totalOtpCount=res.result
-    console.log(this.totalOtpCount.countOtp1_hour);
-    console.log(this.totalOtpCount.countOtp24_hours);
-    
-    console.log(this.otpValidation.sms_max_hour_limit);
-    console.log(this.totalOtpCount.countOtp1_hour);
 
-    console.log(this.otpValidation.sms_max_day_limit);
-    console.log(this.totalOtpCount.countOtp24_hours);
-    if(this.otpValidation.sms_max_hour_limit>=this.totalOtpCount.countOtp1_hour&&this.otpValidation.sms_max_day_limit>=this.totalOtpCount.countOtp24_hours){
-     
-      this.timerHide = true;
-      this.timer(1);
-      this.clicked = true;
-      const formData: any = new FormData();
 
-      formData.append('email', this.data.email);
-      formData.append('type', 'mail');
-      formData.append('device', 'web');
-  
-      this.ds.forgotOtp(formData).subscribe((res: any) => {
-        console.log(res);
-        if (res.code == 1) {
-          // this.timerHide = true
-          // this.timer(1)
-          // this.clicked = true;
-        }
-  
-      })
-      // this.resendOtpToLogin.emit("resend");
-    }else{
-     
-      this.clicked =true;
-     this.otpExceeded=true;
-    }
+      this.totalOtpCount = res.result
+
+      if (this.otpValidation.sms_max_hour_limit >= this.totalOtpCount.countOtp1_hour && this.otpValidation.sms_max_day_limit >= this.totalOtpCount.countOtp24_hours) {
+
+        this.timerHide = true;
+        this.timer(this.otpTime);
+        this.clicked = true;
+        const formData: any = new FormData();
+        var user_id :any = localStorage.getItem('taploginInfo');
+        formData.append('user_id', JSON.parse(user_id).id);
+        formData.append('value', this.data.email);
+        formData.append('type', 'mail');
+        formData.append('device', 'web');
+        formData.append('mode', 'vive');
+        formData.append('mode_type', 'verify');
+        formData.append('payload', this.otpSecret);
+        
+
+        this.ds.forgotOtp(formData).subscribe((res: any) => {
+
+          if (res.code == 1) {
+            // this.timerHide = true
+            // this.timer(1)
+            // this.clicked = true;
+          }
+
+        })
+        // this.resendOtpToLogin.emit("resend");
+      } else {
+
+        this.clicked = true;
+        this.otpExceeded = true;
+      }
     });
 
-    
+
     // const formData: any = new FormData();
 
     // formData.append('email', this.data.email);
@@ -240,7 +293,7 @@ export class EnterOtpComponent implements OnInit {
     // formData.append('device', 'web');
 
     // this.ds.forgotOtp(formData).subscribe((res: any) => {
-    //   console.log(res);
+
     //   if (res.code == 1) {
     //     this.timerHide = true
     //     this.timer(2)

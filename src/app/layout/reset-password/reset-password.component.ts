@@ -7,7 +7,7 @@ import { DecryptService } from 'src/app/services/decrypt.service';
 import { FingerPrintService } from 'src/app/services/finger-print.service';
 import { FunctionCallingService } from 'src/app/services/function-calling.service';
 import Swal from 'sweetalert2';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
@@ -17,12 +17,11 @@ export class ResetPasswordComponent implements OnInit {
   emailLoginForm!: FormGroup;
   showpassword = false;
   showpasswordSecond = false;
-  visitorId: any;
   confirm_password: any;
   token: any;
   invalidPassword: any;
-
-  constructor(private _fb: FormBuilder, private auth: AuthService, private ds: DataService, private DEC_SER: DecryptService, private _FPS: FingerPrintService, private _ar: ActivatedRoute, private fcs: FunctionCallingService) { }
+  visitorId: any=localStorage.getItem('device_id')
+  constructor(private _fb: FormBuilder, private auth: AuthService, private router: Router, private ds: DataService, private DEC_SER: DecryptService, private _FPS: FingerPrintService, private _ar: ActivatedRoute, private fcs: FunctionCallingService) { }
 
   loginData = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
   ngOnInit(): void {
@@ -31,19 +30,17 @@ export class ResetPasswordComponent implements OnInit {
       confirm_password: ["", Validators.compose([Validators.required, Validators.minLength(8)])],
     },
     );
-    this._FPS.getFingerPrintDeviceId();
-    this._FPS.visitorId.subscribe(r => this.visitorId = r);
     this._ar.queryParams.subscribe(params => {
       this.token = params['token']
       var uip = atob(this.token)
       var ddh = uip.split(";")[1]
-      var hey = this.loginData
-      hey.is_mail_verify = "1"
-      localStorage.setItem('taploginInfo', JSON.stringify(hey))
+      // var hey = this.loginData
+      // hey.is_mail_verify = "1"
+      // localStorage.setItem('taploginInfo', JSON.stringify(hey))
 
-      var emaUpdate = this.loginData
-      emaUpdate.email = ddh
-      localStorage.setItem('taploginInfo', JSON.stringify(emaUpdate))
+      // var emaUpdate = this.loginData
+      // emaUpdate.email = ddh
+      // localStorage.setItem('taploginInfo', JSON.stringify(emaUpdate))
     })
 
   }
@@ -81,9 +78,9 @@ export class ResetPasswordComponent implements OnInit {
     const formData: any = new FormData();
     formData.append('u_id',);
     this.auth.deviceInfoGet(formData).subscribe((res: any) => {
-      console.log(res.result)
+   
       this.DEC_SER.getDecryptedData(res.result);
-      console.log(this.DEC_SER.getDecryptedData(res.result));
+   
     })
   }
   onSubmitEmailLogin() {
@@ -98,12 +95,26 @@ export class ResetPasswordComponent implements OnInit {
         formData.append('device_unique_id', this.visitorId);
         formData.append('device', 'web');
         this.ds.PasswordSetEmail(formData).subscribe((res: any) => {
-          console.log(res, 'login')
+        
           if (res.code == 1) {
-            var hey = this.loginData
-            hey.is_mail_verify = "1"
-            localStorage.setItem('taploginInfo', JSON.stringify(hey))
-            this.getSwalmsg('password created successfully', 'success');
+            
+            // var hey = this.loginData
+            // hey.is_mail_verify = "1"
+            // localStorage.setItem('taploginInfo', JSON.stringify(hey))
+            this._ar.queryParams.subscribe(params => {
+              this.token = params['token']
+              var uip = atob(this.token)
+              var ddh = uip.split(";")[1]
+              var hey = this.loginData
+              hey.is_mail_verify = "1"
+              localStorage.setItem('taploginInfo', JSON.stringify(hey))
+        
+              var emaUpdate = this.loginData
+              emaUpdate.email = ddh
+              localStorage.setItem('taploginInfo', JSON.stringify(emaUpdate))
+            })
+            this.getSwalmsg('Email verified and password  created successfully', 'success');
+            this.router.navigate(['/'])
           }
           else {
             this.getSwalmsg('Oops! password not created', 'error');

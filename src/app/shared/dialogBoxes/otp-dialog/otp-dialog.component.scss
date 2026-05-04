@@ -2,20 +2,21 @@
 //     margin-right: 16px !important;
 // }
 
-// ::ng-deep .otp-input {
-//     border: none !important;
-//     outline: none !important;
-//     font-size: 40px !important;
-//     width: 65px !important;
-//     height: 85px !important;
-//     background-color: #BEBEBE;
-// }
+.otpInput {
+    ::ng-deep .ng-otp-input-wrapper .otp-input:not(:last-child) {
+        margin-right: 12px !important;
+    }
+}
+
+
+::ng-deep .otp-input:focus-visible{
+    border-bottom: 2px solid var(--theme-secondary-color) !important;
+}
 
 .otpResend {
     button {
         color: #B4B4B4;
         font-size: 16px;
-        margin-left: 5px;
     }
 
     // span{
@@ -23,34 +24,10 @@
     //     border-bottom: 1px solid white;
     // }
 }
-button:disabled {
-    cursor: not-allowed !important;
-    pointer-events: all !important;
-}
+
 .insideBtn {
     color: #FFFFFF !important;
-    font-weight: 600;
     border: none;
     border-bottom: 1px solid white;
     background-color: transparent;
-}
-// ::ng-deep .otp-input {
-//     border: none !important;
-//     outline: none !important;
-//     font-size: 40px !important;
-//     width: 65px !important;
-//     height: 85px !important;
-//     background-color: #3D3D3D;
-//     border-radius: 12px !important;
-// }
-
-
-.otp-flex{
-    display: flex;
-    gap: 4px;
-    justify-content:center ;
-}
-
-.mobile-otp{
-    margin-top: 12px ;
 }

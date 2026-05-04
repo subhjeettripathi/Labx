@@ -4,19 +4,19 @@ import { DataService } from "src/app/services/data.service";
 import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
 import { DecryptService } from "src/app/services/decrypt.service";
 import { ExchangeDataService } from "src/app/services/exchange-data.service";
-import { AudioPlayerComponent } from "../../audio-player/audio-player.component";
+import { environment } from 'src/environments/environment';
 import { Router } from "@angular/router";
+import { CountryLockPopupComponent } from "../../dialogBoxes/country-lock-popup/country-lock-popup.component";
 import { MatDialog } from "@angular/material/dialog";
-import { LoginModalDialogComponent } from "../../dialogBoxes/login-modal-dialog/login-modal-dialog.component";
-import { AuthService } from "src/app/services/auth.service";
-import { FunctionCallingService } from "src/app/services/function-calling.service";
-import { ParentalOtpCreateComponent } from "../../dialogBoxes/parental-otp-create/parental-otp-create.component";
-import { StorageService } from "src/app/services/storage.service";
-import * as firebase from "firebase/app";
-import { AnalyticsService } from "src/app/services/analytics.service";
+//import * as amplitude from '@amplitude/analytics-browser';
 declare var $: any;
-
-
+declare global {
+  interface Window {
+    firebaseAnalytics?: {
+      logEvent: (eventName: string, params?: any) => void;
+    };
+  }
+}
 @Component({
   selector: "app-popular-search",
   templateUrl: "./popular-search.component.html",
@@ -28,25 +28,30 @@ export class PopularSearchComponent implements OnInit {
   // addNewItem(value: string) {
   //   this.newItemEvent.emit(value);
   // }
+ 
   @Input() item: any = [];
   show_img: any = true;
   popular_data: any;
   windowSize: any = 0;
-  rentalData: any
   popularImg_url: any = [];
-  defaultImages: any = []
-  defaultThumb: any
+  defaultImages:any=[]
+  defaultThumb:any;
+  countryAllowed: any = [];
   isSubscribed = false;
+  crownImg:any;
   isSubsInfo: any = localStorage.getItem("is_subscriber") || {};
-  constructor(private ds: DataService, private DEC_SER: DecryptService, private ed: ExchangeDataService, private router: Router, private dialog: MatDialog, private auth: AuthService, private fcs: FunctionCallingService, private _storage: StorageService, private analyticsService: AnalyticsService) {
+  liveImg:any
+  freeImg:any
+
+  constructor(private ds: DataService, private DEC_SER: DecryptService, private ed:ExchangeDataService,private router: Router,private dialog: MatDialog,) {
     this.ed.isSubscribe.subscribe((value) => {
       this.isSubscribed = value;
     });
   }
 
   ngOnInit(): void {
-    this.defaultImages = localStorage.getItem("defaultImages")
-    this.defaultThumb = JSON.parse(this.defaultImages).vertical.path
+    this.defaultImages=localStorage.getItem("defaultImages")
+    this.defaultThumb=JSON.parse(this.defaultImages).rectangle.path
     if (this.isSubsInfo == 1) {
       this.isSubscribed = true;
     } else {
@@ -55,33 +60,33 @@ export class PopularSearchComponent implements OnInit {
     this.popular_search();
 
     this.windowSize = window.innerWidth;
+    localStorage.removeItem('episode')
+    this.getCrownImg();
   }
-
-  openAudioPlayer(event: any) {
-    this.dialog.closeAll()
-    setTimeout(() => {
-      if (this.dialog.openDialogs.length == 0) {
-        const alertRef = this.dialog.open(AudioPlayerComponent, {
-          panelClass: 'audio_player',
-          maxWidth: '100vw',
-          width: "100%",
-          height: "100%",
-          hasBackdrop: false,
-          backdropClass: 'cdk-overlay-transparent-backdrop',
-          data: { data: event },
-        });
-      }
-    }, 500);
+  // onImgError(event: any) {
+  //   event.target.src = JSON.parse(this.defaultImages).vertical.path
+  // }
+  getUniqueCategories(): string[] {
+    // Extract unique category names
+    return Array.from(new Set(this.popular_data.map((item:any) => item.categories)));
   }
   popular_search() {
+    // var searched: any = this.searchForm.value.search;
     var decrypt_data: any;
 
     this.ds.popularRes().subscribe((data: any) => {
       if (data.code == 1) {
         decrypt_data = this.DEC_SER.getDecryptedData(data.result);
         let UserInfo = JSON.parse(this.DEC_SER.decryptData);
-        console.log("search successful", UserInfo.content);
+       
         this.popular_data = UserInfo.content;
+        console.log(this.popular_data);
+        
+        for (let i in this.popular_data) {
+          if (this.popular_data[i].categories == 'Episode') {
+            this.popular_data[i].categories = 'Shows'
+          }
+        }
         this.popular_data.map((data: any) => {
           data.sliderImg = "";
           data.sliderIdentifier = "";
@@ -89,9 +94,9 @@ export class PopularSearchComponent implements OnInit {
             if (data.groupInfo.global_thumb != null && data.groupInfo.global_thumb.length != 0) {
               data.groupInfo.global_thumb.forEach((thumb: any) => {
                 if (thumb != null) {
-
-                  if (thumb.layout == "vertical_9x16" &&
-                    thumb.platform == "global") {
+                
+                  if ( thumb.layout == "rectangle_16x9" &&
+                  thumb.platform == "global") {
                     thumb?.image_size.filter((img: any) => {
                       if (Number(img.width) == 360 || Number(img.width) == 854) {
                         data.sliderImg = img.url;
@@ -104,10 +109,10 @@ export class PopularSearchComponent implements OnInit {
                   }
                 }
               });
-            } else if (data.groupInfo.thumbs != null) {
+            }else if(data.groupInfo.thumbs!=null){
               data.groupInfo.thumbs.forEach((thumb: any) => {
                 if (thumb != null) {
-                  if (thumb.layout == 'vertical_9x16' && thumb.platform == 'web') {
+                  if (thumb.layout == 'rectangle_16x9' && thumb.platform == 'web') {
                     thumb?.image_size.filter((img: any) => {
                       if (Number(img.width) == 360 || Number(img.width) == 854) {
                         data.sliderImg = img.url;
@@ -116,23 +121,23 @@ export class PopularSearchComponent implements OnInit {
                         data.sliderImg = thumb?.image_size[0].url;
                         data.sliderIdentifier = thumb?.image_size[0].identifier;
                       }
-
+                    
                     });
                   }
-
-
+  
+  
                 }
               });
             }
-
+            
 
 
           }
-          else if (data.is_group == 0) {
+         else if (data.is_group == 0) {
             data.layout_thumbs.forEach((thumb: any) => {
-              if (thumb.layout == 'vertical_9x16') {
+              if (thumb.layout == 'rectangle_16x9') {
                 thumb?.image_size.filter((img: any) => {
-
+                 
                   if (Number(img.width) == 360 || Number(img.width) == 854) {
                     data.sliderImg = img.url;
                     data.sliderIdentifier = img.identifier;
@@ -140,7 +145,7 @@ export class PopularSearchComponent implements OnInit {
                     data.sliderImg = thumb?.image_size[0].url;
                     data.sliderIdentifier = thumb?.image_size[0].identifier;
                   }
-
+                  
                 });
               }
             });
@@ -150,136 +155,62 @@ export class PopularSearchComponent implements OnInit {
       }
     });
   }
-  navigate(event: any) {
-    if (event.is_ad == 1) {
-      window.open(event.ad_url);
-    } else {
-      const eventParams = {
+
+
+  naviagte(event: any) {
+  
+    if (window.firebaseAnalytics && typeof window.firebaseAnalytics.logEvent === 'function') {
+      window.firebaseAnalytics.logEvent('select_content', {
         item_id: event.id,
         item_name: event.title,
-        item_type: event.content_type,
-        item_value: event.access_type,
-        page_name: 'popular_search',
-        season_id: event.season_id,
-        series_id: event.series_id
-      };
-      this.analyticsService.logEvent('select_item', eventParams);
+        content_type: event.content_type
+      });
+    }
+    
+    const ipDetail: any = localStorage.getItem("ipSaveData");
+    const detail = JSON.parse(ipDetail);
+    if (event.content_publish && event.content_publish.length) {
+      for (let i in event.content_publish) {
+        this.countryAllowed.push(event.content_publish[i].country_code);
+      
+      }
+      var a = this.countryAllowed.indexOf(detail.countryCode);
 
-      console.log(event);
-      const subs: any = localStorage.getItem("ott_subscriptionPlan");
-      const userInfo: any = localStorage.getItem('taploginInfo') || {};
-      const ipDetail: any = localStorage.getItem("ipSaveData");
-      const detail = JSON.parse(ipDetail);
-      if (Object.keys(userInfo).length) {
-        const formData: any = new FormData();
-        const visitorIds: any = localStorage.getItem('device_id')
-        formData.append("customer_id", JSON.parse(userInfo).id);
-        formData.append("device_unique_id", visitorIds);
-        formData.append('country_code', detail.countryCode);
-        formData.append('content_id', event.id);
-        formData.append('package_type', event.package_mode);
-        if (subs != null && JSON.parse(subs).packages_list.length) {
-          const firstOTTPackage = JSON.parse(subs).packages_list.find((res: any) => res.package_mode === 'OTT');
-          if (firstOTTPackage) {
-            formData.append("session_status", 1);
-            formData.append("device", "web");
-            formData.append("device_count", firstOTTPackage.device_restriction);
-            formData.append("type", firstOTTPackage.restriction_type);
-          }
-        } else {
-          formData.append("session_status", '');
-          formData.append("device", '');
-          formData.append("device_count", '');
-          formData.append("type", '');
-        }
-        this.auth.isAllowed(formData).subscribe((res) => {
-          if (res.code == 0 && res.error == "Device limit exceeded") {
-            this.fcs.logoutProfile.next(true);
-          } else if (res.code == 1) {
-            if (event.content_type == 'video') {
-              this.router.navigate(["/" + event.permalink]);
-              localStorage.setItem('prevUrl', this.router.url)
-            } else if (event.content_type == 'audio') {
-              this.openAudioPlayer(event)
-            } else if (event.content_type == 'ebook') {
-              this.router.navigate(["/aol/ebook/" + event.permalink]);
-            }
-          } else if (res.code == 2) {
-            //rental flow//
-            this.DEC_SER.getDecryptedData(res.result);
-            const data: any = JSON.parse(this.DEC_SER.decryptData);
-            console.log(data);
-            this.rentalData = data
-            if (event.content_type == 'video') {
-              this.router.navigate(["/" + event.permalink]);
-              localStorage.setItem('prevUrl', this.router.url)
-            } else {
-              this.playRental()
-            }
-
-          } else if (res.code == 3) {
-            this.ds.getUserSubscriptionDetails(JSON.parse(userInfo).id).subscribe(res => {
-              this.DEC_SER.getDecryptedData(res.result);
-              const data: any = JSON.parse(this.DEC_SER.decryptData);
-              if (data.is_subscriber == 1) {
-                this.ed.isSubscribe.next(true);
-                this.ed.alreadySubscriber.next(true)
-                localStorage.setItem('is_subscriber', '1')
-              } else if (data.is_subscriber == 0) {
-                localStorage.setItem('is_subscriber', '0')
-              }
-              this._storage.setData('ott_subscriptionPlan', data);
-            })
-          } else if (res.code == 4) {
-            this.ed.isSubscribe.next(false);
-            this.ed.alreadySubscriber.next(false);
-            localStorage.setItem("is_subscriber", "0");
-            this.navigationFunction(event)
-          }
-        })
-
+      if (a ==-1 && event.content_publish[0].country_code != "A") {
+        const dialogRef = this.dialog.open(CountryLockPopupComponent, {
+          backdropClass: "popupBackdropClass",
+          panelClass: "adultAgePopup",
+          width: "390px",
+        });
       } else {
-        if (event.content_type != 'video') {
-          const dialogRef = this.dialog.open(LoginModalDialogComponent, {
-            backdropClass: "popupBackdropClass",
-            panelClass: "logindialog",
-            width: "390px",
-            data: { name: "login" },
-          });
-          dialogRef.disableClose = true;
-        } else {
+        if(event.permalink!=null && event.permalink !="" && event.permalink.length!=0){
           this.router.navigate(["/" + event.permalink]);
-          localStorage.setItem('prevUrl', this.router.url)
+        }else{
+          this.router.navigate(['/404'])
         }
+      
+      }
+    } else {
+      if(event.permalink!=null && event.permalink !="" && event.permalink.length!=0){
+        this.router.navigate(["/" + event.permalink]);
+      }else{
+        this.router.navigate(['/404'])
       }
     }
+  
+  
+}
 
-  }
+getCrownImg() {
+  this.ds.faqData().subscribe((res: any) => {
+    this.crownImg = res.App[0].crown_logo;
+    this.liveImg = res.Player[0].player_live_img
+    console.log(this.liveImg,"jfdhsjdhj");
+    this.freeImg = res.App[0].free_logo
+  })
+}
+ 
+    userInfo:any;
+    userDetails:any;
 
-  navigationFunction(event: any) {
-    if (event.access_type == 'free') {
-      if (event.content_type == 'video') {
-        this.router.navigate(["/" + event.permalink]);
-        localStorage.setItem('prevUrl', this.router.url)
-      } else if (event.content_type == 'audio') {
-        this.openAudioPlayer(event)
-      } else if (event.content_type == 'ebook') {
-        this.router.navigate(["/aol/ebook/" + event.permalink]);
-      }
-    } else if (event.access_type == 'paid') {
-      if (event.content_type != 'video') {
-        this.router.navigate(["/subscribe"]);
-      } else {
-        this.router.navigate(["/" + event.permalink]);
-        localStorage.setItem('prevUrl', this.router.url)
-      }
-    }
-  }
-  playRental() {
-    const dialogRef = this.dialog.open(ParentalOtpCreateComponent, {
-      panelClass: 'rentalPop',
-      width: "800px",
-      data: { rent: this.rentalData }
-    });
-  }
 }

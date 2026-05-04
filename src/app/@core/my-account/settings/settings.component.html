@@ -1,45 +1,42 @@
-<div class="section-setting">
-    <div fxLayout="row" fxLayoutGap="100px" *ngIf="showParental" fxLayoutGap.xs="8px">
-        <div fxFlex="20"  fxFlex.xs="50" class="max-set">
-            <p class="text-title">Parental Lock: </p>
+
+<div class="section-setting" *ngIf="showParental">
+    <div fxLayout="row" fxLayoutGap="100px" fxLayoutGap.xs="8px" class="pb-3">
+      
+      <!-- Title -->
+      <div fxFlex="20" fxFlex.xs="50" class="max-set">
+        <p class="text-title">Parental Lock:</p>
+      </div>
+  
+      <!-- Content -->
+      <div class="setting-content" fxFlex="80" fxFlex.xs="50" class="setting-flex">
+        
+        <!-- Enable toggle -->
+        <div *ngIf="parentalEnable" class="with-toggle">
+          Enable
+          <mat-slide-toggle
+            class="slide-toggle"
+            [checked]="checked"
+            #parentchecking
+            (change)="isParentalChecked($event)">
+          </mat-slide-toggle>
         </div>
-        <div class="setting-content"  fxFlex.xs="50" fxLayoutGap.xs="8px" >
-            <div *ngIf="parentalEnable" class="text-value"> Enable <mat-slide-toggle class="slide-toggle"
-                    [checked]="checked" #parentchecking (change)="isParentalChecked($event)"></mat-slide-toggle>
-            </div><br>
-            <div class="text-value" (click)="changePin()" *ngIf="changePinParental">Change Pin ></div><br>
-            <div class="text-value" (click)="changeRestriction()" *ngIf="changePinParental">Change Viewing Restriction >
-            </div>
-          
-            <div class="text-restrict" *ngIf="changePinParental">{{changeRestrictionLevel}}</div>
+  
+        <!-- Change Pin -->
+        <div *ngIf="changePinParental" class="text-value" (click)="changePin()">
+          Change Pin &gt;
         </div>
+  
+        <!-- Change Restriction -->
+        <div *ngIf="changePinParental" class="text-value" (click)="changeRestriction()">
+          Change Viewing Restriction &gt;
+        </div>
+  
+        <!-- Restriction Level -->
+        <div *ngIf="changePinParental" class="text-restrict">
+          {{ changeRestrictionLevel }}
+        </div>
+  
+      </div>
     </div>
-    <br>
-    <br>
-    <div fxLayout="row" fxLayoutGap="100px"  fxLayoutGap.xs="8px">
-        <div fxFlex="20"  fxFlex.xs="50">
-            <p class="text-title">Continue Watching: </p>
-        </div>
-        <div class="setting-content"  fxFlex.xs="50">
-        <span class="text-value" style="text-decoration: underline;" (click)="clearContinueWatching()">Clear all continue watching</span>
-        </div>
-    </div>
-    <br>
-    <div fxLayout="row" fxLayoutGap="100px" fxLayoutGap.xs="8px">
-        <div fxFlex="20"  fxFlex.xs="50">
-            <p class="text-title">Subtitle </p>
-        </div>
-        <div class="setting-content"  fxFlex.xs="50">
-        <span class="text-value" style="text-decoration: underline;" (click)="subtitleOpen()">{{titleSubtitle}}</span>
-        </div>
-    </div>
-<br>
-    <div fxLayout="row" fxLayoutGap="100px" fxLayoutGap.xs="8px">
-        <div fxFlex="20"  fxFlex.xs="50">
-            <p class="text-title">Regional Language: </p>
-        </div>
-        <div class="setting-content"  fxFlex.xs="50" >
-            <span class="text-value" style="text-decoration: underline;" (click)="regionalOpen()">{{regional}}</span>
-        </div>
-    </div>
-</div>
+  </div>
+  

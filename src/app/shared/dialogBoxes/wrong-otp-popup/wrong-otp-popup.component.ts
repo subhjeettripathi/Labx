@@ -17,7 +17,7 @@ export class WrongOtpPopupComponent implements OnInit {
     this.popupAlertData=localStorage.getItem('popUpForm')
     this.baseJson=JSON.parse(this.popupAlertData)
     this.openMic = this.data.name;
-    console.log(this.openMic);
+   
 if(this.data.message == 'true'){
   this.showwrongOtp=true
     this.wrongOtp=this.data.mess

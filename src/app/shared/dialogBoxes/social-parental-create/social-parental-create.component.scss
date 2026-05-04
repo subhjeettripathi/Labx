@@ -1,18 +1,100 @@
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
 
+.adulttHeading {
+    color: white;
+    font-size: 18px;
+    font-family: var(--theme-font-style) !important;
 }
 
-.logos{
+
+.verify-input {
+    padding: 24px !important;
+}
+
+.verify_forgot {
+    color: #DEDEDE;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.verify_submit {
+    width: 100%;
+    background-color: var(--theme-secondary-color);
+    border: none;
+    padding: 8px;
+    color: white;
+    font-size: 19px;
+    border-radius: 4px;
+}
+// .verify_submit:hover {
+//     color: white;
+// }
+.showBtn img{
+    position: absolute;
+    top: 36%;
+    right: 4%;
+}
+
+.showBtn1 {
+    position: absolute;
+    top: 33%;
+    right: 4%
+}
+
+.form-control {
+    padding: 25px !important;
+}
+
+
+
+
+
+.social-heading {
+    font-size: 20px;
+    color: white;
+}
+hr{
+margin-bottom: 1rem;
+border-top: 1px solid rgba 0, 0, 0, 0.1;
+height: 0px;
+box-shadow: 0px 0.3px white;
+width: 100%;
+margin: 0;
+}
+    label {
+        display: flex;
+        margin-bottom: 0.5rem;
+        color: white;
+    }
+.passwordMatch{
+    color:red;font-size: 16px;display: flex;
+}
+.errorDisplay{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
+}
+.invalidError{
+    text-align: left;
+}
+
+
+.password {
+
+    font-size: 14px;
+}
+
+@media screen and (max-width:1366px) {
+
+   
+    .form-control {
+        padding: 20px !important;
+    }
+
+    
+
+    .password-reds {
+        line-height: 18px;
+        font-size: 14px;
+        position: relative;
+        top: 10px;
+    }
+
 }

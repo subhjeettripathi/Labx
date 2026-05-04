@@ -1,81 +1,124 @@
-<div class="section-content sec-top">
-    <div class="header">
-        <div fxLayout="row" fxLayoutAlign="space-between" style="margin-bottom: 2%; " class="disp-block">
-            <h1 class="font-36 f-size_aol" *ngIf="arrowShow"><span class="mr-3 arrow-right">
-                    <a (click)="backClicked()"><img src="assets/svgs/Vector (4).png" style="cursor: pointer;"
-                            alt="abc"></a>
-                </span>{{title}}</h1>
-            <h1 class="font-36 f-size_aol" *ngIf="!arrowShow"><span class="mr-3 ">
-                    <mat-icon style="cursor: pointer;" (click)="backClickedSearch()" aria-hidden="false"
-                        svgIcon="back-arrow">
-                    </mat-icon>
-                </span>{{title}}</h1>
-        </div>
-        <div *ngIf="!singerShow && !composerShow">
-            <div fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start" *ngIf="searchRes">
-                <div class="alt-brr-10 alt-p-3 cards" fxFlex.xs="33.30%" fxFlex.sm="33.30%" fxFlex.md="33.30%"
-                    *ngFor="let card of contentData | paginate: { itemsPerPage: 12, currentPage: p ,totalItems: totalItems }"
-                    fxFlex="16.66%" style="cursor: pointer;position: relative;text-align: center;"
-                    (click)="navigate(card)">
-                    <img [src]="card.sliderImg" [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}"
-                        (error)="onImgError($event)" [alt]="card.is_group == 0 ? card.title : card.season_title"
-                        [title]="card.is_group == 0 ? card.title : card.season_title">
+<div infinite-scroll [infiniteScrollDistance]="5" [infiniteScrollThrottle]="800"
+    [infiniteScrollDisabled]="busyGettingData" (scrolled)="onScrollingFinished()">
+    <div class="section-content sec-top">
+        <div class="header">
+            <div fxLayout="row" fxLayoutAlign="space-between" style="margin-bottom: 2%; " class="disp-block">
+                <h1 class="font-36" *ngIf="arrowShow"><span class="mr-3 arrow-right">
+                        <!-- <mat-icon style="cursor: pointer;" (click)="backClicked()" aria-hidden="false" svgIcon="back-arrow">
+                    </mat-icon> -->
+                        <!-- <img src="assets/svgs/Vector-back.svg" style="cursor: pointer;" (click)="backClicked()"  alt="abc"> -->
 
-                    <div *ngIf="card.is_ad != 1">
-                        <div class="icons_art" [ngStyle]="{display: card?.content_type == 'audio' ? 'flex' : 'none'}">
-                            <img src="assets/svgs/headphone.svg" class="music_art" alt="">
-                        </div>
-                        <div class="icons_art" [ngStyle]="{display: card?.content_type == 'ebook' ? 'flex' : 'none'}">
-                            <img src="assets/svgs/e-book.svg" class="music_art" alt="">
-                        </div>
-                        <div class="icon-crown"
-                            *ngIf="card.access_type == 'paid'  && card.package_mode !== 'Prime'  && !isSubscribed">
-                            <img src="assets/svgs/aol_crown.svg" class="aol_crown" alt="AOL">
-                        </div>
+                        <a (click)="backClicked()"><img src="assets/svgs/Vector-back.svg" style="cursor: pointer;"
+                                alt="abc"></a>
+                    </span>{{title}}</h1>
+                <h1 class="font-36" *ngIf="!arrowShow"><span class="mr-3 ">
+                        <mat-icon style="cursor: pointer;" (click)="backClickedSearch()" aria-hidden="false"
+                            svgIcon="back-arrow">
+                        </mat-icon>
+                    </span>{{title}}</h1>
 
-                        <div class="free-icon"
-                            *ngIf="card.access_type == 'free'  && card.package_mode !== 'Prime' && !isSubscribed">
-                            <img src="assets/svgs/free-v1.svg" class="free_aol-icon" alt="AOL" />
-                        </div>
-                        <div class="prime-icon" *ngIf="card.package_mode == 'Prime'">
-                            <img src="assets/svgs/lock-prime-v2.svg" class="free_aol" alt="AOL" />
+                <ng-container>
+
+                    <!-- <div class="search-icon" (click)="search_bar()" *ngIf="!toggleSearch">
+                    <img src="assets/svgs/search.svg" alt="">
+
+                </div>
+                <div  class="search-box" *ngIf="toggleSearch">
+                    <input (blur)="closeinput()" (input)="searchCLoseButton($event)" (keyup.enter)="search_data($event)" formControlName="search" autocomplete="off" name="search" class="search-Input">
+                    <span style="position: relative; float:right; margin-top:17px; right: 8%;cursor: pointer;" *ngIf="searchIconShow"> 
+                        <img  src="assets/svgs/originalsearchicon.svg" alt="">
+                            
+                        </span>
+                        <span style="position: relative; float:right; margin-top:8px; right: 8%;cursor: pointer;" *ngIf="!searchIconShow"> 
+                            
+                                <img class="clear-View" src="assets/svgs/searchClose12.svg" alt="">
+                            </span>
+                           
+                </div> -->
+                    <!-- <div class="search-box" *ngIf="toggleSearch"
+                    style="background-color: #DEDEDE; border-radius:5px; padding: 0 !important; color:#1E1E1E">
+                    <div fxLayoutAlign="center center">
+                       
+                        <mat-form-field class="searchField" appearance="standard" fxFlex="100">
+                            <input (keyup.enter)="search_data($event)" autocomplete="off" #search matInput name="search"
+                                class="mat-elevation-z0">
+                        </mat-form-field>
+                        <button (click)="search_data($event)" type="submit" mat-button mat-icon-button
+                        matTooltip="Buscar">
+                        <mat-icon><img src="assets/svgs/originalsearchicon.svg" alt=""></mat-icon>
+                    </button>
+                        <ng-container *ngIf="!searchRes">
+                            <button (click)="clear()" mat-button mat-icon-button matTooltip="Borrar búsqueda">
+                                <mat-icon style="margin-right: 50%;"><span><img class="clear"
+                                            src="assets/svgs/searchclose.svg" alt=""></span>clear</mat-icon>
+                            </button>
+                        </ng-container>
+                    </div>
+                </div> -->
+
+
+                </ng-container>
+
+            </div>
+            <!-- <div class="search-content" fxLayout="row" fxLayoutAlign="space-between" *ngIf="cat == 'genre'">
+
+                <div class="popularSearch" fxLayout="row" fxLayoutGap="20px">
+                    <p class="popular-search">
+                        <button [ngStyle]="{'background-color':genreShow ? 'var(--theme-secondary-color)' : 'rgb(30 30 30 / 0%)' }"
+                            (click)="showsLoad(buttonsData.category[0].id)" class="font-20 genreButtonShow"
+                            href="javascript:void(0)">{{buttonsData.category[0].title}}
+                        </button>
+                    </p>
+                    <p class="recentSearch">
+                        <button [ngStyle]="{'background-color':genreShow ? 'rgb(30 30 30 / 0%)' : 'var(--theme-secondary-color)' }"
+                            (click)="moviesLoad(buttonsData.category[1].id)" class="font-20 genreButtonShow"
+                            href="javascript:void(0)">{{buttonsData.category[1].title}}</button>
+                    </p>
+                </div>
+
+           
+            </div> -->
+            <div fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start">
+
+                <div class="alt-brr-10 alt-p-3 cards" fxFlex.xs="50%" fxFlex.sm="33.30%" fxFlex.md="33.30%"
+                    *ngFor="let card of contentData" fxFlex="20%"
+                    style="cursor: pointer;position: relative;text-align: center;" (click)="navigate(card)">
+
+
+                    <div *ngIf="card.is_group == 1">
+                        <img [src]="card.sliderImg" [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}"
+                            (error)="onImgError($event)" [alt]="card.series_title + ' ' + card.season_title"
+                            [title]="card.series_title + ' ' + card.season_title">
+                    </div>
+
+                    <div *ngIf="card.is_group == 0">
+                        <img [src]="card.sliderImg" [ngStyle]="{'border-radius':'8px','height':'auto','width':'100%'}"
+                            (error)="onImgError($event)" [alt]="card.title" [title]="card.title">
+                    </div>
+
+                    <div *ngIf="card.access_type == 'paid'  && !isSubscribed && card.is_ad!=1" class="crown">
+                        <img [src]="this.crownImg" alt="vive" loading="lazy" />
+                    </div>
+                    <div class="free-icon" *ngIf="card.access_type == 'free'  && !isSubscribed && card.is_ad!=1">
+                        <img [src]="freeImg" alt="vive" loading="lazy" />
+                    </div>
+                    <div *ngIf="card.is_new_release == '1' && isNewRelease(card.new_release_date)"
+                        class="new-release-tag-1">
+                        <div class="new-release-text">
+                            {{card.new_release_name}}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start" *ngIf="singerShow">
-            <div class="alt-brr-10 alt-p-3 cards" fxFlex.xs="33.30%" fxFlex.sm="33.30%" fxFlex.md="33.30%"
-                *ngFor="let card of contentData" fxFlex="16.66%"
-                style="cursor: pointer;position: relative;text-align: center; border-radius: 50%;"
-                [routerLink]="'/singer/' + card?.id">
-                <img [src]="card.image" [ngStyle]="{'height':'auto','width':'100%' , 'border-radius':'50%'}"
-                    (error)="onImgErrorSinger($event)" alt="AOL">
-                <div class="icons_art" *ngIf="card.is_ad != 1" [ngStyle]="{display: card?.content_type == 'audio' ? 'flex' : 'none'}">
-                    <img src="assets/svgs/headphone.svg" class="music_art" alt="">
-                </div>
-                <div>
-                    <p class="singer-del">{{card.name}}</p>
-                </div>
+     
+            <div *ngIf="show" class="row noSearchResult">
+                <ng-container>
+                    <div class=" searchText">
+                        No results found Try again!
+                    </div>
+                </ng-container>
             </div>
         </div>
-        <div fxLayout="row wrap" layout.xs="column" flexLayoutAlign="flex-start" *ngIf="composerShow">
-            <div class="alt-brr-10 alt-p-3 cards" fxFlex.xs="33.30%" fxFlex.sm="33.30%" fxFlex.md="33.30%"
-                *ngFor="let card of contentData" fxFlex="16.66%"
-                style="cursor: pointer;position: relative;text-align: center;" [routerLink]="'/singer/' + card?.id"
-                [queryParams]="{ type: 'composer' }">
-                <img [src]="card.image" [ngStyle]="{'height':'auto','width':'100%','border-radius':'50%'}"
-                    (error)="onImgErrorSinger($event)" alt="AOL">
-                <div class="icons_art" *ngIf="card.is_ad != 1" [ngStyle]="{display: card?.content_type == 'audio' ? 'flex' : 'none'}">
-                    <img src="assets/svgs/headphone.svg" class="music_art" alt="">
-                </div>
-                <div>
-                    <p class="singer-del">{{card.name}}</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
+    </div>
 </div>
-<pagination-controls *ngIf="totalItems>12 &&searchRes" style="text-align: center;" (pageChange)="getPage($event)"
-    previousLabel="" nextLabel=""></pagination-controls>

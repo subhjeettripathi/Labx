@@ -1,8 +1,11 @@
 <div fxLayout="column" fxLayoutGap="10px" >
     <div class="popup">
-        <div class="close-btn" (click)="close()">
-            <img src="assets/svgs/playercross.svg" alt="AOL">
+        <div class="close-btn-video" (click)="close()">
+            <img src="assets/svgs/Vector-back.svg" alt="vive">
         </div>
-        <app-video-player [options]="videoJsOptions" [data]="data.url"></app-video-player>
+        <app-video-player  [options]="videoJsOptions" [data]="data.url" [trailerUrlPlay]="testData"></app-video-player>
+        <!-- <button  class="close-btn">
+            <img src="assets/arrows_icons/VectorClose.svg"  (click)="close()" alt="">
+        </button> -->
     </div>
 </div>

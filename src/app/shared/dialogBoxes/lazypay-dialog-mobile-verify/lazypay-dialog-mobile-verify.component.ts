@@ -30,10 +30,10 @@ export class LazypayDialogMobileVerifyComponent implements OnInit {
   config = {
     allowNumbersOnly: true,
     length: 4,
-    isPasswordInput: true,
-    disableAutoFocus: false,
+    // isPasswordInput: true,
+    // disableAutoFocus: false,
     timer: 1,
-    placeholder: "",
+    // placeholder: "",
     inputStyles: {
       width: "46px",
       height: "46px",
@@ -80,6 +80,18 @@ export class LazypayDialogMobileVerifyComponent implements OnInit {
     this.show=false
    }
   }
+    ngAfterViewInit() {
+   
+  const otpInputs = document.querySelectorAll('.lazypay-dialog-mobile');
+  otpInputs.forEach((input: any) => {
+    input.setAttribute('type', 'text');
+    input.setAttribute('inputmode', 'numeric');
+    input.setAttribute('pattern', '[0-9]*');
+    input.setAttribute('autocomplete', 'one-time-code');
+    input.setAttribute('autocorrect', 'off');
+    input.setAttribute('autocapitalize', 'off');
+  });
+}
   onVerifyOtp() {
     if (this.otpInput.valid) {
       const formData = new FormData();
@@ -97,12 +109,12 @@ export class LazypayDialogMobileVerifyComponent implements OnInit {
           this._DS.getUserSubscriptionDetails(this.Uid).subscribe((res) => {
             this.DEC_SER.getDecryptedData(res.result);
             const data: any = JSON.parse(this.DEC_SER.decryptData);
-            console.log(data);
+           
             if (data.is_subscriber == 1) {
               localStorage.setItem("is_subscriber", "1");
               this.ed.isSubscribe.next(true);
               this.ed.parentalLock.next(false);
-              console.log("subcriberrr");
+            
             }
           });
         } else {

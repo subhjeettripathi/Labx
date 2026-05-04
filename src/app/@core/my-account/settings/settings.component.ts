@@ -24,6 +24,9 @@ import { ParentalOtpPhonePinGenerateComponent } from 'src/app/shared/dialogBoxes
 import { first } from 'rxjs';
 import { PasswordCreateSuccessDialogComponent } from 'src/app/shared/dialogBoxes/password-create-success-dialog/password-create-success-dialog.component';
 import { ParentalResetPasswordPopopComponent } from 'src/app/shared/dialogBoxes/parental-reset-password-popop/parental-reset-password-popop.component';
+import { SocialParentalCreateComponent } from 'src/app/shared/dialogBoxes/social-parental-create/social-parental-create.component';
+import { environment } from 'src/environments/environment';
+// import * as amplitude from '@amplitude/analytics-browser';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -33,21 +36,25 @@ export class SettingsComponent implements OnInit {
   changePinParental = false
   showParental = false
   parentalEnable: any
+  visitorId: any = localStorage.getItem('device_id')
   parentalSet: boolean | undefined
   @ViewChild("parentchecking") ref: ElementRef | undefined;
   loginId = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
   abc: any;
+
   clearWatching: any;
   changeRestrictionLevel: any;
   titleSubtitle: any;
   regional: any
   sendTosettingSubtitle: any;
-  visitorId: any;
   enableFast: boolean | undefined;
   bpl = 0
+  isApiProcessing = false;
   // @Input() openChang:any
   constructor(public dialog: MatDialog, private ed: ExchangeDataService, private fcs: FunctionCallingService, private ds: DataService, private DEC_SER: DecryptService, private deviceService: DeviceDetectorService, private _FPS: FingerPrintService, private _auth: AuthService) {
+    this.userParentalSelected()
     this.ed.changeParentalPinEnable.subscribe(value => {
+
       this.changePinParental = value;
 
     });
@@ -56,6 +63,7 @@ export class SettingsComponent implements OnInit {
 
     });
     this.fcs.setParentalLockFast.subscribe(value => {
+
       this.parentalSet = value;
     });
 
@@ -63,49 +71,28 @@ export class SettingsComponent implements OnInit {
       this.changeRestrictionLevel = res
     });
     this.fcs.LevelSetToSetting.subscribe(val => {
+
       this.changeRestrictionLevel = val;
     });
     this.ed.openChangePin.pipe(first()).subscribe((message) => {
-      if(message==true){
+      if (message == true) {
         this.changePin()
       }
-      
-      
+
+
     });
-  
-   
+
+
   }
   toggle_value: any
   checked: any;
 
   isParental = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
   isParentalSet = localStorage.getItem("isParentalSet")
-
+  errorAlertData: any
+  errorMsg: any
+  otpSecret: any
   ngOnInit(): void {
-
-    if (this.isParental.is_parental == 1) {
-      this.checked = true
-      this.changePinParental = true
-      // if(checkParental == "0" && this.isParental.is_parental == 1 ){
-      //   this.checked = false
-      //   this.changePinParental = false
-      // }
-    }
-    if (this.isParental.is_parental == 2) {
-      this.checked = false
-      this.changePinParental = false
-    }
-    if (this.isParental.is_parental == 0) {
-      this.changePinParental = false
-    }
-
-    // let talFo = localStorage.getItem("setCase2Parental")
-    // if (this.isParental.is_parental == 2) {
-
-    //   this.changePinParental = true
-    //   this.checked = true
-    // }
-
 
     if (this.abc) {
       this.checked = true
@@ -129,31 +116,71 @@ export class SettingsComponent implements OnInit {
         this.changeRestrictionLevel = this.isParental.restriction_title
       }
     }
-
-    // subtiotle condition:-
     var sub: any = localStorage.getItem('subtitle')
-    // if(this.isParental.status!=''){
-    //   this.titleSubtitle='off'
-    // }
-    // if(this.titleSubtitle !=''){
-    //   this.titleSubtitle="off"
-    // }
 
 
-    // if (sub == 'off') {
-    //   this.titleSubtitle = 'off'
-    // }
-    // else if (sub == "English") {
-    //   this.titleSubtitle = 'English'
-    // }
-    // else if (sub == "Hindi") {
-    //   this.titleSubtitle = 'Hindi'
-    // }
 
-    this._FPS.getFingerPrintDeviceId();
-    this._FPS.visitorId.subscribe(r => this.visitorId = r);
+
+    this.errorAlertData = localStorage.getItem('errorMsg')
+    this.errorMsg = JSON.parse(this.errorAlertData)
+
+
+    function makeid(length: any) {
+      let result = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      const charactersLength = characters.length;
+      let counter = 0;
+      while (counter < length) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+      }
+      return result;
+    }
+
+
+    var gettoken = btoa(this.errorMsg.otpExpiryTime);
+
+    this.otpSecret = makeid(4) + gettoken
+
   }
+  userParentalSelected() {
+    var user_id = this.isParental.id
+    if (user_id) {
+      this.ds.userContentData(user_id).subscribe((res: any) => {
+        this.DEC_SER.getDecryptedData(res?.result);
+        let decryptData = JSON.parse(this.DEC_SER.decryptData);
+        const sendTosett = decryptData.parental;
 
+        var hey = this.loginId
+        hey.is_parental = sendTosett.is_parental
+        console.log(hey.is_parental,"kkkkk")
+        hey.restriction_level = sendTosett.restriction_level
+        hey.restriction_title = sendTosett.restriction_title
+        localStorage.setItem('taploginInfo', JSON.stringify(hey))
+
+        if (hey.is_parental == 1) {
+
+          this.checked = true
+          this.changePinParental = true
+        }
+        if (hey.is_parental == 2) {
+
+          this.checked = false
+          this.changePinParental = false
+        }
+        if (hey.is_parental == 0) {
+  
+          this.changePinParental = false
+        }
+
+      
+        this.changeRestrictionLevel = hey.restriction_title
+
+
+      })
+    }
+
+  }
   getSub() {
     var u_id: any = localStorage.getItem('taploginInfo')
     var ids = JSON.parse(u_id)
@@ -161,21 +188,51 @@ export class SettingsComponent implements OnInit {
       this.DEC_SER.getDecryptedData(res?.result);
       let decryptData = JSON.parse(this.DEC_SER.decryptData);
       const sendTosett = decryptData;
-      console.log(sendTosett, 'kk');
+
       if (sendTosett.payload == null) {
+
         this.titleSubtitle = 'None'
         this.regional = 'None'
-      } else {
+      }
+      else if (!(sendTosett.payload.hasOwnProperty('language_key'))) {
+
+        this.regional = 'None'
+        this.titleSubtitle = this.sendTosettingSubtitle
+      }
+      else if (!(sendTosett.payload.hasOwnProperty('language_key')) && !(sendTosett.payload.hasOwnProperty('subtitle'))) {
+
+        this.regional = 'None'
+        this.titleSubtitle = 'None'
+      }
+      else if (!(sendTosett.payload.hasOwnProperty('subtitle')) && sendTosett.payload.language_key == "") {
+
+
+        this.regional = 'None'
+        this.titleSubtitle = 'None'
+      }
+      else if (!(sendTosett.payload.hasOwnProperty('subtitle'))) {
+        this.titleSubtitle = 'None'
+        this.regional = sendTosett.payload.language_key
+      } else if (sendTosett.payload.language_key == '' && sendTosett.payload.subtitle != '') {
+
+        this.titleSubtitle = sendTosett.payload.subtitle
+        this.regional = 'None'
+      }
+      else {
+
         this.sendTosettingSubtitle = sendTosett.payload.subtitle
         this.titleSubtitle = this.sendTosettingSubtitle
         this.regional = sendTosett.payload.language_key
-        // console.log(this.titleSubtitle);
+
       }
 
     })
   }
+
+  userInfo: any;
+  userDetails: any;
+
   isParentalChecked(e: any) {
-    console.log(e);
     if (e.checked == true) {
       if (this.isParental.is_parental == 2 || this.enableFast == true) {
         if (this.isParental.login_type == 'email') {
@@ -193,10 +250,7 @@ export class SettingsComponent implements OnInit {
             e.source.checked = false
           });
           dialogRef.afterClosed().subscribe((result) => {
-            // e.source.checked = false     
-            // if (this.isParental.is_parental == 1) {
-            //   e.source.checked = true
-            // }
+   
           });
         } else if (this.isParental.login_type == 'phone') {
           this.sendOtpPhoneEnable(e)
@@ -215,10 +269,7 @@ export class SettingsComponent implements OnInit {
             e.source.checked = false
           });
           dialogRef.afterClosed().subscribe((result) => {
-            // e.source.checked = false     
-            // if (this.isParental.is_parental == 1) {
-            //   e.source.checked = true
-            // }
+
           });
         }
       }
@@ -231,9 +282,9 @@ export class SettingsComponent implements OnInit {
           disableClose: true,
           backdropClass: 'backdropBackground'
         });
-        // dialogRef.componentInstance.checked2.subscribe((da: any) => {
-        //   e.source.checked = false
-        // });
+        dialogRef.componentInstance.checked2.subscribe((da: any) => {
+          e.source.checked = false
+        });
 
         dialogRef.afterClosed().subscribe((result) => {
           //  e.source.checked = false;
@@ -245,13 +296,11 @@ export class SettingsComponent implements OnInit {
       }
     }
     else if (e.checked == false) {
+      console.log(this.isParental);
+      
       this.toggle_value = 0;
-
       if (this.isParental.is_parental == 1 || this.parentalSet == true || this.isParental.is_parental == 2) {
         if (this.isParental.login_type == 'email') {
-    
-          // this.ed.showRestrict.next(false)
-          // this.dismissParental()
           const dialogRef = this.dialog.open(VerifyParentalPinComponent, {
             panelClass: 'contactfooter',
             width: "390px",
@@ -262,20 +311,14 @@ export class SettingsComponent implements OnInit {
           });
           dialogRef.afterClosed().subscribe((result) => {
 
-            // if (this.isParental.is_parental == 2) {
-            //   e.source.checked = false;
-            // }
           });
         }
         else if (this.isParental.login_type == 'phone') {
           this.ed.showRestrict.next(false)
-          // this.dismissParental()
           this.sendOtpPhone(e)
         }
         else if (this.isParental.login_type == 'social') {
-          // same as email for disable and enable
           this.ed.showRestrict.next(false)
-          // this.dismissParental()
           const dialogRef = this.dialog.open(VerifyParentalPinComponent, {
             panelClass: 'contactfooter',
             width: "390px",
@@ -286,14 +329,11 @@ export class SettingsComponent implements OnInit {
             e.source.checked = true
           });
           dialogRef.afterClosed().subscribe((result) => {
-            //  e.source.checked = true;
-            // if (this.isParental.is_parental == 2) {
-            //   e.source.checked = false;
-            // }
+   
           });
         }
       }
-    
+
     }
     localStorage.setItem('toggle_status', this.toggle_value);
   }
@@ -313,24 +353,13 @@ export class SettingsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed", result);
+
     });
   }
-  changeRestriction() {
-    this.ed.showrestrict.next(true)
-    const dialogRef = this.dialog.open(RestrictionLevelSetComponent, {
-      panelClass: 'contactfooter',
-      width: "420px",
-      backdropClass: 'backdropBackground'
-    });
-    const sub = dialogRef.componentInstance.senIsInfotoShow.subscribe((dat: any) => {
-      this.changeRestrictionLevel = dat
-    });
-    //  this.dismissParental()
-    //  this.ed.showRestrict.next(true)
-  }
+
   changePin() {
-  
+    if (this.isApiProcessing) return;
+    this.isApiProcessing = true;
     this.bpl = 1
     this.ed.openChangePin.next(false)
     if (this.loginId.login_type == 'email' || this.loginId.login_type == 'social') {
@@ -340,6 +369,11 @@ export class SettingsComponent implements OnInit {
         width: "390px",
         // disableClose: true
       });
+      dialogRef.afterClosed().subscribe((result) => {
+        document.body.style.overflow = 'auto'
+
+        this.isApiProcessing = false;
+      });
       const sub = dialogRef.componentInstance.emailVerifiedParental.subscribe((data: any) => {
         var isParentalSubmit = data
         if (isParentalSubmit == true) {
@@ -347,6 +381,11 @@ export class SettingsComponent implements OnInit {
             panelClass: 'contactfooter',
             width: "390px",
             data: { email: 'login' },
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+            // document.body.style.overflow = 'auto'
+
+            this.isApiProcessing = false;
           });
         }
       })
@@ -357,6 +396,7 @@ export class SettingsComponent implements OnInit {
 
       formData.append('phone', getPhoneNumber);
       formData.append('type', 'phone');
+      formData.append('payload', this.otpSecret);
       const devicedetail = {
         make_model: this.deviceService.browser,
         os: this.deviceDetection.os,
@@ -368,7 +408,6 @@ export class SettingsComponent implements OnInit {
         onesignal_device_id: "fs95345jfddf",
       }
       formData.append('dd', JSON.stringify(devicedetail));
-      formData.append('device', 'web');
       this._auth.ottOtpLogin(formData).subscribe((res: any) => {
         if (res.code == 1) {
 
@@ -376,6 +415,11 @@ export class SettingsComponent implements OnInit {
             panelClass: 'contactfooter',
             width: "390px",
             disableClose: true
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+            document.body.style.overflow = 'auto'
+
+            this.isApiProcessing = false;
           });
           const sub = dialogRef.componentInstance.phoneVerifiedParental.subscribe((verify: any) => {
             var isParentalSubmit = verify
@@ -391,6 +435,29 @@ export class SettingsComponent implements OnInit {
       })
     }
   }
+
+  changeRestriction() {
+    if (this.isApiProcessing) return;
+    this.isApiProcessing = true;
+
+    this.ed.showrestrict.next(true);
+    const dialogRef = this.dialog.open(RestrictionLevelSetComponent, {
+      panelClass: 'contactfooter',
+      width: "420px",
+      backdropClass: 'backdropBackground'
+    });
+
+    const sub = dialogRef.componentInstance.senIsInfotoShow.subscribe((dat: any) => {
+      this.changeRestrictionLevel = dat;
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.isApiProcessing = false;
+    });
+  }
+
+
+
 
   clearContinueWatching() {
     const dialogRef = this.dialog.open(ClearWatchingConsentComponent, {
@@ -434,12 +501,12 @@ export class SettingsComponent implements OnInit {
   }
 
   subtitleOpen() {
-    // const dialogRef = this.dialog.open(ParentalResetPasswordPopopComponent, {
+    // const dialogRef = this.dialog.open(SocialParentalCreateComponent, {
     //   panelClass: 'contactfooter',
-    //   width: "390px",
-    //   data: { email: 'login' },
+    //   width: "590px",
+    //   disableClose: true,
+    //   backdropClass: 'backdropBackground'
     // });
-
 
     const dialogRef = this.dialog.open(SubtitleSettingComponent, {
       panelClass: 'contactfooter',
@@ -447,7 +514,7 @@ export class SettingsComponent implements OnInit {
       data: { title: this.sendTosettingSubtitle }
     });
     const sub = dialogRef.componentInstance.subtitleSett.subscribe((title: any) => {
-      console.log(title)
+
       this.titleSubtitle = title
     });
   }
@@ -460,6 +527,7 @@ export class SettingsComponent implements OnInit {
     // this.mobileNumberForResend = this.loginForm.value.code + this.loginForm.value.emailphone;
     formData.append('phone', getPhoneNumber);
     formData.append('type', 'phone');
+    formData.append('payload', this.otpSecret);
     const devicedetail = {
       make_model: this.deviceService.browser,
       os: this.deviceDetection.os,
@@ -471,16 +539,16 @@ export class SettingsComponent implements OnInit {
       onesignal_device_id: "fs95345jfddf",
     }
     formData.append('dd', JSON.stringify(devicedetail));
-    formData.append('device', 'web');
     this._auth.ottOtpLogin(formData).subscribe(res => {
       if (res.code == 1) {
         const dialogRef = this.dialog.open(ParentalOtpCreateComponent, {
-          panelClass: 'rentalPop',
+          panelClass: 'contactfooter',
           width: "390px",
+          disableClose: true
         });
-        // dialogRef.componentInstance.checked1.subscribe((da: any) => {
-        //   e.source.checked = true
-        // });
+        dialogRef.componentInstance.checked1.subscribe((da: any) => {
+          e.source.checked = true
+        });
         dialogRef.afterClosed().subscribe((result) => {
           //  e.source.checked = true;
 
@@ -488,6 +556,10 @@ export class SettingsComponent implements OnInit {
             e.source.checked = true
           }
         });
+      }
+      else {
+        this.getSwalmsg(res.result, 'error');
+        e.source.checked = true
       }
       // this.DEC_SER.getDecryptedData(res.result);
 
@@ -499,6 +571,8 @@ export class SettingsComponent implements OnInit {
     // this.mobileNumberForResend = this.loginForm.value.code + this.loginForm.value.emailphone;
     formData.append('phone', getPhoneNumber);
     formData.append('type', 'phone');
+    formData.append('payload', this.otpSecret);
+
     const devicedetail = {
       make_model: this.deviceService.browser,
       os: this.deviceDetection.os,
@@ -510,7 +584,6 @@ export class SettingsComponent implements OnInit {
       onesignal_device_id: "fs95345jfddf",
     }
     formData.append('dd', JSON.stringify(devicedetail));
-    formData.append('device', 'web');
     this._auth.ottOtpLogin(formData).subscribe(res => {
       if (res.code == 1) {
         const dialogRef = this.dialog.open(ParentalOtpEnableComponent, {
@@ -534,6 +607,10 @@ export class SettingsComponent implements OnInit {
           }
         });
       }
+      else {
+        this.getSwalmsg(res.result, 'error');
+        e.source.checked = true
+      }
 
     })
   }
@@ -551,5 +628,8 @@ export class SettingsComponent implements OnInit {
     const sub = dialogRef.componentInstance.regionalSet.subscribe((title: any) => {
       this.regional = title
     });
+
+
   }
+
 }

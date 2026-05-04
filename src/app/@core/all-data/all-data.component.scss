@@ -8,11 +8,7 @@
 // .cards{
 //     padding: 15px;
 // }
-.prime-icon {
-    top: 4%;
-    position: absolute;
-    left: 5%;
-}
+
 .search-Input {
     width: 470px;
     height: 50px;
@@ -20,17 +16,29 @@
     border: 1px solid #707070;
     border-radius: 4px;
     opacity: 1;
-    font-size:18px;
-    font-weight:bold;
+    font-size: 18px;
+    font-weight: bold;
     letter-spacing: 0px;
     color: #1E1E1E;
     text-transform: capitalize;
     padding: 20px;
-    
+
 }
 
 #search {
     background-color: #2D2D2D;
+}
+
+.genreButtonShow {
+    border: 1px solid grey;
+    padding: 15px 50px;
+    font-weight: 900;
+    color: white;
+    border-radius: 6px;
+}
+
+.search-content {
+    margin-bottom: 20px;
 }
 
 #search:active {
@@ -52,7 +60,7 @@ a {
     a {
         // color: #9B9B9B;
         font-size: 20px;
-        font-family: 'GothamBold';
+        font-family: var(--theme-font-style);
         cursor: pointer;
 
     }
@@ -68,7 +76,7 @@ a {
     color: #F2F2F2 !important;
     opacity: 50%;
     font-size: 17px;
-    font-family: GothamMedium;
+    font-family: ManropeMedium;
 
 }
 
@@ -101,46 +109,87 @@ a {
 }
 
 .noSearchResult {
-    text-align: center;
-    font-size: 20px;
-    font-family: "PoppinsBold";
+    display: flex;
+    justify-content: center;
+    font-size: xx-large;
+    font-family: var(--theme-font-style);
     margin-top: 10%;
 }
 
+//   ::ng-deep .mat-form-field-infix {
+//     display: block;
+//     position: relative;
+//     flex: auto;
+//     min-width: 390px !important;
+//     padding: 0 !important;
 
-.icon-crown{
-    position: absolute;
-    top: 4%;
-    left: 6%;
-  }
-  
-  .icons_art{
-    position: absolute;
-    top: 4%;
-    right: 6%;
-  }
+// }
 
-@media screen and (max-width:992px) {
-    .free-icon{
-        top: 6px !important;
-        left: -2px !important;
+
+// .mat-form-field-infix {
+//     padding: 0px !important;
+//     // Throws off the baseline if we do it as a real margin, so we do it as a border instead.
+
+//   }
+
+
+@media only screen and (max-width:992px) {
+
+    .sec-top {
+        margin-top: 10px !important;
+        margin-left: 15px !important;
+        margin-right: 15px !important;
     }
 
-    .singer-del{
-        font-size: 12px !important;
-        font-weight: 500 !important;
-        line-height: 16px !important;
-        margin-top: 5px !important;
+    .genreButtonShow {
+        border: 1px solid grey;
+        padding: 10px 35px;
+        color: white;
+        border-radius: 6px;
     }
-    
+
+
+    // .free-icon img {
+    //     width: 40px !important;
+    // }
+
+    .crown img {
+        width: 18px !important;
+    }
+
+    .crown{
+        right:6% !important;
+        top: 3% !important;
+    }
+
+    .free-icon {
+        right: 8px !important;
+        top: 3px !important;
+    }
+
+    .free-icon img{
+      
+        width: 40px !important;
+    }
 }
 
-.singer-del{
-    font-family: "PoppinsRegular" !important;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 25px;
-    letter-spacing: 0em;
-    // text-align: left;
-    margin-top: 10px;
+
+.crown {
+    position: absolute;
+    right: 4%;
+    top: 4%;
 }
+
+.crown img {
+    width: 26px;
+}
+
+.free-icon {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+}
+
+// .free-icon img {
+//     width: 75px;
+// }

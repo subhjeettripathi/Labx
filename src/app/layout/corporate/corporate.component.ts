@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { Location } from '@angular/common';
 
@@ -9,9 +8,9 @@ import { Location } from '@angular/common';
   styleUrls: ['./corporate.component.scss']
 })
 export class CorporateComponent implements OnInit {
-  cancellation: any;
+  corporate: any;
 
-   constructor(private ds: DataService,private location:Location,private router: Router) { }
+  constructor(private ds:DataService,private location:Location) { }
 
   ngOnInit(): void {
     this.corporateData()
@@ -19,15 +18,11 @@ export class CorporateComponent implements OnInit {
   }
 
   corporateData() {
-      var data: any = localStorage.getItem('innerJson')
-    data = JSON.parse(data)
-    this.cancellation = data.Website[0].footer_menu.footer_term.cancellation_policy
+    this.ds.json2().subscribe((data: any) => {
+      this.corporate = data.Website[0].footer_menu.company.corporate.text
+    })
   }
   back() {
-    if (window.history.length > 1) {
-      this.location.back();
-    } else {
-     this.router.navigate(['/'])
-    }
+    this.location.back();
   }
 }

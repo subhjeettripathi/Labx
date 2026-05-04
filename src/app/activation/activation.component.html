@@ -1,63 +1,53 @@
-<div  class="section sec-top">
-    <span class="arrow-back">
-        <img src="assets/svgs/Vector (4).png" (click)="back()" alt="AOL">
-    </span>
-    <div class="row">
-        <div class="col-12 text-center" >
-            <div class="alt-login-img" *ngIf="basesignin?.activation?.logo?.is_allow == 1">
+<div class="section-activation sec-top-acc"   [ngClass]="{ 
+    'section-activation': !isSubscribed, 
+    'section-activation1': isSubscribed 
+  }">
+
+    <div class="row activation-popu" *ngIf="isSubscribed">
+        <div class="col-12">
+            <!-- <div class="alt-login-img" *ngIf="basesignin?.activation?.logo?.is_allow == 1">
                 <img src="{{basesignin?.activation?.logo?.web}}" alt="">
-            </div>
+            </div> -->
             <div class="text-center">
                 <h3 class="heading" *ngIf="basesignin?.activation?.description?.is_allow == 1">
-                    <!-- {{basesignin.activation.description.text}}  (key added to the translation service)-->
-                {{'AOL_TV_App' |translate}}
-                
-                </h3>
-                <ng-otp-input #ngOtpInput [formCtrl]="otpInput" (onInputChange)="onOtpChange($event)" [config]="config"
-                    class="input">
+                    {{basesignin.activation.description.text}}</h3>
+                <ng-otp-input type="tel" inputmode="numeric" class="activation" #ngOtpInput [formCtrl]="otpInput"
+                    (onInputChange)="onOtpChange($event)" [config]="config" (keyup.enter)="onVerifyOtp()">
                 </ng-otp-input>
-                <!-- <mat-error *ngIf="otpInput.invalid" class="mt-2" style="margin-left: 54px;text-align: start;">Activation Code is required</mat-error><br> -->
-                <!-- <mat-error *ngIf="otpInput.invalid" class="mt-2" style="margin-left: 54px;text-align: start;">{{mesg}}</mat-error> -->
+                <mat-error *ngIf="otpInput.invalid  &&  submitted" class="mt-2">Activation Code is required</mat-error>
+                <!-- <mat-error *ngIf="otpInput.invalid" class="mt-2">{{mesg}}</mat-error> -->
             </div>
 
 
         </div>
-        <div class="alt-m-4">
-            <button type="submit" class="alt-btn-aol" (click)="onVerifyOtp()"
-                *ngIf="basesignin?.activation?.submit_btn?.is_allow == 1">
-                <!-- {{basesignin.activation.submit_btn.text}} -->
-            
-            {{'continue_with'|translate}}
-            </button>
+        <div class="alt-m-4 col-12">
+            <button type="submit" class="alt-btn-p" [disabled]="isSubmitting" (click)="onVerifyOtp()"
+                *ngIf="basesignin?.activation?.submit_btn?.is_allow == 1">{{basesignin.activation.submit_btn.text}}</button>
         </div>
 
 
 
     </div>
-    <!-- <div class="alt-m-4">
-        <p class="para text-white" (click)="logout()">Login using another account</p>
-    </div> -->
 
     <ng-template #editCompanyModal>
         <div fxLayout="column">
             <div class="parental-control-content">
                 <span class="img-logo">
-                    <img src="assets/svgs/Group.png" alt="AOL">
+                    <img src="{{basesignin?.activation?.logo?.web}}" alt="vive" class="vive-img">
                 </span>
 
 
                 <button (click)="close()" class="close-btn">
-                    <img src="assets/svgs/Vector.svg" alt="closeButton">
+                    <img src="assets/arrows_icons/VectorClose.svg" alt="">
                 </button>
-                <br><br>
-                <div class="alt-login-imgs">
-                    <img src="assets/svgs/info.svg" alt="AOL">
+                <div class="alt-login-imgs m-2">
+                    <img src="assets/svgs/info.svg" alt="vive">
                 </div>
-                <br>
+
 
                 <!-- <p class="adulttHeading">ADULT CONTENT</p><br> -->
                 <p style="font-size:17px;color: #DEDEDE;font-weight: 600">
-                    {{mesg |translate}}
+                    {{mesg}}
                 </p>
 
 
@@ -70,22 +60,19 @@
         <div fxLayout="column" style="width: 300px !important;">
             <div class="parental-control-content">
                 <span class="img-logo">
-                    <img src="assets/svgs/Group.png" alt="AOL">
+                    <img src="{{basesignin?.activation?.logo?.web}}" alt="vive" class="vive-img">
                 </span>
 
-
                 <button (click)="successDialogClose()" class="close-btn">
-                    <mat-icon>Close</mat-icon>
+                    <img src="assets/arrows_icons/VectorClose.svg" alt="">
                 </button>
-                <br><br>
-                <div class="alt-login-img">
-                    <img src="assets/svgs/info.svg" alt="AOL">
+                <div class="alt-login-img m-2">
+                    <img src="assets/svgs/info.svg" alt="vive">
                 </div>
-                <br>
 
 
                 <p style="font-size:17px;color: #DEDEDE;font-weight: 600">
-                    {{mesg |translate}}
+                    {{mesg}}
                 </p>
                 <br>
 
@@ -94,4 +81,29 @@
             </div>
         </div>
     </ng-template>
+
+
+
+    <div fxLayout="column" fxLayoutGap="5px" *ngIf="!isSubscribed">
+
+
+        <!-- <div class="alt-login-img">
+                <img src="https://static.creatorott.com/configration/5006/5006_683021cf06eb2.png" alt="AOL">
+            </div>
+            -->
+        <!-- <div (click)="onNoClick()" class="close-btn">
+               <img src="assets/arrows_icons/VectorClose.svg" alt="">
+            </div> -->
+
+        <div class="heading1">
+            <p class="chopic">This Feature is Only for Premium Members</p>
+        </div>
+
+        <div class="btns-pre">
+            <div class="ok-btn col-6 p-0">
+                <button (click)="subscribe()">Subscribe Now</button>
+            </div>
+        </div>
+
+    </div>
 </div>

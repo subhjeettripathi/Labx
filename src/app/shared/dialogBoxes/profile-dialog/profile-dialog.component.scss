@@ -15,7 +15,8 @@
 
 .alt-main-content {
     display: flex;
-    background-color: #4a4a4a !important;
+    background-color: var(--theme-pop-color) !important;
+    border: var(--theme-popup-border);
     border-radius: 10px;
     padding: 20px;
 }
@@ -44,9 +45,11 @@
 
 
 .alt-profile-details {
-    background: #4a4a4a !important;
+    background: var(--theme-pop-color) !important;
+    // border: var(--theme-popup-border);
     width: 100%;
     border-radius: 10px;
+    position: relative;
 }
 
 .title {
@@ -55,9 +58,10 @@
 
 .alt-profile-details h2 {
     margin-bottom: 0px;
-    color: #B4B4B4;
-    font-size: 15px;
+    color: #fff;
+    font-size: 22px;
 }
+
 
 .deta-scrol {
     height: 210px;
@@ -92,18 +96,20 @@
     justify-content: center;
 }
 .close-btn {
-  
-    bottom: -13px;
-    left: 0;
-    width: 30px;
-    height: 30px;
-    margin: auto;
-    right: 0;
-    text-align: center;
-    background: #ff0018;
-    border-radius: 45px;
-    padding: 3px;
-    background: transparent linear-gradient(180deg, #FF9600 0%, #FF9600 8%, #FF0032 50%, #FF009B 100%) 0% 0% no-repeat padding-box;
+    position: absolute;
+      top: -15px;
+    right: -15px;
+    // bottom: -13px;
+    // left: 0;
+    // width: 30px;
+    // height: 30px;
+    // margin: auto;
+    // right: 0;
+    // text-align: center;
+    // // background: #ff0018;
+    // border-radius: 45px;
+    // padding: 3px;
+    // background: transparent linear-gradient(180deg, #FF9600 0%, #FF9600 8%, #FF0032 50%, #FF009B 100%) 0% 0% no-repeat padding-box;
 }
 
 @media only screen and (max-width: 720px) {
@@ -128,20 +134,7 @@
     }
  
 
-    .close-btn {
-        position: absolute;
-        bottom: -13px;
-        left: 0;
-        width: 30px;
-        height: 30px;
-        margin: auto;
-        right: 0;
-        text-align: center;
-        background: #ff0018;
-        border-radius: 45px;
-        padding: 3px;
-        background: transparent linear-gradient(180deg, #FF9600 0%, #FF9600 8%, #FF0032 50%, #FF009B 100%) 0% 0% no-repeat padding-box;
-    }
+
     .profile-img-disp{
         display: block;
     }
@@ -165,7 +158,15 @@
 .disp p {
     color: #B4B4B4;
     height: 230px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+
+.actor-name{
+    font-size: 20px;
+    font-family: var(--theme-font-style);
+    font-weight:700;
 }
 
 @media screen and (max-width:992px) {

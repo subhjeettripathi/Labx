@@ -1,112 +1,112 @@
 // skeleton code css starts from here
 .skeleton-hero {
-  width: 95%;
-  margin: auto;
-  border-radius: 10px;
-  margin-top: 16vh;
-  margin-bottom: 20px;
-}
-
-.skeleton-title {
-  width: 150px;
-  height: 20px;
-  margin: 20px 0 20px 5%;
-  border-radius: 4px;
-}
-
-.skeleton-slider {
-  display: flex;
-  gap: 12px;
-  margin-left: 5%;
-  overflow-x: hidden;
-}
-
-.skeleton-card {
-  width: 180px;
-  height: 230px;
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
-.skeleton-hero,
-.skeleton-title,
-.skeleton-card {
-  background-color: #23212c;
-}
-
-.shimmer {
-  position: relative;
-  overflow: hidden;
-}
-
-.shimmer::after {
-  content: "";
-  position: absolute;
-  top: -100%;
-  left: -100%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  animation: shimmer-diagonal 2s infinite ease-in-out;
-  z-index: 1;
-}
-
-@keyframes shimmer-diagonal {
-  0% {
-    transform: translate(0, 0);
+    width: 95%;
+    margin: auto;
+    border-radius: 10px;
+    margin-top: 16vh;
+    margin-bottom: 20px;
   }
-  100% {
-    transform: translate(50%, 50%);
+   
+  .skeleton-title {
+    width: 150px;
+    height: 20px;
+    margin: 20px 0 20px 5%;
+    border-radius: 4px;
   }
-}
-
-@media (max-width: 575px) {
-  .skeleton-hero {
-    height: 250px;
-  }
-
+   
   .skeleton-slider {
-    gap: 8px;
-  }
-
-  .skeleton-card {
-    width: 140px;
-    height: 200px;
-  }
-}
-
-@media (max-width: 767px) {
-  .skeleton-hero {
-    height: 400px;
-    margin-top: 13vh;
-  }
-
-  .skeleton-slider {
-    gap: 10px;
-  }
-
-  .skeleton-card {
-    width: 160px;
-    height: 200px;
-  }
-}
-
-@media (min-width: 768px) {
-  .skeleton-hero {
-    height: 500px;
-  }
-
-  .skeleton-slider {
+    display: flex;
     gap: 12px;
+    margin-left: 5%;
+    overflow-x: hidden;
   }
-
+   
   .skeleton-card {
     width: 180px;
-    height: 240px;
+    height: 230px;
+    border-radius: 8px;
+    flex-shrink: 0;
   }
-}
+   
+  .skeleton-hero,
+  .skeleton-title,
+  .skeleton-card {
+    background-color: #23212c;
+  }
+   
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+   
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: shimmer-diagonal 2s infinite ease-in-out;
+    z-index: 1;
+  }
+   
+  @keyframes shimmer-diagonal {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(50%, 50%);
+    }
+  }
+   
+  @media (max-width: 575px) {
+    .skeleton-hero {
+      height: 250px;
+    }
+   
+    .skeleton-slider {
+      gap: 8px;
+    }
+   
+    .skeleton-card {
+      width: 140px;
+      height: 200px;
+    }
+  }
+   
+  @media (max-width: 767px) {
+    .skeleton-hero {
+      height: 400px;
+      margin-top: 13vh;
+    }
+   
+    .skeleton-slider {
+      gap: 10px;
+    }
+   
+    .skeleton-card {
+      width: 160px;
+      height: 200px;
+    }
+  }
+   
+  @media (min-width: 768px) {
+    .skeleton-hero {
+      height: 500px;
+    }
+   
+    .skeleton-slider {
+      gap: 12px;
+    }
+   
+    .skeleton-card {
+      width: 180px;
+      height: 240px;
+    }
+  }

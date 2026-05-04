@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { DecryptService } from 'src/app/services/decrypt.service';
+import { ExchangeDataService } from 'src/app/services/exchange-data.service';
+import { environment } from 'src/environments/environment';
+//import * as amplitude from '@amplitude/analytics-browser';
 @Component({
   selector: 'app-purchase',
   templateUrl: './purchase.component.html',
@@ -9,21 +13,52 @@ import { DecryptService } from 'src/app/services/decrypt.service';
 })
 
 export class PurchaseComponent implements OnInit {
-  displayedColumns = ['package_title', 'order_id', 'payment_mode','start_date','end_date',"status","invoice_link"];
+  isOttLoggedIn: boolean = false
+  isMsg: boolean = false
+  isTransactionHistory: boolean = false
+  isSubsInfo: any = localStorage.getItem("is_subscriber") || {};
+  isSubscribed:boolean = false;
+  displayedColumns = ['package_title', 'order_id','start_date','exp_date',"payment_status","invoice_link"];
   dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
   public purchaseData = new MatTableDataSource<any>();
   totalData: any = []
-  PrimeData:any=[]
-  currentDateGet:any
-  OttData:any=[]
-  constructor(private _ds: DataService, private DEC_SER: DecryptService) { }
+  constructor(private _ds: DataService, private DEC_SER: DecryptService, public router: Router,private ed:ExchangeDataService) {
+    this.ed.isUserLoggedIn.subscribe((value) => {
+      if (value == true) {
+        this.isOttLoggedIn = value;
+      }
+    });
+    this.ed.isSubscribe.subscribe((value) => {
+      this.isSubscribed = value;
+    });
+   }
   loginId = JSON.parse(localStorage.getItem('taploginInfo') || '{}');
-  uid: any;
-  ngOnInit(): void {
-    this.getViewTransactionHistory()
+  
+  uid: any;;
 
+  ngOnInit(): void {
+    
+    if (this.isSubsInfo == 1) {
+      this.isSubscribed = true;
+    } else {
+      this.isSubscribed = false;
+    }
+
+    this.getViewTransactionHistory()
   }
+
+  openTransactionHistory(){
+    if(this.totalData.length){
+      this.isTransactionHistory = true
+    }else{
+      this.isMsg = true
+    }
+    }
+    
  
+     userInfo:any;
+     userDetails:any;
+    
   // download(data:any){
   //   const link = document.createElement('a');
   //   link.setAttribute('target', '_blank');
@@ -33,40 +68,24 @@ export class PurchaseComponent implements OnInit {
   //   link.click();
   //   link.remove();
   // }
+
+  gotoSubscribed(){
+    localStorage.removeItem("packcheking")
+    localStorage.removeItem('newuser')
+    this.router.navigate(["/subscribe"]);
+  }
   getViewTransactionHistory() {
-
-    const currentDate = new Date();
-
- this.currentDateGet = currentDate.getFullYear() + "-" +
-                      ("0" + (currentDate.getMonth() + 1)).slice(-2) + "-" +
-                      ("0" + currentDate.getDate()).slice(-2) + " " +
-                      ("0" + currentDate.getHours()).slice(-2) + ":" +
-                      ("0" + currentDate.getMinutes()).slice(-2) + ":" +
-                      ("0" + currentDate.getSeconds()).slice(-2);
-
-
     this.uid = this.loginId.id;
-    console.log(this.uid);
+    
     this._ds.getBillingHistory().subscribe((res: any) => {
       this.DEC_SER.getDecryptedData(res?.result);
+
       let decryptData = JSON.parse(this.DEC_SER.decryptData);
-      
-      
-      console.log(decryptData);
-      
+
       this.purchaseData = decryptData.billing_history;
       this.totalData = decryptData.billing_history
-      console.log(decryptData.billing_history);
-      this.totalData.filter((res:any)=>{
-        if(res.package_mode == 'Prime' || res.package_mode == 'PRIME'){
-          this.PrimeData.push(res)
-        }
-      })
-      this.totalData.filter((res:any)=>{
-        if(res.package_mode == 'OTT'){
-          this.OttData.push(res)
-        }
-      })
+      // console.log(decryptData,"hhhhhhhhh");
+
     })
   }
 }
